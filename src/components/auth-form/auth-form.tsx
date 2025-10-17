@@ -1,41 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, confirmSignUp } from "aws-amplify/auth";
+import { confirmSignUp } from "aws-amplify/auth";
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
 import VerifyCodeCard from "./sign-up/verify-code";
 import SignInTab from "./sign-in";
 import SignUpTab from "./sign-up/sign-up";
 
 export default function AuthForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [confirmationCode, setConfirmationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [needsConfirmation, setNeedsConfirmation] = useState(false);
   const [signUpEmail, setSignUpEmail] = useState("");
-
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-    setSuccessMessage("");
-
-    try {
-      await signIn({
-        username: email,
-        password,
-      });
-      setSuccessMessage("Signed in successfully!");
-      window.location.href = "/dashboard";
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to sign in");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleConfirmSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,16 +64,12 @@ export default function AuthForm() {
       </TabsList>
 
       <SignInTab
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
         isLoading={isLoading}
         error={error}
         success={successMessage}
-        handleSignIn={handleSignIn}
         setError={setError}
         setIsLoading={setIsLoading}
+        setSuccessMessage={setSuccessMessage}
       />
 
       <SignUpTab

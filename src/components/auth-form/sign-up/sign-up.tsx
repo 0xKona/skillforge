@@ -16,7 +16,7 @@ import { SetState } from "@/types/set-state";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpFormSchema } from "@/lib/form-schemas/auth-schema";
+import { SignUpForm, signUpFormSchema } from "@/lib/form-schemas/auth-schema";
 import FormInput from "@/components/ui/form-input";
 
 interface Props {
@@ -40,7 +40,7 @@ export default function SignUpTab({
   setSuccessMessage,
   setNeedsConfirmation,
 }: Props) {
-  const form = useForm<z.infer<typeof signUpFormSchema>>({
+  const form = useForm<SignUpForm>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       email: "",

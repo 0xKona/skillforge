@@ -8,7 +8,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import React from "react";
 
 interface Props {
-  form: UseFormReturn<SignUpForm>;
+  form: UseFormReturn<any>;
   id: string;
   inputName: string;
   placeholder: string;
