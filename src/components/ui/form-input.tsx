@@ -1,7 +1,11 @@
+"use client";
+
 import { Controller, UseFormReturn } from "react-hook-form";
 import { Label } from "../shadcn/label";
 import { Input } from "../shadcn/input";
 import { SignUpForm } from "@/lib/form-schemas/auth-schema";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import React from "react";
 
 interface Props {
   form: UseFormReturn<SignUpForm>;
@@ -9,6 +13,7 @@ interface Props {
   inputName: string;
   placeholder: string;
   label: string;
+  type?: "email" | "text" | "password";
 }
 
 export default function FormInput({
@@ -17,7 +22,10 @@ export default function FormInput({
   inputName,
   placeholder,
   label,
+  type = "text",
 }: Props) {
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
+
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{label}</Label>
@@ -27,7 +35,35 @@ export default function FormInput({
         control={form.control}
         render={({ field, fieldState }) => (
           <>
-            <Input {...field} id={id} type="text" placeholder={placeholder} />
+            {type !== "password" && (
+              <Input {...field} id={id} type={type} placeholder={placeholder} />
+            )}
+            {/* If it is an input for sensitive data, need to include logic to hide and show text */}
+            {type === "password" && (
+              <div className="relative">
+                <Input
+                  {...field}
+                  id={id}
+                  type={showPassword ? "text" : "password"}
+                  placeholder={placeholder}
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  {showPassword ? (
+                    <FaEye
+                      size={20}
+                      className="cursor-pointer text-gray-500"
+                      onClick={() => setShowPassword(false)}
+                    />
+                  ) : (
+                    <FaEyeSlash
+                      size={20}
+                      className="cursor-pointer text-gray-500"
+                      onClick={() => setShowPassword(true)}
+                    />
+                  )}
+                </div>
+              </div>
+            )}{" "}
             {fieldState.error && (
               <p className="text-xs text-red-500">{fieldState.error.message}</p>
             )}

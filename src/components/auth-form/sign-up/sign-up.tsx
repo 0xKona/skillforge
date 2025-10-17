@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "@/components/shadcn/button";
-import { Input } from "@/components/shadcn/input";
-import { Label } from "@/components/shadcn/label";
 import {
   Card,
   CardContent,
@@ -16,7 +14,7 @@ import React from "react";
 import { signUp } from "aws-amplify/auth";
 import { SetState } from "@/types/set-state";
 import * as z from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormSchema } from "@/lib/form-schemas/auth-schema";
 import FormInput from "@/components/ui/form-input";
@@ -133,6 +131,7 @@ export default function SignUpTab({
               inputName="password"
               placeholder="Enter your password"
               label="Password"
+              type="password"
             />
             {/* Confirm Password Input */}
             <FormInput
@@ -141,6 +140,7 @@ export default function SignUpTab({
               inputName="confirmPassword"
               placeholder="Confirm your password"
               label="Confirm Password"
+              type="password"
             />
 
             <div>
