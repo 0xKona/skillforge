@@ -1,23 +1,15 @@
 "use client";
 
-import { Button } from "@/components/shadcn/button";
-import { Input } from "@/components/shadcn/input";
-import { Label } from "@/components/shadcn/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/shadcn/card";
-import { TabsContent } from "@/components/shadcn/tabs";
-import GoogleSignInButton from "./google-sign-in-button";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { TabsContent } from "@/components/ui/shadcn/tabs";
 import { useForm } from "react-hook-form";
 import { SignInForm, signInFormSchema } from "@/lib/form-schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "aws-amplify/auth";
 import { SetState } from "@/types/set-state";
 import FormInput from "../ui/form-input";
+import CompleteAuthForm from "./complete-form";
+import FormHeader from "./form-header";
 
 export default function SignInTab(props: {
   isLoading: boolean;
@@ -31,7 +23,6 @@ export default function SignInTab(props: {
     isLoading,
     error,
     success,
-    // handleSignIn,
     setIsLoading,
     setError,
     setSuccessMessage,
@@ -67,12 +58,10 @@ export default function SignInTab(props: {
   return (
     <TabsContent value="signin">
       <Card>
-        <CardHeader>
-          <CardTitle>Sign In</CardTitle>
-          <CardDescription>
-            Enter your email and password to access your account
-          </CardDescription>
-        </CardHeader>
+        <FormHeader
+          title="Sign In"
+          description="Enter your email and password to access your account"
+        />
         <form onSubmit={form.handleSubmit(handleSignIn)}>
           <CardContent className="space-y-4">
             {error && (
@@ -85,7 +74,7 @@ export default function SignInTab(props: {
                 {success}
               </div>
             )}
-
+            {/* Email input */}
             <FormInput
               form={form}
               id="sign-in-email"
@@ -93,6 +82,7 @@ export default function SignInTab(props: {
               placeholder="blacksmith@skillforge.com"
               label="Email"
             />
+            {/* Password input */}
             <FormInput
               form={form}
               id="sign-in-password"
@@ -101,18 +91,11 @@ export default function SignInTab(props: {
               label="Password"
               type="password"
             />
-
-            <div>
-              <Button
-                type="submit"
-                className="w-full mb-2"
-                disabled={isLoading}
-              >
-                {isLoading ? "Signing in..." : "Sign In"}
-              </Button>
-            </div>
-
-            <GoogleSignInButton
+            {/* Submit buttons Or Google login */}
+            <CompleteAuthForm
+              buttonText="Sign In"
+              buttonLoadingText="Signing in..."
+              isLoading={isLoading}
               setIsLoading={setIsLoading}
               setError={setError}
             />

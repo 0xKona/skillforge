@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { confirmSignUp } from "aws-amplify/auth";
-import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
-import VerifyCodeCard from "./sign-up/verify-code";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
+import VerifyCodeCard from "./verify-code";
 import SignInTab from "./sign-in";
-import SignUpTab from "./sign-up/sign-up";
+import SignUpTab from "./sign-up";
 
 export default function AuthForm() {
   const [confirmationCode, setConfirmationCode] = useState("");

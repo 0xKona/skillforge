@@ -5,10 +5,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/shadcn/card";
-import { Label } from "@/components/shadcn/label";
-import { Button } from "@/components/shadcn/button";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../shadcn/input-opt";
+} from "@/components/ui/shadcn/card";
+import { Label } from "@/components/ui/shadcn/label";
+import { Button } from "@/components/ui/shadcn/button";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/shadcn/input-opt";
 
 interface Props {
   handleConfirmSignUp: (e: React.FormEvent) => void;

@@ -1,15 +1,7 @@
 "use client";
 
-import { Button } from "@/components/shadcn/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/shadcn/card";
-import { TabsContent } from "@/components/shadcn/tabs";
-import GoogleSignInButton from "../google-sign-in-button";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { TabsContent } from "@/components/ui/shadcn/tabs";
 import React from "react";
 import { signUp } from "aws-amplify/auth";
 import { SetState } from "@/types/set-state";
@@ -18,6 +10,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignUpForm, signUpFormSchema } from "@/lib/form-schemas/auth-schema";
 import FormInput from "@/components/ui/form-input";
+import CompleteAuthForm from "./complete-form";
+import FormHeader from "./form-header";
 
 interface Props {
   isLoading: boolean;
@@ -89,12 +83,10 @@ export default function SignUpTab({
   return (
     <TabsContent value="signup">
       <Card>
-        <CardHeader>
-          <CardTitle>Create Account</CardTitle>
-          <CardDescription>
-            Enter your email and password to create a new account
-          </CardDescription>
-        </CardHeader>
+        <FormHeader
+          title="Create Account"
+          description="Enter your email and password to create a new account"
+        />
         <form onSubmit={form.handleSubmit(handleSignUp)}>
           <CardContent className="space-y-4">
             {/* TODO - Move to cards */}
@@ -142,18 +134,11 @@ export default function SignUpTab({
               label="Confirm Password"
               type="password"
             />
-
-            <div>
-              <Button
-                type="submit"
-                className="w-full mb-2"
-                disabled={isLoading}
-              >
-                {isLoading ? "Creating account..." : "Sign Up"}
-              </Button>
-            </div>
-
-            <GoogleSignInButton
+            {/* Submit buttons Or Google login */}
+            <CompleteAuthForm
+              buttonText="Sign Up"
+              buttonLoadingText="Creating account..."
+              isLoading={isLoading}
               setIsLoading={setIsLoading}
               setError={setError}
             />
