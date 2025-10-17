@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { signIn, confirmSignUp } from "aws-amplify/auth";
 import { Tabs, TabsList, TabsTrigger } from "@/components/shadcn/tabs";
-import VerifyCodeCard from "./verify-code";
+import VerifyCodeCard from "./sign-up/verify-code";
 import SignInTab from "./sign-in";
 import SignUpTab from "./sign-up/sign-up";
 
@@ -55,7 +55,9 @@ export default function AuthForm() {
         setConfirmationCode("");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to confirm sign up");
+      setError(
+        err instanceof Error ? err.message : "Failed to confirm sign up"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -63,9 +65,9 @@ export default function AuthForm() {
 
   if (needsConfirmation) {
     return (
-      <VerifyCodeCard 
-        signUpEmail={signUpEmail} 
-        handleConfirmSignUp={handleConfirmSignUp} 
+      <VerifyCodeCard
+        signUpEmail={signUpEmail}
+        handleConfirmSignUp={handleConfirmSignUp}
         error={error}
         success={successMessage}
         confirmationCode={confirmationCode}
@@ -75,7 +77,7 @@ export default function AuthForm() {
       />
     );
   }
-  
+
   return (
     <Tabs defaultValue="signin" className="w-full max-w-md">
       <TabsList className="grid w-full grid-cols-2">
