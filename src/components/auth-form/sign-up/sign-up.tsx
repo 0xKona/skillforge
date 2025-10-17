@@ -18,20 +18,8 @@ import { SetState } from "@/types/set-state";
 import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const signUpSchema = z
-  .object({
-    email: z.string().email("Please enter a valid email address"),
-    username: z.string().min(2, "Username must be at least 2 characters"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
-
-type SignUpForm = z.infer<typeof signUpSchema>;
+import { signUpFormSchema } from "@/lib/form-schemas/auth-schema";
+import FormInput from "@/components/ui/form-input";
 
 interface Props {
   isLoading: boolean;
@@ -44,9 +32,18 @@ interface Props {
   setNeedsConfirmation: SetState<boolean>;
 }
 
-export default function SignUpTab(props: Props) {
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+export default function SignUpTab({
+  isLoading,
+  error,
+  success,
+  setIsLoading,
+  setError,
+  setSignUpEmail,
+  setSuccessMessage,
+  setNeedsConfirmation,
+}: Props) {
+  const form = useForm<z.infer<typeof signUpFormSchema>>({
+    resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       email: "",
       username: "",
@@ -55,18 +52,7 @@ export default function SignUpTab(props: Props) {
     },
   });
 
-  const {
-    isLoading,
-    error,
-    success,
-    setIsLoading,
-    setError,
-    setSignUpEmail,
-    setSuccessMessage,
-    setNeedsConfirmation,
-  } = props;
-
-  const handleSignUp = async (data: z.infer<typeof signUpSchema>) => {
+  const handleSignUp = async (data: z.infer<typeof signUpFormSchema>) => {
     setIsLoading(true);
     setError("");
     setSuccessMessage("");
@@ -81,7 +67,7 @@ export default function SignUpTab(props: Props) {
             preferred_username: data.username,
             picture:
               "https://img.icons8.com/?size=100&id=99268&format=png&color=000000",
-            updated_at: String(Math.floor(new Date().getTime() / 1000)), // TODO - Needs to be unix, keeping to block upload for now
+            updated_at: String(Math.floor(new Date().getTime() / 1000)),
           },
         },
       });
@@ -124,105 +110,38 @@ export default function SignUpTab(props: Props) {
                 {success}
               </div>
             )}
-            <div className="space-y-2">
-              <Label htmlFor="signup-email">Email</Label>
-              <Controller
-                name="email"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <>
-                    <Input
-                      {...field}
-                      id="signup-email"
-                      type="email"
-                      placeholder="johndoe@example.com"
-                    />
-                    {fieldState.error && (
-                      <p className="text-xs text-red-500">
-                        {fieldState.error.message}
-                      </p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="signup-username">Username</Label>
-              <Controller
-                name="username"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <>
-                    <Input
-                      {...field}
-                      id="signup-username"
-                      type="text"
-                      placeholder="johndoe"
-                    />
-                    {fieldState.error && (
-                      <p className="text-xs text-red-500">
-                        {fieldState.error.message}
-                      </p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="signup-password">Password</Label>
-              <Controller
-                name="password"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <>
-                    <Input
-                      {...field}
-                      id="signup-password"
-                      type="password"
-                      placeholder="Create a password"
-                    />
-                    {fieldState.error ? (
-                      <p className="text-xs text-red-500">
-                        {fieldState.error.message}
-                      </p>
-                    ) : (
-                      <p className="text-xs text-muted-foreground">
-                        Password must be at least 8 characters
-                      </p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="signup-confirm-password">Confirm Password</Label>
-              <Controller
-                name="confirmPassword"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <>
-                    <Input
-                      {...field}
-                      id="signup-confirm-password"
-                      type="password"
-                      placeholder="Confirm password"
-                    />
-                    {fieldState.error ? (
-                      <p className="text-xs text-red-500">
-                        {fieldState.error.message}
-                      </p>
-                    ) : (
-                      <p className="text-xs text-muted-foreground">
-                        Passwords should match
-                      </p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
+            {/* Email Input */}
+            <FormInput
+              form={form}
+              id="signup-email"
+              inputName="email"
+              placeholder="blacksmith@skillforge.com"
+              label="Email"
+            />
+            {/* Username Input */}
+            <FormInput
+              form={form}
+              id="signup-username"
+              inputName="username"
+              placeholder="Forger"
+              label="Username"
+            />
+            {/* Password Input */}
+            <FormInput
+              form={form}
+              id="signup-password"
+              inputName="password"
+              placeholder="Enter your password"
+              label="Password"
+            />
+            {/* Confirm Password Input */}
+            <FormInput
+              form={form}
+              id="signup-confirm-password"
+              inputName="confirmPassword"
+              placeholder="Confirm your password"
+              label="Confirm Password"
+            />
 
             <div>
               <Button
