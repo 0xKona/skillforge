@@ -8,7 +8,7 @@ const amplifyConfig: ResourcesConfig = {
       loginWith: {
         oauth: {
           domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN!,
-          scopes: ['openid', 'email', 'profile', 'aws.cognito.signin.user.admin'],
+          scopes: ['openid', 'email', 'profile'],
           redirectSignIn: [process.env.NEXT_PUBLIC_REDIRECT_SIGN_IN || 'http://localhost:3000/'],
           redirectSignOut: [process.env.NEXT_PUBLIC_REDIRECT_SIGN_OUT || 'http://localhost:3000/'],
           responseType: 'code',

@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "aws-amplify/auth";
 import { SetState } from "@/types/set-state";
 import FormInput from "../ui/form-input";
-import CompleteAuthForm from "./complete-form";
+import SubmitAuthForm from "./submit-form";
 import FormHeader from "./form-header";
 
 export default function SignInTab(props: {
@@ -92,7 +92,7 @@ export default function SignInTab(props: {
               type="password"
             />
             {/* Submit buttons Or Google login */}
-            <CompleteAuthForm
+            <SubmitAuthForm
               buttonText="Sign In"
               buttonLoadingText="Signing in..."
               isLoading={isLoading}

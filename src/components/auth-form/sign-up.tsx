@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignUpForm, signUpFormSchema } from "@/lib/form-schemas/auth-schema";
 import FormInput from "@/components/ui/form-input";
-import CompleteAuthForm from "./complete-form";
+import SubmitAuthForm from "./submit-form";
 import FormHeader from "./form-header";
 
 interface Props {
@@ -56,10 +56,9 @@ export default function SignUpTab({
         options: {
           userAttributes: {
             email: data.email,
-            preferred_username: data.username,
+            name: data.username,
             picture:
               "https://img.icons8.com/?size=100&id=99268&format=png&color=000000",
-            updated_at: String(Math.floor(new Date().getTime() / 1000)),
           },
         },
       });
@@ -135,7 +134,7 @@ export default function SignUpTab({
               type="password"
             />
             {/* Submit buttons Or Google login */}
-            <CompleteAuthForm
+            <SubmitAuthForm
               buttonText="Sign Up"
               buttonLoadingText="Creating account..."
               isLoading={isLoading}

@@ -67,6 +67,7 @@ export default function VerifyCodeCard({
               <InputOTPGroup className="w-full p-6">
                 {SLOT_ARRAY.map((_, index) => (
                   <InputOTPSlot
+                    key={index}
                     className="grow aspect-square h-[50px]"
                     index={index}
                   />
