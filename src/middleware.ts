@@ -3,7 +3,7 @@ import { runWithAmplifyServerContext } from "@/utlils/amplify/server-utils";
 import { fetchAuthSession } from "aws-amplify/auth/server";
 
 // Routes that require authentication
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = ["/dashboard", "/api"];
 
 // Routes that should redirect to dashboard if already authenticated
 const authRoutes = ["/login"];
@@ -16,15 +16,6 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-
-  // Skip middleware for API routes, static files, and other Next.js internals
-  if (
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/api") ||
-    pathname.includes(".")
-  ) {
-    return NextResponse.next();
-  }
 
   try {
     // Use runWithAmplifyServerContext to verify the session
@@ -43,8 +34,11 @@ export async function middleware(request: NextRequest) {
       },
     });
 
+    console.log("[Middleware]: User authenticated?: ", {pathname},  {authenticated}, {isProtectedRoute}, {request});
+
     // If user is not authenticated and trying to access protected route
     if (isProtectedRoute && !authenticated) {
+      console.log("[Middleware]: Protected Route Triggered: ", pathname)
       const url = request.nextUrl.clone();
       url.pathname = "/login";
       // Store the original URL to redirect back after login
@@ -78,6 +72,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 };
