@@ -16,7 +16,6 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from '@/components/ui/shadcn/input-opt'
-import { useState } from 'react'
 
 interface Props {
     resetForm: UseFormReturn<ResetPasswordForm>
@@ -40,9 +39,8 @@ export default function PasswordResetForm({ resetForm }: Props) {
 
     const { setShowForgotPassword } = useAuthControlState()
 
-    const [confirmationCode, setConfirmationCode] = useState<string>('')
-
     const handleResetPassword = async (data: ResetPasswordForm) => {
+        console.log('triggered')
         setLoading(true)
         setErrorMsg('')
         setSuccessMsg('')
@@ -50,7 +48,7 @@ export default function PasswordResetForm({ resetForm }: Props) {
         try {
             await confirmResetPassword({
                 username: data.email,
-                confirmationCode: confirmationCode,
+                confirmationCode: data.code,
                 newPassword: data.newPassword,
             })
             setSuccessMsg(
@@ -117,8 +115,10 @@ export default function PasswordResetForm({ resetForm }: Props) {
                         </Label>
                         <InputOTP
                             id="code"
-                            value={confirmationCode}
-                            onChange={setConfirmationCode}
+                            value={resetForm.watch('code') || ''}
+                            onChange={(value) =>
+                                resetForm.setValue('code', value)
+                            }
                             maxLength={6}
                             className="w-full"
                         >
@@ -132,6 +132,11 @@ export default function PasswordResetForm({ resetForm }: Props) {
                                 ))}
                             </InputOTPGroup>
                         </InputOTP>
+                        {resetForm.formState.errors.code && (
+                            <p className="text-sm text-red-500 mt-1">
+                                {resetForm.formState.errors.code.message}
+                            </p>
+                        )}
                     </div>
                     <FormInput
                         form={resetForm}
