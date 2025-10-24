@@ -1,79 +1,91 @@
-"use client";
+'use client'
 
-import { Controller, UseFormReturn } from "react-hook-form";
-import { Label } from "./shadcn/label";
-import { Input } from "./shadcn/input";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import React from "react";
+import { Controller, UseFormReturn } from 'react-hook-form'
+import { Label } from './shadcn/label'
+import { Input } from './shadcn/input'
+import { FaEye, FaEyeSlash } from 'react-icons/fa6'
+import React from 'react'
 
 interface Props {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: UseFormReturn<any>;
-  id: string;
-  inputName: string;
-  placeholder: string;
-  label: string;
-  type?: "email" | "text" | "password";
-  disabled?: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    form: UseFormReturn<any>
+    id: string
+    inputName: string
+    placeholder: string
+    label: string
+    type?: 'email' | 'text' | 'password'
+    disabled?: boolean
 }
 
 export default function FormInput({
-  form,
-  id,
-  inputName,
-  placeholder,
-  label,
-  type = "text",
-  disabled = false,
+    form,
+    id,
+    inputName,
+    placeholder,
+    label,
+    type = 'text',
+    disabled = false,
 }: Props) {
-  const [showPassword, setShowPassword] = React.useState<boolean>(false);
+    const [showPassword, setShowPassword] = React.useState<boolean>(false)
 
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
-      <Controller
-        name={inputName}
-        control={form.control}
-        render={({ field, fieldState }) => (
-          <>
-            {type !== "password" && (
-              <Input {...field} id={id} type={type} placeholder={placeholder} disabled={disabled} />
-            )}
-            {/* If it is an input for sensitive data, need to include logic to hide and show text */}
-            {type === "password" && (
-              <div className="relative">
-                <Input
-                  {...field}
-                  id={id}
-                  type={showPassword ? "text" : "password"}
-                  placeholder={placeholder}
-                  disabled={disabled}
-                />
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  {showPassword ? (
-                    <FaEye
-                      size={20}
-                      className="cursor-pointer text-gray-500"
-                      onClick={() => setShowPassword(false)}
-                    />
-                  ) : (
-                    <FaEyeSlash
-                      size={20}
-                      className="cursor-pointer text-gray-500"
-                      onClick={() => setShowPassword(true)}
-                    />
-                  )}
-                </div>
-              </div>
-            )}{" "}
-            {fieldState.error && (
-              <p className="text-xs text-red-500">{fieldState.error.message}</p>
-            )}
-          </>
-        )}
-      />
-    </div>
-  );
+    return (
+        <div className="space-y-2">
+            <Label htmlFor={id}>{label}</Label>
+            <Controller
+                name={inputName}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <>
+                        {type !== 'password' && (
+                            <Input
+                                {...field}
+                                id={id}
+                                type={type}
+                                placeholder={placeholder}
+                                disabled={disabled}
+                            />
+                        )}
+                        {/* If it is an input for sensitive data, need to include logic to hide and show text */}
+                        {type === 'password' && (
+                            <div className="relative">
+                                <Input
+                                    {...field}
+                                    id={id}
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder={placeholder}
+                                    disabled={disabled}
+                                />
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                    {showPassword ? (
+                                        <FaEye
+                                            size={20}
+                                            className="cursor-pointer text-gray-500"
+                                            onClick={() =>
+                                                setShowPassword(false)
+                                            }
+                                        />
+                                    ) : (
+                                        <FaEyeSlash
+                                            size={20}
+                                            className="cursor-pointer text-gray-500"
+                                            onClick={() =>
+                                                setShowPassword(true)
+                                            }
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        )}{' '}
+                        {fieldState.error && (
+                            <p className="text-xs text-red-500">
+                                {fieldState.error.message}
+                            </p>
+                        )}
+                    </>
+                )}
+            />
+        </div>
+    )
 }
 
 /*
