@@ -6,29 +6,21 @@ import { useForm } from 'react-hook-form'
 import { SignInForm, signInFormSchema } from '@/lib/form-schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'aws-amplify/auth'
-import { SetState } from '@/types/set-state'
 import FormInput from '../ui/form-input'
 import SubmitAuthForm from './submit-form'
 import FormHeader from './form-header'
+import { useAuthControlState } from '@/store/auth-form'
 
-export default function SignInTab(props: {
-    isLoading: boolean
-    error: string
-    success: string
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
-    setError: React.Dispatch<React.SetStateAction<string>>
-    setSuccessMessage: SetState<string>
-    setShowForgotPassword: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+export default function SignInTab() {
     const {
         isLoading,
         error,
-        success,
+        successMessage,
         setIsLoading,
         setError,
         setSuccessMessage,
         setShowForgotPassword,
-    } = props
+    } = useAuthControlState()
 
     const form = useForm<SignInForm>({
         resolver: zodResolver(signInFormSchema),
@@ -71,9 +63,9 @@ export default function SignInTab(props: {
                                 {error}
                             </div>
                         )}
-                        {success && (
+                        {successMessage && (
                             <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
-                                {success}
+                                {successMessage}
                             </div>
                         )}
                         {/* Email input */}
@@ -98,7 +90,7 @@ export default function SignInTab(props: {
                             <button
                                 type="button"
                                 onClick={() => setShowForgotPassword(true)}
-                                className="text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                                className="cursor-pointer text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
                             >
                                 Forgot password?
                             </button>

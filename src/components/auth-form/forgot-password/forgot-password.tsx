@@ -12,13 +12,7 @@ import RequestPasswordResetForm from './request-code'
 import { useRequestPasswordResetStore } from '@/store/password-reset'
 import PasswordResetForm from './reset-password-form'
 
-interface ForgotPasswordProps {
-    setShowForgotPassword: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export default function ForgotPassword({
-    setShowForgotPassword,
-}: ForgotPasswordProps) {
+export default function ForgotPassword() {
     const { providedEmail, codeSent } = useRequestPasswordResetStore()
 
     const resetForm = useForm<ResetPasswordForm>({
@@ -43,15 +37,9 @@ export default function ForgotPassword({
             <RequestPasswordResetForm
                 requestForm={requestForm}
                 resetForm={resetForm}
-                setShowForgotPassword={setShowForgotPassword}
             />
         )
     } else {
-        return (
-            <PasswordResetForm
-                resetForm={resetForm}
-                setShowForgotPassword={setShowForgotPassword}
-            />
-        )
+        return <PasswordResetForm resetForm={resetForm} />
     }
 }

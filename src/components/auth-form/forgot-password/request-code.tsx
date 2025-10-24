@@ -1,27 +1,27 @@
+'use client'
+
 import { Card, CardContent } from '@/components/ui/shadcn/card'
 import FormHeader from '../form-header'
 import {
     ForgotPasswordRequest,
     ResetPasswordForm,
 } from '@/lib/form-schemas/auth-schema'
-import { SetState } from '@/types/set-state'
 import { resetPassword } from 'aws-amplify/auth'
 import FormInput from '@/components/ui/form-input'
 import SubmitAuthForm from '../submit-form'
 import { Button } from '@/components/ui/shadcn/button'
 import { useRequestPasswordResetStore } from '@/store/password-reset'
 import { UseFormReturn } from 'react-hook-form'
+import { useAuthControlState } from '@/store/auth-form'
 
 interface Props {
     requestForm: UseFormReturn<ForgotPasswordRequest>
     resetForm: UseFormReturn<ResetPasswordForm>
-    setShowForgotPassword: SetState<boolean>
 }
 
 export default function RequestPasswordResetForm({
     requestForm,
     resetForm,
-    setShowForgotPassword,
 }: Props) {
     const {
         isLoading,
@@ -33,6 +33,8 @@ export default function RequestPasswordResetForm({
         setCodeSent,
         setProvidedEmail,
     } = useRequestPasswordResetStore()
+
+    const { setShowForgotPassword } = useAuthControlState()
 
     const handleRequestReset = async (data: ForgotPasswordRequest) => {
         setLoading(true)

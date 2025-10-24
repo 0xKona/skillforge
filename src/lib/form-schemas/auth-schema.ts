@@ -1,5 +1,6 @@
 import * as z from 'zod'
 
+// Sign Up
 export const signUpFormSchema = z
     .object({
         email: z.email('Please enter a valid email address'),
@@ -14,6 +15,7 @@ export const signUpFormSchema = z
 
 export type SignUpForm = z.infer<typeof signUpFormSchema>
 
+// Sign In
 export const signInFormSchema = z.object({
     email: z.email('Please enter a valid email address'),
     password: z.string().min(1, 'No password provided'),
@@ -25,6 +27,7 @@ export const forgotPasswordRequestSchema = z.object({
     email: z.email('Please enter a valid email address'),
 })
 
+// Forgot Password
 export type ForgotPasswordRequest = z.infer<typeof forgotPasswordRequestSchema>
 
 export const resetPasswordFormSchema = z

@@ -1,3 +1,5 @@
+'use client'
+
 import {
     Card,
     CardContent,
@@ -9,31 +11,52 @@ import {
 import { Label } from '@/components/ui/shadcn/label'
 import { Button } from '@/components/ui/shadcn/button'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/shadcn/input-opt'
+import { useAuthControlState, useSignUpFormState } from '@/store/auth-form'
+import { confirmSignUp } from 'aws-amplify/auth'
 
-interface Props {
-    handleConfirmSignUp: (e: React.FormEvent) => void
-    signUpEmail: string
-    error: string
-    success: string
-    confirmationCode: string
-    isLoading: boolean
-    setConfirmationCode: React.Dispatch<React.SetStateAction<string>>
-    setNeedsConfirmation: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export default function VerifyCodeCard({
-    handleConfirmSignUp,
-    signUpEmail,
-    error,
-    success,
-    confirmationCode,
-    isLoading,
-    setConfirmationCode,
-    setNeedsConfirmation,
-}: Props) {
+export default function VerifyCodeCard() {
     // Create an array so we don't have to manually update slots.
     const SLOT_NUM = 6
     const SLOT_ARRAY = Array.from({ length: SLOT_NUM })
+
+    const {
+        isLoading,
+        error,
+        successMessage,
+        setIsLoading,
+        setError,
+        setSuccessMessage,
+        setNeedsConfirmation,
+    } = useAuthControlState()
+
+    const { signUpEmail, confirmationCode, setConfirmationCode } =
+        useSignUpFormState()
+
+    const handleConfirmSignUp = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setIsLoading(true)
+        setError('')
+        setSuccessMessage('')
+
+        try {
+            const { isSignUpComplete } = await confirmSignUp({
+                username: signUpEmail,
+                confirmationCode,
+            })
+
+            if (isSignUpComplete) {
+                setSuccessMessage('Email confirmed! You can now sign in.')
+                setNeedsConfirmation(false)
+                setConfirmationCode('')
+            }
+        } catch (err) {
+            setError(
+                err instanceof Error ? err.message : 'Failed to confirm sign up'
+            )
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     return (
         <Card className="w-full max-w-md">
@@ -50,9 +73,9 @@ export default function VerifyCodeCard({
                             {error}
                         </div>
                     )}
-                    {success && (
+                    {successMessage && (
                         <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
-                            {success}
+                            {successMessage}
                         </div>
                     )}
                     <div className="space-y-2 mb-4">

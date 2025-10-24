@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/shadcn/card'
 import { TabsContent } from '@/components/ui/shadcn/tabs'
 import React from 'react'
 import { signUp } from 'aws-amplify/auth'
-import { SetState } from '@/types/set-state'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,28 +11,21 @@ import { SignUpForm, signUpFormSchema } from '@/lib/form-schemas/auth-schema'
 import FormInput from '@/components/ui/form-input'
 import SubmitAuthForm from './submit-form'
 import FormHeader from './form-header'
+import { useAuthControlState, useSignUpFormState } from '@/store/auth-form'
 
-interface Props {
-    isLoading: boolean
-    error: string
-    success: string
-    setIsLoading: SetState<boolean>
-    setError: SetState<string>
-    setSignUpEmail: SetState<string>
-    setSuccessMessage: SetState<string>
-    setNeedsConfirmation: SetState<boolean>
-}
+export default function SignUpTab() {
+    const {
+        isLoading,
+        error,
+        successMessage,
+        setIsLoading,
+        setError,
+        setSuccessMessage,
+        setNeedsConfirmation,
+    } = useAuthControlState()
 
-export default function SignUpTab({
-    isLoading,
-    error,
-    success,
-    setIsLoading,
-    setError,
-    setSignUpEmail,
-    setSuccessMessage,
-    setNeedsConfirmation,
-}: Props) {
+    const { setSignUpEmail } = useSignUpFormState();
+
     const form = useForm<SignUpForm>({
         resolver: zodResolver(signUpFormSchema),
         defaultValues: {
@@ -94,9 +86,9 @@ export default function SignUpTab({
                                 {error}
                             </div>
                         )}
-                        {success && (
+                        {successMessage && (
                             <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
-                                {success}
+                                {successMessage}
                             </div>
                         )}
                         {/* Email Input */}

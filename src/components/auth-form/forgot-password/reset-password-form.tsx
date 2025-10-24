@@ -9,17 +9,13 @@ import { useRequestPasswordResetStore } from '@/store/password-reset'
 import { UseFormReturn } from 'react-hook-form'
 import { ResetPasswordForm } from '@/lib/form-schemas/auth-schema'
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth'
-import { SetState } from '@/types/set-state'
+import { useAuthControlState } from '@/store/auth-form'
 
 interface Props {
     resetForm: UseFormReturn<ResetPasswordForm>
-    setShowForgotPassword: SetState<boolean>
 }
 
-export default function PasswordResetForm({
-    resetForm,
-    setShowForgotPassword,
-}: Props) {
+export default function PasswordResetForm({ resetForm }: Props) {
     const {
         isLoading,
         providedEmail,
@@ -30,6 +26,8 @@ export default function PasswordResetForm({
         setSuccessMsg,
         setCodeSent,
     } = useRequestPasswordResetStore()
+
+    const { setShowForgotPassword } = useAuthControlState()
 
     const handleResetPassword = async (data: ResetPasswordForm) => {
         setLoading(true)
