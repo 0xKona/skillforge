@@ -10,12 +10,23 @@ import { UseFormReturn } from 'react-hook-form'
 import { ResetPasswordForm } from '@/lib/form-schemas/auth-schema'
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth'
 import { useAuthControlState } from '@/store/auth-form'
+import { Label } from '@/components/ui/shadcn/label'
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+} from '@/components/ui/shadcn/input-opt'
+import { useState } from 'react'
 
 interface Props {
     resetForm: UseFormReturn<ResetPasswordForm>
 }
 
 export default function PasswordResetForm({ resetForm }: Props) {
+    // Create an array so we don't have to manually update slots.
+    const SLOT_NUM = 6
+    const SLOT_ARRAY = Array.from({ length: SLOT_NUM })
+
     const {
         isLoading,
         providedEmail,
@@ -29,6 +40,8 @@ export default function PasswordResetForm({ resetForm }: Props) {
 
     const { setShowForgotPassword } = useAuthControlState()
 
+    const [confirmationCode, setConfirmationCode] = useState<string>('')
+
     const handleResetPassword = async (data: ResetPasswordForm) => {
         setLoading(true)
         setErrorMsg('')
@@ -37,7 +50,7 @@ export default function PasswordResetForm({ resetForm }: Props) {
         try {
             await confirmResetPassword({
                 username: data.email,
-                confirmationCode: data.code,
+                confirmationCode: confirmationCode,
                 newPassword: data.newPassword,
             })
             setSuccessMsg(
@@ -98,13 +111,28 @@ export default function PasswordResetForm({ resetForm }: Props) {
                         label="Email"
                         disabled
                     />
-                    <FormInput
-                        form={resetForm}
-                        id="reset-code"
-                        inputName="code"
-                        placeholder="Enter verification code"
-                        label="Verification Code"
-                    />
+                    <div className="">
+                        <Label className="mb-2" htmlFor="code">
+                            Confirmation Code
+                        </Label>
+                        <InputOTP
+                            id="code"
+                            value={confirmationCode}
+                            onChange={setConfirmationCode}
+                            maxLength={6}
+                            className="w-full"
+                        >
+                            <InputOTPGroup className="w-full">
+                                {SLOT_ARRAY.map((_, index) => (
+                                    <InputOTPSlot
+                                        key={index}
+                                        className="grow aspect-square h-[50px]"
+                                        index={index}
+                                    />
+                                ))}
+                            </InputOTPGroup>
+                        </InputOTP>
+                    </div>
                     <FormInput
                         form={resetForm}
                         id="reset-new-password"
