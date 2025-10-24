@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 import VerifyCodeCard from "./verify-code";
 import SignInTab from "./sign-in";
 import SignUpTab from "./sign-up";
+import ForgotPassword from "./forgot-password/forgot-password";
 
 export default function AuthForm() {
   const [confirmationCode, setConfirmationCode] = useState("");
@@ -14,6 +15,7 @@ export default function AuthForm() {
   const [successMessage, setSuccessMessage] = useState("");
   const [needsConfirmation, setNeedsConfirmation] = useState(false);
   const [signUpEmail, setSignUpEmail] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const handleConfirmSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +58,10 @@ export default function AuthForm() {
     );
   }
 
+  if (showForgotPassword) {
+    return <ForgotPassword setShowForgotPassword={setShowForgotPassword} />;
+  }
+
   return (
     <Tabs defaultValue="signin" className="w-full max-w-md">
       <TabsList className="grid w-full grid-cols-2">
@@ -70,6 +76,7 @@ export default function AuthForm() {
         setError={setError}
         setIsLoading={setIsLoading}
         setSuccessMessage={setSuccessMessage}
+        setShowForgotPassword={setShowForgotPassword}
       />
 
       <SignUpTab

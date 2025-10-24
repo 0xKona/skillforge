@@ -1,14 +1,13 @@
 "use client";
 
-import { SetState } from "@/types/set-state";
 import { Button } from "../ui/shadcn/button";
 
 interface Props {
   buttonText: string;
   buttonLoadingText: string;
   isLoading: boolean;
-  setIsLoading: SetState<boolean>;
-  setError: SetState<string>;
+  setIsLoading: (newLoading: boolean) => void;
+  setError: (newError: string) => void;
 }
 
 export default function SubmitAuthForm({

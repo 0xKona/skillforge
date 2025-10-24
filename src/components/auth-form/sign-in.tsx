@@ -18,6 +18,7 @@ export default function SignInTab(props: {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<string>>;
   setSuccessMessage: SetState<string>;
+  setShowForgotPassword: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const {
     isLoading,
@@ -26,6 +27,7 @@ export default function SignInTab(props: {
     setIsLoading,
     setError,
     setSuccessMessage,
+    setShowForgotPassword,
   } = props;
 
   const form = useForm<SignInForm>({
@@ -91,6 +93,16 @@ export default function SignInTab(props: {
               label="Password"
               type="password"
             />
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => setShowForgotPassword(true)}
+                className="text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                Forgot password?
+              </button>
+            </div>
             {/* Submit buttons Or Google login */}
             <SubmitAuthForm
               buttonText="Sign In"

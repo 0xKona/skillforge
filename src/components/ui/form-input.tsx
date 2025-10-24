@@ -7,12 +7,14 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import React from "react";
 
 interface Props {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
   id: string;
   inputName: string;
   placeholder: string;
   label: string;
   type?: "email" | "text" | "password";
+  disabled?: boolean;
 }
 
 export default function FormInput({
@@ -22,6 +24,7 @@ export default function FormInput({
   placeholder,
   label,
   type = "text",
+  disabled = false,
 }: Props) {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
@@ -29,13 +32,12 @@ export default function FormInput({
     <div className="space-y-2">
       <Label htmlFor={id}>{label}</Label>
       <Controller
-        // @ts-ignore // TODO FIX TYPE ERROR
         name={inputName}
         control={form.control}
         render={({ field, fieldState }) => (
           <>
             {type !== "password" && (
-              <Input {...field} id={id} type={type} placeholder={placeholder} />
+              <Input {...field} id={id} type={type} placeholder={placeholder} disabled={disabled} />
             )}
             {/* If it is an input for sensitive data, need to include logic to hide and show text */}
             {type === "password" && (
@@ -45,6 +47,7 @@ export default function FormInput({
                   id={id}
                   type={showPassword ? "text" : "password"}
                   placeholder={placeholder}
+                  disabled={disabled}
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   {showPassword ? (
