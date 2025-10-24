@@ -22,7 +22,7 @@ export default function SignInTab() {
         setShowForgotPassword,
     } = useAuthControlState()
 
-    const form = useForm<SignInForm>({
+    const signInForm = useForm<SignInForm>({
         resolver: zodResolver(signInFormSchema),
         defaultValues: {
             email: '',
@@ -56,7 +56,7 @@ export default function SignInTab() {
                     title="Sign In"
                     description="Enter your email and password to access your account"
                 />
-                <form onSubmit={form.handleSubmit(handleSignIn)}>
+                <form onSubmit={signInForm.handleSubmit(handleSignIn)}>
                     <CardContent className="space-y-4">
                         {error && (
                             <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
@@ -70,7 +70,7 @@ export default function SignInTab() {
                         )}
                         {/* Email input */}
                         <FormInput
-                            form={form}
+                            form={signInForm}
                             id="sign-in-email"
                             inputName="email"
                             placeholder="blacksmith@skillforge.com"
@@ -78,7 +78,7 @@ export default function SignInTab() {
                         />
                         {/* Password input */}
                         <FormInput
-                            form={form}
+                            form={signInForm}
                             id="sign-in-password"
                             inputName="password"
                             placeholder="enter password"
