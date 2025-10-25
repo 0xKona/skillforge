@@ -58,21 +58,21 @@ export default async function ProfilePage() {
 ### Verify Authentication
 
 ```typescript
-import { runWithAmplifyServerContext } from '@/utlils/amplify/server-utils'
-import { fetchAuthSession } from 'aws-amplify/auth/server'
-import { NextRequest, NextResponse } from 'next/server'
+import { runWithAmplifyServerContext } from '@/utlils/amplify/server-utils';
+import { fetchAuthSession } from 'aws-amplify/auth/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
     const session = await runWithAmplifyServerContext({
         nextServerContext: { request },
         operation: (ctx) => fetchAuthSession(ctx),
-    })
+    });
 
     if (!session?.tokens) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    return NextResponse.json({ data: 'Protected data' })
+    return NextResponse.json({ data: 'Protected data' });
 }
 ```
 
@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
 ### Sign Up
 
 ```typescript
-import { signUp } from 'aws-amplify/auth'
+import { signUp } from 'aws-amplify/auth';
 
 const { isSignUpComplete, userId } = await signUp({
     username: email,
@@ -89,56 +89,56 @@ const { isSignUpComplete, userId } = await signUp({
     options: {
         userAttributes: { email },
     },
-})
+});
 ```
 
 ### Confirm Sign Up
 
 ```typescript
-import { confirmSignUp } from 'aws-amplify/auth'
+import { confirmSignUp } from 'aws-amplify/auth';
 
 await confirmSignUp({
     username: email,
     confirmationCode: code,
-})
+});
 ```
 
 ### Sign In
 
 ```typescript
-import { signIn } from 'aws-amplify/auth'
+import { signIn } from 'aws-amplify/auth';
 
 const { isSignedIn } = await signIn({
     username: email,
     password: password,
-})
+});
 ```
 
 ### Sign Out
 
 ```typescript
-import { signOut } from 'aws-amplify/auth'
+import { signOut } from 'aws-amplify/auth';
 
-await signOut()
+await signOut();
 // or use the hook:
-const { signOut } = useAuth()
-await signOut() // Automatically redirects to /login
+const { signOut } = useAuth();
+await signOut(); // Automatically redirects to /login
 ```
 
 ### Reset Password
 
 ```typescript
-import { resetPassword, confirmResetPassword } from 'aws-amplify/auth'
+import { resetPassword, confirmResetPassword } from 'aws-amplify/auth';
 
 // Step 1: Request reset code
-await resetPassword({ username: email })
+await resetPassword({ username: email });
 
 // Step 2: Confirm with code
 await confirmResetPassword({
     username: email,
     confirmationCode: code,
     newPassword: newPassword,
-})
+});
 ```
 
 ## Route Protection (Middleware)
@@ -152,7 +152,7 @@ const protectedRoutes = [
     '/dashboard',
     '/profile',
     '/settings', // Add your routes here
-]
+];
 ```
 
 ### Add Auth Routes
@@ -161,7 +161,7 @@ const protectedRoutes = [
 const authRoutes = [
     '/login',
     '/signup', // Add your auth routes here
-]
+];
 ```
 
 ## User Attributes Available
@@ -174,5 +174,5 @@ userAttributes = {
     name: 'John Doe', // If configured
     phone_number: '+1234567', // If configured
     // ... other custom attributes
-}
+};
 ```

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
     Card,
@@ -7,17 +7,17 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@/components/ui/shadcn/card'
-import { Label } from '@/components/ui/shadcn/label'
-import { Button } from '@/components/ui/shadcn/button'
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/shadcn/input-opt'
-import { useAuthControlState, useSignUpFormState } from '@/store/auth-form'
-import { confirmSignUp } from 'aws-amplify/auth'
+} from '@/components/ui/shadcn/card';
+import { Label } from '@/components/ui/shadcn/label';
+import { Button } from '@/components/ui/shadcn/button';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/shadcn/input-opt';
+import { useAuthControlState, useSignUpFormState } from '@/store/auth-form';
+import { confirmSignUp } from 'aws-amplify/auth';
 
 export default function VerifyCodeCard() {
     // Create an array so we don't have to manually update slots.
-    const SLOT_NUM = 6
-    const SLOT_ARRAY = Array.from({ length: SLOT_NUM })
+    const SLOT_NUM = 6;
+    const SLOT_ARRAY = Array.from({ length: SLOT_NUM });
 
     const {
         isLoading,
@@ -27,36 +27,36 @@ export default function VerifyCodeCard() {
         setError,
         setSuccessMessage,
         setNeedsConfirmation,
-    } = useAuthControlState()
+    } = useAuthControlState();
 
     const { signUpEmail, confirmationCode, setConfirmationCode } =
-        useSignUpFormState()
+        useSignUpFormState();
 
     const handleConfirmSignUp = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setIsLoading(true)
-        setError('')
-        setSuccessMessage('')
+        e.preventDefault();
+        setIsLoading(true);
+        setError('');
+        setSuccessMessage('');
 
         try {
             const { isSignUpComplete } = await confirmSignUp({
                 username: signUpEmail,
                 confirmationCode,
-            })
+            });
 
             if (isSignUpComplete) {
-                setSuccessMessage('Email confirmed! You can now sign in.')
-                setNeedsConfirmation(false)
-                setConfirmationCode('')
+                setSuccessMessage('Email confirmed! You can now sign in.');
+                setNeedsConfirmation(false);
+                setConfirmationCode('');
             }
         } catch (err) {
             setError(
                 err instanceof Error ? err.message : 'Failed to confirm sign up'
-            )
+            );
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     return (
         <Card className="w-full max-w-md">
@@ -118,5 +118,5 @@ export default function VerifyCodeCard() {
                 </CardFooter>
             </form>
         </Card>
-    )
+    );
 }

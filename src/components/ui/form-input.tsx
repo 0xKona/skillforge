@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { Controller, UseFormReturn } from 'react-hook-form'
-import { Label } from './shadcn/label'
-import { Input } from './shadcn/input'
-import { FaEye, FaEyeSlash } from 'react-icons/fa6'
-import React from 'react'
+import { Controller, UseFormReturn } from 'react-hook-form';
+import { Label } from './shadcn/label';
+import { Input } from './shadcn/input';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
+import React from 'react';
 
 interface Props {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    form: UseFormReturn<any>
-    id: string
-    inputName: string
-    placeholder: string
-    label: string
-    type?: 'email' | 'text' | 'password'
-    disabled?: boolean
+    form: UseFormReturn<any>;
+    id: string;
+    inputName: string;
+    placeholder: string;
+    label: string;
+    type?: 'email' | 'text' | 'password';
+    disabled?: boolean;
 }
 
 export default function FormInput({
@@ -26,7 +26,7 @@ export default function FormInput({
     type = 'text',
     disabled = false,
 }: Props) {
-    const [showPassword, setShowPassword] = React.useState<boolean>(false)
+    const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
     return (
         <div className="space-y-2">
@@ -85,7 +85,7 @@ export default function FormInput({
                 )}
             />
         </div>
-    )
+    );
 }
 
 /*

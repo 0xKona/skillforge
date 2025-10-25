@@ -1,21 +1,21 @@
-'use client'
+'use client';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs'
-import VerifyCodeCard from './verify-code'
-import SignInTab from './sign-in'
-import SignUpTab from './sign-up'
-import ForgotPassword from './forgot-password/forgot-password'
-import { useAuthControlState } from '@/store/auth-form'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs';
+import VerifyCodeCard from './verify-code';
+import SignInTab from './sign-in';
+import SignUpTab from './sign-up';
+import ForgotPassword from './forgot-password/forgot-password';
+import { useAuthControlState } from '@/store/auth-form';
 
 export default function AuthForm() {
-    const { needsConfirmation, showForgotPassword } = useAuthControlState()
+    const { needsConfirmation, showForgotPassword } = useAuthControlState();
 
     if (needsConfirmation) {
-        return <VerifyCodeCard />
+        return <VerifyCodeCard />;
     }
 
     if (showForgotPassword) {
-        return <ForgotPassword />
+        return <ForgotPassword />;
     }
 
     return (
@@ -29,5 +29,5 @@ export default function AuthForm() {
 
             <SignUpTab />
         </Tabs>
-    )
+    );
 }

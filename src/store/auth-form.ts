@@ -1,20 +1,20 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 // Controller State
 interface AuthFormState {
-    isLoading: boolean
-    error: string
-    successMessage: string
-    needsConfirmation: boolean
-    showForgotPassword: boolean
+    isLoading: boolean;
+    error: string;
+    successMessage: string;
+    needsConfirmation: boolean;
+    showForgotPassword: boolean;
 }
 
 interface AuthFormActions {
-    setIsLoading: (newLoading: boolean) => void
-    setError: (newError: string) => void
-    setSuccessMessage: (newSuccess: string) => void
-    setNeedsConfirmation: (newConfirm: boolean) => void
-    setShowForgotPassword: (newShowForgot: boolean) => void
+    setIsLoading: (newLoading: boolean) => void;
+    setError: (newError: string) => void;
+    setSuccessMessage: (newSuccess: string) => void;
+    setNeedsConfirmation: (newConfirm: boolean) => void;
+    setShowForgotPassword: (newShowForgot: boolean) => void;
 }
 
 const defaultAuthFormState: AuthFormState = {
@@ -23,9 +23,9 @@ const defaultAuthFormState: AuthFormState = {
     successMessage: '',
     needsConfirmation: false,
     showForgotPassword: false,
-}
+};
 
-type AuthFormStore = AuthFormState & AuthFormActions
+type AuthFormStore = AuthFormState & AuthFormActions;
 
 export const useAuthControlState = create<AuthFormStore>((set) => ({
     ...defaultAuthFormState,
@@ -39,31 +39,31 @@ export const useAuthControlState = create<AuthFormStore>((set) => ({
         set({ showForgotPassword: newShowForgot }),
 
     reset: () => set(defaultAuthFormState),
-}))
+}));
 
 // Sign In State
 
 // Sign Up State
 interface SignUpFormState {
-    signUpEmail: string
-    confirmationCode: string
+    signUpEmail: string;
+    confirmationCode: string;
 }
 
 interface SignUpFormActions {
-    setSignUpEmail: (newEmail: string) => void
-    setConfirmationCode: (newCode: string) => void
+    setSignUpEmail: (newEmail: string) => void;
+    setConfirmationCode: (newCode: string) => void;
 }
 
 const defaultSignUpFormState: SignUpFormState = {
     signUpEmail: '',
     confirmationCode: '',
-}
+};
 
-type SignUpFormStore = SignUpFormState & SignUpFormActions
+type SignUpFormStore = SignUpFormState & SignUpFormActions;
 
 export const useSignUpFormState = create<SignUpFormStore>((set) => ({
     ...defaultSignUpFormState,
 
     setSignUpEmail: (newEmail) => set({ signUpEmail: newEmail }),
     setConfirmationCode: (newCode) => set({ confirmationCode: newCode }),
-}))
+}));

@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import { Card, CardContent } from '@/components/ui/shadcn/card'
-import { TabsContent } from '@/components/ui/shadcn/tabs'
-import React from 'react'
-import { signUp } from 'aws-amplify/auth'
-import * as z from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SignUpForm, signUpFormSchema } from '@/lib/form-schemas/auth-schema'
-import FormInput from '@/components/ui/form-input'
-import SubmitAuthForm from './submit-form'
-import FormHeader from './form-header'
-import { useAuthControlState, useSignUpFormState } from '@/store/auth-form'
+import { Card, CardContent } from '@/components/ui/shadcn/card';
+import { TabsContent } from '@/components/ui/shadcn/tabs';
+import React from 'react';
+import { signUp } from 'aws-amplify/auth';
+import * as z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SignUpForm, signUpFormSchema } from '@/lib/form-schemas/auth-schema';
+import FormInput from '@/components/ui/form-input';
+import SubmitAuthForm from './submit-form';
+import FormHeader from './form-header';
+import { useAuthControlState, useSignUpFormState } from '@/store/auth-form';
 
 export default function SignUpTab() {
     const {
@@ -22,7 +22,7 @@ export default function SignUpTab() {
         setError,
         setSuccessMessage,
         setNeedsConfirmation,
-    } = useAuthControlState()
+    } = useAuthControlState();
 
     const { setSignUpEmail } = useSignUpFormState();
 
@@ -34,12 +34,12 @@ export default function SignUpTab() {
             password: '',
             confirmPassword: '',
         },
-    })
+    });
 
     const handleSignUp = async (data: z.infer<typeof signUpFormSchema>) => {
-        setIsLoading(true)
-        setError('')
-        setSuccessMessage('')
+        setIsLoading(true);
+        setError('');
+        setSuccessMessage('');
 
         try {
             const { nextStep } = await signUp({
@@ -53,23 +53,23 @@ export default function SignUpTab() {
                             'https://img.icons8.com/?size=100&id=99268&format=png&color=000000',
                     },
                 },
-            })
+            });
 
             if (nextStep.signUpStep === 'CONFIRM_SIGN_UP') {
-                setNeedsConfirmation(true)
-                setSignUpEmail(data.email)
+                setNeedsConfirmation(true);
+                setSignUpEmail(data.email);
                 setSuccessMessage(
                     'Account created! Please check your email for the confirmation code.'
-                )
+                );
             } else {
-                setSuccessMessage('Account created successfully!')
+                setSuccessMessage('Account created successfully!');
             }
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to sign up')
+            setError(err instanceof Error ? err.message : 'Failed to sign up');
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     return (
         <TabsContent value="signup">
@@ -137,5 +137,5 @@ export default function SignUpTab() {
                 </form>
             </Card>
         </TabsContent>
-    )
+    );
 }

@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { Card, CardContent } from '@/components/ui/shadcn/card'
-import { TabsContent } from '@/components/ui/shadcn/tabs'
-import { useForm } from 'react-hook-form'
-import { SignInForm, signInFormSchema } from '@/lib/form-schemas/auth-schema'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { signIn } from 'aws-amplify/auth'
-import FormInput from '../ui/form-input'
-import SubmitAuthForm from './submit-form'
-import FormHeader from './form-header'
-import { useAuthControlState } from '@/store/auth-form'
+import { Card, CardContent } from '@/components/ui/shadcn/card';
+import { TabsContent } from '@/components/ui/shadcn/tabs';
+import { useForm } from 'react-hook-form';
+import { SignInForm, signInFormSchema } from '@/lib/form-schemas/auth-schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'aws-amplify/auth';
+import FormInput from '../ui/form-input';
+import SubmitAuthForm from './submit-form';
+import FormHeader from './form-header';
+import { useAuthControlState } from '@/store/auth-form';
 
 export default function SignInTab() {
     const {
@@ -20,7 +20,7 @@ export default function SignInTab() {
         setError,
         setSuccessMessage,
         setShowForgotPassword,
-    } = useAuthControlState()
+    } = useAuthControlState();
 
     const signInForm = useForm<SignInForm>({
         resolver: zodResolver(signInFormSchema),
@@ -28,26 +28,26 @@ export default function SignInTab() {
             email: '',
             password: '',
         },
-    })
+    });
 
     const handleSignIn = async (data: SignInForm) => {
-        setIsLoading(true)
-        setError('')
-        setSuccessMessage('')
+        setIsLoading(true);
+        setError('');
+        setSuccessMessage('');
 
         try {
             await signIn({
                 username: data.email,
                 password: data.password,
-            })
-            setSuccessMessage('Signed in successfully!')
-            window.location.href = '/dashboard'
+            });
+            setSuccessMessage('Signed in successfully!');
+            window.location.href = '/dashboard';
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to sign in')
+            setError(err instanceof Error ? err.message : 'Failed to sign in');
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     return (
         <TabsContent value="signin">
@@ -107,5 +107,5 @@ export default function SignInTab() {
                 </form>
             </Card>
         </TabsContent>
-    )
+    );
 }

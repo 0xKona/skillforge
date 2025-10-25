@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import { Card, CardContent } from '@/components/ui/shadcn/card'
-import FormInput from '../../ui/form-input'
-import SubmitAuthForm from '../submit-form'
-import FormHeader from '../form-header'
-import { Button } from '../../ui/shadcn/button'
-import { useRequestPasswordResetStore } from '@/store/password-reset'
-import { UseFormReturn } from 'react-hook-form'
-import { ResetPasswordForm } from '@/lib/form-schemas/auth-schema'
-import { confirmResetPassword, resetPassword } from 'aws-amplify/auth'
-import { useAuthControlState } from '@/store/auth-form'
-import { Label } from '@/components/ui/shadcn/label'
+import { Card, CardContent } from '@/components/ui/shadcn/card';
+import FormInput from '../../ui/form-input';
+import SubmitAuthForm from '../submit-form';
+import FormHeader from '../form-header';
+import { Button } from '../../ui/shadcn/button';
+import { useRequestPasswordResetStore } from '@/store/password-reset';
+import { UseFormReturn } from 'react-hook-form';
+import { ResetPasswordForm } from '@/lib/form-schemas/auth-schema';
+import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
+import { useAuthControlState } from '@/store/auth-form';
+import { Label } from '@/components/ui/shadcn/label';
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from '@/components/ui/shadcn/input-opt'
+} from '@/components/ui/shadcn/input-opt';
 
 interface Props {
-    resetForm: UseFormReturn<ResetPasswordForm>
+    resetForm: UseFormReturn<ResetPasswordForm>;
 }
 
 export default function PasswordResetForm({ resetForm }: Props) {
     // Create an array so we don't have to manually update slots.
-    const SLOT_NUM = 6
-    const SLOT_ARRAY = Array.from({ length: SLOT_NUM })
+    const SLOT_NUM = 6;
+    const SLOT_ARRAY = Array.from({ length: SLOT_NUM });
 
     const {
         isLoading,
@@ -35,53 +35,53 @@ export default function PasswordResetForm({ resetForm }: Props) {
         setErrorMsg,
         setSuccessMsg,
         setCodeSent,
-    } = useRequestPasswordResetStore()
+    } = useRequestPasswordResetStore();
 
-    const { setShowForgotPassword } = useAuthControlState()
+    const { setShowForgotPassword } = useAuthControlState();
 
     const handleResetPassword = async (data: ResetPasswordForm) => {
-        console.log('triggered')
-        setLoading(true)
-        setErrorMsg('')
-        setSuccessMsg('')
+        console.log('triggered');
+        setLoading(true);
+        setErrorMsg('');
+        setSuccessMsg('');
 
         try {
             await confirmResetPassword({
                 username: data.email,
                 confirmationCode: data.code,
                 newPassword: data.newPassword,
-            })
+            });
             setSuccessMsg(
                 'Password reset successfully! You can now sign in with your new password.'
-            )
+            );
             setTimeout(() => {
-                setShowForgotPassword(false)
-            }, 2000)
+                setShowForgotPassword(false);
+            }, 2000);
         } catch (err) {
             setErrorMsg(
                 err instanceof Error ? err.message : 'Failed to reset password'
-            )
+            );
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const handleResendCode = async () => {
-        setLoading(true)
-        setErrorMsg('')
-        setSuccessMsg('')
+        setLoading(true);
+        setErrorMsg('');
+        setSuccessMsg('');
 
         try {
-            await resetPassword({ username: providedEmail })
-            setSuccessMsg('Verification code resent!')
+            await resetPassword({ username: providedEmail });
+            setSuccessMsg('Verification code resent!');
         } catch (err) {
             setErrorMsg(
                 err instanceof Error ? err.message : 'Failed to resend code'
-            )
+            );
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <Card>
@@ -176,8 +176,8 @@ export default function PasswordResetForm({ resetForm }: Props) {
                             variant="ghost"
                             className="flex-1"
                             onClick={() => {
-                                setCodeSent(false)
-                                setShowForgotPassword(false)
+                                setCodeSent(false);
+                                setShowForgotPassword(false);
                             }}
                         >
                             Cancel
@@ -186,5 +186,5 @@ export default function PasswordResetForm({ resetForm }: Props) {
                 </CardContent>
             </form>
         </Card>
-    )
+    );
 }

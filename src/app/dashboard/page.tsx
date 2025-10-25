@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/ui/shadcn/button'
-import { useAuth } from '@/hooks/use-auth'
-import { Card } from '@/components/ui/shadcn/card'
+import { Button } from '@/components/ui/shadcn/button';
+import { useAuth } from '@/hooks/use-auth';
+import { Card } from '@/components/ui/shadcn/card';
 
 export default function Dashboard() {
-    const { userId, userAttributes, loading, error, signOut } = useAuth()
+    const { userId, userAttributes, loading, error, signOut } = useAuth();
 
     async function handleSignOut() {
         try {
-            await signOut()
+            await signOut();
         } catch (err) {
-            console.error('Error signing out:', err)
+            console.error('Error signing out:', err);
         }
     }
 
@@ -22,7 +22,7 @@ export default function Dashboard() {
                     <p className="text-lg">Loading...</p>
                 </div>
             </main>
-        )
+        );
     }
 
     if (error) {
@@ -32,7 +32,7 @@ export default function Dashboard() {
                     <p className="text-lg text-red-500">Error: {error}</p>
                 </div>
             </main>
-        )
+        );
     }
 
     return (
@@ -100,5 +100,5 @@ export default function Dashboard() {
                 </div>
             </Card>
         </main>
-    )
+    );
 }

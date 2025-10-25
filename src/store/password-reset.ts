@@ -1,19 +1,19 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface PasswordResetState {
-    isLoading: boolean
-    errorMsg: string
-    successMsg: string
-    codeSent: boolean
-    providedEmail: string
+    isLoading: boolean;
+    errorMsg: string;
+    successMsg: string;
+    codeSent: boolean;
+    providedEmail: string;
 }
 
 interface PasswordResetActions {
-    setLoading: (newLoading: boolean) => void
-    setErrorMsg: (newError: string) => void
-    setSuccessMsg: (newSuccess: string) => void
-    setCodeSent: (newCodeSent: boolean) => void
-    setProvidedEmail: (newEmail: string) => void
+    setLoading: (newLoading: boolean) => void;
+    setErrorMsg: (newError: string) => void;
+    setSuccessMsg: (newSuccess: string) => void;
+    setCodeSent: (newCodeSent: boolean) => void;
+    setProvidedEmail: (newEmail: string) => void;
 }
 
 const defaultRequestPwState: PasswordResetState = {
@@ -22,9 +22,9 @@ const defaultRequestPwState: PasswordResetState = {
     successMsg: '',
     codeSent: false,
     providedEmail: '',
-}
+};
 
-type PasswordResetStore = PasswordResetState & PasswordResetActions
+type PasswordResetStore = PasswordResetState & PasswordResetActions;
 
 export const useRequestPasswordResetStore = create<PasswordResetStore>(
     (set) => ({
@@ -38,4 +38,4 @@ export const useRequestPasswordResetStore = create<PasswordResetStore>(
             set({ providedEmail: newEmail }),
         reset: () => set(defaultRequestPwState),
     })
-)
+);

@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { amplifyConfig } from '@/configs/amplify.config'
-import { Amplify } from 'aws-amplify'
+import { amplifyConfig } from '@/configs/amplify.config';
+import { Amplify } from 'aws-amplify';
 
-Amplify.configure({ ...amplifyConfig }, { ssr: true })
+Amplify.configure({ ...amplifyConfig }, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
-    return null
+    return null;
 }

@@ -1,4 +1,4 @@
-import * as z from 'zod'
+import * as z from 'zod';
 
 // Sign Up
 export const signUpFormSchema = z
@@ -11,24 +11,24 @@ export const signUpFormSchema = z
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match",
         path: ['confirmPassword'],
-    })
+    });
 
-export type SignUpForm = z.infer<typeof signUpFormSchema>
+export type SignUpForm = z.infer<typeof signUpFormSchema>;
 
 // Sign In
 export const signInFormSchema = z.object({
     email: z.email('Please enter a valid email address'),
     password: z.string().min(1, 'No password provided'),
-})
+});
 
-export type SignInForm = z.infer<typeof signInFormSchema>
+export type SignInForm = z.infer<typeof signInFormSchema>;
 
 export const forgotPasswordRequestSchema = z.object({
     email: z.email('Please enter a valid email address'),
-})
+});
 
 // Forgot Password
-export type ForgotPasswordRequest = z.infer<typeof forgotPasswordRequestSchema>
+export type ForgotPasswordRequest = z.infer<typeof forgotPasswordRequestSchema>;
 
 export const resetPasswordFormSchema = z
     .object({
@@ -44,6 +44,6 @@ export const resetPasswordFormSchema = z
     .refine((data) => data.newPassword === data.confirmPassword, {
         message: "Passwords don't match",
         path: ['confirmPassword'],
-    })
+    });
 
-export type ResetPasswordForm = z.infer<typeof resetPasswordFormSchema>
+export type ResetPasswordForm = z.infer<typeof resetPasswordFormSchema>;

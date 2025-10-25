@@ -1,4 +1,4 @@
-import AuthForm from '@/components/auth-form/auth-form'
+import AuthForm from '@/components/auth-form/auth-form';
 
 export default function LoginPage() {
     // TODO - Routing Logic
@@ -23,5 +23,5 @@ export default function LoginPage() {
                 <AuthForm />
             </div>
         </main>
-    )
+    );
 }

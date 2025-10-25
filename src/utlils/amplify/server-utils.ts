@@ -1,12 +1,12 @@
-import { createServerRunner } from '@aws-amplify/adapter-nextjs'
-import { amplifyConfig } from '@/configs/amplify.config'
-import { fetchAuthSession, fetchUserAttributes } from 'aws-amplify/auth/server'
-import type { FetchUserAttributesOutput } from 'aws-amplify/auth'
-import { cookies } from 'next/headers'
+import { createServerRunner } from '@aws-amplify/adapter-nextjs';
+import { amplifyConfig } from '@/configs/amplify.config';
+import { fetchAuthSession, fetchUserAttributes } from 'aws-amplify/auth/server';
+import type { FetchUserAttributesOutput } from 'aws-amplify/auth';
+import { cookies } from 'next/headers';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
     config: amplifyConfig,
-})
+});
 
 /**
  * Get the current authenticated user's session on the server
@@ -17,16 +17,16 @@ export async function getAuthenticatedUser() {
         const currentSession = await runWithAmplifyServerContext({
             nextServerContext: { cookies },
             operation: (contextSpec) => fetchAuthSession(contextSpec),
-        })
+        });
 
         if (!currentSession.tokens) {
-            return null
+            return null;
         }
 
-        return currentSession
+        return currentSession;
     } catch (error) {
-        console.error('Error getting authenticated user:', error)
-        return null
+        console.error('Error getting authenticated user:', error);
+        return null;
     }
 }
 
@@ -39,12 +39,12 @@ export async function getUserAttributes(): Promise<FetchUserAttributesOutput | n
         const attributes = await runWithAmplifyServerContext({
             nextServerContext: { cookies },
             operation: (contextSpec) => fetchUserAttributes(contextSpec),
-        })
+        });
 
-        return attributes
+        return attributes;
     } catch (error) {
-        console.error('Error getting user attributes:', error)
-        return null
+        console.error('Error getting user attributes:', error);
+        return null;
     }
 }
 
@@ -53,6 +53,6 @@ export async function getUserAttributes(): Promise<FetchUserAttributesOutput | n
  * Returns true if the user has a valid session
  */
 export async function isAuthenticated(): Promise<boolean> {
-    const session = await getAuthenticatedUser()
-    return !!session?.tokens
+    const session = await getAuthenticatedUser();
+    return !!session?.tokens;
 }
