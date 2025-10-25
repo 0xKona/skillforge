@@ -39,7 +39,7 @@ export default function ForgotPassword() {
                 resetForm={resetForm}
             />
         );
-    } else {
-        return <PasswordResetForm resetForm={resetForm} />;
     }
+
+    return <PasswordResetForm resetForm={resetForm} />;
 }
