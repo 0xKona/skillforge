@@ -30,7 +30,9 @@ export default function FormInput({
 
     return (
         <div className="space-y-2">
-            <Label htmlFor={id}>{label}</Label>
+            <Label data-testid={`${id}-label`} htmlFor={id}>
+                {label}
+            </Label>
             <Controller
                 name={inputName}
                 control={form.control}
@@ -57,7 +59,10 @@ export default function FormInput({
                                     placeholder={placeholder}
                                     disabled={disabled}
                                 />
-                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                <div
+                                    data-testid={`${id}-show-pass`}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                                >
                                     {showPassword ? (
                                         <FaEye
                                             size={20}
