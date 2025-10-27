@@ -12,3 +12,13 @@ jest.mock('aws-amplify/auth', () => ({
     getCurrentUser: jest.fn(),
     confirmSignUp: jest.fn(),
 }));
+
+// Mock ResizeObserver (Needed for OTP component)
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+}));
+
+// Mock document.elementFromPoint
+document.elementFromPoint = jest.fn();

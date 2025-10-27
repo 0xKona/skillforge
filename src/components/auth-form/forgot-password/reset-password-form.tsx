@@ -40,7 +40,6 @@ export default function PasswordResetForm({ resetForm }: Props) {
     const { setShowForgotPassword } = useAuthControlState();
 
     const handleResetPassword = async (data: ResetPasswordForm) => {
-        console.log('triggered');
         setLoading(true);
         setErrorMsg('');
         setSuccessMsg('');
@@ -86,35 +85,43 @@ export default function PasswordResetForm({ resetForm }: Props) {
     return (
         <Card>
             <FormHeader
+                id="header-reset-pass-form"
                 title="Reset Password"
                 description="Enter the verification code and your new password"
             />
             <form onSubmit={resetForm.handleSubmit(handleResetPassword)}>
                 <CardContent className="space-y-4">
                     {errorMsg && (
-                        <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
+                        <div
+                            data-testid="error-reset-pass-form"
+                            className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md"
+                        >
                             {errorMsg}
                         </div>
                     )}
                     {successMsg && (
-                        <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
+                        <div
+                            data-testid="success-reset-pass-form"
+                            className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md"
+                        >
                             {successMsg}
                         </div>
                     )}
                     <FormInput
                         form={resetForm}
-                        id="reset-email"
+                        id="email-reset-pass-form"
                         inputName="email"
                         placeholder="blacksmith@skillforge.com"
                         label="Email"
                         disabled
                     />
                     <div className="">
-                        <Label className="mb-2" htmlFor="code">
+                        <Label className="mb-2" htmlFor="code-reset-pass-form">
                             Confirmation Code
                         </Label>
                         <InputOTP
-                            id="code"
+                            id="code-reset-pass-form"
+                            data-testid="code-reset-pass-form"
                             value={resetForm.watch('code') || ''}
                             onChange={(value) =>
                                 resetForm.setValue('code', value)
@@ -155,6 +162,7 @@ export default function PasswordResetForm({ resetForm }: Props) {
                         type="password"
                     />
                     <SubmitAuthForm
+                        id="submit-auth-form-button"
                         buttonText="Reset Password"
                         buttonLoadingText="Resetting..."
                         isLoading={isLoading}
@@ -163,6 +171,7 @@ export default function PasswordResetForm({ resetForm }: Props) {
                     />
                     <div className="flex gap-2">
                         <Button
+                            data-testid="reset-password-form-resend"
                             type="button"
                             variant="ghost"
                             className="flex-1"
