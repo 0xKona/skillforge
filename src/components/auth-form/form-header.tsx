@@ -1,13 +1,14 @@
 import { CardDescription, CardHeader, CardTitle } from '../ui/shadcn/card';
 
 interface Props {
+    id?: string;
     title: string;
     description: string;
 }
 
-export default function FormHeader({ title, description }: Props) {
+export default function FormHeader({ id, title, description }: Props) {
     return (
-        <CardHeader>
+        <CardHeader id={id}>
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
         </CardHeader>

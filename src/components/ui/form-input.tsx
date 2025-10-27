@@ -40,6 +40,7 @@ export default function FormInput({
                             <Input
                                 {...field}
                                 id={id}
+                                data-testid={id}
                                 type={type}
                                 placeholder={placeholder}
                                 disabled={disabled}
@@ -51,6 +52,7 @@ export default function FormInput({
                                 <Input
                                     {...field}
                                     id={id}
+                                    data-testid={id}
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder={placeholder}
                                     disabled={disabled}
@@ -77,7 +79,10 @@ export default function FormInput({
                             </div>
                         )}{' '}
                         {fieldState.error && (
-                            <p className="text-xs text-red-500">
+                            <p
+                                data-testid={`${id}-error`}
+                                className="text-xs text-red-500"
+                            >
                                 {fieldState.error.message}
                             </p>
                         )}

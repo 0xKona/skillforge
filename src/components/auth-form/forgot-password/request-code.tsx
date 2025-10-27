@@ -57,31 +57,39 @@ export default function RequestPasswordResetForm({
     };
 
     return (
-        <Card>
+        <Card data-testid="request-password-form">
             <FormHeader
+                id="header-request-password-reset"
                 title="Forgot Password"
                 description="Enter your email to receive a password reset code"
             />
             <form onSubmit={requestForm.handleSubmit(handleRequestReset)}>
                 <CardContent className="space-y-4">
                     {errorMsg && (
-                        <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
+                        <div
+                            data-testid="request-pass-reset-error"
+                            className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md"
+                        >
                             {errorMsg}
                         </div>
                     )}
                     {successMsg && (
-                        <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
+                        <div
+                            data-testid="request-pass-reset-success"
+                            className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md"
+                        >
                             {successMsg}
                         </div>
                     )}
                     <FormInput
                         form={requestForm}
-                        id="forgot-password-email"
+                        id="request-pass-reset-email-input"
                         inputName="email"
                         placeholder="blacksmith@skillforge.com"
                         label="Email"
                     />
                     <SubmitAuthForm
+                        id="request-pass-reset-submit"
                         buttonText="Send Reset Code"
                         buttonLoadingText="Sending..."
                         isLoading={isLoading}
@@ -89,6 +97,8 @@ export default function RequestPasswordResetForm({
                         setError={setErrorMsg}
                     />
                     <Button
+                        id="request-pass-reset-back-button"
+                        data-testid="request-pass-reset-back-button"
                         type="button"
                         variant="ghost"
                         className="w-full"
