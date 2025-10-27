@@ -34,17 +34,17 @@ export async function middleware(request: NextRequest) {
             },
         });
 
-        console.log(
-            '[Middleware]: User authenticated?: ',
-            { pathname },
-            { authenticated },
-            { isProtectedRoute },
-            { request }
-        );
+        // console.log(
+        //     '[Middleware]: User authenticated?: ',
+        //     { pathname },
+        //     { authenticated },
+        //     { isProtectedRoute },
+        //     { request }
+        // );
 
         // If user is not authenticated and trying to access protected route
         if (isProtectedRoute && !authenticated) {
-            console.log('[Middleware]: Protected Route Triggered: ', pathname);
+            // console.log('[Middleware]: Protected Route Triggered: ', pathname);
             const url = request.nextUrl.clone();
             url.pathname = '/login';
             // Store the original URL to redirect back after login
