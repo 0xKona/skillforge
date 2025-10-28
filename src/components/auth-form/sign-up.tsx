@@ -24,7 +24,7 @@ export default function SignUpTab() {
         setNeedsConfirmation,
     } = useAuthControlState();
 
-    const { setSignUpEmail } = useSignUpFormState();
+    const { setSignUpEmail, setUserPassword } = useSignUpFormState();
 
     const form = useForm<SignUpForm>({
         resolver: zodResolver(signUpFormSchema),
@@ -42,6 +42,7 @@ export default function SignUpTab() {
         setSuccessMessage('');
 
         try {
+            setUserPassword(data.password);
             const { nextStep } = await signUp({
                 username: data.email,
                 password: data.password,

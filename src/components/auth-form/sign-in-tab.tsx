@@ -5,11 +5,12 @@ import { TabsContent } from '@/components/ui/shadcn/tabs';
 import { useForm } from 'react-hook-form';
 import { SignInForm, signInFormSchema } from '@/lib/form-schemas/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'aws-amplify/auth';
+import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import FormInput from '../ui/form-input';
 import SubmitAuthForm from './submit-form';
 import FormHeader from './form-header';
-import { useAuthControlState } from '@/store/auth-form';
+import { useAuthControlState, useSignUpFormState } from '@/store/auth-form';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function SignInTab() {
     const {
@@ -17,10 +18,16 @@ export default function SignInTab() {
         error,
         successMessage,
         setIsLoading,
+        setNeedsConfirmation,
         setError,
         setSuccessMessage,
         setShowForgotPassword,
     } = useAuthControlState();
+
+    const { setSignUpEmail, setUserPassword } = useSignUpFormState();
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
     const signInForm = useForm<SignInForm>({
         resolver: zodResolver(signInFormSchema),
@@ -30,19 +37,43 @@ export default function SignInTab() {
         },
     });
 
-    const handleSignIn = async (data: SignInForm) => {
-        setIsLoading(true);
-        setError('');
-        setSuccessMessage('');
+    async function handleNeedsConfirmation(email: string, password: string) {
+        await resendSignUpCode({ username: email });
+        setNeedsConfirmation(true);
+        setSignUpEmail(email);
+        setUserPassword(password);
 
+        setSuccessMessage(
+            'Account not confirmed! Please check your email for the confirmation code.'
+        );
+    }
+
+    const handleSignIn = async (data: SignInForm) => {
         try {
-            await signIn({
+            setIsLoading(true);
+            const { isSignedIn, nextStep } = await signIn({
                 username: data.email,
                 password: data.password,
             });
-            setSuccessMessage('Signed in successfully!');
-            window.location.href = '/dashboard';
-        } catch (err) {
+
+            if (nextStep.signInStep === 'CONFIRM_SIGN_UP') {
+                // User needs to confirm account
+                await handleNeedsConfirmation(data.email, data.password);
+            }
+
+            if (isSignedIn) {
+                // Redirect to desired page or dashboard by default
+                const redirectTo =
+                    searchParams?.get('redirectTo') || '/dashboard';
+                router.push(redirectTo);
+            }
+        } catch (err: any) {
+            console.error('Sign in error: ', err);
+
+            // Check for specific Cognito errors
+            if (err.name === 'UserNotConfirmedException') {
+                handleNeedsConfirmation(data.email, data.password);
+            }
             setError(err instanceof Error ? err.message : 'Failed to sign in');
         } finally {
             setIsLoading(false);

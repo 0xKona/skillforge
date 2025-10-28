@@ -46,16 +46,19 @@ export const useAuthControlState = create<AuthFormStore>((set) => ({
 // Sign Up State
 interface SignUpFormState {
     signUpEmail: string;
+    userPassword: string;
     confirmationCode: string;
 }
 
 interface SignUpFormActions {
     setSignUpEmail: (newEmail: string) => void;
     setConfirmationCode: (newCode: string) => void;
+    setUserPassword: (newPassword: string) => void;
 }
 
 const defaultSignUpFormState: SignUpFormState = {
     signUpEmail: '',
+    userPassword: '',
     confirmationCode: '',
 };
 
@@ -66,4 +69,7 @@ export const useSignUpFormState = create<SignUpFormStore>((set) => ({
 
     setSignUpEmail: (newEmail) => set({ signUpEmail: newEmail }),
     setConfirmationCode: (newCode) => set({ confirmationCode: newCode }),
+    setUserPassword: (newPassword) => set({ userPassword: newPassword }),
+
+    reset: () => set(defaultSignUpFormState),
 }));

@@ -2,13 +2,17 @@
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs';
 import VerifyCodeCard from './verify-code';
-import SignInTab from './sign-in';
+import SignInTab from './sign-in-tab';
 import SignUpTab from './sign-up';
 import ForgotPassword from './forgot-password/forgot-password';
 import { useAuthControlState } from '@/store/auth-form';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function AuthForm() {
     const { needsConfirmation, showForgotPassword } = useAuthControlState();
+
+    const user = useAuth();
+    console.log('AUTH FORM USER: ', { user });
 
     if (needsConfirmation) {
         return <VerifyCodeCard />;

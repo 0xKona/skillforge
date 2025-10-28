@@ -12,12 +12,18 @@ import { Label } from '@/components/ui/shadcn/label';
 import { Button } from '@/components/ui/shadcn/button';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/shadcn/input-opt';
 import { useAuthControlState, useSignUpFormState } from '@/store/auth-form';
-import { confirmSignUp } from 'aws-amplify/auth';
+import { confirmSignUp, signIn } from 'aws-amplify/auth';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function VerifyCodeCard() {
     // Create an array so we don't have to manually update slots.
     const SLOT_NUM = 6;
     const SLOT_ARRAY = Array.from({ length: SLOT_NUM });
+
+    const router = useRouter();
+
+    React.useEffect(() => {}, []);
 
     const {
         isLoading,
@@ -29,7 +35,7 @@ export default function VerifyCodeCard() {
         setNeedsConfirmation,
     } = useAuthControlState();
 
-    const { signUpEmail, confirmationCode, setConfirmationCode } =
+    const { signUpEmail, userPassword, confirmationCode, setConfirmationCode } =
         useSignUpFormState();
 
     const handleConfirmSignUp = async (e: React.FormEvent) => {
@@ -45,9 +51,41 @@ export default function VerifyCodeCard() {
             });
 
             if (isSignUpComplete) {
-                setSuccessMessage('Email confirmed! You can now sign in.');
-                setNeedsConfirmation(false);
-                setConfirmationCode('');
+                setSuccessMessage('Email confirmed! Signing you in...');
+
+                // Automatically sign in the user if we have their password
+                if (userPassword) {
+                    try {
+                        const { isSignedIn } = await signIn({
+                            username: signUpEmail,
+                            password: userPassword,
+                        });
+
+                        if (isSignedIn) {
+                            setNeedsConfirmation(false);
+                            setConfirmationCode('');
+                            // Redirect to dashboard
+                            router.push('/dashboard');
+                        }
+                    } catch (signInErr) {
+                        console.error('Auto sign-in failed:', signInErr);
+                        // If auto sign-in fails, just show success and let them sign in manually
+                        setSuccessMessage(
+                            'Email confirmed! You can now sign in.'
+                        );
+                        setNeedsConfirmation(false);
+                        setConfirmationCode('');
+                    }
+                } else {
+                    // No password stored, redirect to login
+                    setSuccessMessage(
+                        'Email confirmed! Redirecting to sign in...'
+                    );
+                    setTimeout(() => {
+                        setNeedsConfirmation(false);
+                        setConfirmationCode('');
+                    }, 1500);
+                }
             }
         } catch (err) {
             setError(
@@ -87,7 +125,7 @@ export default function VerifyCodeCard() {
                             maxLength={6}
                             className="gap-1 w-full"
                         >
-                            <InputOTPGroup className="w-full p-6">
+                            <InputOTPGroup className="w-full">
                                 {SLOT_ARRAY.map((_, index) => (
                                     <InputOTPSlot
                                         key={index}
