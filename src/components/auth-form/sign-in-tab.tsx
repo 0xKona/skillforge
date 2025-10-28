@@ -9,22 +9,22 @@ import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import FormInput from '../ui/form-input';
 import SubmitAuthForm from './submit-form';
 import FormHeader from './form-header';
-import { useAuthControlState, useSignUpFormState } from '@/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/store/auth-form';
 import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useState } from 'react';
 
 export default function SignInTab() {
-    const {
-        isLoading,
-        error,
-        successMessage,
-        setIsLoading,
-        setNeedsConfirmation,
-        setError,
-        setSuccessMessage,
-        setShowForgotPassword,
-    } = useAuthControlState();
+    // Local component
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
-    const { setSignUpEmail, setUserPassword } = useSignUpFormState();
+    // Global state
+    const {
+        setNeedsConfirmation,
+        setVerificationEmail,
+        setShowForgotPassword,
+    } = useAuthFlowState();
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -37,20 +37,35 @@ export default function SignInTab() {
         },
     });
 
-    async function handleNeedsConfirmation(email: string, password: string) {
-        await resendSignUpCode({ username: email });
-        setNeedsConfirmation(true);
-        setSignUpEmail(email);
-        setUserPassword(password);
+    // Clear messages when form values change
+    const formValues = signInForm.watch();
+    React.useEffect(() => {
+        setError('');
+        setSuccessMessage('');
+    }, [formValues]);
 
-        setSuccessMessage(
-            'Account not confirmed! Please check your email for the confirmation code.'
-        );
+    async function handleNeedsConfirmation(email: string, password: string) {
+        try {
+            await resendSignUpCode({ username: email });
+
+            // Store email in global state and password in session storage
+            setVerificationEmail(email);
+            passwordStorage.set(password);
+
+            // Switch to verification view
+            setNeedsConfirmation(true);
+        } catch (err) {
+            console.error('Error resending code:', err);
+            setError('Failed to resend verification code. Please try again.');
+        }
     }
 
     const handleSignIn = async (data: SignInForm) => {
         try {
             setIsLoading(true);
+            setError('');
+            setSuccessMessage('');
+
             const { isSignedIn, nextStep } = await signIn({
                 username: data.email,
                 password: data.password,
@@ -59,9 +74,13 @@ export default function SignInTab() {
             if (nextStep.signInStep === 'CONFIRM_SIGN_UP') {
                 // User needs to confirm account
                 await handleNeedsConfirmation(data.email, data.password);
+                return; // Exit early, component will switch to verification view
             }
 
             if (isSignedIn) {
+                // Clear any stored data
+                passwordStorage.clear();
+
                 // Redirect to desired page or dashboard by default
                 const redirectTo =
                     searchParams?.get('redirectTo') || '/dashboard';
@@ -72,9 +91,14 @@ export default function SignInTab() {
 
             // Check for specific Cognito errors
             if (err.name === 'UserNotConfirmedException') {
-                handleNeedsConfirmation(data.email, data.password);
+                await handleNeedsConfirmation(data.email, data.password);
+                return;
             }
-            setError(err instanceof Error ? err.message : 'Failed to sign in');
+
+            setError(
+                err.message ||
+                    'Failed to sign in. Please check your credentials.'
+            );
         } finally {
             setIsLoading(false);
         }
@@ -131,8 +155,6 @@ export default function SignInTab() {
                             buttonText="Sign In"
                             buttonLoadingText="Signing in..."
                             isLoading={isLoading}
-                            setIsLoading={setIsLoading}
-                            setError={setError}
                         />
                     </CardContent>
                 </form>

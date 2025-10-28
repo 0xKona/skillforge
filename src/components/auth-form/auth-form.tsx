@@ -3,16 +3,24 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs';
 import VerifyCodeCard from './verify-code';
 import SignInTab from './sign-in-tab';
-import SignUpTab from './sign-up';
+import SignUpTab from './sign-up-tab';
 import ForgotPassword from './forgot-password/forgot-password';
-import { useAuthControlState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/store/auth-form';
 import { useAuth } from '@/hooks/use-auth';
+import { useEffect } from 'react';
 
 export default function AuthForm() {
-    const { needsConfirmation, showForgotPassword } = useAuthControlState();
+    const { needsConfirmation, showForgotPassword, resetAuthFlow } =
+        useAuthFlowState();
 
     const user = useAuth();
-    console.log('AUTH FORM USER: ', { user });
+
+    useEffect(() => {
+        return () => {
+            // Reset when component is unmounted from DOM
+            resetAuthFlow();
+        };
+    }, []);
 
     if (needsConfirmation) {
         return <VerifyCodeCard />;

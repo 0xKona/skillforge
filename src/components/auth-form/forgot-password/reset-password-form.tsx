@@ -9,7 +9,7 @@ import { useRequestPasswordResetStore } from '@/store/password-reset';
 import { UseFormReturn } from 'react-hook-form';
 import { ResetPasswordForm } from '@/lib/form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
-import { useAuthControlState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/store/auth-form';
 import { Label } from '@/components/ui/shadcn/label';
 import {
     InputOTP,
@@ -37,7 +37,7 @@ export default function PasswordResetForm({ resetForm }: Props) {
         setCodeSent,
     } = useRequestPasswordResetStore();
 
-    const { setShowForgotPassword } = useAuthControlState();
+    const { setShowForgotPassword } = useAuthFlowState();
 
     const handleResetPassword = async (data: ResetPasswordForm) => {
         setLoading(true);
@@ -166,8 +166,6 @@ export default function PasswordResetForm({ resetForm }: Props) {
                         buttonText="Reset Password"
                         buttonLoadingText="Resetting..."
                         isLoading={isLoading}
-                        setIsLoading={setLoading}
-                        setError={setErrorMsg}
                     />
                     <div className="flex gap-2">
                         <Button

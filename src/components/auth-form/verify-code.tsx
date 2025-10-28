@@ -11,32 +11,28 @@ import {
 import { Label } from '@/components/ui/shadcn/label';
 import { Button } from '@/components/ui/shadcn/button';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/shadcn/input-opt';
-import { useAuthControlState, useSignUpFormState } from '@/store/auth-form';
-import { confirmSignUp, signIn } from 'aws-amplify/auth';
-import React from 'react';
+import { useAuthFlowState, passwordStorage } from '@/store/auth-form';
+import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function VerifyCodeCard() {
-    // Create an array so we don't have to manually update slots.
+    // Array is created to loop over when generating OTP slots
     const SLOT_NUM = 6;
     const SLOT_ARRAY = Array.from({ length: SLOT_NUM });
 
+    // Local component state
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [confirmationCode, setConfirmationCode] = useState('');
+    const [isResending, setIsResending] = useState(false);
+
+    // Global state
+    const { verificationEmail, setNeedsConfirmation, resetAuthFlow } =
+        useAuthFlowState();
+
     const router = useRouter();
-
-    React.useEffect(() => {}, []);
-
-    const {
-        isLoading,
-        error,
-        successMessage,
-        setIsLoading,
-        setError,
-        setSuccessMessage,
-        setNeedsConfirmation,
-    } = useAuthControlState();
-
-    const { signUpEmail, userPassword, confirmationCode, setConfirmationCode } =
-        useSignUpFormState();
 
     const handleConfirmSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -46,7 +42,7 @@ export default function VerifyCodeCard() {
 
         try {
             const { isSignUpComplete } = await confirmSignUp({
-                username: signUpEmail,
+                username: verificationEmail,
                 confirmationCode,
             });
 
@@ -54,27 +50,33 @@ export default function VerifyCodeCard() {
                 setSuccessMessage('Email confirmed! Signing you in...');
 
                 // Automatically sign in the user if we have their password
-                if (userPassword) {
+                const storedPassword = passwordStorage.get();
+
+                if (storedPassword) {
                     try {
                         const { isSignedIn } = await signIn({
-                            username: signUpEmail,
-                            password: userPassword,
+                            username: verificationEmail,
+                            password: storedPassword,
                         });
 
                         if (isSignedIn) {
-                            setNeedsConfirmation(false);
-                            setConfirmationCode('');
+                            // Clear all auth flow state and stored password
+                            passwordStorage.clear();
+                            resetAuthFlow();
+
                             // Redirect to dashboard
                             router.push('/dashboard');
                         }
                     } catch (signInErr) {
                         console.error('Auto sign-in failed:', signInErr);
-                        // If auto sign-in fails, just show success and let them sign in manually
+                        // If auto sign-in fails, clear state and let them sign in manually
+                        passwordStorage.clear();
                         setSuccessMessage(
                             'Email confirmed! You can now sign in.'
                         );
-                        setNeedsConfirmation(false);
-                        setConfirmationCode('');
+                        setTimeout(() => {
+                            resetAuthFlow();
+                        }, 2000);
                     }
                 } else {
                     // No password stored, redirect to login
@@ -82,8 +84,7 @@ export default function VerifyCodeCard() {
                         'Email confirmed! Redirecting to sign in...'
                     );
                     setTimeout(() => {
-                        setNeedsConfirmation(false);
-                        setConfirmationCode('');
+                        resetAuthFlow();
                     }, 1500);
                 }
             }
@@ -96,12 +97,35 @@ export default function VerifyCodeCard() {
         }
     };
 
+    const handleResendCode = async () => {
+        if (!verificationEmail) {
+            setError('No email found. Please sign up again.');
+            return;
+        }
+
+        try {
+            setIsResending(true);
+            setError('');
+            setSuccessMessage('');
+
+            await resendSignUpCode({ username: verificationEmail });
+            setSuccessMessage(
+                'Verification code sent! Please check your email.'
+            );
+        } catch (err: any) {
+            console.error('Resend code error:', err);
+            setError(err.message || 'Failed to resend code. Please try again.');
+        } finally {
+            setIsResending(false);
+        }
+    };
+
     return (
         <Card className="w-full max-w-md">
             <CardHeader>
                 <CardTitle>Confirm Your Email</CardTitle>
                 <CardDescription>
-                    Enter the confirmation code sent to {signUpEmail}
+                    Enter the confirmation code sent to {verificationEmail}
                 </CardDescription>
             </CardHeader>
             <form onSubmit={handleConfirmSignUp}>
@@ -145,14 +169,28 @@ export default function VerifyCodeCard() {
                     >
                         {isLoading ? 'Confirming...' : 'Confirm Email'}
                     </Button>
-                    <Button
-                        type="button"
-                        variant="ghost"
-                        className="w-full"
-                        onClick={() => setNeedsConfirmation(false)}
-                    >
-                        Back to Sign In
-                    </Button>
+                    <div className="w-full flex justify-between gap-2 mt-2">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="flex-1"
+                            onClick={() => {
+                                passwordStorage.clear();
+                                setNeedsConfirmation(false);
+                            }}
+                        >
+                            Back to Sign In
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="flex-1"
+                            onClick={handleResendCode}
+                            disabled={isResending}
+                        >
+                            {isResending ? 'Sending...' : 'Resend Code'}
+                        </Button>
+                    </div>
                 </CardFooter>
             </form>
         </Card>

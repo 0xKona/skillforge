@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/shadcn/card';
 import { TabsContent } from '@/components/ui/shadcn/tabs';
-import React from 'react';
+import React, { useState } from 'react';
 import { signUp } from 'aws-amplify/auth';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
@@ -11,20 +11,16 @@ import { SignUpForm, signUpFormSchema } from '@/lib/form-schemas/auth-schema';
 import FormInput from '@/components/ui/form-input';
 import SubmitAuthForm from './submit-form';
 import FormHeader from './form-header';
-import { useAuthControlState, useSignUpFormState } from '@/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/store/auth-form';
 
 export default function SignUpTab() {
-    const {
-        isLoading,
-        error,
-        successMessage,
-        setIsLoading,
-        setError,
-        setSuccessMessage,
-        setNeedsConfirmation,
-    } = useAuthControlState();
+    // Local component state
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
-    const { setSignUpEmail, setUserPassword } = useSignUpFormState();
+    // Global state
+    const { setNeedsConfirmation, setVerificationEmail } = useAuthFlowState();
 
     const form = useForm<SignUpForm>({
         resolver: zodResolver(signUpFormSchema),
@@ -36,13 +32,22 @@ export default function SignUpTab() {
         },
     });
 
+    // Clear messages when form values change
+    const formValues = form.watch();
+    React.useEffect(() => {
+        setError('');
+        setSuccessMessage('');
+    }, [formValues]);
+
     const handleSignUp = async (data: z.infer<typeof signUpFormSchema>) => {
         setIsLoading(true);
         setError('');
         setSuccessMessage('');
 
         try {
-            setUserPassword(data.password);
+            // Store password temporarily for auto sign-in after verification
+            passwordStorage.set(data.password);
+
             const { nextStep } = await signUp({
                 username: data.email,
                 password: data.password,
@@ -57,11 +62,8 @@ export default function SignUpTab() {
             });
 
             if (nextStep.signUpStep === 'CONFIRM_SIGN_UP') {
+                setVerificationEmail(data.email);
                 setNeedsConfirmation(true);
-                setSignUpEmail(data.email);
-                setSuccessMessage(
-                    'Account created! Please check your email for the confirmation code.'
-                );
             } else {
                 setSuccessMessage('Account created successfully!');
             }
@@ -81,7 +83,6 @@ export default function SignUpTab() {
                 />
                 <form onSubmit={form.handleSubmit(handleSignUp)}>
                     <CardContent className="space-y-4">
-                        {/* TODO - Move to cards */}
                         {error && (
                             <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
                                 {error}
@@ -131,8 +132,6 @@ export default function SignUpTab() {
                             buttonText="Sign Up"
                             buttonLoadingText="Creating account..."
                             isLoading={isLoading}
-                            setIsLoading={setIsLoading}
-                            setError={setError}
                         />
                     </CardContent>
                 </form>

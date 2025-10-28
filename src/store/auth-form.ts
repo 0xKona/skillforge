@@ -1,75 +1,64 @@
 import { create } from 'zustand';
 
-// Controller State
-interface AuthFormState {
-    isLoading: boolean;
-    error: string;
-    successMessage: string;
+/**
+ * Global authentication flow state
+ * Only store data needed across components, NOT UI state like loading/errors
+ */
+interface AuthFlowState {
+    // Which auth view to show
     needsConfirmation: boolean;
     showForgotPassword: boolean;
+
+    // Data needed for verification flow
+    verificationEmail: string;
 }
 
-interface AuthFormActions {
-    setIsLoading: (newLoading: boolean) => void;
-    setError: (newError: string) => void;
-    setSuccessMessage: (newSuccess: string) => void;
-    setNeedsConfirmation: (newConfirm: boolean) => void;
-    setShowForgotPassword: (newShowForgot: boolean) => void;
+interface AuthFlowActions {
+    setNeedsConfirmation: (needsConfirmation: boolean) => void;
+    setShowForgotPassword: (showForgotPassword: boolean) => void;
+    setVerificationEmail: (email: string) => void;
+    resetAuthFlow: () => void;
 }
 
-const defaultAuthFormState: AuthFormState = {
-    isLoading: false,
-    error: '',
-    successMessage: '',
+const defaultAuthFlowState: AuthFlowState = {
     needsConfirmation: false,
     showForgotPassword: false,
+    verificationEmail: '',
 };
 
-type AuthFormStore = AuthFormState & AuthFormActions;
+type AuthFlowStore = AuthFlowState & AuthFlowActions;
 
-export const useAuthControlState = create<AuthFormStore>((set) => ({
-    ...defaultAuthFormState,
+export const useAuthFlowState = create<AuthFlowStore>((set) => ({
+    ...defaultAuthFlowState,
 
-    setIsLoading: (newLoading) => set({ isLoading: newLoading }),
-    setError: (newError) => set({ error: newError }),
-    setSuccessMessage: (newSuccess) => set({ successMessage: newSuccess }),
-    setNeedsConfirmation: (newConfirm) =>
-        set({ needsConfirmation: newConfirm }),
-    setShowForgotPassword: (newShowForgot) =>
-        set({ showForgotPassword: newShowForgot }),
+    setNeedsConfirmation: (needsConfirmation) => set({ needsConfirmation }),
+    setShowForgotPassword: (showForgotPassword) => set({ showForgotPassword }),
+    setVerificationEmail: (email) => set({ verificationEmail: email }),
 
-    reset: () => set(defaultAuthFormState),
+    resetAuthFlow: () => set(defaultAuthFlowState),
 }));
 
-// Sign In State
+/**
+ * Temporary password storage utilities
+ * Uses sessionStorage for temporary password storage during verification flow
+ */
+const PASSWORD_STORAGE_KEY = 'temp_auth_password';
 
-// Sign Up State
-interface SignUpFormState {
-    signUpEmail: string;
-    userPassword: string;
-    confirmationCode: string;
-}
-
-interface SignUpFormActions {
-    setSignUpEmail: (newEmail: string) => void;
-    setConfirmationCode: (newCode: string) => void;
-    setUserPassword: (newPassword: string) => void;
-}
-
-const defaultSignUpFormState: SignUpFormState = {
-    signUpEmail: '',
-    userPassword: '',
-    confirmationCode: '',
+export const passwordStorage = {
+    set: (password: string) => {
+        if (typeof window !== 'undefined') {
+            sessionStorage.setItem(PASSWORD_STORAGE_KEY, password);
+        }
+    },
+    get: (): string | null => {
+        if (typeof window !== 'undefined') {
+            return sessionStorage.getItem(PASSWORD_STORAGE_KEY);
+        }
+        return null;
+    },
+    clear: () => {
+        if (typeof window !== 'undefined') {
+            sessionStorage.removeItem(PASSWORD_STORAGE_KEY);
+        }
+    },
 };
-
-type SignUpFormStore = SignUpFormState & SignUpFormActions;
-
-export const useSignUpFormState = create<SignUpFormStore>((set) => ({
-    ...defaultSignUpFormState,
-
-    setSignUpEmail: (newEmail) => set({ signUpEmail: newEmail }),
-    setConfirmationCode: (newCode) => set({ confirmationCode: newCode }),
-    setUserPassword: (newPassword) => set({ userPassword: newPassword }),
-
-    reset: () => set(defaultSignUpFormState),
-}));

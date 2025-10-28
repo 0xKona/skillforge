@@ -12,7 +12,7 @@ import SubmitAuthForm from '../submit-form';
 import { Button } from '@/components/ui/shadcn/button';
 import { useRequestPasswordResetStore } from '@/store/password-reset';
 import { UseFormReturn } from 'react-hook-form';
-import { useAuthControlState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/store/auth-form';
 
 interface Props {
     requestForm: UseFormReturn<ForgotPasswordRequest>;
@@ -34,7 +34,7 @@ export default function RequestPasswordResetForm({
         setProvidedEmail,
     } = useRequestPasswordResetStore();
 
-    const { setShowForgotPassword } = useAuthControlState();
+    const { setShowForgotPassword } = useAuthFlowState();
 
     const handleRequestReset = async (data: ForgotPasswordRequest) => {
         setLoading(true);
@@ -93,8 +93,6 @@ export default function RequestPasswordResetForm({
                         buttonText="Send Reset Code"
                         buttonLoadingText="Sending..."
                         isLoading={isLoading}
-                        setIsLoading={setLoading}
-                        setError={setErrorMsg}
                     />
                     <Button
                         id="request-pass-reset-back-button"

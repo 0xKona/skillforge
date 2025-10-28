@@ -22,13 +22,14 @@ export const defaultPasswordResetStoreState = {
 };
 
 /**
- * Default mock values for auth control store
+ * Default mock values for auth flow state
  */
-export const defaultAuthControlState = {
-    isLoading: false,
-    error: '',
-    successMessage: '',
+export const defaultAuthFlowState = {
     needsConfirmation: false,
     showForgotPassword: false,
+    verificationEmail: '',
+    setNeedsConfirmation: jest.fn(),
     setShowForgotPassword: jest.fn(),
+    setVerificationEmail: jest.fn(),
+    resetAuthFlow: jest.fn(),
 };

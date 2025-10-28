@@ -7,8 +7,6 @@ interface Props {
     buttonText: string;
     buttonLoadingText: string;
     isLoading: boolean;
-    setIsLoading: (newLoading: boolean) => void;
-    setError: (newError: string) => void;
 }
 
 export default function SubmitAuthForm({

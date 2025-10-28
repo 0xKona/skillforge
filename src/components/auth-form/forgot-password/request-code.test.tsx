@@ -2,10 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RequestPasswordResetForm from './request-code';
 import { useRequestPasswordResetStore } from '@/store/password-reset';
-import { useAuthControlState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/store/auth-form';
 import {
     defaultPasswordResetStoreState,
-    defaultAuthControlState,
+    defaultAuthFlowState,
 } from '@/test-utils/test-helpers';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -64,8 +64,8 @@ describe('RequestPasswordResetForm Component', () => {
         useRequestPasswordResetStore as jest.MockedFunction<
             typeof useRequestPasswordResetStore
         >;
-    const mockUseAuthControlState = useAuthControlState as jest.MockedFunction<
-        typeof useAuthControlState
+    const mockUseAuthFlowState = useAuthFlowState as jest.MockedFunction<
+        typeof useAuthFlowState
     >;
     const mockResetPassword = resetPassword as jest.MockedFunction<
         typeof resetPassword
@@ -90,8 +90,8 @@ describe('RequestPasswordResetForm Component', () => {
             setProvidedEmail: mockSetProvidedEmail,
         });
 
-        mockUseAuthControlState.mockReturnValue({
-            ...defaultAuthControlState,
+        mockUseAuthFlowState.mockReturnValue({
+            ...defaultAuthFlowState,
             setShowForgotPassword: mockSetShowForgotPassword,
         });
     });
