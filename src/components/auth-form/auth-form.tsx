@@ -6,14 +6,11 @@ import SignInTab from './sign-in-tab';
 import SignUpTab from './sign-up-tab';
 import ForgotPassword from './forgot-password/forgot-password';
 import { useAuthFlowState } from '@/store/auth-form';
-import { useAuth } from '@/hooks/use-auth';
 import { useEffect } from 'react';
 
 export default function AuthForm() {
     const { needsConfirmation, showForgotPassword, resetAuthFlow } =
         useAuthFlowState();
-
-    const user = useAuth();
 
     useEffect(() => {
         return () => {
