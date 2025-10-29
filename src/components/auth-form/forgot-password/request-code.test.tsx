@@ -16,7 +16,6 @@ import {
 import { resetPassword } from 'aws-amplify/auth';
 
 // IDs
-const FORM_MAIN = 'request-password-form';
 const FORM_HEADER_ID = 'header-request-password-reset';
 const FORM_EMAIL_INPUT_ID = 'request-pass-reset-email-input';
 const FORM_EMAIL_ERROR = 'request-pass-reset-email-input-error';
@@ -99,7 +98,6 @@ describe('RequestPasswordResetForm Component', () => {
     it('Should render the form with all elements', () => {
         render(<TestWrapper />);
 
-        const formMain = document.getElementById(FORM_MAIN);
         const formHeader = document.getElementById(FORM_HEADER_ID);
         const formEmailInput = document.getElementById(FORM_EMAIL_INPUT_ID);
         const submitButton = document.getElementById(FORM_SUBMIT_BUTTON);
