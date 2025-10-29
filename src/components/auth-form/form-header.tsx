@@ -9,8 +9,8 @@ interface Props {
 export default function FormHeader({ id, title, description }: Props) {
     return (
         <CardHeader id={id} data-testid={id}>
-            <CardTitle>{title}</CardTitle>
-            <CardDescription>{description}</CardDescription>
+            <CardTitle data-testid={`${id}-title`}>{title}</CardTitle>
+            <CardDescription data-testid={`${id}-desc`}>{description}</CardDescription>
         </CardHeader>
     );
 }
