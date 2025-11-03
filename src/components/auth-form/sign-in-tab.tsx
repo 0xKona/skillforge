@@ -86,19 +86,22 @@ export default function SignInTab() {
                     searchParams?.get('redirectTo') || '/dashboard';
                 router.push(redirectTo);
             }
-        } catch (err: any) {
+        } catch (err) {
             console.error('Sign in error: ', err);
 
-            // Check for specific Cognito errors
-            if (err.name === 'UserNotConfirmedException') {
-                await handleNeedsConfirmation(data.email, data.password);
-                return;
-            }
+            // Type guard to check if error is an Error object
+            if (err instanceof Error) {
+                // Check for specific Cognito errors
+                if ('name' in err && err.name === 'UserNotConfirmedException') {
+                    await handleNeedsConfirmation(data.email, data.password);
+                    return;
+                }
 
-            setError(
-                err.message ||
-                    'Failed to sign in. Please check your credentials.'
-            );
+                setError(err.message);
+            } else {
+                // Fallback for unknown error types
+                setError('Failed to sign in. Please check your credentials.');
+            }
         } finally {
             setIsLoading(false);
         }

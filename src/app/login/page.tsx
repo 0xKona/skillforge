@@ -1,4 +1,5 @@
 import AuthForm from '@/components/auth-form/auth-form';
+import Logo from '@/components/logo/logo';
 import { isAuthenticated } from '@/utlils/amplify/server-utils';
 import { redirect } from 'next/navigation';
 
@@ -15,9 +16,12 @@ export default async function LoginPage() {
         <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold tracking-tight mb-2">
-                        SkillForge
-                    </h1>
+                    <div className="flex flex-col items-center">
+                        <Logo size={200} />
+                        <h1 className="text-4xl font-bold tracking-tight mb-2">
+                            SkillForge
+                        </h1>
+                    </div>
                     <p className="text-muted-foreground">
                         Welcome! Please sign in to continue.
                     </p>
