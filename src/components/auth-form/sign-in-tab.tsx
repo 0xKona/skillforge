@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import FormInput from '../ui/form-input';
 import SubmitAuthForm from './submit-form';
-import FormHeader from './form-header';
 import { useAuthFlowState, passwordStorage } from '@/store/auth-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
@@ -110,10 +109,6 @@ export default function SignInTab() {
     return (
         <TabsContent value="signin">
             <Card>
-                <FormHeader
-                    title="Sign In"
-                    description="Enter your email and password to access your account"
-                />
                 <form onSubmit={signInForm.handleSubmit(handleSignIn)}>
                     <CardContent className="space-y-4">
                         {error && (

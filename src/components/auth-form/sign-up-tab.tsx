@@ -10,7 +10,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SignUpForm, signUpFormSchema } from '@/lib/form-schemas/auth-schema';
 import FormInput from '@/components/ui/form-input';
 import SubmitAuthForm from './submit-form';
-import FormHeader from './form-header';
 import { useAuthFlowState, passwordStorage } from '@/store/auth-form';
 
 export default function SignUpTab() {
@@ -77,10 +76,6 @@ export default function SignUpTab() {
     return (
         <TabsContent value="signup">
             <Card>
-                <FormHeader
-                    title="Create Account"
-                    description="Enter your email and password to create a new account"
-                />
                 <form onSubmit={form.handleSubmit(handleSignUp)}>
                     <CardContent className="space-y-4">
                         {error && (
