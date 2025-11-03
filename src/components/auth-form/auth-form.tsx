@@ -17,6 +17,7 @@ export default function AuthForm() {
             // Reset when component is unmounted from DOM
             resetAuthFlow();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (needsConfirmation) {

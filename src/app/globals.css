@@ -41,6 +41,11 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
+
+    /* Custom forge theme colors */
+    --color-forge-orange: #f97316;
+    --color-forge-ember: #ff6b35;
+    --color-forge-ember-light: #ff8c42;
 }
 
 :root {
@@ -119,4 +124,46 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* Fire ember animation - creates floating particles rising from bottom to top */
+@keyframes float {
+    /* Start and end: invisible at bottom */
+    0%,
+    100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    /* Fade in quickly after start */
+    10% {
+        opacity: 1;
+    }
+    /* Stay visible for most of the journey */
+    90% {
+        opacity: 1;
+    }
+    /* End: move to top of viewport with slight horizontal drift, then fade out */
+    100% {
+        transform: translateY(-100vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* Individual ember particle styling */
+.ember {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    /* Forge-themed orange/red gradient that fades to transparent at edges */
+    background: radial-gradient(
+        circle,
+        var(--color-forge-ember) 0%,
+        /* Hot orange center */ var(--color-forge-ember-light) 50%,
+        /* Lighter orange middle */ transparent 100%
+            /* Fade to transparent at edges */
+    );
+    border-radius: 50%; /* Make it circular */
+    animation: float 8s infinite ease-in; /* Continuous upward floating */
+    box-shadow: 0 0 10px var(--color-forge-ember); /* Glowing effect around ember */
+    bottom: 0; /* Start at bottom of container */
 }

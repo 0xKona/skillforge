@@ -1,9 +1,12 @@
 export interface LogoProps {
     className?: string;
     color?: string;
+    borderColor?: string;
+    borderWidth?: number;
     size: number;
 }
 
+// Imports and allows customizing color and size of SVG.
 export default function Logo(props: LogoProps) {
     return (
         <svg
@@ -21,7 +24,8 @@ export default function Logo(props: LogoProps) {
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M357.638672,573.999878 
 	C357.625275,528.000427 357.602539,482.500946 357.606445,437.001465 
@@ -89,7 +93,8 @@ z"
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M413.650330,327.236084 
 	C403.593689,297.716644 394.547516,268.221741 383.356842,239.564255 
@@ -139,7 +144,8 @@ z"
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M352.223999,319.807343 
 	C355.684479,324.504395 359.723175,328.354767 362.131317,333.365173 
@@ -155,7 +161,8 @@ z"
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M245.623413,362.996277 
 	C250.482697,355.780273 257.564911,353.152588 264.775909,355.828857 
@@ -169,7 +176,8 @@ z"
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M500.579865,469.935333 
 	C507.652496,472.542358 511.023193,477.476837 511.377563,484.476379 
@@ -199,7 +207,8 @@ z"
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M551.000122,607.680054 
 	C568.331482,607.678711 585.163086,607.616699 601.994019,607.702393 
@@ -216,7 +225,8 @@ z"
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M592.993774,574.302612 
 	C578.364990,574.323120 564.234253,574.435242 550.105103,574.330505 
@@ -231,7 +241,8 @@ z"
             <path
                 fill={props.color}
                 opacity="1.000000"
-                stroke="none"
+                stroke={props.borderColor || 'none'}
+                strokeWidth={props.borderWidth || 0}
                 d="
 M586.357910,521.421875 
 	C574.060364,522.410095 562.249146,521.301697 550.448975,520.859924 
