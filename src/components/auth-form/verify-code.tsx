@@ -112,9 +112,13 @@ export default function VerifyCodeCard() {
             setSuccessMessage(
                 'Verification code sent! Please check your email.'
             );
-        } catch (err: any) {
+        } catch (err) {
             console.error('Resend code error:', err);
-            setError(err.message || 'Failed to resend code. Please try again.');
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : 'Failed to resend code. Please try again.'
+            );
         } finally {
             setIsResending(false);
         }
