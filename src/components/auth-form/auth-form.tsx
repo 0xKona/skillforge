@@ -1,12 +1,19 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs';
+import {
+    Tabs,
+    TabsContent,
+    TabsContents,
+    TabsList,
+    TabsTrigger,
+} from '@/components/animate-ui/components/animate/tabs';
 import VerifyCodeCard from './verify-code';
 import SignInTab from './sign-in-tab';
 import SignUpTab from './sign-up-tab';
 import ForgotPassword from './forgot-password/forgot-password';
 import { useAuthFlowState } from '@/store/auth-form';
 import { useEffect } from 'react';
+import { Card } from '../ui/shadcn/card';
 
 export default function AuthForm() {
     const { needsConfirmation, showForgotPassword, resetAuthFlow } =
@@ -35,9 +42,17 @@ export default function AuthForm() {
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
 
-            <SignInTab />
+            <Card>
+                <TabsContents>
+                    <TabsContent value="signin">
+                        <SignInTab />
+                    </TabsContent>
 
-            <SignUpTab />
+                    <TabsContent value="signup">
+                        <SignUpTab />
+                    </TabsContent>
+                </TabsContents>
+            </Card>
         </Tabs>
     );
 }

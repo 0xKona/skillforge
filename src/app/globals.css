@@ -46,6 +46,9 @@
     --color-forge-orange: #f97316;
     --color-forge-ember: #ff6b35;
     --color-forge-ember-light: #ff8c42;
+
+    /* Custom animations, apply the CSS animation below as a custom tailwind animation */
+    --animate-float: float 8s ease-in infinite;
 }
 
 :root {
@@ -147,23 +150,4 @@
         transform: translateY(-100vh) translateX(20px);
         opacity: 0;
     }
-}
-
-/* Individual ember particle styling */
-.ember {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    /* Forge-themed orange/red gradient that fades to transparent at edges */
-    background: radial-gradient(
-        circle,
-        var(--color-forge-ember) 0%,
-        /* Hot orange center */ var(--color-forge-ember-light) 50%,
-        /* Lighter orange middle */ transparent 100%
-            /* Fade to transparent at edges */
-    );
-    border-radius: 50%; /* Make it circular */
-    animation: float 8s infinite ease-in; /* Continuous upward floating */
-    box-shadow: 0 0 10px var(--color-forge-ember); /* Glowing effect around ember */
-    bottom: 0; /* Start at bottom of container */
 }

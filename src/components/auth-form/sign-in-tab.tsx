@@ -1,7 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/shadcn/card';
-import { TabsContent } from '@/components/ui/shadcn/tabs';
+import { CardContent } from '@/components/ui/shadcn/card';
 import { useForm } from 'react-hook-form';
 import { SignInForm, signInFormSchema } from '@/lib/form-schemas/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -107,56 +106,52 @@ export default function SignInTab() {
     };
 
     return (
-        <TabsContent value="signin">
-            <Card>
-                <form onSubmit={signInForm.handleSubmit(handleSignIn)}>
-                    <CardContent className="space-y-4">
-                        {error && (
-                            <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
-                                {error}
-                            </div>
-                        )}
-                        {successMessage && (
-                            <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
-                                {successMessage}
-                            </div>
-                        )}
-                        {/* Email input */}
-                        <FormInput
-                            form={signInForm}
-                            id="sign-in-email"
-                            inputName="email"
-                            placeholder="blacksmith@skillforge.com"
-                            label="Email"
-                        />
-                        {/* Password input */}
-                        <FormInput
-                            form={signInForm}
-                            id="sign-in-password"
-                            inputName="password"
-                            placeholder="enter password"
-                            label="Password"
-                            type="password"
-                        />
-                        {/* Forgot Password Link */}
-                        <div className="text-right">
-                            <button
-                                type="button"
-                                onClick={() => setShowForgotPassword(true)}
-                                className="cursor-pointer text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-                            >
-                                Forgot password?
-                            </button>
-                        </div>
-                        {/* Submit buttons Or Google login */}
-                        <SubmitAuthForm
-                            buttonText="Sign In"
-                            buttonLoadingText="Signing in..."
-                            isLoading={isLoading}
-                        />
-                    </CardContent>
-                </form>
-            </Card>
-        </TabsContent>
+        <form onSubmit={signInForm.handleSubmit(handleSignIn)}>
+            <CardContent className="space-y-4">
+                {error && (
+                    <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
+                        {error}
+                    </div>
+                )}
+                {successMessage && (
+                    <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
+                        {successMessage}
+                    </div>
+                )}
+                {/* Email input */}
+                <FormInput
+                    form={signInForm}
+                    id="sign-in-email"
+                    inputName="email"
+                    placeholder="blacksmith@skillforge.com"
+                    label="Email"
+                />
+                {/* Password input */}
+                <FormInput
+                    form={signInForm}
+                    id="sign-in-password"
+                    inputName="password"
+                    placeholder="enter password"
+                    label="Password"
+                    type="password"
+                />
+                {/* Forgot Password Link */}
+                <div className="text-right">
+                    <button
+                        type="button"
+                        onClick={() => setShowForgotPassword(true)}
+                        className="cursor-pointer text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                        Forgot password?
+                    </button>
+                </div>
+                {/* Submit buttons Or Google login */}
+                <SubmitAuthForm
+                    buttonText="Sign In"
+                    buttonLoadingText="Signing in..."
+                    isLoading={isLoading}
+                />
+            </CardContent>
+        </form>
     );
 }

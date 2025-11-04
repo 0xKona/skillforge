@@ -1,7 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/shadcn/card';
-import { TabsContent } from '@/components/ui/shadcn/tabs';
+import { CardContent } from '@/components/ui/shadcn/card';
 import React, { useState } from 'react';
 import { signUp } from 'aws-amplify/auth';
 import * as z from 'zod';
@@ -74,63 +73,59 @@ export default function SignUpTab() {
     };
 
     return (
-        <TabsContent value="signup">
-            <Card>
-                <form onSubmit={form.handleSubmit(handleSignUp)}>
-                    <CardContent className="space-y-4">
-                        {error && (
-                            <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
-                                {error}
-                            </div>
-                        )}
-                        {successMessage && (
-                            <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
-                                {successMessage}
-                            </div>
-                        )}
-                        {/* Email Input */}
-                        <FormInput
-                            form={form}
-                            id="signup-email"
-                            inputName="email"
-                            placeholder="blacksmith@skillforge.com"
-                            label="Email"
-                        />
-                        {/* Username Input */}
-                        <FormInput
-                            form={form}
-                            id="signup-username"
-                            inputName="username"
-                            placeholder="Forger"
-                            label="Username"
-                        />
-                        {/* Password Input */}
-                        <FormInput
-                            form={form}
-                            id="signup-password"
-                            inputName="password"
-                            placeholder="Enter your password"
-                            label="Password"
-                            type="password"
-                        />
-                        {/* Confirm Password Input */}
-                        <FormInput
-                            form={form}
-                            id="signup-confirm-password"
-                            inputName="confirmPassword"
-                            placeholder="Confirm your password"
-                            label="Confirm Password"
-                            type="password"
-                        />
-                        {/* Submit buttons Or Google login */}
-                        <SubmitAuthForm
-                            buttonText="Sign Up"
-                            buttonLoadingText="Creating account..."
-                            isLoading={isLoading}
-                        />
-                    </CardContent>
-                </form>
-            </Card>
-        </TabsContent>
+        <form onSubmit={form.handleSubmit(handleSignUp)}>
+            <CardContent className="space-y-4">
+                {error && (
+                    <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/10 rounded-md">
+                        {error}
+                    </div>
+                )}
+                {successMessage && (
+                    <div className="p-3 text-sm text-green-500 bg-green-50 dark:bg-green-900/10 rounded-md">
+                        {successMessage}
+                    </div>
+                )}
+                {/* Email Input */}
+                <FormInput
+                    form={form}
+                    id="signup-email"
+                    inputName="email"
+                    placeholder="blacksmith@skillforge.com"
+                    label="Email"
+                />
+                {/* Username Input */}
+                <FormInput
+                    form={form}
+                    id="signup-username"
+                    inputName="username"
+                    placeholder="Forger"
+                    label="Username"
+                />
+                {/* Password Input */}
+                <FormInput
+                    form={form}
+                    id="signup-password"
+                    inputName="password"
+                    placeholder="Enter your password"
+                    label="Password"
+                    type="password"
+                />
+                {/* Confirm Password Input */}
+                <FormInput
+                    form={form}
+                    id="signup-confirm-password"
+                    inputName="confirmPassword"
+                    placeholder="Confirm your password"
+                    label="Confirm Password"
+                    type="password"
+                />
+                {/* Submit buttons Or Google login */}
+                <SubmitAuthForm
+                    buttonText="Sign Up"
+                    buttonLoadingText="Creating account..."
+                    isLoading={isLoading}
+                />
+            </CardContent>
+        </form>
     );
 }

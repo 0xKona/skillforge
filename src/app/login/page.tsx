@@ -1,8 +1,8 @@
 import AuthForm from '@/components/auth-form/auth-form';
 import Logo from '@/components/logo/logo';
-import BackgroundGrid from '@/components/ui/background-grid';
-import BottomForgeGlow from '@/components/ui/bottom-glow';
-import FireEmbers from '@/components/ui/fire-embers';
+import BackgroundGrid from '@/components/ui/styling/background-grid';
+import BottomForgeGlow from '@/components/ui/styling/bottom-glow';
+import FireEmbers from '@/components/ui/styling/fire-embers';
 import { isAuthenticated } from '@/utlils/amplify/server-utils';
 import { redirect } from 'next/navigation';
 
