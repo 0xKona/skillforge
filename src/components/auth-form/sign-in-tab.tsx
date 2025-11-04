@@ -147,6 +147,7 @@ export default function SignInTab() {
                 </div>
                 {/* Submit buttons Or Google login */}
                 <SubmitAuthForm
+                    id='submit-signin'
                     buttonText="Sign In"
                     buttonLoadingText="Signing in..."
                     isLoading={isLoading}
