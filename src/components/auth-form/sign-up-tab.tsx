@@ -121,6 +121,7 @@ export default function SignUpTab() {
                 />
                 {/* Submit buttons Or Google login */}
                 <SubmitAuthForm
+                    id="submit-signup"
                     buttonText="Sign Up"
                     buttonLoadingText="Creating account..."
                     isLoading={isLoading}
