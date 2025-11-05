@@ -11,11 +11,28 @@ import { useAuthFlowState, passwordStorage } from '@/store/auth-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
+interface LoginDisabled {
+    state: boolean;
+    buttonLabel: string;
+}
+
+const defaultLoginDisabled: LoginDisabled = {
+    state: false,
+    buttonLabel: '',
+};
+
+const activeLoginDisabled: LoginDisabled = {
+    state: true,
+    buttonLabel: 'Try again in 15 seconds',
+};
+
 export default function SignInTab() {
     // Local component
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [loginDisabled, setLoginDisabled] =
+        useState<LoginDisabled>(defaultLoginDisabled);
 
     // Global state
     const {
@@ -38,7 +55,7 @@ export default function SignInTab() {
     // Clear messages when form values change
     const formValues = signInForm.watch();
     React.useEffect(() => {
-        setError('');
+        // setError('');
         setSuccessMessage('');
     }, [formValues]);
 
@@ -89,10 +106,16 @@ export default function SignInTab() {
 
             // Type guard to check if error is an Error object
             if (err instanceof Error) {
+                if (err.message == 'Password attempts exceeded') {
+                    setLoginDisabled(activeLoginDisabled);
+                    // Wait 15 seconds then allow another attempt, expand later to work on server side
+                    setTimeout(() => {
+                        setLoginDisabled(defaultLoginDisabled);
+                    }, 15000);
+                }
                 // Check for specific Cognito errors
                 if ('name' in err && err.name === 'UserNotConfirmedException') {
                     await handleNeedsConfirmation(data.email, data.password);
-                    return;
                 }
 
                 setError(err.message);
@@ -145,12 +168,17 @@ export default function SignInTab() {
                         Forgot password?
                     </button>
                 </div>
-                {/* Submit buttons Or Google login */}
+                {/* Submit buttons */}
                 <SubmitAuthForm
-                    id='submit-signin'
-                    buttonText="Sign In"
+                    id="submit-signin"
+                    buttonText={
+                        loginDisabled.state
+                            ? loginDisabled.buttonLabel
+                            : 'Sign In'
+                    }
                     buttonLoadingText="Signing in..."
                     isLoading={isLoading}
+                    disabled={loginDisabled.state}
                 />
             </CardContent>
         </form>

@@ -7,6 +7,7 @@ interface Props {
     buttonText: string;
     buttonLoadingText: string;
     isLoading: boolean;
+    disabled?: boolean;
 }
 
 export default function SubmitAuthForm({
@@ -14,6 +15,7 @@ export default function SubmitAuthForm({
     buttonText,
     buttonLoadingText,
     isLoading,
+    disabled = false
 }: Props) {
     return (
         <Button
@@ -21,7 +23,7 @@ export default function SubmitAuthForm({
             data-testid={id}
             type="submit"
             className="w-full mb-2"
-            disabled={isLoading}
+            disabled={disabled || isLoading}
         >
             {isLoading ? buttonLoadingText : buttonText}
         </Button>
