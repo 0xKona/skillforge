@@ -1,4 +1,5 @@
 import AuthForm from '@/components/auth-form/auth-form';
+import LoginPageMessage from '@/components/auth-form/message';
 import Logo from '@/components/logo/logo';
 import BackgroundGrid from '@/components/ui/styling/background-grid';
 import BottomForgeGlow from '@/components/ui/styling/bottom-glow';
@@ -17,6 +18,11 @@ export default async function LoginPage() {
         If not authenticated: Render the Auth UI.
         If user needs confirmation, the form will switch to verify code via zustand state
     */
+
+    const restricted = process.env.AVAILABILITY_MODE;
+    console.log(restricted);
+    const message = restricted === 'RESTRICTED' ? <LoginPageMessage /> : null;
+
     return (
         <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
             {/* Orange glow from bottom */}
@@ -54,7 +60,7 @@ export default async function LoginPage() {
                         Welcome! Please sign in to continue.
                     </p>
                 </div>
-                <AuthForm />
+                <AuthForm message={message} />
             </div>
         </main>
     );

@@ -14,8 +14,13 @@ import ForgotPassword from './forgot-password/forgot-password';
 import { useAuthFlowState } from '@/store/auth-form';
 import { useEffect } from 'react';
 import { Card } from '../ui/shadcn/card';
+import LoginPageMessage from './message';
 
-export default function AuthForm() {
+interface Props {
+    message: React.ReactNode;
+}
+
+export default function AuthForm({ message }: Props) {
     const { needsConfirmation, showForgotPassword, resetAuthFlow } =
         useAuthFlowState();
 
@@ -41,6 +46,8 @@ export default function AuthForm() {
                 <TabsTrigger value="signin">Sign In</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
+
+            {message && message}
 
             <Card>
                 <TabsContents>
