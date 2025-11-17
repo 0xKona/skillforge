@@ -14,8 +14,11 @@ export default function FireEmbers({ count = 15 }: FireEmbersProps) {
     }));
 
     const emberStyle = cn(
+        // Position at bottom, fixed size (3px), circle shape, apply float animation
         'absolute bottom-0 w-[3px] h-[3px] rounded-full animate-float',
+        // Radial gradient: bright ember center -> lighter ring -> transparent edge
         '[background:radial-gradient(circle,var(--color-forge-ember)_0%,var(--color-forge-ember-light)_50%,transparent_100%)]',
+        // Outer glow using box-shadow with ember color
         'shadow-[0_0_10px_var(--color-forge-ember)]'
     );
 
