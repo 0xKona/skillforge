@@ -8,7 +8,8 @@
         "start": "next start",
         "lint": "eslint",
         "format": "prettier --write .",
-        "test": "jest --verbose"
+        "test": "jest",
+        "testv": "jest --verbose"
     },
     "dependencies": {
         "@aws-amplify/adapter-nextjs": "^1.6.10",
