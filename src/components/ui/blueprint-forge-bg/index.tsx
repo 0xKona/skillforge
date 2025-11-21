@@ -8,13 +8,7 @@ export default function BluePrintForgeBg() {
             <BottomForgeGlow />
 
             {/* Fire embers */}
-            <div className="md:hidden">
-                <FireEmbers count={50} />
-            </div>
-
-            <div className="hidden md:block">
-                <FireEmbers count={25} />
-            </div>
+            <FireEmbers count={25} />
         </>
     );
 }

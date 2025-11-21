@@ -85,7 +85,7 @@ function BurgerNav() {
             {isOpen && (
                 <div
                     ref={menuRef}
-                    className="absolute top-full left-0 w-full bg-slate-950 border-t border-slate-700 lg:hidden"
+                    className="absolute top-full left-0 w-dvw bg-slate-950 border-t border-slate-700 lg:hidden z-50"
                 >
                     <ul className="flex flex-col space-y-2 p-4">
                         {navigationLinks.map(
@@ -127,7 +127,7 @@ function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
 
 export default function NavBar() {
     return (
-        <nav className="grid grid-cols-3 items-center p-4 w-dvw bg-slate-950 text-white">
+        <nav className="relative grid grid-cols-3 items-center p-4 w-dvw bg-slate-950 text-white">
             {/* Column 1 */}
             <Link
                 href={'/'}

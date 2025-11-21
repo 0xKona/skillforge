@@ -24,7 +24,7 @@ export default async function LoginPage() {
 
     return (
         <PageWrapper>
-            <main className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+            <main className="min-h-screen flex items-start justify-center relative bg-gradient-to-br md:pt-20 from-slate-900 via-slate-800 to-slate-900">
                 <BluePrintForgeBg />
 
                 <div className="w-full max-w-md relative z-10 p-5">
