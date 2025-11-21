@@ -1,9 +1,7 @@
 import AuthForm from '@/components/auth-form/auth-form';
 import LoginPageMessage from '@/components/auth-form/message';
 import Logo from '@/components/icons/logo';
-import BackgroundGrid from '@/components/ui/styling/background-grid';
-import BottomForgeGlow from '@/components/ui/styling/bottom-glow';
-import FireEmbers from '@/components/ui/styling/fire-embers';
+import BluePrintForgeBg from '@/components/ui/blueprint-forge-bg';
 import { isAuthenticated } from '@/utlils/amplify/server-utils';
 import { redirect } from 'next/navigation';
 
@@ -25,20 +23,7 @@ export default async function LoginPage() {
 
     return (
         <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-            {/* Grid pattern */}
-            <BackgroundGrid />
-
-            {/* Orange glow from bottom */}
-            <BottomForgeGlow />
-
-            {/* Fire embers */}
-            <div className="md:hidden">
-                <FireEmbers count={50} />
-            </div>
-
-            <div className="hidden md:block">
-                <FireEmbers count={25} />
-            </div>
+            <BluePrintForgeBg />
 
             <div className="w-full max-w-md relative z-10 p-5">
                 <div className="text-center mb-8">
