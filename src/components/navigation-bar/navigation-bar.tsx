@@ -85,7 +85,7 @@ function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
 
 export default function NavBar() {
     return (
-        <nav className="flex items-center justify-between p-4 w-dvw absolute z-[100] bg-black text-white">
+        <nav className="flex items-center justify-between p-4 w-dvw fixed top-0 z-[100] bg-slate-950 text-white">
             <div className="flex items-center space-x-2">
                 <Logo size={40} />
                 <span className="text-white text-xl font-bold">SkillForge</span>

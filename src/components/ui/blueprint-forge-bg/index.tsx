@@ -1,13 +1,9 @@
-import BackgroundGrid from './background-grid';
 import BottomForgeGlow from './bottom-glow';
 import FireEmbers from './fire-embers';
 
 export default function BluePrintForgeBg() {
     return (
         <>
-            {/* Grid pattern */}
-            <BackgroundGrid />
-
             {/* Orange glow from bottom */}
             <BottomForgeGlow />
 
