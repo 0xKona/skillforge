@@ -4,7 +4,6 @@ import './globals.css';
 import { Amplify } from 'aws-amplify';
 import { amplifyConfig } from '@/configs/amplify.config';
 import ConfigureAmplifyClientSide from '@/providers/configure-amplify-client';
-import NavBar from '@/components/navigation-bar/navigation-bar';
 
 const inter = Inter({
     variable: '--font-inter',
@@ -41,7 +40,6 @@ export default function RootLayout({
             <body
                 className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
             >
-                <NavBar />
                 <ConfigureAmplifyClientSide />
                 {children}
             </body>

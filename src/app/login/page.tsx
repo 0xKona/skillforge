@@ -1,6 +1,7 @@
 import AuthForm from '@/components/auth-form/auth-form';
 import LoginPageMessage from '@/components/auth-form/message';
 import Logo from '@/components/icons/logo';
+import NavBar from '@/components/navigation-bar/navigation-bar';
 import BluePrintForgeBg from '@/components/ui/blueprint-forge-bg';
 import { isAuthenticated } from '@/utlils/amplify/server-utils';
 import { redirect } from 'next/navigation';
@@ -22,31 +23,34 @@ export default async function LoginPage() {
     const message = restricted === 'RESTRICTED' ? <LoginPageMessage /> : null;
 
     return (
-        <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-            <BluePrintForgeBg />
+        <>
+            <NavBar />
+            <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+                <BluePrintForgeBg />
 
-            <div className="w-full max-w-md relative z-10 p-5">
-                <div className="text-center mb-8">
-                    <div className="flex flex-col items-center">
-                        <div className="relative">
-                            <Logo
-                                size={200}
-                                color="var(--color-forge-orange)"
-                                borderColor="#393939"
-                                borderWidth={10}
-                                className="drop-shadow-[0_0_30px_rgba(249,115,22,0.5)]"
-                            />
+                <div className="w-full max-w-md relative z-10 p-5">
+                    <div className="text-center mb-8">
+                        <div className="flex flex-col items-center">
+                            <div className="relative">
+                                <Logo
+                                    size={200}
+                                    color="var(--color-forge-orange)"
+                                    borderColor="#393939"
+                                    borderWidth={10}
+                                    className="drop-shadow-[0_0_30px_rgba(249,115,22,0.5)]"
+                                />
+                            </div>
+                            <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">
+                                SkillForge
+                            </h1>
                         </div>
-                        <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">
-                            SkillForge
-                        </h1>
+                        <p className="text-gray-300">
+                            Welcome! Please sign in to continue.
+                        </p>
                     </div>
-                    <p className="text-gray-300">
-                        Welcome! Please sign in to continue.
-                    </p>
+                    <AuthForm message={message} />
                 </div>
-                <AuthForm message={message} />
-            </div>
-        </main>
+            </main>
+        </>
     );
 }
