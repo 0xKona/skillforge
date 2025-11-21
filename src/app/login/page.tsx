@@ -1,6 +1,6 @@
 import AuthForm from '@/components/auth-form/auth-form';
 import LoginPageMessage from '@/components/auth-form/message';
-import Logo from '@/components/logo/logo';
+import Logo from '@/components/icons/logo';
 import BackgroundGrid from '@/components/ui/styling/background-grid';
 import BottomForgeGlow from '@/components/ui/styling/bottom-glow';
 import FireEmbers from '@/components/ui/styling/fire-embers';
@@ -25,11 +25,11 @@ export default async function LoginPage() {
 
     return (
         <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-            {/* Orange glow from bottom */}
-            <BottomForgeGlow />
-
             {/* Grid pattern */}
             <BackgroundGrid />
+
+            {/* Orange glow from bottom */}
+            <BottomForgeGlow />
 
             {/* Fire embers */}
             <div className="md:hidden">

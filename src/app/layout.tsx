@@ -1,18 +1,23 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Amplify } from 'aws-amplify';
 import { amplifyConfig } from '@/configs/amplify.config';
 import ConfigureAmplifyClientSide from '@/providers/configure-amplify-client';
+import NavBar from '@/components/navigation-bar/navigation-bar';
 
-const geistSans = Geist({
-    variable: '--font-geist-sans',
+const inter = Inter({
+    variable: '--font-inter',
     subsets: ['latin'],
+    display: 'swap',
+    preload: true,
 });
 
 const geistMono = Geist_Mono({
     variable: '--font-geist-mono',
     subsets: ['latin'],
+    display: 'swap',
+    preload: true,
 });
 
 export const metadata: Metadata = {
@@ -23,7 +28,7 @@ export const metadata: Metadata = {
     description: 'Create and manage modular CVs!',
 };
 
-// Confiures Amplify on the server side of the application
+// Configures Amplify on the server side of the application
 Amplify.configure({ ...amplifyConfig }, { ssr: true });
 
 export default function RootLayout({
@@ -32,10 +37,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="dark">
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
             >
+                <NavBar />
                 <ConfigureAmplifyClientSide />
                 {children}
             </body>
