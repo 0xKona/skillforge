@@ -10,6 +10,8 @@ const inter = Inter({
     subsets: ['latin'],
     display: 'swap',
     preload: true,
+    weight: ['400', '500', '600', '700', '800'],
+    style: ['normal', 'italic'],
 });
 
 const geistMono = Geist_Mono({

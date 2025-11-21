@@ -8,8 +8,8 @@ import HomeIcon from '../icons/home';
 import ForgeIcon from '../icons/forge';
 import AnvilIcon from '../icons/anvil';
 import AboutIcon from '../icons/about';
-
-// TODO - FINISH LATER, THIS IS A BASIC IMPLEMENTATION TO MAKE WORKING ON LANDING PAGE EASIER
+import { RefObject, useRef, useState } from 'react';
+import { useClickOutside } from '@/hooks/use-click-outside';
 
 export interface NavigationLinkObject {
     displayText: string;
@@ -61,6 +61,48 @@ const NavIcon = ({ route, isActive }: { route: string; isActive: boolean }) => {
     }
 };
 
+function BurgerNav() {
+    const [isOpen, setIsOpen] = useState(false);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const menuRef = useClickOutside<HTMLDivElement>(
+        () => setIsOpen(false),
+        [buttonRef as RefObject<HTMLElement>]
+    );
+
+    return (
+        <div className="lg:hidden">
+            <button
+                ref={buttonRef}
+                onClick={() => setIsOpen(!isOpen)}
+                className="lg:hidden flex flex-col space-y-1 p-2"
+                aria-label="Toggle navigation menu"
+            >
+                {/* Burger menu icon */}
+                <span className="w-5 h-0.5 bg-white"></span>
+                <span className="w-5 h-0.5 bg-white"></span>
+                <span className="w-5 h-0.5 bg-white"></span>
+            </button>
+            {isOpen && (
+                <div
+                    ref={menuRef}
+                    className="absolute top-full left-0 w-full bg-slate-950 border-t border-slate-700 lg:hidden"
+                >
+                    <ul className="flex flex-col space-y-2 p-4">
+                        {navigationLinks.map(
+                            (navItem: NavigationLinkObject) => (
+                                <NavItem
+                                    key={JSON.stringify(navItem)}
+                                    navItem={navItem}
+                                />
+                            )
+                        )}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+}
+
 function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
     const pathname = usePathname();
     const isActive = pathname === navItem.route;
@@ -85,17 +127,33 @@ function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
 
 export default function NavBar() {
     return (
-        <nav className="flex items-center justify-between p-4 w-dvw fixed top-0 z-[100] bg-slate-950 text-white">
-            <div className="flex items-center space-x-2">
-                <Logo size={40} />
-                <span className="text-white text-xl font-bold">SkillForge</span>
-            </div>
-            <ul className="flex space-x-6">
+        <nav className="grid grid-cols-3 items-center p-4 w-dvw bg-slate-950 text-white">
+            {/* Column 1 */}
+            <Link
+                href={'/'}
+                className="hidden lg:flex items-center space-x-2 justify-self-start"
+            >
+                <Logo size={40} color="white" />
+                <span className="text-white text-3xl font-extrabold italic">
+                    SkillForge
+                </span>
+            </Link>
+            <BurgerNav />
+            {/* Column 2 */}
+            {/* Show logo on mobile / tablet and nav on desktop */}
+            <ul className="hidden lg:flex space-x-6 justify-center col-start-2">
                 {navigationLinks.map((navItem: NavigationLinkObject) => (
                     <NavItem key={JSON.stringify(navItem)} navItem={navItem} />
                 ))}
             </ul>
-            <div>
+            <Link
+                href={'/'}
+                className="flex items-center space-x-2 justify-self-center lg:hidden col-start-2"
+            >
+                <Logo size={40} color="white" />
+            </Link>
+            {/* Column 3 */}
+            <div className="justify-self-end col-start-3">
                 {/* Conditional based on login status */}
                 <Button variant="default" size="lg">
                     <Link href={'/login'}>Login</Link>

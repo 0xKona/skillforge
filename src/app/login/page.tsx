@@ -1,8 +1,8 @@
 import AuthForm from '@/components/auth-form/auth-form';
 import LoginPageMessage from '@/components/auth-form/message';
 import Logo from '@/components/icons/logo';
-import NavBar from '@/components/navigation-bar/navigation-bar';
 import BluePrintForgeBg from '@/components/ui/blueprint-forge-bg';
+import PageWrapper from '@/components/wrappers/page-wrapper';
 import { isAuthenticated } from '@/utlils/amplify/server-utils';
 import { redirect } from 'next/navigation';
 
@@ -23,9 +23,8 @@ export default async function LoginPage() {
     const message = restricted === 'RESTRICTED' ? <LoginPageMessage /> : null;
 
     return (
-        <>
-            <NavBar />
-            <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <PageWrapper>
+            <main className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
                 <BluePrintForgeBg />
 
                 <div className="w-full max-w-md relative z-10 p-5">
@@ -51,6 +50,6 @@ export default async function LoginPage() {
                     <AuthForm message={message} />
                 </div>
             </main>
-        </>
+        </PageWrapper>
     );
 }
