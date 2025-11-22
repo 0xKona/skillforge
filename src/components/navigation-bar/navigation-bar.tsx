@@ -13,6 +13,8 @@ import { useClickOutside } from '@/hooks/use-click-outside';
 import { useAuth } from '@/hooks/use-auth';
 import UserDropdown from './user-dropdown';
 
+// TODO - REFACTOR AND TEST
+
 export interface NavigationLinkObject {
     displayText: string;
     route: string;
