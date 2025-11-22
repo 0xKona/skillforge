@@ -24,7 +24,7 @@ async function HeroSection() {
             </TypographyH3>
             <Button className="cursor-pointer" variant={'default'} size={'lg'}>
                 {isLoggedIn ? (
-                    <Link href={'/dashboard'}>Let&apos;s Go!</Link>
+                    <Link href={'/forge'}>Let&apos;s Go!</Link>
                 ) : (
                     <Link href={'/login'}>Sign up now!</Link>
                 )}

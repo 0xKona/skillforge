@@ -10,7 +10,7 @@ export default async function LoginPage() {
     // Server-side auth gate using Amplify: redirect authenticated users
     const authed = await isAuthenticated();
     if (authed) {
-        redirect('/dashboard');
+        redirect('/forge');
     }
 
     /*

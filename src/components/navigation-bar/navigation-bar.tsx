@@ -10,6 +10,8 @@ import AnvilIcon from '../icons/anvil';
 import AboutIcon from '../icons/about';
 import { RefObject, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/use-click-outside';
+import { useAuth } from '@/hooks/use-auth';
+import UserDropdown from './user-dropdown';
 
 export interface NavigationLinkObject {
     displayText: string;
@@ -85,7 +87,7 @@ function BurgerNav() {
             {isOpen && (
                 <div
                     ref={menuRef}
-                    className="absolute top-full left-0 w-dvw bg-slate-950 border-t border-slate-700 lg:hidden z-50"
+                    className="absolute top-full left-0 w-full bg-slate-950 border-t border-slate-700 lg:hidden z-50"
                 >
                     <ul className="flex flex-col space-y-2 p-4">
                         {navigationLinks.map(
@@ -126,8 +128,10 @@ function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
 }
 
 export default function NavBar() {
+    const { isAuthenticated } = useAuth();
+
     return (
-        <nav className="relative grid grid-cols-3 items-center p-4 w-dvw bg-slate-950 text-white">
+        <nav className="relative grid grid-cols-3 items-center p-4 w-full bg-slate-950 text-white">
             {/* Column 1 */}
             <Link
                 href={'/'}
@@ -155,9 +159,15 @@ export default function NavBar() {
             {/* Column 3 */}
             <div className="justify-self-end col-start-3">
                 {/* Conditional based on login status */}
-                <Button variant="default" size="lg">
-                    <Link href={'/login'}>Login</Link>
-                </Button>
+                {isAuthenticated ? (
+                    <div className="">
+                        <UserDropdown />
+                    </div>
+                ) : (
+                    <Button variant="default" size="lg">
+                        <Link href={'/login'}>Login</Link>
+                    </Button>
+                )}
             </div>
         </nav>
     );

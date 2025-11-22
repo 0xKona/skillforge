@@ -65,7 +65,7 @@ export default function VerifyCodeCard() {
                             resetAuthFlow();
 
                             // Redirect to dashboard
-                            router.push('/dashboard');
+                            router.push('/forge');
                         }
                     } catch (signInErr) {
                         console.error('Auto sign-in failed:', signInErr);
