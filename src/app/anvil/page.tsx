@@ -1,4 +1,4 @@
-import BluePrintForgeBg from '@/components/ui/blueprint-forge-bg';
+import BluePrintForgeBg from '@/components/ui/forge-bg';
 import { TypographyH1 } from '@/components/ui/typography/typography';
 import PageWrapper from '@/components/wrappers/page-wrapper';
 

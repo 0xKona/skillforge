@@ -1,6 +1,6 @@
 import Footer from '@/components/footer/footer';
 import Logo from '@/components/icons/logo';
-import BluePrintForgeBg from '@/components/ui/blueprint-forge-bg';
+import BluePrintForgeBg from '@/components/ui/forge-bg';
 import { Button } from '@/components/ui/shadcn/button';
 import {
     TypographyH1,
