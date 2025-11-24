@@ -6,6 +6,8 @@ import PageWrapper from '@/components/wrappers/page-wrapper';
 import { isAuthenticated } from '@/utlils/amplify/server-utils';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function LoginPage() {
     // Server-side auth gate using Amplify: redirect authenticated users
     const authed = await isAuthenticated();
