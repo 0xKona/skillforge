@@ -1,19 +1,37 @@
 # Main Color Scheme
 
-**_"--" notation means defined as custom tailwind var in globals.css_**
+**_"--" notation means defined as custom Tailwind CSS variable in `globals.css`_**
 
-- Dark Background:
-    - Dark Background: --slate (#0f172a)
-    - Text on Dark Background: text-white (#ffffff)
-    - Secondary text: text-gray-300 (#d1d5db)
+## Slate (Primary neutrals)
 
-- Accents:
-    - Orange Main: --color-forge-orange (#f97316)
-    - Orange Secondary: --color-forge-ember (#ff6b35)
-    - Orange Light: --color-forge-ember-light (#ff8c42)
+- `--slate-50`: #f8fafc
+- `--slate-100`: #f1f5f9
+- `--slate-200`: #e2e8f0
+- `--slate-300`: #cbd5e1
+- `--slate-400`: #94a3b8
+- `--slate-500`: #64748b
+- `--slate-600`: #475569
+- `--slate-700`: #334155
+- `--slate-800`: #1e293b
+- `--slate-900`: #1e293b
+- `--slate-950`: #020617
 
-- Tiles and Surfaces:
-    - Surfaces: white (#ffffff)
-    - Secondary Surfaces (unfocused etc): --forge-surface-secondary (#f5f5f5)
-    - Text: black (#000000)
-    - Text Secondary: --text-muted-foreground (#6b7280)
+These form the neutral scale used for backgrounds, borders, and muted text.
+
+## Forge (Accent / Brand)
+
+- `--forge-orange`: #f97316
+- `--forge-ember`: #ff6b35
+- `--forge-ember-light`: #ff8c42
+
+## Recommended variable mappings
+
+- Dark background: `--slate-950` (#020617)
+- App surface / page background (light): `--slate-50` (#f8fafc)
+- Card / secondary surface: `--slate-100` (#f1f5f9) or `--slate-200` (#e2e8f0)
+- Primary text (on light): `#0f172a` (recommended: `--slate-800` / `#1e293b`)
+- Muted text / secondary copy: `--slate-500` (#64748b) or `--slate-600` (#475569)
+- Brand main (buttons, highlights): `--forge-orange` (#f97316)
+- Brand emphasis / badges: `--forge-ember` (#ff6b35)
+
+Add or adjust Tailwind variables in `globals.css` to match these tokens.

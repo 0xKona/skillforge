@@ -4,6 +4,7 @@ import './globals.css';
 import { Amplify } from 'aws-amplify';
 import { amplifyConfig } from '@/configs/amplify.config';
 import ConfigureAmplifyClientSide from '@/providers/configure-amplify-client';
+import { ThemeProvider } from '@/components/wrappers/theme-provider';
 
 const inter = Inter({
     variable: '--font-inter',
@@ -38,12 +39,19 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="dark">
+        <html lang="en" className="dark" suppressHydrationWarning>
             <body
                 className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
             >
                 <ConfigureAmplifyClientSide />
-                {children}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     );
