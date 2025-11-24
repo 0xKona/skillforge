@@ -4,7 +4,7 @@ import Footer from '../footer/footer';
 
 export default function PageWrapper(props: PropsWithChildren) {
     return (
-        <div>
+        <div className="min-h-dvh flex flex-col">
             <NavBar />
             {props.children}
             <Footer />
