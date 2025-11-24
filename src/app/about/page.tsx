@@ -7,7 +7,9 @@ export default async function LoginPage() {
         <PageWrapper>
             <main className="min-h-screen flex items-start justify-center relative bg-gradient-to-br md:pt-20 from-slate-900 via-slate-800 to-slate-900">
                 <BluePrintForgeBg />
-                <TypographyH1>Welcome to the About Page</TypographyH1>
+                <TypographyH1 className="text-slate-50">
+                    Welcome to the About Page
+                </TypographyH1>
             </main>
         </PageWrapper>
     );
