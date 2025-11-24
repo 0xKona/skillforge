@@ -1,4 +1,3 @@
-import Footer from '@/components/footer/footer';
 import Logo from '@/components/icons/logo';
 import BluePrintForgeBg from '@/components/ui/forge-bg';
 import { Button } from '@/components/ui/shadcn/button';
@@ -18,8 +17,10 @@ async function HeroSection() {
             <div className="max-w-2xl w-full flex justify-center">
                 <Logo size={200} color="#f97316" />
             </div>
-            <TypographyH1>Forge the Ultimate CV</TypographyH1>
-            <TypographyH3 className="text-[#d1d5db]">
+            <TypographyH1 className="text-slate-50">
+                Forge the Ultimate CV
+            </TypographyH1>
+            <TypographyH3 className="text-slate-400">
                 Get started now
             </TypographyH3>
             <Button className="cursor-pointer" variant={'default'} size={'lg'}>
