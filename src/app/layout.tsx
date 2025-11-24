@@ -4,7 +4,7 @@ import './globals.css';
 import { Amplify } from 'aws-amplify';
 import { amplifyConfig } from '@/configs/amplify.config';
 import ConfigureAmplifyClientSide from '@/providers/configure-amplify-client';
-import { ThemeProvider } from '@/components/wrappers/theme-provider';
+import { ThemeProvider } from '@/providers/theme-provider';
 
 const inter = Inter({
     variable: '--font-inter',

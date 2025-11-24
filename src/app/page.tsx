@@ -39,7 +39,6 @@ export default async function Home() {
             <div className="flex flex-col items-center font-sans min-h-screen p-8 pb-20 gap-16 sm:p-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
                 <BluePrintForgeBg />
                 <HeroSection />
-                <Footer />
             </div>
         </PageWrapper>
     );
