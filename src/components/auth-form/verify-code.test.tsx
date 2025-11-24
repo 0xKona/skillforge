@@ -136,7 +136,7 @@ describe('VerifyCodeCard Component', () => {
         await waitFor(() => {
             expect(mockPasswordStorageClear).toHaveBeenCalled();
             expect(mockResetAuthFlow).toHaveBeenCalled();
-            expect(mockPush).toHaveBeenCalledWith('/dashboard');
+            expect(mockPush).toHaveBeenCalledWith('/forge');
         });
     });
 

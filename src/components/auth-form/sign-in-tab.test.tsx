@@ -242,7 +242,7 @@ describe('SignInTab Component', () => {
             await user.click(submitButton);
 
             await waitFor(() => {
-                expect(mockPush).toHaveBeenCalledWith('/dashboard');
+                expect(mockPush).toHaveBeenCalledWith('/forge');
             });
         });
 

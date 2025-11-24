@@ -149,7 +149,7 @@ Edit `/src/middleware.ts`:
 
 ```typescript
 const protectedRoutes = [
-    '/dashboard',
+    '/forge',
     '/profile',
     '/settings', // Add your routes here
 ];

@@ -97,8 +97,7 @@ export default function SignInTab() {
                 passwordStorage.clear();
 
                 // Redirect to desired page or dashboard by default
-                const redirectTo =
-                    searchParams?.get('redirectTo') || '/dashboard';
+                const redirectTo = searchParams?.get('redirectTo') || '/forge';
                 router.push(redirectTo);
             }
         } catch (err) {

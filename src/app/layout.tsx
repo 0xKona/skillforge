@@ -1,18 +1,25 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Amplify } from 'aws-amplify';
 import { amplifyConfig } from '@/configs/amplify.config';
 import ConfigureAmplifyClientSide from '@/providers/configure-amplify-client';
+import { ThemeProvider } from '@/providers/theme-provider';
 
-const geistSans = Geist({
-    variable: '--font-geist-sans',
+const inter = Inter({
+    variable: '--font-inter',
     subsets: ['latin'],
+    display: 'swap',
+    preload: true,
+    weight: ['400', '500', '600', '700', '800'],
+    style: ['normal', 'italic'],
 });
 
 const geistMono = Geist_Mono({
     variable: '--font-geist-mono',
     subsets: ['latin'],
+    display: 'swap',
+    preload: true,
 });
 
 export const metadata: Metadata = {
@@ -23,7 +30,7 @@ export const metadata: Metadata = {
     description: 'Create and manage modular CVs!',
 };
 
-// Confiures Amplify on the server side of the application
+// Configures Amplify on the server side of the application
 Amplify.configure({ ...amplifyConfig }, { ssr: true });
 
 export default function RootLayout({
@@ -32,12 +39,19 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="dark" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
             >
                 <ConfigureAmplifyClientSide />
-                {children}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     );

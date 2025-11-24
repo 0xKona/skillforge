@@ -54,7 +54,7 @@ export default function SignUpTab() {
                         email: data.email,
                         name: data.username,
                         picture:
-                            'https://img.icons8.com/?size=100&id=99268&format=png&color=000000',
+                            'https://img.icons8.com/?size=100&id=99268&format=png&color=ffffff',
                     },
                 },
             });

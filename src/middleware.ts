@@ -3,7 +3,7 @@ import { runWithAmplifyServerContext } from '@/utlils/amplify/server-utils';
 import { fetchAuthSession } from 'aws-amplify/auth/server';
 
 // Routes that require authentication
-const protectedRoutes = ['/dashboard', '/api'];
+const protectedRoutes = ['/forge', '/anvil', '/profile', '/api'];
 
 // Routes that should redirect to dashboard if already authenticated
 const authRoutes = ['/login'];
@@ -56,7 +56,7 @@ export async function middleware(request: NextRequest) {
         if (isAuthRoute && authenticated) {
             const redirectTo = request.nextUrl.searchParams.get('redirectTo');
             const url = request.nextUrl.clone();
-            url.pathname = redirectTo || '/dashboard';
+            url.pathname = redirectTo || '/forge';
             url.search = ''; // Clear query params
             return NextResponse.redirect(url);
         }
