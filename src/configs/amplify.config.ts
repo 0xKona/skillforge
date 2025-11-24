@@ -23,6 +23,39 @@ const amplifyConfig: ResourcesConfig = {
             },
         },
     },
+    // TODO FINISH CONFIG
+    Storage: {
+        S3: {
+            bucket: process.env.NEXT_PUBLIC_AWS_S3_AVATAR,
+            region: process.env.NEXT_PUBLIC_AWS_REGION,
+            // default bucket metadata should be duplicated below with any additional buckets
+            buckets: {
+                '<your-default-bucket-friendly-name>': {
+                    bucketName: process.env.NEXT_PUBLIC_AWS_S3_AVATAR as string,
+                    region: process.env.NEXT_PUBLIC_AWS_REGION as string,
+                    paths: {
+                        'public/*': {
+                            guest: ['get', 'list'],
+                            authenticated: ['get', 'list', 'write', 'delete'],
+                            groupsadmin: ['get', 'list', 'write', 'delete'],
+                        },
+                        'protected/*': {
+                            guest: ['get', 'list'],
+                            authenticated: ['get', 'list'],
+                            groupsadmin: ['get', 'list', 'write', 'delete'],
+                        },
+                        'protected/${cognito-identity.amazonaws.com:sub}/*': {
+                            entityidentity: ['get', 'list', 'write', 'delete'],
+                        },
+                        'admin/*': {
+                            authenticated: ['get', 'list'],
+                            groupsadmin: ['get', 'list', 'write', 'delete'],
+                        },
+                    },
+                },
+            },
+        },
+    },
 };
 
 export { amplifyConfig };
