@@ -1,5 +1,4 @@
 import Logo from '@/components/icons/logo';
-import BluePrintForgeBg from '@/components/ui/forge-bg';
 import { Button } from '@/components/ui/shadcn/button';
 import {
     TypographyH1,
@@ -36,11 +35,8 @@ async function HeroSection() {
 
 export default async function Home() {
     return (
-        <PageWrapper>
-            <div className="flex flex-col items-center font-sans min-h-screen p-8 pb-20 gap-16 sm:p-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
-                <BluePrintForgeBg />
-                <HeroSection />
-            </div>
+        <PageWrapper className="flex flex-col items-center font-sans p-8 pb-20 gap-16 sm:p-20">
+            <HeroSection />
         </PageWrapper>
     );
 }
