@@ -109,12 +109,4 @@ describe('FormInput Component', () => {
         const showPass = screen.queryByTestId(`${TEST_ID}-show-pass`);
         expect(showPass).not.toBeInTheDocument();
     });
-
-    // Should not show password button if type is email
-
-    // Show Password should start as hidden
-
-    // Toggle show password should work
-
-    // Fieldstate Error test
 });
