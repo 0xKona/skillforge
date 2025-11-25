@@ -20,8 +20,10 @@ import { Card } from '@/components/ui/shadcn/card';
 import { TypographyP } from '@/components/ui/typography/typography';
 import PageWrapper from '@/components/wrappers/page-wrapper';
 import { useAuth } from '@/hooks/use-auth';
+import { AvatarService } from '@/lib/classes/avatar-service';
 import { CameraIcon } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function UserManagementPage() {
     const { userId, userAttributes, loading, error, signOut } = useAuth();
@@ -57,10 +59,25 @@ function AvatarDisplayEditor({ avatarUrl }: { avatarUrl: string | undefined }) {
         setConfirmIsOpen(!!file); // Open dialog if a file is selected
     };
 
-    function submitImage() {
+    async function submitImage() {
         if (selectedFile) {
             console.log('Uploading file:', selectedFile);
             // Add logic to upload the image here
+            try {
+                const newUrl =
+                    await AvatarService.updateUserAvatar(selectedFile);
+                toast('Avatar updated successfully!', {
+                    description: 'Your avatar has been updated.',
+                    action: {
+                        label: 'Close',
+                        onClick: () => {},
+                    },
+                });
+                // Set local avatar state with new url
+                console.log('Avatar updated successfully:', newUrl);
+            } catch (error) {
+                console.error('Error updating avatar:', error);
+            }
         }
         setConfirmIsOpen(false); // Close the dialog after submission
     }
