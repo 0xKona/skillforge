@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runWithAmplifyServerContext } from '@/utlils/amplify/server-utils';
+import { runWithAmplifyServerContext } from '@/lib/amplify/server-utils';
 import { fetchAuthSession } from 'aws-amplify/auth/server';
 
 // Routes that require authentication

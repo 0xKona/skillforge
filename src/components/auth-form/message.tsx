@@ -1,4 +1,4 @@
-import { Card } from '../ui/shadcn/card';
+import { Card } from '../shadcn-components/card';
 
 export default function LoginPageMessage() {
     return (

@@ -6,14 +6,14 @@ import {
     TabsContents,
     TabsList,
     TabsTrigger,
-} from '@/components/animate-ui/components/animate/tabs';
+} from '@/components/animate-ui/animate/tabs';
 import VerifyCodeCard from './verify-code';
 import SignInTab from './sign-in-tab';
 import SignUpTab from './sign-up-tab';
 import ForgotPassword from './forgot-password/forgot-password';
-import { useAuthFlowState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/auth-form';
 import { useEffect } from 'react';
-import { Card } from '../ui/shadcn/card';
+import { Card } from '../shadcn-components/card';
 import LoginPageMessage from './message';
 
 interface Props {

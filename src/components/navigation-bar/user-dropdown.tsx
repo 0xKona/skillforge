@@ -1,5 +1,9 @@
 import { useAuth } from '@/hooks/use-auth';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/shadcn/avatar';
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from '../shadcn-components/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,7 +12,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '../ui/shadcn/dropdown-menu';
+} from '../shadcn-components/dropdown-menu';
 import Link from 'next/link';
 
 export default function UserDropdown() {

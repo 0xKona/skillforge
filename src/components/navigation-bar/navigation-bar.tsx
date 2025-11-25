@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from '@/components/icons/logo';
-import { Button } from '@/components/ui/shadcn/button';
+import { Button } from '@/components/shadcn-components/button';
 import HomeIcon from '../icons/home';
 import ForgeIcon from '../icons/forge';
 import AnvilIcon from '../icons/anvil';

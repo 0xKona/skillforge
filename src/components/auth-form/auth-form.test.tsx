@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import AuthForm from './auth-form';
-import { useAuthFlowState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/auth-form';
 import { useAuth } from '@/hooks/use-auth';
 import { defaultAuthFlowState } from '@/test-utils/test-helpers';
 

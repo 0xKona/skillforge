@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RequestPasswordResetForm from './request-code';
-import { useRequestPasswordResetStore } from '@/store/password-reset';
-import { useAuthFlowState } from '@/store/auth-form';
+import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { useAuthFlowState } from '@/lib/store/auth-form';
 import {
     defaultPasswordResetStoreState,
     defaultAuthFlowState,

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ForgotPassword from './forgot-password';
-import { useRequestPasswordResetStore } from '@/store/password-reset';
+import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
 import { defaultPasswordResetStoreState } from '@/test-utils/test-helpers';
 
 // Mock the Zustand store that manages password reset state

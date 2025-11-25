@@ -10,13 +10,13 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from '@/components/ui/shadcn/alert-dialog';
+} from '@/components/shadcn-components/alert-dialog';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@/components/ui/shadcn/avatar';
-import { Card } from '@/components/ui/shadcn/card';
+} from '@/components/shadcn-components/avatar';
+import { Card } from '@/components/shadcn-components/card';
 import { TypographyP } from '@/components/ui/typography/typography';
 import PageWrapper from '@/components/wrappers/page-wrapper';
 import { useAuth } from '@/hooks/use-auth';
@@ -24,6 +24,8 @@ import { AvatarService } from '@/lib/classes/avatar-service';
 import { CameraIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+
+// TODO - FINISH AVATAR. MAKE IT UPDATE ON CHANGE
 
 export default function UserManagementPage() {
     const { userId, userAttributes, loading, error, signOut } = useAuth();

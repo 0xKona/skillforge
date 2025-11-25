@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '../ui/shadcn/button';
+import { Button } from '../shadcn-components/button';
 
 interface Props {
     id?: string;
@@ -15,7 +15,7 @@ export default function SubmitAuthForm({
     buttonText,
     buttonLoadingText,
     isLoading,
-    disabled = false
+    disabled = false,
 }: Props) {
     return (
         <Button

@@ -2,7 +2,7 @@ import AuthForm from '@/components/auth-form/auth-form';
 import LoginPageMessage from '@/components/auth-form/message';
 import Logo from '@/components/icons/logo';
 import PageWrapper from '@/components/wrappers/page-wrapper';
-import { isAuthenticated } from '@/utlils/amplify/server-utils';
+import { isAuthenticated } from '@/lib/amplify/server-utils';
 import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';

@@ -1,11 +1,11 @@
 import Logo from '@/components/icons/logo';
-import { Button } from '@/components/ui/shadcn/button';
+import { Button } from '@/components/shadcn-components/button';
 import {
     TypographyH1,
     TypographyH3,
 } from '@/components/ui/typography/typography';
 import PageWrapper from '@/components/wrappers/page-wrapper';
-import { isAuthenticated } from '@/utlils/amplify/server-utils';
+import { isAuthenticated } from '@/lib/amplify/server-utils';
 import Link from 'next/link';
 
 async function HeroSection() {

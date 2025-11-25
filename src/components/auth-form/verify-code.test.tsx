@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import VerifyCodeCard from './verify-code';
-import { useAuthFlowState, passwordStorage } from '@/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/lib/store/auth-form';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import { useRouter } from 'next/navigation';
 

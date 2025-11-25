@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SignUpTab from './sign-up-tab';
-import { useAuthFlowState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/auth-form';
 import { defaultAuthFlowState } from '@/test-utils/test-helpers';
 import { signUp } from 'aws-amplify/auth';
 
