@@ -1,7 +1,6 @@
 import AuthForm from '@/components/auth-form/auth-form';
 import LoginPageMessage from '@/components/auth-form/message';
 import Logo from '@/components/icons/logo';
-import BluePrintForgeBg from '@/components/ui/forge-bg';
 import PageWrapper from '@/components/wrappers/page-wrapper';
 import { isAuthenticated } from '@/utlils/amplify/server-utils';
 import { redirect } from 'next/navigation';
