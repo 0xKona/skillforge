@@ -1,6 +1,8 @@
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
+    // User friendly name for user pool
+    name: 'skillForgeAuth',
     loginWith: {
         email: true,
     },
