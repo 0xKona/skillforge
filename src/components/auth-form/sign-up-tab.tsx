@@ -52,7 +52,7 @@ export default function SignUpTab() {
                 options: {
                     userAttributes: {
                         email: data.email,
-                        name: data.username,
+                        preferred_username: data.username,
                         picture:
                             'https://img.icons8.com/?size=100&id=99268&format=png&color=ffffff',
                     },
