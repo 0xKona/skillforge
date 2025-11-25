@@ -11,7 +11,7 @@ export class AvatarService {
         try {
             // 1. Upload the file to the user's protected folder
             // We use a fixed name 'avatar' to overwrite existing ones, saving space
-            // We keep the original extension or force png/jpg based on your preference
+            // We keep the original extension or force png/jpg
             const fileExtension = file.name.split('.').pop();
             const key = `avatar.${fileExtension}`;
 
@@ -28,8 +28,6 @@ export class AvatarService {
             // 2. Get the accessible URL for the uploaded image
             const urlResult = await getUrl({
                 path: ({ identityId }) => `avatars/${identityId}/${key}`,
-                // Ensure the URL doesn't expire quickly if you want to store it
-                // However, for 'guest' accessible files, the URL structure is usually predictable
             });
 
             const avatarUrl = urlResult.url.toString();
@@ -38,8 +36,6 @@ export class AvatarService {
             await updateUserAttributes({
                 userAttributes: {
                     picture: avatarUrl,
-                    // Or if you used 'profilePicture' in your resource.ts:
-                    // profilePicture: avatarUrl
                 },
             });
 
