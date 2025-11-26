@@ -33,7 +33,6 @@ export const metadata: Metadata = {
 };
 
 // Configures Amplify on the server side of the application
-// Amplify.configure({ ...amplifyConfig }, { ssr: true });
 Amplify.configure(outputs, { ssr: true });
 
 export default function RootLayout({

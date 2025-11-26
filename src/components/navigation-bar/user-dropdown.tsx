@@ -1,3 +1,5 @@
+'use client';
+
 import { useAuth } from '@/hooks/use-auth';
 import {
     Avatar,
@@ -14,15 +16,28 @@ import {
     DropdownMenuTrigger,
 } from '../shadcn-components/dropdown-menu';
 import Link from 'next/link';
+import { useGlobalAvatar } from '@/lib/store/global-avatar';
+import React from 'react';
 
 export default function UserDropdown() {
     const { userAttributes, signOut } = useAuth();
+
+    const { avatarUrl, setAvatarUrl } = useGlobalAvatar();
+
+    React.useEffect(() => {
+        const authPicture = userAttributes?.picture as string;
+        // Only update the store if the picture exists AND is different from what we have
+        // This prevents infinite re-render loops
+        if (authPicture && authPicture !== avatarUrl) {
+            setAvatarUrl(authPicture);
+        }
+    }, [userAttributes, avatarUrl, setAvatarUrl]);
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar>
-                    <AvatarImage src={userAttributes?.picture} />
+                    <AvatarImage src={avatarUrl} />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>

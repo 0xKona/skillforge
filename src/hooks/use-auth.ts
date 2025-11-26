@@ -11,6 +11,8 @@ import type { FetchUserAttributesOutput } from 'aws-amplify/auth';
 import { useRouter } from 'next/navigation';
 import { Hub } from 'aws-amplify/utils';
 
+// TODO - Convert this to zustand state;
+
 export function useAuth() {
     const router = useRouter();
     const [userAttributes, setUserAttributes] =

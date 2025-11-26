@@ -10,8 +10,6 @@ export class AvatarService {
     static async updateUserAvatar(file: File): Promise<string> {
         try {
             // 1. Upload the file to the user's protected folder
-            // We use a fixed name 'avatar' to overwrite existing ones, saving space
-            // We keep the original extension or force png/jpg
             const fileExtension = file.name.split('.').pop();
             const key = `avatar.${fileExtension}`;
 
