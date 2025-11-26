@@ -18,13 +18,13 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '../shadcn-components/alert-dialog';
-import { useGlobalAvatar } from '@/lib/store/global-avatar';
+import { useClientAuth } from '@/lib/store/use-client-auth';
 
 export default function AvatarDisplayEditor() {
     const [confirmIsOpen, setConfirmIsOpen] = React.useState(false); // State to control dialog visibility
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null); // State to store the selected file
 
-    const { avatarUrl, setAvatarUrl } = useGlobalAvatar();
+    const { avatarUrl, setAvatarUrl } = useClientAuth();
 
     function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
@@ -46,6 +46,7 @@ export default function AvatarDisplayEditor() {
                         onClick: () => {},
                     },
                 });
+
                 setAvatarUrl(newUrl);
                 // Set local avatar state with new url
                 console.log('Avatar updated successfully:', newUrl);

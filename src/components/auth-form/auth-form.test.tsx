@@ -1,14 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import AuthForm from './auth-form';
 import { useAuthFlowState } from '@/lib/store/auth-form';
-import { useAuth } from '@/hooks/use-auth';
 import { defaultAuthFlowState } from '@/test-utils/test-helpers';
 
 // Mock the auth flow state store
 jest.mock('@/store/auth-form');
-
-// Mock the useAuth hook
-jest.mock('@/hooks/use-auth');
 
 // Mock the child components - we only care which component is rendered, not how it works
 jest.mock('./verify-code', () => {
@@ -39,23 +35,11 @@ describe('AuthForm Component', () => {
     const mockUseAuthFlowState = useAuthFlowState as jest.MockedFunction<
         typeof useAuthFlowState
     >;
-    const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 
     const mockResetAuthFlow = jest.fn();
 
     beforeEach(() => {
         jest.clearAllMocks();
-
-        // Default mock for useAuth hook
-        mockUseAuth.mockReturnValue({
-            userId: null,
-            userAttributes: null,
-            loading: false,
-            error: null,
-            isAuthenticated: false,
-            signOut: jest.fn(),
-            refreshAuth: jest.fn(),
-        });
 
         // Default mock for useAuthFlowState
         mockUseAuthFlowState.mockReturnValue({

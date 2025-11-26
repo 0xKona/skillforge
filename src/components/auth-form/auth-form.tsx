@@ -14,10 +14,9 @@ import ForgotPassword from './forgot-password/forgot-password';
 import { useAuthFlowState } from '@/lib/store/auth-form';
 import { useEffect } from 'react';
 import { Card } from '../shadcn-components/card';
-import LoginPageMessage from './message';
 
 interface Props {
-    message: React.ReactNode;
+    message?: React.ReactNode | null;
 }
 
 export default function AuthForm({ message }: Props) {
