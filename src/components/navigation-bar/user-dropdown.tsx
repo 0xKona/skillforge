@@ -17,6 +17,7 @@ import {
 import Link from 'next/link';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 import React from 'react';
+import { Skeleton } from '../shadcn-components/skeleton';
 
 export default function UserDropdown() {
     const { signOut, avatarUrl } = useClientAuth();
@@ -24,9 +25,11 @@ export default function UserDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Avatar>
-                    <AvatarImage src={avatarUrl} />
-                    <AvatarFallback>CN</AvatarFallback>
+                <Avatar className="h-10 w-10 cursor-pointer">
+                    <AvatarImage src={avatarUrl} className="object-cover" />
+                    <AvatarFallback>
+                        <Skeleton className="h-full w-full rounded-full bg-slate-800" />
+                    </AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end">

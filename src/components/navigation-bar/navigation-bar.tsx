@@ -12,6 +12,7 @@ import { RefObject, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/use-click-outside';
 import UserDropdown from './user-dropdown';
 import { useClientAuth } from '@/lib/store/use-client-auth';
+import { Skeleton } from '../shadcn-components/skeleton';
 
 // TODO - REFACTOR AND TEST
 
@@ -130,7 +131,7 @@ function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
 }
 
 export default function NavBar() {
-    const { isAuthenticated } = useClientAuth();
+    const { isAuthenticated, loading } = useClientAuth();
 
     return (
         <nav className="w-full bg-slate-950 text-white">
@@ -165,10 +166,10 @@ export default function NavBar() {
                 {/* Column 3 */}
                 <div className="justify-self-end col-start-3">
                     {/* Conditional based on login status */}
-                    {isAuthenticated ? (
-                        <div className="cursor-pointer">
+                    {loading ? (
+                        <Skeleton className="h-10 w-10 rounded-full bg-slate-800" />
+                    ) : isAuthenticated ? (
                             <UserDropdown />
-                        </div>
                     ) : (
                         <Button variant="default" size="lg">
                             <Link href={'/login'}>Login</Link>
