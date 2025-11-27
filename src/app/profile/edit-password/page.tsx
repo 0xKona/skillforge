@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/shadcn-components/button';
-import FormInput from '@/components/ui/form-input';
+import FormInput, { FormInputType } from '@/components/ui/form-input';
 import { ProfileService } from '@/lib/classes/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
@@ -11,6 +11,10 @@ import {
     editPasswordFormSchema,
     EditPasswordFormValues,
 } from '@/lib/form-schemas/edit-password-schema';
+import {
+    TypographyH3,
+    TypographyP,
+} from '@/components/ui/typography/typography';
 
 export default function EditPasswordPage() {
     const [isSaving, setIsSaving] = useState(false);
@@ -45,42 +49,59 @@ export default function EditPasswordPage() {
         }
     }
 
+    interface FormInputParams {
+        id: string;
+        inputName: string;
+        label: string;
+        placeholder: string;
+        type: FormInputType;
+    }
+
+    const inputs: FormInputParams[] = [
+        {
+            id: 'currentPassword',
+            inputName: 'currentPassword',
+            label: 'Current Password',
+            placeholder: 'Enter your current password',
+            type: 'password',
+        },
+        {
+            id: 'newPassword',
+            inputName: 'newPassword',
+            label: 'New Password',
+            placeholder: 'Enter your new password',
+            type: 'password',
+        },
+        {
+            id: 'confirmPassword',
+            inputName: 'confirmPassword',
+            label: 'Confirm New Password',
+            placeholder: 'Confirm your new password',
+            type: 'password',
+        },
+    ];
+
     return (
-        <div className="space-y-6 max-w-2xl">
+        <div className="space-y-6 w-full">
             <div>
-                <h3 className="text-lg font-medium">Edit Password</h3>
-                <p className="text-sm text-muted-foreground">
+                <TypographyH3>Edit Password</TypographyH3>
+                <TypographyP className="text-muted-foreground">
                     Change your password to keep your account secure.
-                </p>
+                </TypographyP>
             </div>
             <div className="h-[1px] bg-border" />
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormInput
-                    form={form}
-                    id="currentPassword"
-                    inputName="currentPassword"
-                    label="Current Password"
-                    placeholder="Enter your current password"
-                    type="password"
-                />
-
-                <FormInput
-                    form={form}
-                    id="newPassword"
-                    inputName="newPassword"
-                    label="New Password"
-                    placeholder="Enter your new password"
-                    type="password"
-                />
-
-                <FormInput
-                    form={form}
-                    id="confirmPassword"
-                    inputName="confirmPassword"
-                    label="Confirm New Password"
-                    placeholder="Confirm your new password"
-                    type="password"
-                />
+                {inputs.map((input: FormInputParams) => (
+                    <FormInput
+                        key={input.id + input.inputName}
+                        form={form}
+                        id={input.id}
+                        inputName={input.inputName}
+                        label={input.label}
+                        placeholder={input.placeholder}
+                        type={input.type}
+                    />
+                ))}
 
                 <div className="flex justify-end">
                     <Button type="submit" disabled={isSaving}>

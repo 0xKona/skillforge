@@ -6,6 +6,8 @@ import { Input } from '../shadcn-components/input';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import React from 'react';
 
+export type FormInputType = 'email' | 'text' | 'password';
+
 interface Props {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form: UseFormReturn<any>;
@@ -13,7 +15,7 @@ interface Props {
     inputName: string;
     placeholder: string;
     label: string;
-    type?: 'email' | 'text' | 'password';
+    type?: FormInputType;
     disabled?: boolean;
 }
 
