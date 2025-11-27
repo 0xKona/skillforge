@@ -3,6 +3,8 @@ import {
     TypographyP,
 } from '@/components/ui/typography/typography';
 
+// TODO - Fish implementation of this after rest of app is complete
+
 export default function DeleteAccount() {
     return (
         <div>
