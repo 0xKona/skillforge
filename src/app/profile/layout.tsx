@@ -47,7 +47,7 @@ export default function ProfileLayout({
                         <div className="p-6 flex flex-col items-center border-b">
                             <AvatarDisplayEditor />
                         </div>
-                        <nav className="flex flex-col p-4 gap-2">
+                        <nav className="flex flex-col sm:flex-row md:flex-col justify-center p-4 gap-2">
                             {sidebarItems.map((item) => {
                                 const isActive = pathname === item.href;
                                 return (
@@ -62,7 +62,7 @@ export default function ProfileLayout({
                                         )}
                                     >
                                         <item.icon className="w-4 h-4" />
-                                        {item.title}
+                                        <span>{item.title}</span>
                                     </Link>
                                 );
                             })}
