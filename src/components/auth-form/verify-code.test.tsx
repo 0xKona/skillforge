@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 jest.mock('aws-amplify/auth');
 
 // Mock Zustand store
-jest.mock('@/store/auth-form');
+jest.mock('@/lib/store/auth-form');
 
 // Mock Next.js navigation
 jest.mock('next/navigation', () => ({

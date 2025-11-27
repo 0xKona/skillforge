@@ -4,7 +4,7 @@ import { useAuthFlowState } from '@/lib/store/auth-form';
 import { defaultAuthFlowState } from '@/test-utils/test-helpers';
 
 // Mock the auth flow state store
-jest.mock('@/store/auth-form');
+jest.mock('@/lib/store/auth-form');
 
 // Mock the child components - we only care which component is rendered, not how it works
 jest.mock('./verify-code', () => {

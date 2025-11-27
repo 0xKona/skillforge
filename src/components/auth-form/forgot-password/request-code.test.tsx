@@ -28,8 +28,8 @@ const FORM_SUCCESS = 'request-pass-reset-success';
 jest.mock('aws-amplify/auth');
 
 // Mock the Zustand stores
-jest.mock('@/store/password-reset');
-jest.mock('@/store/auth-form');
+jest.mock('@/lib/store/password-reset');
+jest.mock('@/lib/store/auth-form');
 
 // Test wrapper component to provide form context
 function TestWrapper() {
