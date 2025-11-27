@@ -16,5 +16,10 @@ export const auth = defineAuth({
             mutable: true,
             required: false,
         },
+        'custom:bio': {
+            dataType: 'String',
+            mutable: true,
+            maxLen: 256,
+        },
     },
 });

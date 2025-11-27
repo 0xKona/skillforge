@@ -1,21 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runWithAmplifyServerContext } from '@/utlils/amplify/server-utils';
+import { runWithAmplifyServerContext } from '@/lib/amplify/server-utils';
 import { fetchAuthSession } from 'aws-amplify/auth/server';
-
-// Routes that require authentication
-const protectedRoutes = ['/forge', '/anvil', '/profile', '/api'];
-
-// Routes that should redirect to dashboard if already authenticated
-const authRoutes = ['/login'];
+import { PROTECTED_ROUTES, AUTH_ROUTES } from '@/lib/routes';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Check if the current route is protected or an auth route
-    const isProtectedRoute = protectedRoutes.some((route) =>
+    const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
         pathname.startsWith(route)
     );
-    const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+    const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
 
     try {
         // Use runWithAmplifyServerContext to verify the session

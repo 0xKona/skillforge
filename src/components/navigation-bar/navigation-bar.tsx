@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from '@/components/icons/logo';
-import { Button } from '@/components/ui/shadcn/button';
+import { Button } from '@/components/shadcn-components/button';
 import HomeIcon from '../icons/home';
 import ForgeIcon from '../icons/forge';
 import AnvilIcon from '../icons/anvil';
 import AboutIcon from '../icons/about';
 import { RefObject, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/use-click-outside';
-import { useAuth } from '@/hooks/use-auth';
 import UserDropdown from './user-dropdown';
+import { useClientAuth } from '@/lib/store/use-client-auth';
 
 // TODO - REFACTOR AND TEST
 
@@ -130,7 +130,7 @@ function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
 }
 
 export default function NavBar() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated } = useClientAuth();
 
     return (
         <nav className="relative grid grid-cols-3 items-center p-4 w-full bg-slate-950 text-white">

@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PasswordResetForm from './reset-password-form';
-import { useRequestPasswordResetStore } from '@/store/password-reset';
-import { useAuthFlowState } from '@/store/auth-form';
+import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { useAuthFlowState } from '@/lib/store/auth-form';
 import {
     defaultPasswordResetStoreState,
     defaultAuthFlowState,
@@ -30,8 +30,8 @@ const FORM_ERROR = 'text-red-500';
 const FORM_SUCCESS = 'text-green-500';
 
 // Mock the Zustand stores
-jest.mock('@/store/password-reset');
-jest.mock('@/store/auth-form');
+jest.mock('@/lib/store/password-reset');
+jest.mock('@/lib/store/auth-form');
 
 // Test wrapper component to provide form context
 function TestWrapper({ providedEmail = 'test@example.com' }) {

@@ -2,11 +2,11 @@
 
 ## Client Components
 
-### Using the Auth Hook
+### Using the Client Auth Store
 
 ```typescript
 "use client";
-import { useAuth } from "@/hooks/use-auth";
+import { useClientAuth } from "@/lib/store/use-client-auth";
 
 export default function MyComponent() {
   const {
@@ -15,9 +15,10 @@ export default function MyComponent() {
     loading,          // true while checking auth
     error,            // Error message if any
     isAuthenticated,  // Boolean
+    avatarUrl,        // User's avatar URL
     signOut,          // () => Promise<void>
-    refreshAuth       // () => Promise<void>
-  } = useAuth();
+    checkAuthStatus   // () => Promise<void>
+  } = useClientAuth();
 
   if (loading) return <div>Loading...</div>;
   if (!isAuthenticated) return <div>Please sign in</div>;

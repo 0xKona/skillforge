@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SignUpTab from './sign-up-tab';
-import { useAuthFlowState } from '@/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/auth-form';
 import { defaultAuthFlowState } from '@/test-utils/test-helpers';
 import { signUp } from 'aws-amplify/auth';
 
@@ -20,7 +20,7 @@ const SUBMIT_BUTTON_ID = 'submit-signup';
 jest.mock('aws-amplify/auth');
 
 // Mock Zustand store
-jest.mock('@/store/auth-form');
+jest.mock('@/lib/store/auth-form');
 
 describe('SignUpTab Component', () => {
     const mockUseAuthFlowState = useAuthFlowState as jest.MockedFunction<
@@ -330,9 +330,9 @@ describe('SignUpTab Component', () => {
                     options: {
                         userAttributes: {
                             email: 'test@example.com',
-                            name: 'TestUser',
+                            preferred_username: 'TestUser',
                             picture:
-                                'https://img.icons8.com/?size=100&id=99268&format=png&color=000000',
+                                'https://img.icons8.com/?size=100&id=99268&format=png&color=ffffff',
                         },
                     },
                 });

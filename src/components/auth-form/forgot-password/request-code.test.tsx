@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RequestPasswordResetForm from './request-code';
-import { useRequestPasswordResetStore } from '@/store/password-reset';
-import { useAuthFlowState } from '@/store/auth-form';
+import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { useAuthFlowState } from '@/lib/store/auth-form';
 import {
     defaultPasswordResetStoreState,
     defaultAuthFlowState,
@@ -28,8 +28,8 @@ const FORM_SUCCESS = 'request-pass-reset-success';
 jest.mock('aws-amplify/auth');
 
 // Mock the Zustand stores
-jest.mock('@/store/password-reset');
-jest.mock('@/store/auth-form');
+jest.mock('@/lib/store/password-reset');
+jest.mock('@/lib/store/auth-form');
 
 // Test wrapper component to provide form context
 function TestWrapper() {
