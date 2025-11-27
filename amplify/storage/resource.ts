@@ -5,8 +5,9 @@ export const storage = defineStorage({
     access: (allow) => ({
         // 'avatars/{entity_id}/*' allows users to read/write ONLY their own folder
         'avatars/{entity_id}/*': [
-            allow.authenticated.to(['read', 'write', 'delete']),
-            allow.guest.to(['read']), // Optional: Allow guests to view avatars if profiles are public
+            allow.entity('identity').to(['read', 'write', 'delete']),
+            allow.guest.to(['read']),
+            allow.authenticated.to(['read']),
         ],
     }),
 });

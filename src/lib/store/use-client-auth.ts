@@ -7,6 +7,7 @@ import {
 } from 'aws-amplify/auth';
 import type { FetchUserAttributesOutput } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
+import { AvatarService } from '@/lib/classes/avatar-service';
 
 interface ClientAuthState {
     userAttributes: FetchUserAttributesOutput | null;
@@ -42,11 +43,14 @@ export const useClientAuth = create<ClientAuthState>((set, get) => ({
                 const user = await getCurrentUser();
                 const attributes = await fetchUserAttributes();
 
+                // Fetch fresh avatar URL using the service
+                const avatarUrl = await AvatarService.getCurrentAvatarUrl();
+
                 set({
                     isAuthenticated: true,
                     userId: user.userId,
                     userAttributes: attributes,
-                    avatarUrl: attributes.picture, // Sync avatar from attributes
+                    avatarUrl: avatarUrl,
                     loading: false,
                 });
             } else {
