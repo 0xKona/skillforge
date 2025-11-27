@@ -1,5 +1,5 @@
-import React from 'react';
+import { redirect } from 'next/navigation';
 
 export default function UserManagementPage() {
-    return <p>Dashboard Page</p>;
+    redirect('/profile/edit-profile');
 }
