@@ -27,7 +27,7 @@ export function TypographyH2({ children, className }: TypographyProps) {
 export function TypographyH3({ children, className }: TypographyProps) {
     return (
         <h3
-            className={`scroll-m-20 text-2xl font-semibold tracking-tight ${className || ''}`}
+            className={`scroll-m-10 text-2xl font-semibold tracking-tight ${className || ''}`}
         >
             {children}
         </h3>
@@ -45,11 +45,5 @@ export function TypographyH4({ children, className }: TypographyProps) {
 }
 
 export function TypographyP({ children, className }: TypographyProps) {
-    return (
-        <p
-            className={`leading-7 [&:not(:first-child)]:mt-6 ${className || ''}`}
-        >
-            {children}
-        </p>
-    );
+    return <p className={`leading-7 ${className || ''}`}>{children}</p>;
 }
