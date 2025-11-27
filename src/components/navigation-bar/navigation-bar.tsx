@@ -12,6 +12,7 @@ import { RefObject, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/use-click-outside';
 import UserDropdown from './user-dropdown';
 import { useClientAuth } from '@/lib/store/use-client-auth';
+import { Skeleton } from '../shadcn-components/skeleton';
 
 // TODO - REFACTOR AND TEST
 
@@ -130,46 +131,51 @@ function NavItem({ navItem }: { navItem: NavigationLinkObject }) {
 }
 
 export default function NavBar() {
-    const { isAuthenticated } = useClientAuth();
+    const { isAuthenticated, loading } = useClientAuth();
 
     return (
-        <nav className="relative grid grid-cols-3 items-center p-4 w-full bg-slate-950 text-white">
-            {/* Column 1 */}
-            <Link
-                href={'/'}
-                className="hidden lg:flex items-center space-x-2 justify-self-start"
-            >
-                <Logo size={40} color="white" />
-                <span className="text-white text-3xl font-extrabold italic">
-                    SkillForge
-                </span>
-            </Link>
-            <BurgerNav />
-            {/* Column 2 */}
-            {/* Show logo on mobile / tablet and nav on desktop */}
-            <ul className="hidden lg:flex space-x-6 justify-center col-start-2">
-                {navigationLinks.map((navItem: NavigationLinkObject) => (
-                    <NavItem key={JSON.stringify(navItem)} navItem={navItem} />
-                ))}
-            </ul>
-            <Link
-                href={'/'}
-                className="flex items-center space-x-2 justify-self-center lg:hidden col-start-2"
-            >
-                <Logo size={40} color="white" />
-            </Link>
-            {/* Column 3 */}
-            <div className="justify-self-end col-start-3">
-                {/* Conditional based on login status */}
-                {isAuthenticated ? (
-                    <div className="">
-                        <UserDropdown />
-                    </div>
-                ) : (
-                    <Button variant="default" size="lg">
-                        <Link href={'/login'}>Login</Link>
-                    </Button>
-                )}
+        <nav className="w-full bg-slate-950 text-white">
+            <div className="relative grid grid-cols-3 items-center p-4 w-full max-w-screen-2xl mx-auto">
+                {/* Column 1 */}
+                <Link
+                    href={'/'}
+                    className="hidden lg:flex items-center space-x-2 justify-self-start"
+                >
+                    <Logo size={40} color="white" />
+                    <span className="text-white text-3xl font-extrabold italic">
+                        SkillForge
+                    </span>
+                </Link>
+                <BurgerNav />
+                {/* Column 2 */}
+                {/* Show logo on mobile / tablet and nav on desktop */}
+                <ul className="hidden lg:flex space-x-6 justify-center col-start-2">
+                    {navigationLinks.map((navItem: NavigationLinkObject) => (
+                        <NavItem
+                            key={JSON.stringify(navItem)}
+                            navItem={navItem}
+                        />
+                    ))}
+                </ul>
+                <Link
+                    href={'/'}
+                    className="flex items-center space-x-2 justify-self-center lg:hidden col-start-2"
+                >
+                    <Logo size={40} color="white" />
+                </Link>
+                {/* Column 3 */}
+                <div className="justify-self-end col-start-3">
+                    {/* Conditional based on login status */}
+                    {loading ? (
+                        <Skeleton className="h-10 w-10 rounded-full bg-slate-800" />
+                    ) : isAuthenticated ? (
+                            <UserDropdown />
+                    ) : (
+                        <Button variant="default" size="lg">
+                            <Link href={'/login'}>Login</Link>
+                        </Button>
+                    )}
+                </div>
             </div>
         </nav>
     );
