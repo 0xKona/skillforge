@@ -1,4 +1,8 @@
-import { fetchUserAttributes, updateUserAttributes } from 'aws-amplify/auth';
+import {
+    fetchUserAttributes,
+    updateUserAttributes,
+    updatePassword,
+} from 'aws-amplify/auth';
 
 export interface UserProfile {
     username?: string;
@@ -45,6 +49,26 @@ export class ProfileService {
             });
         } catch (error) {
             console.error('Error updating user profile:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Updates the user's password.
+     * @param oldPassword The current password
+     * @param newPassword The new password
+     */
+    static async updateUserPassword(
+        oldPassword: string,
+        newPassword: string
+    ): Promise<void> {
+        try {
+            await updatePassword({
+                oldPassword,
+                newPassword,
+            });
+        } catch (error) {
+            console.error('Error updating password:', error);
             throw error;
         }
     }
