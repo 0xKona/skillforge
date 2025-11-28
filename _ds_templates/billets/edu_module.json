@@ -1,0 +1,20 @@
+{
+    "type": "billet_edu_module",
+    "fields": {
+        "name": {
+            "mandatory": "true",
+            "included": "true",
+            "value": ""
+        },
+        "description": {
+            "mandatory": "false",
+            "included": "true",
+            "value": ""
+        },
+        "grade": {
+            "mandatory": "false",
+            "included": "true",
+            "value": ""
+        }
+    }
+}

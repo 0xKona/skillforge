@@ -1,0 +1,25 @@
+{
+    "type": "billet_exp_project",
+    "fields": {
+        "startDate": {
+            "mandatory": "true",
+            "included": "true",
+            "value": ""
+        },
+        "endDate": {
+            "mandatory": "true",
+            "included": "true",
+            "value": ""
+        },
+        "projectName": {
+            "mandatory": "true",
+            "included": "true",
+            "value": ""
+        },
+        "projectDesc": {
+            "mandatory": "false",
+            "included": "true",
+            "value": ""
+        }
+    }
+}

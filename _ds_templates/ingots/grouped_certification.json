@@ -1,0 +1,21 @@
+{
+    "type": "ingot_grouped_certification",
+    "fields": {
+        "certName": {
+            "mandatory": "true",
+            "included": "true",
+            "value": ""
+        },
+        "certDescription": {
+            "mandatory": "false",
+            "included": "true",
+            "value": ""
+        },
+        "billetTemplateType": {
+            "mandatory": "true",
+            "included": "true",
+            "value": "billet_grouped_certfication"
+        }
+    },
+    "billets": []
+}

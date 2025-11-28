@@ -8,7 +8,8 @@ import { defineAuth } from '@aws-amplify/backend';
  */
 const getFriendlyName = () => {
     const branch = process.env.AWS_BRANCH;
-    const user = process.env.USER || process.env.USERNAME;
+    const userName = process.env.USER || process.env.USERNAME;
+    const user = userName?.split('.')[0];
 
     if (branch) {
         return branch === 'main'
