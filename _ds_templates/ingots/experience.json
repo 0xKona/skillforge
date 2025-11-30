@@ -1,0 +1,31 @@
+{
+    "type": "ingot_experience",
+    "fields": {
+        "companyName": {
+            "mandatory": "true",
+            "included": "true",
+            "value": "Tech Solutions Ltd"
+        },
+        "startDate": {
+            "mandatory": "true",
+            "included": "true",
+            "value": "2022-01-01"
+        },
+        "endDate": {
+            "mandatory": "true",
+            "included": "true",
+            "value": "2022-12-31"
+        },
+        "location": {
+            "mandatory": "false",
+            "included": "true",
+            "value": "Remote"
+        },
+        "billetTemplateType": {
+            "mandatory": "true",
+            "included": "true",
+            "value": "billet_exp_job | billet_exp_project"
+        }
+    },
+    "billets": []
+}

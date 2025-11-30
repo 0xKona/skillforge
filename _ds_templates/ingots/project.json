@@ -1,0 +1,20 @@
+{
+    "type": "ingot_project",
+    "fields": {
+        "projectTitle": {
+            "mandatory": "true",
+            "included": "true",
+            "value": ""
+        },
+        "projectDescription": {
+            "mandatory": "true",
+            "included": "true",
+            "value": ""
+        },
+        "projectURL": {
+            "mandatory": "false",
+            "included": "true",
+            "value": ""
+        }
+    }
+}
