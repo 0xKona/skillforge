@@ -23,13 +23,19 @@
         },
         "qualificationLevel": {
             "mandatory": "false",
-            "included": "true",
-            "value": "GCSE"
-        },
-        "gradeSummary": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
+            "type": "select",
+            "label": "Qualification Level",
+            "options": [
+                "GCSE",
+                "A-Level",
+                "BTEC",
+                "Bachelor's Degree",
+                "Master's Degree",
+                "PhD",
+                "Diploma",
+                "Certificate",
+                "Other"
+            ]
         },
         "billetTemplateType": {
             "mandatory": "true",

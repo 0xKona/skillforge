@@ -22,21 +22,8 @@ const schema = a.schema({
             // Stores the dynamic fields defined in the templates (schoolName, dates, etc.)
             content: a.json(),
 
-            // Relationship: An Ingot can have many Billets
-            billets: a.hasMany('Billet', 'ingotId'),
-        })
-        .authorization((allow) => [allow.owner()]),
-
-    // The Billet Entity
-    Billet: a
-        .model({
-            ingotId: a.id().required(),
-            ingot: a.belongsTo('Ingot', 'ingotId'),
-
-            type: a.string().required(), // e.g., 'billet_edu_module'
-
-            // Stores the dynamic fields (moduleName, grade, etc.)
-            content: a.json(),
+            // Stores the embedded billets list
+            billets: a.json(),
         })
         .authorization((allow) => [allow.owner()]),
 });

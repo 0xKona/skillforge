@@ -28,7 +28,6 @@ export interface EducationIngotContent {
     startDate: string;
     endDate: string;
     qualificationLevel?: string;
-    gradeSummary?: string;
     billetTemplateType: string;
 }
 
