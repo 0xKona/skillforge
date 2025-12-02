@@ -10,6 +10,7 @@ export default function EditIngotPage({
     params: Promise<{ ingotId: string }>;
 }) {
     const router = useRouter();
+
     const resolvedParams = use(params);
     const { ingotId } = resolvedParams;
 
