@@ -21,9 +21,6 @@ const schema = a.schema({
 
             // Stores the dynamic fields defined in the templates (schoolName, dates, etc.)
             content: a.json(),
-
-            // Stores the embedded billets list
-            billets: a.json(),
         })
         .authorization((allow) => [allow.owner()]),
 });
