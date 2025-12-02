@@ -1,15 +1,19 @@
 {
     "type": "ingot_personal_statement",
-    "fields": {
-        "title": {
-            "mandatory": "true",
-            "included": "true",
-            "value": "my personal_statement"
+    "content": {
+        "fields": {
+            "title": {
+                "mandatory": true,
+                "included": true,
+                "value": "my personal_statement"
+            },
+            "statement": {
+                "mandatory": true,
+                "included": true,
+                "value": "lorem ipsum x100"
+            }
         },
-        "statement": {
-            "mandatory": "true",
-            "included": "true",
-            "value": "lorem ipsum x100"
-        }
+        "billetFormat": null,
+        "billets": []
     }
 }

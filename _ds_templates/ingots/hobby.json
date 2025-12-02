@@ -1,15 +1,19 @@
 {
     "type": "ingot_hobby",
-    "fields": {
-        "hobbyName": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
+    "content": {
+        "fields": {
+            "hobbyName": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "hobbyDescription": {
+                "mandatory": false,
+                "included": true,
+                "value": ""
+            }
         },
-        "hobbyDescription": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
-        }
+        "billetFormat": null,
+        "billets": []
     }
 }

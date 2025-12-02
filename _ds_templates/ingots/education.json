@@ -1,47 +1,47 @@
 {
     "type": "ingot_education",
-    "fields": {
-        "schoolName": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
+    "content": {
+        "fields": {
+            "schoolName": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "location": {
+                "mandatory": false,
+                "included": true,
+                "value": ""
+            },
+            "startDate": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "endDate": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "qualificationLevel": {
+                "mandatory": false,
+                "included": true,
+                "value": "",
+                "type": "select",
+                "label": "Qualification Level",
+                "options": [
+                    "GCSE",
+                    "A-Level",
+                    "BTEC",
+                    "Bachelor's Degree",
+                    "Master's Degree",
+                    "PhD",
+                    "Diploma",
+                    "Certificate",
+                    "Other"
+                ]
+            }
         },
-        "location": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
-        },
-        "startDate": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
-        },
-        "endDate": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
-        },
-        "qualificationLevel": {
-            "mandatory": "false",
-            "type": "select",
-            "label": "Qualification Level",
-            "options": [
-                "GCSE",
-                "A-Level",
-                "BTEC",
-                "Bachelor's Degree",
-                "Master's Degree",
-                "PhD",
-                "Diploma",
-                "Certificate",
-                "Other"
-            ]
-        },
-        "billetTemplateType": {
-            "mandatory": "true",
-            "included": "true",
-            "value": "billet_edu_subject | billet_edu_module"
-        }
-    },
-    "billets": []
+        "billetFormat": "billet_edu_subject",
+        "billets": []
+    }
 }
