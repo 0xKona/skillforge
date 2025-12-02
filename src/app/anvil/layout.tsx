@@ -6,7 +6,7 @@ export default function AnvilLayout({
     children: React.ReactNode;
 }) {
     return (
-        <PageWrapper className="flex flex-col items-start justify-start relative md:pt-20">
+        <PageWrapper className="flex flex-col items-start justify-start relative md:pt-10 md:px-5">
             {children}
         </PageWrapper>
     );
