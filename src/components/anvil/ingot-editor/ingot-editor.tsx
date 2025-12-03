@@ -18,6 +18,7 @@ import {
 } from '@/components/animate-ui/animate/tabs';
 import { TabsTrigger } from '@/components/animate-ui/components/animate/tabs';
 import { Skeleton } from '@/components/shadcn-components/skeleton';
+import { redirect } from 'next/navigation';
 
 interface Props {
     ingotId: string | null;
@@ -134,6 +135,7 @@ export default function IngotEditor({ ingotId, initialType }: Props) {
             toast.error('Failed to save ingot');
         } finally {
             setLoading(false);
+            redirect('/anvil');
         }
     }
 

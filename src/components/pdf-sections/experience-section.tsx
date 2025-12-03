@@ -16,11 +16,15 @@ export const ExperienceSection = ({ content, billets }: Props) => {
     const endDate = String(content.endDate || '');
 
     const dateString = startDate
-        ? `${startDate} – ${endDate || 'Present'}`
+        ? `${startDate} - ${endDate || 'Present'}`
         : '';
 
+    console.log('Content: ', content);
+    console.log('Billets: ', billets);
     return (
+        // Section Header
         <View style={pdfStyles.sectionContainer}>
+            {/* Company Description */}
             <View style={pdfStyles.row}>
                 <View style={pdfStyles.leftColumn}>
                     <Text style={pdfStyles.bold}>{company}</Text>
@@ -47,36 +51,30 @@ export const ExperienceSection = ({ content, billets }: Props) => {
                     const bStart = String(billet.content.startDate || '');
                     const bEnd = String(billet.content.endDate || '');
                     const bDate = bStart
-                        ? `${bStart} – ${bEnd || 'Present'}`
+                        ? `${bStart} - ${bEnd || 'Present'}`
                         : '';
 
-                    // If billet date differs significantly or if multiple roles, show date
-                    // For simplicity, always show if present
-
                     return (
-                        <View key={billet.id} style={{ marginBottom: 6 }}>
-                            <View style={pdfStyles.row}>
-                                <View style={pdfStyles.leftColumn}>
-                                    <Text style={pdfStyles.boldItalic}>
-                                        {title}
-                                    </Text>
-                                </View>
-                                {bDate && bDate !== dateString ? (
-                                    <View style={pdfStyles.rightColumn}>
-                                        <Text style={pdfStyles.date}>
-                                            {bDate}
-                                        </Text>
-                                    </View>
-                                ) : null}
+                        <View
+                            key={billet.id}
+                            style={[pdfStyles.bulletPoint, { marginTop: 2 }]}
+                        >
+                            <View style={pdfStyles.leftColumn}>
+                                <Text style={pdfStyles.boldItalic}>
+                                    {title}
+                                </Text>
+                                <Text style={pdfStyles.date}>{bDate}</Text>
+                                :{' '}
                             </View>
-
-                            {desc ? (
-                                <View style={{ marginTop: 2 }}>
-                                    {/* Split by newlines for basic bullet points if user typed them, 
-                                        or just text block. For now, text block. */}
-                                    <Text style={pdfStyles.description}>
-                                        {desc}
-                                    </Text>
+                            {bDate && bDate !== dateString ? (
+                                <View style={pdfStyles.leftColumn}>
+                                    {desc ? (
+                                        <View>
+                                            <Text style={pdfStyles.description}>
+                                                {desc}
+                                            </Text>
+                                        </View>
+                                    ) : null}
                                 </View>
                             ) : null}
                         </View>

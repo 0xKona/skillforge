@@ -31,7 +31,6 @@ export const pdfStyles = StyleSheet.create({
     separator: {
         marginHorizontal: 3,
     },
-
     // Section Headers
     sectionContainer: {
         marginBottom: 12,
@@ -104,7 +103,6 @@ export const pdfStyles = StyleSheet.create({
         fontFamily: 'Times-Roman',
     },
     description: {
-        marginTop: 2,
         fontSize: 10.5,
     },
 });
