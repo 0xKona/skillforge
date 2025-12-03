@@ -18,7 +18,7 @@ export const pdfStyles = StyleSheet.create({
     headerName: {
         fontSize: 22,
         fontFamily: 'Times-Bold',
-        marginBottom: 4,
+        marginBottom: 16,
         textTransform: 'capitalize',
     },
     headerContact: {

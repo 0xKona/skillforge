@@ -49,6 +49,38 @@ export const BILLET_TEMPLATES: Record<string, BilletTemplate> = {
 };
 
 export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
+    ingot_personal_info: {
+        type: 'ingot_personal_info',
+        content: {
+            fields: {
+                name: { mandatory: true, included: true, value: '' },
+                email: { mandatory: false, included: true, value: '' },
+                phone: { mandatory: false, included: true, value: '' },
+                address: { mandatory: false, included: true, value: '' },
+            },
+            billetFormat: 'billet_pi_social',
+            billets: [],
+        },
+    },
+    ingot_personal_statement: {
+        type: 'ingot_personal_statement',
+        content: {
+            fields: {
+                title: {
+                    mandatory: true,
+                    included: true,
+                    value: 'my personal_statement',
+                },
+                statement: {
+                    mandatory: true,
+                    included: true,
+                    value: 'lorem ipsum x100',
+                },
+            },
+            billetFormat: null,
+            billets: [],
+        },
+    },
     ingot_education: {
         type: 'ingot_education',
         content: {
@@ -112,6 +144,22 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             billets: [],
         },
     },
+    ingot_single_certification: {
+        type: 'ingot_single_certification',
+        content: {
+            fields: {
+                certName: { mandatory: true, included: true, value: '' },
+                certDate: { mandatory: true, included: true, value: '' },
+                certDescription: {
+                    mandatory: false,
+                    included: true,
+                    value: '',
+                },
+            },
+            billetFormat: null,
+            billets: [],
+        },
+    },
     ingot_grouped_certification: {
         type: 'ingot_grouped_certification',
         content: {
@@ -124,53 +172,6 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
                 },
             },
             billetFormat: 'billet_grouped_certfication',
-            billets: [],
-        },
-    },
-    ingot_hobby: {
-        type: 'ingot_hobby',
-        content: {
-            fields: {
-                hobbyName: { mandatory: true, included: true, value: '' },
-                hobbyDescription: {
-                    mandatory: false,
-                    included: true,
-                    value: '',
-                },
-            },
-            billetFormat: null,
-            billets: [],
-        },
-    },
-    ingot_personal_info: {
-        type: 'ingot_personal_info',
-        content: {
-            fields: {
-                name: { mandatory: true, included: true, value: '' },
-                email: { mandatory: false, included: true, value: '' },
-                phone: { mandatory: false, included: true, value: '' },
-                address: { mandatory: false, included: true, value: '' },
-            },
-            billetFormat: 'billet_pi_social',
-            billets: [],
-        },
-    },
-    ingot_personal_statement: {
-        type: 'ingot_personal_statement',
-        content: {
-            fields: {
-                title: {
-                    mandatory: true,
-                    included: true,
-                    value: 'my personal_statement',
-                },
-                statement: {
-                    mandatory: true,
-                    included: true,
-                    value: 'lorem ipsum x100',
-                },
-            },
-            billetFormat: null,
             billets: [],
         },
     },
@@ -190,6 +191,21 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             billets: [],
         },
     },
+    ingot_hobby: {
+        type: 'ingot_hobby',
+        content: {
+            fields: {
+                hobbyName: { mandatory: true, included: true, value: '' },
+                hobbyDescription: {
+                    mandatory: false,
+                    included: true,
+                    value: '',
+                },
+            },
+            billetFormat: null,
+            billets: [],
+        },
+    },
     ingot_reference: {
         type: 'ingot_reference',
         content: {
@@ -202,22 +218,6 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
                 },
                 referenceContact: {
                     mandatory: true,
-                    included: true,
-                    value: '',
-                },
-            },
-            billetFormat: null,
-            billets: [],
-        },
-    },
-    ingot_single_certification: {
-        type: 'ingot_single_certification',
-        content: {
-            fields: {
-                certName: { mandatory: true, included: true, value: '' },
-                certDate: { mandatory: true, included: true, value: '' },
-                certDescription: {
-                    mandatory: false,
                     included: true,
                     value: '',
                 },

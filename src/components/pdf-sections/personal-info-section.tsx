@@ -22,10 +22,15 @@ export const PersonalInfoSection = ({ content, billets }: Props) => {
         ...billets.map((b) => {
             const platform = String(b.content.platform || '');
             const username = String(b.content.username || '');
+            const url = String(b.content.url || '');
 
-            // If URL exists, we could make it a link, but react-pdf Link support varies.
-            // For now just text.
-            if (username) return `${platform}: ${username}`;
+            if (url) {
+                return `${platform}: ${url}`;
+            }
+            if (username) {
+                return `${platform}: ${username}`;
+            }
+
             return platform;
         }),
     ].filter(Boolean);
