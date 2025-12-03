@@ -1,33 +1,39 @@
-export interface FieldDefinition {
-    mandatory: string | boolean; // Templates use "true"/"false" strings, but we might want booleans
-    included: string | boolean;
+export interface IngotField {
+    mandatory: boolean;
+    included: boolean;
     value: string;
-    label?: string; // Optional label for UI
-    type?: 'text' | 'date' | 'textarea' | 'select'; // Hint for UI
-    options?: string[]; // For select inputs
-}
-
-export interface TemplateFields {
-    [key: string]: FieldDefinition;
-}
-
-export interface BilletTemplate {
-    type: string;
-    fields: TemplateFields;
-}
-
-export interface IngotTemplate {
-    type: string;
-    fields: TemplateFields;
-    billets: unknown[]; // Usually empty in template
-}
-
-export interface IngotContent {
-    [key: string]: string | number | boolean | null | undefined;
+    label?: string;
+    type?: 'text' | 'date' | 'textarea' | 'select';
+    options?: string[];
 }
 
 export interface Billet {
     id: string;
+    type: string;
+    fields: Record<string, IngotField>;
+}
+
+export interface IngotContent {
+    fields: Record<string, IngotField>;
+    billetFormat: string | null;
+    billets: Billet[];
+}
+
+export interface Ingot {
+    id: string;
+    name: string;
+    type: string;
+    content: IngotContent;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface BilletTemplate {
+    type: string;
+    fields: Record<string, IngotField>;
+}
+
+export interface IngotTemplate {
     type: string;
     content: IngotContent;
 }

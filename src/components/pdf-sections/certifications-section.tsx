@@ -1,14 +1,13 @@
-'use client'
+'use client';
 
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import { pdfStyles } from '../pdf-styles';
-import { Billet } from '@/lib/types/ingot';
+import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 
 interface Props {
     type: string;
     content: Record<string, unknown>;
-    billets: Billet[];
+    billets: { id: string; content: Record<string, unknown> }[];
 }
 
 export const CertificationsSection = ({ type, content, billets }: Props) => {

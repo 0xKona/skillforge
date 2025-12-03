@@ -63,6 +63,9 @@ export const pdfStyles = StyleSheet.create({
     },
 
     // Text Styles
+    regular: {
+        fontFamily: 'Times-Roman',
+    },
     bold: {
         fontFamily: 'Times-Bold',
     },

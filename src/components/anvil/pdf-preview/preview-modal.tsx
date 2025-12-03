@@ -5,8 +5,12 @@ import { X, Square, CheckSquare } from 'lucide-react';
 import { PDFViewer } from '@react-pdf/renderer';
 import { Button } from '@/components/shadcn-components/button';
 import { IngotPDF } from './ingot-pdf';
-import { Billet } from '@/lib/types/ingot';
 import { Card } from '@/components/shadcn-components/card';
+
+interface PreviewBillet {
+    id: string;
+    content: Record<string, unknown>;
+}
 
 interface Props {
     isOpen: boolean;
@@ -14,7 +18,7 @@ interface Props {
     ingotName: string;
     ingotType: string;
     ingotContent: Record<string, unknown>;
-    billets: Billet[];
+    billets: PreviewBillet[];
 }
 
 export default function PreviewModal({

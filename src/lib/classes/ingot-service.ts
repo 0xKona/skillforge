@@ -1,40 +1,65 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
+import { Ingot, IngotContent } from '@/lib/types/ingot';
 
 const client = generateClient<Schema>();
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mapToIngot = (item: any): Ingot => {
+    let content: IngotContent;
+    // Handle content if it's a string (JSON stringified) or object
+    if (typeof item.content === 'string') {
+        try {
+            content = JSON.parse(item.content);
+        } catch {
+            content = {} as IngotContent;
+        }
+    } else {
+        content = item.content as IngotContent;
+    }
+
+    return {
+        id: item.id,
+        name: item.name,
+        type: item.type,
+        content,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+    };
+};
 
 export class IngotService {
     static async createIngot(
         type: string,
         name: string,
-        content: Record<string, unknown>,
-        billets: unknown[] = []
-    ) {
+        content: IngotContent
+    ): Promise<Ingot> {
         const { data: newIngot, errors } = await client.models.Ingot.create({
             name,
             type,
             content: JSON.stringify(content),
-            billets: JSON.stringify(billets),
         });
 
         if (errors) {
             throw new Error(`Failed to create Ingot: ${errors[0].message}`);
         }
 
-        return newIngot;
+        return mapToIngot(newIngot);
     }
 
-    static async getIngot(id: string) {
+    static async getIngot(id: string): Promise<Ingot | null> {
         const { data: ingot, errors } = await client.models.Ingot.get({ id });
 
         if (errors) {
             throw new Error(`Failed to get Ingot: ${errors[0].message}`);
         }
 
-        return ingot;
+        if (!ingot) return null;
+
+        return mapToIngot(ingot);
     }
 
-    static async listIngots(type?: string) {
+    static async listIngots(type?: string): Promise<Ingot[]> {
         const { data: ingots, errors } = await client.models.Ingot.list({
             filter: type ? { type: { eq: type } } : undefined,
         });
@@ -43,29 +68,19 @@ export class IngotService {
             throw new Error(`Failed to list Ingots: ${errors[0].message}`);
         }
 
-        return ingots;
+        return ingots.map(mapToIngot);
     }
 
     static async updateIngot(
         id: string,
         name: string,
-        content: Record<string, unknown>,
-        billets?: unknown[]
-    ) {
-        const updates: {
-            id: string;
-            name: string;
-            content: string;
-            billets?: string;
-        } = {
+        content: IngotContent
+    ): Promise<Ingot> {
+        const updates = {
             id,
             name,
             content: JSON.stringify(content),
         };
-
-        if (billets) {
-            updates.billets = JSON.stringify(billets);
-        }
 
         const { data: updatedIngot, errors } =
             await client.models.Ingot.update(updates);
@@ -74,7 +89,7 @@ export class IngotService {
             throw new Error(`Failed to update Ingot: ${errors[0].message}`);
         }
 
-        return updatedIngot;
+        return mapToIngot(updatedIngot);
     }
 
     static async deleteIngot(id: string) {

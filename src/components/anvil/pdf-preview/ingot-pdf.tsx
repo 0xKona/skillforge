@@ -2,23 +2,27 @@
 
 import React from 'react';
 import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { Billet } from '@/lib/types/ingot';
-import { pdfStyles } from './pdf-styles';
-import { PersonalInfoSection } from './pdf-sections/personal-info-section';
-import { ExperienceSection } from './pdf-sections/experience-section';
-import { EducationSection } from './pdf-sections/education-section';
-import { SkillsSection } from './pdf-sections/skills-section';
-import { CertificationsSection } from './pdf-sections/certifications-section';
-import { ProjectsSection } from './pdf-sections/projects-section';
-import { PersonalStatementSection } from './pdf-sections/personal-statement-section';
-import { ReferenceSection } from './pdf-sections/reference-section';
-import { GenericSection } from './pdf-sections/generic-section';
+import { pdfStyles } from '../../../lib/pdf-styles/pdf-styles';
+import { PersonalInfoSection } from '../../pdf-sections/personal-info-section';
+import { ExperienceSection } from '../../pdf-sections/experience-section';
+import { EducationSection } from '../../pdf-sections/education-section';
+import { SkillsSection } from '../../pdf-sections/skills-section';
+import { CertificationsSection } from '../../pdf-sections/certifications-section';
+import { ProjectsSection } from '../../pdf-sections/projects-section';
+import { PersonalStatementSection } from '../../pdf-sections/personal-statement-section';
+import { ReferenceSection } from '../../pdf-sections/reference-section';
+import { GenericSection } from '../../pdf-sections/generic-section';
+
+interface PreviewBillet {
+    id: string;
+    content: Record<string, unknown>;
+}
 
 interface IngotPDFProps {
     ingotName: string;
     ingotType: string;
     ingotContent: Record<string, unknown>;
-    billets: Billet[];
+    billets: PreviewBillet[];
 }
 
 export const IngotPDF = ({

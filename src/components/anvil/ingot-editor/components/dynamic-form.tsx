@@ -11,20 +11,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/shadcn-components/select';
-import { TemplateFields } from '@/lib/types/ingot';
+import { IngotField } from '@/lib/types/ingot';
 
 interface Props {
-    fields: TemplateFields;
-    values: Record<string, unknown>;
+    fields: Record<string, IngotField>;
+    values: Record<string, string>;
     onChange: (key: string, value: string) => void;
     readOnlyFields?: string[];
+    errors?: Record<string, string>;
 }
 
 export default function DynamicForm({
     fields,
     values,
     onChange,
-    readOnlyFields = [],
+    errors = {},
 }: Props) {
     // Helper to determine input type
     const getInputType = (key: string) => {
@@ -66,28 +67,39 @@ export default function DynamicForm({
     const renderField = (key: string) => {
         const fieldDef = fields[key];
         const isTextArea =
+            fieldDef.type === 'textarea' ||
             key.toLowerCase().includes('description') ||
             key.toLowerCase().includes('statement') ||
             key.toLowerCase().includes('summary');
 
-        const isSelect = key === 'billetTemplateType';
+        // Use explicit label if available, otherwise format key
+        const label = fieldDef.label || getLabel(key);
+
         const isQualification = key === 'qualificationLevel';
         const isProficiency = key === 'proficiencyLevel';
         const isEndDate = key === 'endDate';
+        const isSelect =
+            fieldDef.type === 'select' || isQualification || isProficiency;
 
-        if (isQualification || isProficiency) {
-            const options = isQualification
-                ? QUALIFICATION_LEVELS
-                : PROFICIENCY_LEVELS;
-            const placeholder = isQualification
-                ? 'Select level...'
-                : 'Select proficiency...';
+        if (isSelect) {
+            let options: string[] = [];
+            let placeholder = 'Select...';
+
+            if (fieldDef.options) {
+                options = fieldDef.options;
+            } else if (isQualification) {
+                options = QUALIFICATION_LEVELS;
+                placeholder = 'Select level...';
+            } else if (isProficiency) {
+                options = PROFICIENCY_LEVELS;
+                placeholder = 'Select proficiency...';
+            }
 
             return (
                 <div key={key} className="space-y-2">
                     <Label htmlFor={key} className="text-slate-200">
-                        {getLabel(key)}
-                        {fieldDef.mandatory === 'true' && (
+                        {label}
+                        {fieldDef.mandatory && (
                             <span className="text-red-400 ml-1">*</span>
                         )}
                     </Label>
@@ -95,7 +107,9 @@ export default function DynamicForm({
                         value={(values[key] as string) || ''}
                         onValueChange={(val) => onChange(key, val)}
                     >
-                        <SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100">
+                        <SelectTrigger
+                            className={`bg-slate-900 border-slate-700 text-slate-100 ${errors[key] ? 'border-red-500' : ''}`}
+                        >
                             <SelectValue placeholder={placeholder} />
                         </SelectTrigger>
                         <SelectContent className="bg-slate-800 border-slate-700 text-slate-100">
@@ -110,66 +124,19 @@ export default function DynamicForm({
                             ))}
                         </SelectContent>
                     </Select>
+                    {errors[key] && (
+                        <p className="text-xs text-red-400">{errors[key]}</p>
+                    )}
                 </div>
             );
-        }
-
-        if (isSelect) {
-            const options = fieldDef.value
-                .split('|')
-                .map((s) => s.trim())
-                .filter((s) => s.length > 0);
-
-            const isReadOnly = readOnlyFields.includes(key);
-
-            if (options.length > 0) {
-                return (
-                    <div key={key} className="space-y-2">
-                        <Label htmlFor={key} className="text-slate-200">
-                            {getLabel(key)}
-                            {fieldDef.mandatory === 'true' && (
-                                <span className="text-red-400 ml-1">*</span>
-                            )}
-                        </Label>
-                        <Select
-                            value={(values[key] as string) || ''}
-                            onValueChange={(val) => onChange(key, val)}
-                            disabled={isReadOnly}
-                        >
-                            <SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100 disabled:opacity-50 disabled:cursor-not-allowed">
-                                <SelectValue placeholder="Select format..." />
-                            </SelectTrigger>
-                            <SelectContent className="bg-slate-800 border-slate-700 text-slate-100">
-                                {options.map((opt) => (
-                                    <SelectItem
-                                        key={opt}
-                                        value={opt}
-                                        className="focus:bg-slate-700 focus:text-white"
-                                    >
-                                        {opt
-                                            .replace('billet_', '')
-                                            .replace(/_/g, ' ')}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        {isReadOnly && (
-                            <p className="text-xs text-amber-500">
-                                Cannot change format while billets exist. Delete
-                                all billets to change format.
-                            </p>
-                        )}
-                    </div>
-                );
-            }
         }
 
         return (
             <div key={key} className="space-y-2">
                 <div className="flex items-center justify-between">
                     <Label htmlFor={key} className="text-slate-200">
-                        {getLabel(key)}
-                        {fieldDef.mandatory === 'true' && (
+                        {label}
+                        {fieldDef.mandatory && (
                             <span className="text-red-400 ml-1">*</span>
                         )}
                     </Label>
@@ -177,10 +144,17 @@ export default function DynamicForm({
                         <div className="flex items-center space-x-2">
                             <Checkbox
                                 id={`${key}-present`}
-                                checked={!values[key]}
+                                checked={values[key] === 'Current'}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        onChange(key, '');
+                                        onChange(key, 'Current');
+                                    } else {
+                                        onChange(
+                                            key,
+                                            new Date()
+                                                .toISOString()
+                                                .split('T')[0]
+                                        );
                                     }
                                 }}
                             />
@@ -198,19 +172,30 @@ export default function DynamicForm({
                         id={key}
                         value={(values[key] as string) || ''}
                         onChange={(e) => onChange(key, e.target.value)}
-                        className="bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange min-h-[100px]"
-                        placeholder={`Enter ${getLabel(key).toLowerCase()}...`}
+                        className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange min-h-[100px] ${errors[key] ? 'border-red-500' : ''}`}
+                        placeholder={`Enter ${label.toLowerCase()}...`}
                     />
                 ) : (
                     <Input
                         id={key}
-                        type={getInputType(key)}
-                        value={(values[key] as string) || ''}
+                        type={fieldDef.type || getInputType(key)}
+                        value={
+                            values[key] === 'Current'
+                                ? ''
+                                : (values[key] as string) || ''
+                        }
                         onChange={(e) => onChange(key, e.target.value)}
-                        className="bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange disabled:opacity-50 disabled:cursor-not-allowed"
-                        placeholder={`Enter ${getLabel(key).toLowerCase()}...`}
-                        disabled={isEndDate && !values[key]}
+                        disabled={values[key] === 'Current'}
+                        className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange disabled:opacity-50 disabled:cursor-not-allowed ${errors[key] ? 'border-red-500' : ''}`}
+                        placeholder={
+                            values[key] === 'Current'
+                                ? 'Current'
+                                : `Enter ${label.toLowerCase()}...`
+                        }
                     />
+                )}
+                {errors[key] && (
+                    <p className="text-xs text-red-400">{errors[key]}</p>
                 )}
             </div>
         );
@@ -218,14 +203,17 @@ export default function DynamicForm({
 
     // Group fields for layout
     const getGroupedFields = () => {
-        const keys = Object.keys(fields).filter(
-            (k) => fields[k].included !== 'false'
-        );
+        const keys = Object.keys(fields).filter((k) => fields[k].included);
         const groups: { type: 'row' | 'single'; keys: string[] }[] = [];
         const processed = new Set<string>();
 
         keys.forEach((key) => {
             if (processed.has(key)) return;
+
+            // Skip endDate if startDate exists (it will be handled by startDate)
+            if (key === 'endDate' && keys.includes('startDate')) {
+                return;
+            }
 
             // Group Start Date and End Date
             if (key === 'startDate' && keys.includes('endDate')) {

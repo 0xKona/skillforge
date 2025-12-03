@@ -1,23 +1,16 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import IngotEditor from '@/components/anvil/ingot-editor';
+import { useSearchParams } from 'next/navigation';
+import IngotEditor from '@/components/anvil/ingot-editor/ingot-editor';
 import IngotTypeSelection from '@/components/anvil/ingot-type-selection';
 import { Suspense } from 'react';
 
 function CreateIngotContent() {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const initialType = searchParams.get('ingotType');
 
     if (initialType) {
-        return (
-            <IngotEditor
-                ingotId={null}
-                initialType={initialType}
-                onBack={() => router.push('/anvil')}
-            />
-        );
+        return <IngotEditor ingotId={null} initialType={initialType} />;
     }
 
     return <IngotTypeSelection />;
