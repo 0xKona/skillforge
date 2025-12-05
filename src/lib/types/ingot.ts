@@ -38,7 +38,12 @@ export interface IngotTemplate {
     content: IngotContent;
 }
 
-export const INGOT_TYPE_LABELS = [
+export interface IngotTypeLabelMap {
+    value: string;
+    label: string;
+}
+
+export const INGOT_TYPE_LABELS: IngotTypeLabelMap[] = [
     { value: 'ingot_education', label: 'Education' },
     { value: 'ingot_experience', label: 'Experience' },
     { value: 'ingot_project', label: 'Project' },
