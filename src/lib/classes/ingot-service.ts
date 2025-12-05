@@ -1,6 +1,7 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
 import { Ingot, IngotContent } from '@/lib/types/ingot';
+import { Award, Briefcase, FileText, GraduationCap, User } from 'lucide-react';
 
 const client = generateClient<Schema>();
 
@@ -71,6 +72,18 @@ export class IngotService {
         return ingots.map(mapToIngot);
     }
 
+    static async listAnvilIngotData(): Promise<Ingot[]> {
+        const { data: ingots, errors } = await client.models.Ingot.list({
+            selectionSet: ['id', 'name', 'type', 'updatedAt'],
+        });
+
+        if (errors) {
+            throw new Error(`Failed to list Ingots: ${errors[0].message}`);
+        }
+
+        return ingots.map(mapToIngot);
+    }
+
     static async updateIngot(
         id: string,
         name: string,
@@ -98,5 +111,36 @@ export class IngotService {
         if (errors) {
             throw new Error(`Failed to delete Ingot: ${errors[0].message}`);
         }
+    }
+
+    static getAnvilCardDisplayDetails(type: string) {
+        const normalized = type.toLowerCase();
+            if (normalized.includes('education'))
+                return {
+                    color: 'bg-blue-500',
+                    icon: GraduationCap,
+                    label: 'Education',
+                };
+            if (normalized.includes('experience'))
+                return {
+                    color: 'bg-emerald-500',
+                    icon: Briefcase,
+                    label: 'Experience',
+                };
+            if (normalized.includes('project'))
+                return { color: 'bg-purple-500', icon: FileText, label: 'Project' };
+            if (normalized.includes('certification'))
+                return {
+                    color: 'bg-amber-500',
+                    icon: Award,
+                    label: 'Certification',
+                };
+            if (normalized.includes('personal'))
+                return { color: 'bg-rose-500', icon: User, label: 'Personal' };
+            return {
+                color: 'bg-slate-500',
+                icon: FileText,
+                label: type.replace('ingot_', ''),
+            };
     }
 }
