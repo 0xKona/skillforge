@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/shadcn-components/button';
-import { Loader2 } from 'lucide-react';
 import IngotCard from './ingot-card';
+import IngotCardSkeleton from './ingot-card-skeleton';
 import { Ingot } from '@/lib/types/ingot';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import AnvilInterfaceFilters from './anvil-filters';
@@ -40,8 +40,10 @@ export default function AnvilInterface() {
 
             {/* Loading */}
             {loading ? (
-                <div className="flex justify-center py-12">
-                    <Loader2 className="h-8 w-8 animate-spin text-forge-orange" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <IngotCardSkeleton key={i} />
+                    ))}
                 </div>
             ) : filteredIngots.length === 0 ? (
                 <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
