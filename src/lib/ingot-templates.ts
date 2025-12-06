@@ -160,21 +160,6 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             billets: [],
         },
     },
-    ingot_grouped_certification: {
-        type: 'ingot_grouped_certification',
-        content: {
-            fields: {
-                certName: { mandatory: true, included: true, value: '' },
-                certDescription: {
-                    mandatory: false,
-                    included: true,
-                    value: '',
-                },
-            },
-            billetFormat: 'billet_grouped_certfication',
-            billets: [],
-        },
-    },
     ingot_project: {
         type: 'ingot_project',
         content: {
