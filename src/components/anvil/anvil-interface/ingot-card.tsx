@@ -101,7 +101,10 @@ export default function IngotCard({ ingotData }: Props) {
                             <Trash2 className="h-3.5 w-3.5" />
                         </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-slate-900 border-slate-800 text-slate-100">
+                    <AlertDialogContent
+                        className="bg-slate-900 border-slate-800 text-slate-100"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <AlertDialogHeader>
                             <AlertDialogTitle>Delete Ingot?</AlertDialogTitle>
                             <AlertDialogDescription className="text-slate-400">
