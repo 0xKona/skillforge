@@ -3,14 +3,15 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { Ingot } from '@/lib/types/ingot';
 
 interface Props {
-    content: Record<string, unknown>;
-    billets: { id: string; content: Record<string, unknown> }[];
+    ingot: Ingot;
 }
 
-export const PersonalStatementSection = ({ content }: Props) => {
-    const statement = String(content.statement || '');
+export const PersonalStatementSection = ({ ingot }: Props) => {
+    const { fields } = ingot.content;
+    const statement = String(fields.statement?.value || '');
 
     return (
         <View style={pdfStyles.sectionContainer}>

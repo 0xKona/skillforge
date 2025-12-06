@@ -3,26 +3,38 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { Ingot, SortOrder } from '@/lib/types/ingot';
 
 interface Props {
-    content: Record<string, unknown>;
-    billets: { id: string; content: Record<string, unknown> }[];
+    ingot: Ingot;
+    billetIds?: string[];
+    billetSortBy?: SortOrder;
 }
 
-export const PersonalInfoSection = ({ content, billets }: Props) => {
-    const name = String(content.name || '');
-    const email = String(content.email || '');
-    const phone = String(content.phone || '');
-    const address = String(content.address || '');
+export const PersonalInfoSection = ({ ingot, billetIds }: Props) => {
+    const {
+        content: { fields, billets },
+    } = ingot;
+
+    const name = String(fields.name.value || '');
+    const email = String(fields.email.value || '');
+    const phone = String(fields.phone?.value || '');
+    const address = String(fields.address?.value || '');
+
+    // Filter billets
+    let displayBillets = billets;
+    if (billetIds) {
+        displayBillets = billets.filter((b) => billetIds.includes(b.id));
+    }
 
     const contactItems = [
         email,
         phone,
         address,
-        ...billets.map((b) => {
-            const platform = String(b.content.platform || '');
-            const username = String(b.content.username || '');
-            const url = String(b.content.url || '');
+        ...displayBillets.map((b) => {
+            const platform = String(b.fields.platform?.value || '');
+            const username = String(b.fields.username?.value || '');
+            const url = String(b.fields.url?.value || '');
 
             if (url) {
                 return `${platform}: ${url}`;

@@ -1,6 +1,6 @@
 import IngotEditor from '@/components/anvil/ingot-editor/ingot-editor';
 import { serverClient } from '@/lib/amplify/server-data-client';
-import { IngotContent } from '@/lib/types/ingot';
+import { IngotContent, IngotType, Ingot } from '@/lib/types/ingot';
 
 export default async function EditIngotPage({
     params,
@@ -12,7 +12,9 @@ export default async function EditIngotPage({
 
     let initialData: IngotContent | null = null;
     let initialName: string | null = null;
-    let initialType: string | null = null;
+    let initialType: IngotType | null = null;
+    let createdAt: string = new Date().toISOString();
+    let updatedAt: string = new Date().toISOString();
 
     // Load the initial ingot data on the server side, this makes loading faster
     // by avoiding a waterfall
@@ -23,7 +25,9 @@ export default async function EditIngotPage({
 
         if (ingot) {
             initialName = ingot.name;
-            initialType = ingot.type;
+            initialType = ingot.type as IngotType;
+            createdAt = ingot.createdAt;
+            updatedAt = ingot.updatedAt;
             if (ingot.content) {
                 if (typeof ingot.content === 'string') {
                     try {
@@ -40,12 +44,14 @@ export default async function EditIngotPage({
         console.error('Failed to fetch ingot on server', error);
     }
 
-    return (
-        <IngotEditor
-            ingotId={ingotId}
-            initialData={initialData}
-            initialName={initialName}
-            initialType={initialType}
-        />
-    );
+    const ingotData: Ingot = {
+        id: ingotId,
+        name: initialName ?? '',
+        type: initialType ?? '',
+        content: initialData ?? { fields: {}, billetFormat: null, billets: [] },
+        createdAt,
+        updatedAt,
+    };
+
+    return <IngotEditor initialIngotData={ingotData} />;
 }

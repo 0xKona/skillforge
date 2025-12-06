@@ -3,24 +3,34 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { Ingot, SortOrder } from '@/lib/types/ingot';
 
 interface Props {
-    content: Record<string, unknown>;
-    billets: { id: string; content: Record<string, unknown> }[];
+    ingots: Ingot[];
+    billetIds?: string[];
+    sortBy?: SortOrder;
+    billetSortBy?: SortOrder;
 }
 
-export const ReferenceSection = ({ content }: Props) => {
-    const name = String(content.referenceName || '');
-    const company = String(content.referenceCompany || '');
-    const contact = String(content.referenceContact || '');
-
+export const ReferenceSection = ({ ingots }: Props) => {
     return (
-        <View style={pdfStyles.sectionContainer}>
-            <Text style={pdfStyles.bold}>{name}</Text>
-            <Text>{company ? `, ${company}` : ''}</Text>
-            {contact ? (
-                <Text style={pdfStyles.description}>{contact}</Text>
-            ) : null}
+        <View>
+            {ingots.map((ingot) => {
+                const { fields } = ingot.content;
+                const name = String(fields.referenceName?.value || '');
+                const company = String(fields.referenceCompany?.value || '');
+                const contact = String(fields.referenceContact?.value || '');
+
+                return (
+                    <View key={ingot.id} style={pdfStyles.sectionContainer}>
+                        <Text style={pdfStyles.bold}>{name}</Text>
+                        <Text>{company ? `, ${company}` : ''}</Text>
+                        {contact ? (
+                            <Text style={pdfStyles.description}>{contact}</Text>
+                        ) : null}
+                    </View>
+                );
+            })}
         </View>
     );
 };

@@ -3,84 +3,161 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { Ingot, SortOrder } from '@/lib/types/ingot';
 
 interface Props {
-    content: Record<string, unknown>;
-    billets: { id: string; content: Record<string, unknown> }[];
+    ingots: Ingot[];
+    billetIds?: string[];
+    sortBy?: SortOrder;
+    billetSortBy?: SortOrder;
 }
 
-export const ExperienceSection = ({ content, billets }: Props) => {
-    const company = String(content.companyName || '');
-    const location = String(content.location || '');
-    const startDate = String(content.startDate || '');
-    const endDate = String(content.endDate || '');
+const getDateValue = (dateStr: string) => {
+    if (!dateStr) return 0;
+    if (
+        dateStr.toLowerCase() === 'present' ||
+        dateStr.toLowerCase() === 'current'
+    )
+        return new Date().getTime();
+    return new Date(dateStr).getTime();
+};
 
-    const dateString = startDate
-        ? `${startDate} - ${endDate || 'Present'}`
-        : '';
+export const ExperienceSection = ({
+    ingots,
+    billetIds,
+    sortBy,
+    billetSortBy,
+}: Props) => {
+    const displayIngots = [...ingots];
 
-    console.log('Content: ', content);
-    console.log('Billets: ', billets);
+    if (sortBy === 'date-desc') {
+        displayIngots.sort((a, b) => {
+            const dateA = getDateValue(a.content.fields.startDate?.value || '');
+            const dateB = getDateValue(b.content.fields.startDate?.value || '');
+            return dateB - dateA;
+        });
+    } else if (sortBy === 'date-asc') {
+        displayIngots.sort((a, b) => {
+            const dateA = getDateValue(a.content.fields.startDate?.value || '');
+            const dateB = getDateValue(b.content.fields.startDate?.value || '');
+            return dateA - dateB;
+        });
+    }
+
     return (
-        // Section Header
-        <View style={pdfStyles.sectionContainer}>
-            {/* Company Description */}
-            <View style={pdfStyles.row}>
-                <View style={pdfStyles.leftColumn}>
-                    <Text style={pdfStyles.bold}>{company}</Text>
-                </View>
-                <View style={pdfStyles.rightColumn}>
-                    <Text style={pdfStyles.date}>{dateString}</Text>
-                </View>
-            </View>
-            {location ? <Text style={pdfStyles.italic}>{location}</Text> : null}
+        <View>
+            {displayIngots.map((ingot) => {
+                const { fields, billets } = ingot.content;
+                const company = String(fields.companyName?.value || '');
+                const location = String(fields.location?.value || '');
+                const startDate = String(fields.startDate?.value || '');
+                const endDate = String(fields.endDate?.value || '');
 
-            {/* Roles / Projects */}
-            <View style={{ marginTop: 4 }}>
-                {billets.map((billet) => {
-                    const title = String(
-                        billet.content.jobTitle ||
-                            billet.content.projectName ||
-                            ''
-                    );
-                    const desc = String(
-                        billet.content.jobDescription ||
-                            billet.content.projectDesc ||
-                            ''
-                    );
-                    const bStart = String(billet.content.startDate || '');
-                    const bEnd = String(billet.content.endDate || '');
-                    const bDate = bStart
-                        ? `${bStart} - ${bEnd || 'Present'}`
-                        : '';
+                const dateString = startDate
+                    ? `${startDate} - ${endDate || 'Present'}`
+                    : '';
 
-                    return (
-                        <View
-                            key={billet.id}
-                            style={[pdfStyles.bulletPoint, { marginTop: 2 }]}
-                        >
+                let displayBillets = billets;
+                if (billetIds) {
+                    displayBillets = billets.filter((b) =>
+                        billetIds.includes(b.id)
+                    );
+                }
+
+                if (billetSortBy === 'date-desc') {
+                    displayBillets.sort((a, b) => {
+                        const dateA = getDateValue(
+                            a.fields.startDate?.value || ''
+                        );
+                        const dateB = getDateValue(
+                            b.fields.startDate?.value || ''
+                        );
+                        return dateB - dateA;
+                    });
+                } else if (billetSortBy === 'date-asc') {
+                    displayBillets.sort((a, b) => {
+                        const dateA = getDateValue(
+                            a.fields.startDate?.value || ''
+                        );
+                        const dateB = getDateValue(
+                            b.fields.startDate?.value || ''
+                        );
+                        return dateA - dateB;
+                    });
+                }
+
+                return (
+                    <View key={ingot.id} style={pdfStyles.sectionContainer}>
+                        {/* Company Description */}
+                        <View style={pdfStyles.row}>
                             <View style={pdfStyles.leftColumn}>
-                                <Text style={pdfStyles.boldItalic}>
-                                    {title}
-                                </Text>
-                                <Text style={pdfStyles.date}>{bDate}</Text>
-                                :{' '}
+                                <Text style={pdfStyles.bold}>{company}</Text>
                             </View>
-                            {bDate && bDate !== dateString ? (
-                                <View style={pdfStyles.leftColumn}>
-                                    {desc ? (
-                                        <View>
-                                            <Text style={pdfStyles.description}>
-                                                {desc}
-                                            </Text>
-                                        </View>
-                                    ) : null}
-                                </View>
-                            ) : null}
+                            <View style={pdfStyles.rightColumn}>
+                                <Text style={pdfStyles.date}>{dateString}</Text>
+                            </View>
                         </View>
-                    );
-                })}
-            </View>
+                        {location ? (
+                            <Text style={pdfStyles.italic}>{location}</Text>
+                        ) : null}
+
+                        {/* Roles / Projects */}
+                        <View style={{ marginTop: 4 }}>
+                            {displayBillets.map((billet) => {
+                                const title = String(
+                                    billet.fields.jobTitle?.value || ''
+                                );
+                                const desc = String(
+                                    billet.fields.jobDescription?.value || ''
+                                );
+                                const bStart = String(
+                                    billet.fields.startDate?.value || ''
+                                );
+                                const bEnd = String(
+                                    billet.fields.endDate?.value || ''
+                                );
+                                const bDate = bStart
+                                    ? `${bStart} - ${bEnd || 'Present'}`
+                                    : '';
+
+                                return (
+                                    <View
+                                        key={billet.id}
+                                        style={[
+                                            pdfStyles.bulletPoint,
+                                            { marginTop: 2 },
+                                        ]}
+                                    >
+                                        <View style={pdfStyles.leftColumn}>
+                                            <Text style={pdfStyles.boldItalic}>
+                                                {title}
+                                            </Text>
+                                            {bDate && bDate !== dateString ? (
+                                                <Text style={pdfStyles.date}>
+                                                    {bDate}
+                                                </Text>
+                                            ) : null}
+                                        </View>
+                                        <View style={pdfStyles.leftColumn}>
+                                            {desc ? (
+                                                <View>
+                                                    <Text
+                                                        style={
+                                                            pdfStyles.description
+                                                        }
+                                                    >
+                                                        {desc}
+                                                    </Text>
+                                                </View>
+                                            ) : null}
+                                        </View>
+                                    </View>
+                                );
+                            })}
+                        </View>
+                    </View>
+                );
+            })}
         </View>
     );
 };

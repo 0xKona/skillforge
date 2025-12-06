@@ -3,28 +3,40 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { Ingot, SortOrder } from '@/lib/types/ingot';
 
 interface Props {
-    content: Record<string, unknown>;
-    billets: { id: string; content: Record<string, unknown> }[];
+    ingots: Ingot[];
+    billetIds?: string[];
+    sortBy?: SortOrder;
+    billetSortBy?: SortOrder;
 }
 
-export const SkillsSection = ({ content }: Props) => {
-    const name = String(content.skillName || '');
-    const desc = String(content.skillDescription || '');
-    const level = String(content.proficiencyLevel || '');
+export const SkillsSection = ({ ingots }: Props) => {
+    // Skills usually don't have dates to sort by, but we could sort by name if needed.
+    // For now, just render them in order.
 
     return (
         <View style={pdfStyles.sectionContainer}>
-            <View style={pdfStyles.bulletPoint}>
-                <Text style={pdfStyles.bullet}>•</Text>
-                <View style={pdfStyles.bulletContent}>
-                    <Text style={pdfStyles.bold}>{name}</Text>
-                    <Text>
-                        {level ? ` (${level})` : ''}: {desc}
-                    </Text>
-                </View>
-            </View>
+            {ingots.map((ingot) => {
+                const { fields } = ingot.content;
+                const name = String(fields.skillName?.value || '');
+                const desc = String(fields.skillDescription?.value || '');
+                const level = String(fields.proficiencyLevel?.value || '');
+
+                return (
+                    <View key={ingot.id} style={pdfStyles.bulletPoint}>
+                        <Text style={pdfStyles.bullet}>•</Text>
+                        <View style={pdfStyles.bulletContent}>
+                            <Text style={pdfStyles.bold}>{name}</Text>
+                            <Text>
+                                {level ? ` (${level})` : ''}
+                                {desc ? `: ${desc}` : ''}
+                            </Text>
+                        </View>
+                    </View>
+                );
+            })}
         </View>
     );
 };

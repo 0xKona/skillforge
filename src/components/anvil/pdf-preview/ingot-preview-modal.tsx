@@ -6,32 +6,30 @@ import { PDFViewer } from '@react-pdf/renderer';
 import { Button } from '@/components/shadcn-components/button';
 import { IngotPDF } from './ingot-pdf';
 import { Card } from '@/components/shadcn-components/card';
-
-interface PreviewBillet {
-    id: string;
-    content: Record<string, unknown>;
-}
+import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
+import { IngotEditorData, IngotField, SortOrder } from '@/lib/types/ingot';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/shadcn-components/select';
+import { Label } from '@/components/shadcn-components/label';
 
 interface Props {
     isOpen: boolean;
-    onClose: () => void;
-    ingotName: string;
-    ingotType: string;
-    ingotContent: Record<string, unknown>;
-    billets: PreviewBillet[];
+    ingotData: IngotEditorData;
 }
 
-export default function PreviewModal({
-    isOpen,
-    onClose,
-    ingotName,
-    ingotType,
-    ingotContent,
-    billets,
-}: Props) {
+export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
+    const { closePreviewModal } = useIngotPreviewState();
+    const billets = ingotData.content.billets;
+
     const [selectedBilletIds, setSelectedBilletIds] = useState<Set<string>>(
         () => new Set(billets.map((b) => b.id))
     );
+    const [billetSortBy, setBilletSortBy] = useState<SortOrder>('date-desc');
 
     if (!isOpen) return null;
 
@@ -45,11 +43,25 @@ export default function PreviewModal({
         setSelectedBilletIds(newSet);
     };
 
-    const filteredBillets = billets.filter((b) => selectedBilletIds.has(b.id));
-
     // Generate a key based on selected billets to force re-render of PDF document
     // This helps avoid reconciliation errors in react-pdf when removing items
-    const pdfKey = Array.from(selectedBilletIds).sort().join('-');
+    const pdfKey = `${Array.from(selectedBilletIds).sort().join('-')}-${billetSortBy}`;
+
+    const getBilletName = (fields: Record<string, IngotField>) => {
+        const possibleKeys = [
+            'name',
+            'jobTitle',
+            'projectName',
+            'certName',
+            'platform',
+        ];
+        for (const key of possibleKeys) {
+            if (fields[key]?.value) return fields[key].value;
+        }
+        return 'Untitled';
+    };
+
+    const showSortOptions = ingotData.type === 'ingot_experience';
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8">
@@ -62,7 +74,7 @@ export default function PreviewModal({
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={onClose}
+                        onClick={closePreviewModal}
                         className="text-slate-400 hover:text-white hover:bg-slate-700"
                     >
                         <X className="h-5 w-5" />
@@ -80,15 +92,48 @@ export default function PreviewModal({
                                 </h3>
                                 <Card className="p-3 bg-slate-800 border-slate-700">
                                     <p className="text-slate-200 font-medium">
-                                        {ingotName}
+                                        {ingotData.name}
                                     </p>
                                     <p className="text-xs text-slate-500 mt-1">
-                                        {ingotType
+                                        {ingotData.type
                                             .replace('ingot_', '')
                                             .replace(/_/g, ' ')}
                                     </p>
                                 </Card>
                             </div>
+
+                            {showSortOptions && billets.length > 1 && (
+                                <div>
+                                    <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-2">
+                                        Sort Order
+                                    </h3>
+                                    <div className="space-y-2">
+                                        <Label className="text-xs text-slate-500">
+                                            Sort Billets By
+                                        </Label>
+                                        <Select
+                                            value={billetSortBy}
+                                            onValueChange={(val) =>
+                                                setBilletSortBy(
+                                                    val as SortOrder
+                                                )
+                                            }
+                                        >
+                                            <SelectTrigger className="bg-slate-800 border-slate-700 text-slate-200">
+                                                <SelectValue placeholder="Select sort order" />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-slate-800 border-slate-700 text-slate-200">
+                                                <SelectItem value="date-desc">
+                                                    Date (Newest First)
+                                                </SelectItem>
+                                                <SelectItem value="date-asc">
+                                                    Date (Oldest First)
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
+                            )}
 
                             {billets.length > 0 && (
                                 <div>
@@ -140,17 +185,9 @@ export default function PreviewModal({
                                                                     : 'text-slate-400'
                                                             }`}
                                                         >
-                                                            {(billet.content
-                                                                .name as string) ||
-                                                                (billet.content
-                                                                    .jobTitle as string) ||
-                                                                (billet.content
-                                                                    .projectName as string) ||
-                                                                (billet.content
-                                                                    .certName as string) ||
-                                                                (billet.content
-                                                                    .platform as string) ||
-                                                                'Untitled'}
+                                                            {getBilletName(
+                                                                billet.fields
+                                                            )}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -170,10 +207,9 @@ export default function PreviewModal({
                             showToolbar={true}
                         >
                             <IngotPDF
-                                ingotName={ingotName}
-                                ingotType={ingotType}
-                                ingotContent={ingotContent}
-                                billets={filteredBillets}
+                                ingotData={ingotData}
+                                billetIds={Array.from(selectedBilletIds)}
+                                billetSortBy={billetSortBy}
                             />
                         </PDFViewer>
                     </div>

@@ -3,31 +3,48 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { Ingot, SortOrder } from '@/lib/types/ingot';
 
 interface Props {
-    content: Record<string, unknown>;
-    billets: { id: string; content: Record<string, unknown> }[];
+    ingots: Ingot[];
+    billetIds?: string[];
+    sortBy?: SortOrder;
+    billetSortBy?: SortOrder;
 }
 
-export const GenericSection = ({ content }: Props) => {
-    // Try to find common fields
-    const name = String(
-        content.name || content.hobbyName || content.title || ''
-    );
-    const desc = String(content.description || content.hobbyDescription || '');
-
+export const GenericSection = ({ ingots }: Props) => {
     return (
         <View style={pdfStyles.sectionContainer}>
-            <View style={pdfStyles.bulletPoint}>
-                <Text style={pdfStyles.bullet}>•</Text>
-                <View style={pdfStyles.bulletContent}>
-                    {name ? <Text style={pdfStyles.bold}>{name}</Text> : null}
-                    <Text>
-                        {name && desc ? ': ' : ''}
-                        {desc}
-                    </Text>
-                </View>
-            </View>
+            {ingots.map((ingot) => {
+                const { fields } = ingot.content;
+                // Try to find common fields
+                const name = String(
+                    fields.name?.value ||
+                        fields.hobbyName?.value ||
+                        fields.title?.value ||
+                        ''
+                );
+                const desc = String(
+                    fields.description?.value ||
+                        fields.hobbyDescription?.value ||
+                        ''
+                );
+
+                return (
+                    <View key={ingot.id} style={pdfStyles.bulletPoint}>
+                        <Text style={pdfStyles.bullet}>•</Text>
+                        <View style={pdfStyles.bulletContent}>
+                            {name ? (
+                                <Text style={pdfStyles.bold}>{name}</Text>
+                            ) : null}
+                            <Text>
+                                {name && desc ? ': ' : ''}
+                                {desc}
+                            </Text>
+                        </View>
+                    </View>
+                );
+            })}
         </View>
     );
 };

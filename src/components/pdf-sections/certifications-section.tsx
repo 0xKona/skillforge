@@ -3,74 +3,61 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { Ingot, SortOrder } from '@/lib/types/ingot';
 
 interface Props {
-    type: string;
-    content: Record<string, unknown>;
-    billets: { id: string; content: Record<string, unknown> }[];
+    ingots: Ingot[];
+    billetIds?: string[];
+    sortBy?: SortOrder;
+    billetSortBy?: SortOrder;
 }
 
-export const CertificationsSection = ({ type, content, billets }: Props) => {
-    const isGrouped = type === 'ingot_grouped_certification';
+const getDateValue = (dateStr: string) => {
+    if (!dateStr) return 0;
+    return new Date(dateStr).getTime();
+};
 
-    const name = String(content.certName || '');
-    const desc = String(content.certDescription || '');
-    const date = String(content.certDate || '');
+export const CertificationsSection = ({ ingots, sortBy }: Props) => {
+    const displayIngots = [...ingots];
+
+    if (sortBy === 'date-desc') {
+        displayIngots.sort((a, b) => {
+            const dateA = getDateValue(a.content.fields.certDate?.value || '');
+            const dateB = getDateValue(b.content.fields.certDate?.value || '');
+            return dateB - dateA;
+        });
+    } else if (sortBy === 'date-asc') {
+        displayIngots.sort((a, b) => {
+            const dateA = getDateValue(a.content.fields.certDate?.value || '');
+            const dateB = getDateValue(b.content.fields.certDate?.value || '');
+            return dateA - dateB;
+        });
+    }
 
     return (
-        <View style={pdfStyles.sectionContainer}>
-            {isGrouped ? (
-                <View>
-                    <Text style={pdfStyles.bold}>{name}</Text>
-                    {desc ? (
-                        <Text style={pdfStyles.description}>{desc}</Text>
-                    ) : null}
+        <View>
+            {displayIngots.map((ingot) => {
+                const { fields } = ingot.content;
+                const name = String(fields.certName?.value || '');
+                const desc = String(fields.certDescription?.value || '');
+                const date = String(fields.certDate?.value || '');
 
-                    <View style={{ marginTop: 4 }}>
-                        {billets.map((billet) => {
-                            const bName = String(billet.content.certName || '');
-                            const bDesc = String(
-                                billet.content.certDescription || ''
-                            );
-                            const bDate = String(
-                                billet.content.dateAquired || ''
-                            );
-
-                            return (
-                                <View
-                                    key={billet.id}
-                                    style={pdfStyles.bulletPoint}
-                                >
-                                    <Text style={pdfStyles.bullet}>•</Text>
-                                    <View style={pdfStyles.bulletContent}>
-                                        <Text style={pdfStyles.bold}>
-                                            {bName}
-                                        </Text>
-                                        <Text>
-                                            {bDate ? ` (${bDate})` : ''}
-                                            {bDesc ? ` - ${bDesc}` : ''}
-                                        </Text>
-                                    </View>
-                                </View>
-                            );
-                        })}
-                    </View>
-                </View>
-            ) : (
-                <View>
-                    <View style={pdfStyles.row}>
-                        <View style={pdfStyles.leftColumn}>
-                            <Text style={pdfStyles.bold}>{name}</Text>
+                return (
+                    <View key={ingot.id} style={pdfStyles.sectionContainer}>
+                        <View style={pdfStyles.row}>
+                            <View style={pdfStyles.leftColumn}>
+                                <Text style={pdfStyles.bold}>{name}</Text>
+                            </View>
+                            <View style={pdfStyles.rightColumn}>
+                                <Text style={pdfStyles.date}>{date}</Text>
+                            </View>
                         </View>
-                        <View style={pdfStyles.rightColumn}>
-                            <Text style={pdfStyles.date}>{date}</Text>
-                        </View>
+                        {desc ? (
+                            <Text style={pdfStyles.description}>{desc}</Text>
+                        ) : null}
                     </View>
-                    {desc ? (
-                        <Text style={pdfStyles.description}>{desc}</Text>
-                    ) : null}
-                </View>
-            )}
+                );
+            })}
         </View>
     );
 };

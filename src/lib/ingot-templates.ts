@@ -4,46 +4,50 @@ export const BILLET_TEMPLATES: Record<string, BilletTemplate> = {
     billet_edu_subject: {
         type: 'billet_edu_subject',
         fields: {
-            name: { mandatory: true, included: true, value: '' },
-            description: { mandatory: false, included: true, value: '' },
-            grade: { mandatory: false, included: true, value: '' },
+            name: { mandatory: true, value: '', inputType: 'text' },
+            description: { mandatory: false, value: '', inputType: 'textarea' },
+            grade: { mandatory: false, value: '', inputType: 'text' },
         },
     },
     billet_exp_job: {
         type: 'billet_exp_job',
         fields: {
-            startDate: { mandatory: true, included: true, value: '' },
-            endDate: { mandatory: true, included: true, value: '' },
-            jobTitle: { mandatory: true, included: true, value: '' },
-            jobDescription: { mandatory: false, included: true, value: '' },
+            startDate: { mandatory: true, value: '', inputType: 'date' },
+            endDate: { mandatory: true, value: '', inputType: 'date' },
+            jobTitle: { mandatory: true, value: '', inputType: 'text' },
+            jobDescription: {
+                mandatory: false,
+                value: '',
+                inputType: 'textarea',
+            },
         },
     },
     billet_grouped_certfication: {
         type: 'billet_grouped_certfication',
         fields: {
-            certName: { mandatory: true, included: true, value: '' },
+            certName: { mandatory: true, value: '', inputType: 'text' },
             certDescription: {
                 mandatory: false,
-                included: true,
                 value: '',
+                inputType: 'textarea',
             },
-            dateAquired: { mandatory: false, included: true, value: '' },
+            dateAquired: { mandatory: false, value: '', inputType: 'date' },
         },
     },
     billet_pi_social: {
         type: 'billet_pi_social',
         fields: {
-            platform: { mandatory: true, included: true, value: 'Twitter' },
-            username: { mandatory: false, included: true, value: '' },
-            url: { mandatory: false, included: true, value: '' },
+            platform: { mandatory: true, value: 'Twitter', inputType: 'text' },
+            username: { mandatory: false, value: '', inputType: 'text' },
+            url: { mandatory: false, value: '', inputType: 'url' },
         },
     },
     cert: {
         type: 'cert',
         fields: {
-            name: { mandatory: true, included: true, value: '' },
-            issuer: { mandatory: true, included: true, value: '' },
-            date: { mandatory: true, included: true, value: '' },
+            name: { mandatory: true, value: '', inputType: 'text' },
+            issuer: { mandatory: true, value: '', inputType: 'text' },
+            date: { mandatory: true, value: '', inputType: 'date' },
         },
     },
 };
@@ -53,10 +57,10 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_personal_info',
         content: {
             fields: {
-                name: { mandatory: true, included: true, value: '' },
-                email: { mandatory: false, included: true, value: '' },
-                phone: { mandatory: false, included: true, value: '' },
-                address: { mandatory: false, included: true, value: '' },
+                name: { mandatory: true, value: '', inputType: 'text' },
+                email: { mandatory: false, value: '', inputType: 'email' },
+                phone: { mandatory: false, value: '', inputType: 'tel' },
+                address: { mandatory: false, value: '', inputType: 'text' },
             },
             billetFormat: 'billet_pi_social',
             billets: [],
@@ -68,13 +72,13 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             fields: {
                 title: {
                     mandatory: true,
-                    included: true,
                     value: 'my personal_statement',
+                    inputType: 'text',
                 },
                 statement: {
                     mandatory: true,
-                    included: true,
                     value: 'lorem ipsum x100',
+                    inputType: 'textarea',
                 },
             },
             billetFormat: null,
@@ -85,14 +89,14 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_education',
         content: {
             fields: {
-                schoolName: { mandatory: true, included: true, value: '' },
-                location: { mandatory: false, included: true, value: '' },
-                startDate: { mandatory: true, included: true, value: '' },
-                endDate: { mandatory: true, included: true, value: '' },
+                schoolName: { mandatory: true, value: '', inputType: 'text' },
+                location: { mandatory: false, value: '', inputType: 'text' },
+                startDate: { mandatory: true, value: '', inputType: 'date' },
+                endDate: { mandatory: true, value: '', inputType: 'date' },
                 qualificationLevel: {
                     mandatory: false,
-                    included: true,
                     value: 'GCSE',
+                    inputType: 'select',
                 },
             },
             billetFormat: 'billet_edu_subject',
@@ -105,20 +109,24 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             fields: {
                 companyName: {
                     mandatory: true,
-                    included: true,
                     value: 'Tech Solutions Ltd',
+                    inputType: 'text',
                 },
                 startDate: {
                     mandatory: true,
-                    included: true,
                     value: '2022-01-01',
+                    inputType: 'date',
                 },
                 endDate: {
                     mandatory: true,
-                    included: true,
                     value: '2022-12-31',
+                    inputType: 'date',
                 },
-                location: { mandatory: false, included: true, value: 'Remote' },
+                location: {
+                    mandatory: false,
+                    value: 'Remote',
+                    inputType: 'text',
+                },
             },
             billetFormat: 'billet_exp_job',
             billets: [],
@@ -128,16 +136,16 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_skill',
         content: {
             fields: {
-                skillName: { mandatory: true, included: true, value: '' },
+                skillName: { mandatory: true, value: '', inputType: 'text' },
                 skillDescription: {
                     mandatory: true,
-                    included: true,
                     value: '',
+                    inputType: 'textarea',
                 },
                 proficiencyLevel: {
                     mandatory: false,
-                    included: true,
                     value: '',
+                    inputType: 'select',
                 },
             },
             billetFormat: null,
@@ -148,12 +156,12 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_single_certification',
         content: {
             fields: {
-                certName: { mandatory: true, included: true, value: '' },
-                certDate: { mandatory: true, included: true, value: '' },
+                certName: { mandatory: true, value: '', inputType: 'text' },
+                certDate: { mandatory: true, value: '', inputType: 'date' },
                 certDescription: {
                     mandatory: false,
-                    included: true,
                     value: '',
+                    inputType: 'textarea',
                 },
             },
             billetFormat: null,
@@ -164,13 +172,13 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_project',
         content: {
             fields: {
-                projectTitle: { mandatory: true, included: true, value: '' },
+                projectTitle: { mandatory: true, value: '', inputType: 'text' },
                 projectDescription: {
                     mandatory: true,
-                    included: true,
                     value: '',
+                    inputType: 'textarea',
                 },
-                projectURL: { mandatory: false, included: true, value: '' },
+                projectURL: { mandatory: false, value: '', inputType: 'url' },
             },
             billetFormat: null,
             billets: [],
@@ -180,11 +188,11 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_hobby',
         content: {
             fields: {
-                hobbyName: { mandatory: true, included: true, value: '' },
+                hobbyName: { mandatory: true, value: '', inputType: 'text' },
                 hobbyDescription: {
                     mandatory: false,
-                    included: true,
                     value: '',
+                    inputType: 'textarea',
                 },
             },
             billetFormat: null,
@@ -195,16 +203,20 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_reference',
         content: {
             fields: {
-                referenceName: { mandatory: true, included: true, value: '' },
+                referenceName: {
+                    mandatory: true,
+                    value: '',
+                    inputType: 'text',
+                },
                 referenceCompany: {
                     mandatory: true,
-                    included: true,
                     value: '',
+                    inputType: 'text',
                 },
                 referenceContact: {
                     mandatory: true,
-                    included: true,
                     value: '',
+                    inputType: 'text',
                 },
             },
             billetFormat: null,

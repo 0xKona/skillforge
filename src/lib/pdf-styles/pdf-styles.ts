@@ -12,14 +12,21 @@ export const pdfStyles = StyleSheet.create({
     },
     // Header (Personal Info)
     headerContainer: {
-        marginBottom: 15,
+        marginBottom: 20,
         alignItems: 'center',
     },
     headerName: {
-        fontSize: 22,
+        fontSize: 24,
         fontFamily: 'Times-Bold',
-        marginBottom: 16,
-        textTransform: 'capitalize',
+        marginBottom: 8,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+    },
+    headerSubtitle: {
+        fontSize: 10.5,
+        fontFamily: 'Times-Bold',
+        marginBottom: 6,
+        textAlign: 'center',
     },
     headerContact: {
         fontSize: 10,
@@ -33,15 +40,15 @@ export const pdfStyles = StyleSheet.create({
     },
     // Section Headers
     sectionContainer: {
-        marginBottom: 12,
+        marginBottom: 15,
     },
     sectionTitle: {
         fontSize: 11,
         fontFamily: 'Times-Bold',
         textTransform: 'uppercase',
-        borderBottomWidth: 0.75,
+        borderBottomWidth: 1,
         borderBottomColor: '#000000',
-        marginBottom: 6,
+        marginBottom: 8,
         paddingBottom: 2,
         letterSpacing: 0.5,
     },
@@ -51,6 +58,7 @@ export const pdfStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+        marginBottom: 2,
     },
     leftColumn: {
         flex: 1,
@@ -82,11 +90,14 @@ export const pdfStyles = StyleSheet.create({
         paddingLeft: 10,
     },
     bullet: {
-        width: 10,
-        fontSize: 10,
+        width: 12,
+        fontSize: 10.5,
+        fontFamily: 'Times-Roman',
     },
     bulletContent: {
         flex: 1,
+        fontSize: 10.5,
+        fontFamily: 'Times-Roman',
     },
 
     // Specific Item Styles
@@ -96,13 +107,16 @@ export const pdfStyles = StyleSheet.create({
     },
     itemSubtitle: {
         fontSize: 10.5,
-        fontFamily: 'Times-Italic',
+        fontFamily: 'Times-Bold',
     },
     date: {
         fontSize: 10.5,
         fontFamily: 'Times-Roman',
+        textAlign: 'right',
     },
     description: {
         fontSize: 10.5,
+        fontFamily: 'Times-Roman',
+        textAlign: 'justify',
     },
 });

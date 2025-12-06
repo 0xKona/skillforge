@@ -1,9 +1,15 @@
 export interface IngotField {
     mandatory: boolean;
-    included: boolean;
     value: string;
+    inputType:
+        | 'text'
+        | 'date'
+        | 'textarea'
+        | 'select'
+        | 'email'
+        | 'tel'
+        | 'url';
     label?: string;
-    type?: 'text' | 'date' | 'textarea' | 'select';
     options?: string[];
 }
 
@@ -19,14 +25,19 @@ export interface IngotContent {
     billets: Billet[];
 }
 
-export interface Ingot {
-    id: string;
+export interface NewIngot {
     name: string;
-    type: string;
+    type: IngotType | '';
     content: IngotContent;
+}
+
+export interface Ingot extends NewIngot {
+    id: string;
     createdAt: string;
     updatedAt: string;
 }
+
+export type IngotEditorData = NewIngot | Ingot;
 
 export interface BilletTemplate {
     type: string;
@@ -65,3 +76,85 @@ export const INGOT_TYPE_LABELS: IngotTypeLabelMap[] = [
     { value: 'ingot_hobby', label: 'Hobby' },
     { value: 'ingot_reference', label: 'Reference' },
 ];
+
+export const QUALIFICATION_LEVELS = [
+    'GCSE',
+    'A-Level',
+    'BTEC',
+    "Bachelor's Degree",
+    "Master's Degree",
+    'PhD',
+    'Certification',
+    'Diploma',
+    'Other',
+];
+
+export const SKILL_PROFICIENCY_LEVELS = [
+    'Beginner',
+    'Intermediate',
+    'Advanced',
+    'Expert',
+    'Master',
+];
+
+export type SortOrder = 'date-desc' | 'date-asc' | 'custom';
+
+export const INGOT_FIELD_LABELS: Record<string, string> = {
+    // Common
+    name: 'Name',
+    description: 'Description',
+    startDate: 'Start Date',
+    endDate: 'End Date',
+    location: 'Location',
+    date: 'Date',
+    url: 'URL',
+
+    // Education
+    schoolName: 'School Name',
+    grade: 'Grade',
+    qualificationLevel: 'Qualification Level',
+
+    // Experience
+    companyName: 'Company Name',
+    jobTitle: 'Job Title',
+    jobDescription: 'Job Description',
+
+    // Certification
+    certName: 'Certification Name',
+    certDescription: 'Certification Description',
+    dateAquired: 'Date Acquired',
+    issuer: 'Issuer',
+    certDate: 'Certification Date',
+
+    // Personal Info
+    email: 'Email',
+    phone: 'Phone',
+    address: 'Address',
+
+    // Social
+    platform: 'Platform',
+    username: 'Username',
+
+    // Personal Statement
+    title: 'Title',
+    statement: 'Statement',
+
+    // Skill
+    skillName: 'Skill Name',
+    skillDescription: 'Skill Description',
+    proficiencyLevel: 'Proficiency Level',
+
+    // Project
+    projectTitle: 'Project Title',
+    projectDescription: 'Project Description',
+    projectURL: 'Project URL',
+
+    // Hobby
+    hobbyName: 'Hobby Name',
+    hobbyDescription: 'Hobby Description',
+
+    // Reference
+    referenceName: 'Reference Name',
+    referenceCompany: 'Reference Company',
+    referenceContact: 'Reference Contact',
+};

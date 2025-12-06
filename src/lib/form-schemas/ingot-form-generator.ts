@@ -10,8 +10,6 @@ export const generateSchemaFromIngotFields = (
     const shape: Record<string, z.ZodTypeAny> = {};
 
     Object.entries(fields).forEach(([key, field]) => {
-        if (!field.included) return;
-
         let schema: z.ZodTypeAny = z.string();
 
         const label =
