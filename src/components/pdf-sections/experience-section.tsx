@@ -86,23 +86,10 @@ export const ExperienceSection = ({
                     });
                 }
 
-                return (
-                    <View key={ingot.id} style={pdfStyles.sectionContainer}>
-                        {/* Company Description */}
-                        <View style={pdfStyles.row}>
-                            <View style={pdfStyles.leftColumn}>
-                                <Text style={pdfStyles.bold}>{company}</Text>
-                            </View>
-                            <View style={pdfStyles.rightColumn}>
-                                <Text style={pdfStyles.date}>{dateString}</Text>
-                            </View>
-                        </View>
-                        {location ? (
-                            <Text style={pdfStyles.italic}>{location}</Text>
-                        ) : null}
-
-                        {/* Roles / Projects */}
-                        <View style={{ marginTop: 4 }}>
+                // If there are billets (roles), render them as primary entries
+                if (displayBillets.length > 0) {
+                    return (
+                        <View key={ingot.id}>
                             {displayBillets.map((billet) => {
                                 const title = String(
                                     billet.fields.jobTitle?.value || ''
@@ -118,43 +105,76 @@ export const ExperienceSection = ({
                                 );
                                 const bDate = bStart
                                     ? `${bStart} - ${bEnd || 'Present'}`
-                                    : '';
+                                    : dateString; // Fallback to company date if billet date is missing
+
+                                // Split description by newlines to create bullet points if needed
+                                const descLines = desc
+                                    .split('\n')
+                                    .filter((line) => line.trim().length > 0);
 
                                 return (
                                     <View
                                         key={billet.id}
-                                        style={[
-                                            pdfStyles.bulletPoint,
-                                            { marginTop: 2 },
-                                        ]}
+                                        style={pdfStyles.sectionContainer}
                                     >
-                                        <View style={pdfStyles.leftColumn}>
-                                            <Text style={pdfStyles.boldItalic}>
-                                                {title}
-                                            </Text>
-                                            {bDate && bDate !== dateString ? (
+                                        <View style={pdfStyles.row}>
+                                            <View style={pdfStyles.leftColumn}>
+                                                <Text
+                                                    style={pdfStyles.itemTitle}
+                                                >
+                                                    {title}, {company}
+                                                </Text>
+                                            </View>
+                                            <View style={pdfStyles.rightColumn}>
                                                 <Text style={pdfStyles.date}>
                                                     {bDate}
                                                 </Text>
-                                            ) : null}
+                                            </View>
                                         </View>
-                                        <View style={pdfStyles.leftColumn}>
-                                            {desc ? (
-                                                <View>
-                                                    <Text
-                                                        style={
-                                                            pdfStyles.description
-                                                        }
-                                                    >
-                                                        {desc}
-                                                    </Text>
-                                                </View>
-                                            ) : null}
-                                        </View>
+
+                                        {descLines.map((line, i) => (
+                                            <View
+                                                key={i}
+                                                style={pdfStyles.bulletPoint}
+                                            >
+                                                <Text style={pdfStyles.bullet}>
+                                                    •
+                                                </Text>
+                                                <Text
+                                                    style={
+                                                        pdfStyles.bulletContent
+                                                    }
+                                                >
+                                                    {line.replace(
+                                                        /^[•-]\s*/,
+                                                        ''
+                                                    )}
+                                                </Text>
+                                            </View>
+                                        ))}
                                     </View>
                                 );
                             })}
                         </View>
+                    );
+                }
+
+                // Fallback: If no billets, render just the company info
+                return (
+                    <View key={ingot.id} style={pdfStyles.sectionContainer}>
+                        <View style={pdfStyles.row}>
+                            <View style={pdfStyles.leftColumn}>
+                                <Text style={pdfStyles.itemTitle}>
+                                    {company}
+                                </Text>
+                            </View>
+                            <View style={pdfStyles.rightColumn}>
+                                <Text style={pdfStyles.date}>{dateString}</Text>
+                            </View>
+                        </View>
+                        {location ? (
+                            <Text style={pdfStyles.italic}>{location}</Text>
+                        ) : null}
                     </View>
                 );
             })}
