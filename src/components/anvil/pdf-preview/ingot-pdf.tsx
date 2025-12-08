@@ -31,10 +31,7 @@ export const IngotPDF = ({
     billetIds,
     billetSortBy = 'date-desc',
 }: IngotPDFProps) => {
-    console.log('IngotData: ', ingotData);
-    console.log('BilletIds: ', billetIds);
-
-    const renderSection = () => {
+    function renderSection() {
         switch (ingotData.type) {
             case 'ingot_personal_info':
                 return (
@@ -106,7 +103,7 @@ export const IngotPDF = ({
                     />
                 );
         }
-    };
+    }
 
     return (
         <Document>

@@ -122,7 +122,7 @@ export const INGOT_FIELD_LABELS: Record<string, string> = {
     // Certification
     certName: 'Certification Name',
     certDescription: 'Certification Description',
-    dateAquired: 'Date Acquired',
+    dateAcquired: 'Date Acquired',
     issuer: 'Issuer',
     certDate: 'Certification Date',
 

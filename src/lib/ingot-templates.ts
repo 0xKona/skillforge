@@ -31,7 +31,7 @@ export const BILLET_TEMPLATES: Record<string, BilletTemplate> = {
                 value: '',
                 inputType: 'textarea',
             },
-            dateAquired: { mandatory: false, value: '', inputType: 'date' },
+            dateAcquired: { mandatory: false, value: '', inputType: 'date' },
         },
     },
     billet_pi_social: {
