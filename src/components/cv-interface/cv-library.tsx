@@ -1,0 +1,104 @@
+'use client';
+
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/shadcn-components/button';
+import CvCard from './components/cv-card';
+import CvCardSkeleton from './components/cv-card-skeleton';
+import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
+import { Plus, RefreshCw } from 'lucide-react';
+import { Input } from '@/components/shadcn-components/input';
+
+export default function CvLibraryInterface() {
+    const { loading, cvs, loadCvs, searchQuery, setSearchQuery } =
+        useCvInterfaceState();
+
+    useEffect(() => {
+        loadCvs();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const filteredCvs = cvs.filter((cv) =>
+        cv.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+        <div className="w-full mx-auto p-6 space-y-6">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-slate-100 tracking-tight">
+                        CV Library
+                    </h1>
+                    <p className="text-slate-400 mt-1">
+                        Manage and organize your Curriculum Vitae
+                    </p>
+                </div>
+                <div className="flex items-center gap-3 w-full md:w-auto">
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => loadCvs()}
+                        className="border-slate-700 bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-700"
+                        title="Refresh List"
+                    >
+                        <RefreshCw
+                            className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`}
+                        />
+                    </Button>
+                    <Link href="/forge/create">
+                        <Button className="bg-forge-orange hover:bg-forge-orange/90 text-white font-medium w-full md:w-auto">
+                            <Plus className="mr-2 h-4 w-4" />
+                            Create New CV
+                        </Button>
+                    </Link>
+                </div>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-col sm:flex-row gap-4 items-center bg-slate-900/50 p-4 rounded-xl border border-slate-800/50 backdrop-blur-sm">
+                <div className="relative w-full sm:max-w-xs">
+                    <Input
+                        placeholder="Search CVs..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-500 focus:ring-forge-orange/20 focus:border-forge-orange/50"
+                    />
+                </div>
+            </div>
+
+            {/* Content */}
+            {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <CvCardSkeleton key={i} />
+                    ))}
+                </div>
+            ) : filteredCvs.length === 0 ? (
+                <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
+                    <p className="text-slate-400 mb-4">
+                        {cvs.length === 0
+                            ? "You haven't created any CVs yet."
+                            : 'No CVs match your search.'}
+                    </p>
+                    {cvs.length === 0 && (
+                        <Link href="/forge/create">
+                            <Button
+                                variant="outline"
+                                className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"
+                            >
+                                Create your first CV
+                            </Button>
+                        </Link>
+                    )}
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredCvs.map((cv) => (
+                        <CvCard key={cv.id} cvData={cv} />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
