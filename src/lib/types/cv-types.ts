@@ -22,8 +22,8 @@ export interface Section {
     sectionType: IngotType;
     ingotIds: string[]; // Ordered list of Ingot IDs
     billetIds: string[]; // Billets to include (across all Ingots in this section)
-    sortIngotsBy?: SortOrder; // New: Sort Ingots (e.g., by date)
-    sortBilletsBy: SortOrder; // Existing: Sort billets within each Ingot
+    sortIngotsBy?: SortOrder; // Sort Ingots (e.g., by date)
+    sortBilletsBy: SortOrder; // Sort billets within each Ingot
     customTitle?: string;
     isVisible?: boolean;
 }

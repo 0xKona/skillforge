@@ -7,9 +7,5 @@ interface PageProps {
 export default async function CvEditorPage({ params }: PageProps) {
     const { cvId } = await params;
 
-    return (
-        <div className="max-h-fit">
-            <CvEditor cvId={cvId === 'new' ? undefined : cvId} />;
-        </div>
-    );
+    return <CvEditor cvId={cvId === 'new' ? undefined : cvId} />;
 }
