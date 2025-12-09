@@ -1,20 +1,24 @@
 {
     "type": "ingot_reference",
-    "fields": {
-        "referenceName": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
+    "content": {
+        "fields": {
+            "referenceName": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "referenceCompany": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "referenceContact": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            }
         },
-        "referenceCompany": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
-        },
-        "referenceContact": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
-        }
+        "billetFormat": null,
+        "billets": []
     }
 }

@@ -1,31 +1,29 @@
 {
     "type": "ingot_personal_info",
-    "fields": {
-        "name": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
+    "content": {
+        "fields": {
+            "name": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "email": {
+                "mandatory": false,
+                "included": true,
+                "value": ""
+            },
+            "phone": {
+                "mandatory": false,
+                "included": true,
+                "value": ""
+            },
+            "address": {
+                "mandatory": false,
+                "included": true,
+                "value": ""
+            }
         },
-        "email": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
-        },
-        "phone": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
-        },
-        "address": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
-        },
-        "billetTemplateType": {
-            "mandatory": "false",
-            "included": "true",
-            "value": "billet_edu_subject"
-        }
-    },
-    "billets": []
+        "billetFormat": "billet_pi_social",
+        "billets": []
+    }
 }

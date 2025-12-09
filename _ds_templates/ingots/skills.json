@@ -1,20 +1,24 @@
 {
     "type": "ingot_skill",
-    "fields": {
-        "skillName": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
+    "content": {
+        "fields": {
+            "skillName": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "skillDescription": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "proficiencyLevel": {
+                "mandatory": false,
+                "included": true,
+                "value": ""
+            }
         },
-        "skillDescription": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
-        },
-        "proficiencyLevel": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
-        }
+        "billetFormat": null,
+        "billets": []
     }
 }

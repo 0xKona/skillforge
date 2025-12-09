@@ -1,12 +1,9 @@
-import { TypographyH1 } from '@/components/ui/typography/typography';
-import PageWrapper from '@/components/wrappers/page-wrapper';
+import AnvilInterface from '@/components/anvil/anvil-interface/anvil-interface';
 
-export default async function LoginPage() {
+export default async function AnvilPage() {
     return (
-        <PageWrapper className="flex items-start justify-center relative md:pt-20">
-            <TypographyH1 className="text-slate-50">
-                Welcome to the Anvil
-            </TypographyH1>
-        </PageWrapper>
+        <div className="flex-1 flex flex-col w-full max-w-screen-2xl mx-auto">
+            <AnvilInterface />
+        </div>
     );
 }

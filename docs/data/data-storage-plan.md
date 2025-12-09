@@ -23,17 +23,17 @@ A modular entry representing a specific block of information.
 - **Structure**:
     - **Type**: The category of the ingot (e.g., `ingot_education`, `ingot_experience`).
     - **Fields**: Key-value pairs specific to the type (e.g., `schoolName`, `startDate`).
-    - **Billets**: A collection of sub-entries associated with this ingot.
+    - **Billets**: An embedded list of sub-entries (e.g., modules, projects) stored directly within the Ingot.
 
-### 1.3. Billet
+### 1.3. Billet (Embedded)
 
 A granular sub-entry nested within an Ingot.
 
 - **Purpose**: To provide detailed breakdowns within an Ingot.
-- **Examples**: A module within a degree, a specific project within a job, a skill tag.
+- **Storage**: Stored as a JSON array within the parent Ingot's `billets` field.
 - **Structure**:
-    - **Type**: The category of the billet (e.g., `billet_edu_module`, `billet_exp_project`).
-    - **Fields**: Key-value pairs specific to the type (e.g., `moduleName`, `grade`).
+    - **Type**: The category of the billet (e.g., `billet_edu_module`).
+    - **Fields**: Key-value pairs specific to the type.
 
 ## 2. Amplify Data Schema (Gen 2)
 
@@ -45,111 +45,53 @@ We will use AWS Amplify Data (backed by AppSync and DynamoDB) to store these ent
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
-    // The User Profile (Optional, if we need to store global user settings)
-    UserProfile: a
-        .model({
-            email: a.string(),
-            // Global preferences or default templates
-        })
-        .authorization((allow) => [allow.owner()]),
-
     // The CV Entity
-    CV: a
-        .model({
-            title: a.string().required(),
-            description: a.string(),
-            // JSON string storing the layout/order of sections and selected Ingot IDs
-            // Example: { "sections": [ { "name": "Education", "ingotIds": ["id1", "id2"] } ] }
-            structure: a.json(),
-            isPublic: a.boolean().default(false),
-        })
-        .authorization((allow) => [allow.owner()]),
+    CV: a.model({
+        // ... (same as before)
+    }),
 
     // The Ingot Entity
     Ingot: a
         .model({
-            name: a.string().required(), // Friendly name for the user to identify it
-            type: a.string().required(), // e.g., 'ingot_education'
+            name: a.string().required(),
+            type: a.string().required(),
 
-            // Stores the dynamic fields defined in the templates (schoolName, dates, etc.)
+            // Stores the dynamic fields (schoolName, dates, etc.)
             content: a.json(),
 
-            // Relationship: An Ingot can have many Billets
-            billets: a.hasMany('Billet', 'ingotId'),
+            // Stores the embedded billets list
+            billets: a.json(),
         })
         .authorization((allow) => [allow.owner()]),
-
-    // The Billet Entity
-    Billet: a
-        .model({
-            ingotId: a.id().required(),
-            ingot: a.belongsTo('Ingot', 'ingotId'),
-
-            type: a.string().required(), // e.g., 'billet_edu_module'
-
-            // Stores the dynamic fields (moduleName, grade, etc.)
-            content: a.json(),
-        })
-        .authorization((allow) => [allow.owner()]),
-});
-
-export type Schema = ClientSchema<typeof schema>;
-
-export const data = defineData({
-    schema,
-    authorizationModes: {
-        defaultAuthorizationMode: 'userPool',
-    },
 });
 ```
 
 ### 2.2. Rationale
 
-- **JSON Fields (`content`, `structure`)**: Since the fields for Ingots and Billets vary significantly by type (and are defined by JSON templates), using a `json` type in the schema allows for flexibility without creating dozens of sparse tables.
-- **Relationships**:
-    - **Ingot -> Billet**: Modeled as a `hasMany` relationship because Billets are children of Ingots.
-    - **CV -> Ingot**: Modeled loosely via the `structure` JSON. This allows a CV to reference Ingots without hard database constraints, making it easier to version or duplicate CVs. Alternatively, a Many-to-Many relationship could be strict, but might be overkill if we just need an ordered list of IDs.
+- **Embedded Billets**: Billets are strictly owned by an Ingot and rarely accessed independently. Embedding them reduces database calls (N+1 problem) and ensures atomic updates.
+- **JSON Fields**: Provides flexibility for different template structures.
 
 ## 3. Service Classes Plan
 
-We will implement service classes in `src/lib/classes/` to encapsulate data access logic. These classes will interact with the Amplify Data client.
-
 ### 3.1. `CvService`
 
-**File**: `src/lib/classes/cv-service.ts`
-
-- **Responsibilities**: Manage CV lifecycle.
-- **Methods**:
-    - `createCv(title: string, structure: CvStructure): Promise<CV>`
-    - `getCv(id: string): Promise<CV>`
-    - `listCvs(): Promise<CV[]>`
-    - `updateCv(id: string, updates: Partial<CV>): Promise<CV>`
-    - `deleteCv(id: string): Promise<void>`
-    - `addIngotToSection(cvId: string, sectionName: string, ingotId: string): Promise<CV>`
+(Unchanged)
 
 ### 3.2. `IngotService`
 
 **File**: `src/lib/classes/ingot-service.ts`
 
-- **Responsibilities**: Manage Ingot creation and updates.
+- **Responsibilities**: Manage Ingot creation and updates, including their embedded billets.
 - **Methods**:
-    - `createIngot(type: string, name: string, content: any): Promise<Ingot>`
+    - `createIngot(type: string, name: string, content: any, billets: any[]): Promise<Ingot>`
     - `getIngot(id: string): Promise<Ingot>`
     - `listIngots(type?: string): Promise<Ingot[]>`
-    - `updateIngot(id: string, content: any): Promise<Ingot>`
+    - `updateIngot(id: string, content: any, billets: any[]): Promise<Ingot>`
     - `deleteIngot(id: string): Promise<void>`
-    - `getIngotsWithBillets(id: string): Promise<IngotWithBillets>`
 
 ### 3.3. `BilletService`
 
-**File**: `src/lib/classes/billet-service.ts`
-
-- **Responsibilities**: Manage Billet creation and attachment to Ingots.
-- **Methods**:
-    - `createBillet(ingotId: string, type: string, content: any): Promise<Billet>`
-    - `updateBillet(id: string, content: any): Promise<Billet>`
-    - `deleteBillet(id: string): Promise<void>`
-    - `listBilletsForIngot(ingotId: string): Promise<Billet[]>`
+(Removed - logic moved to IngotService/Frontend)
 
 ## 4. Implementation Steps
 

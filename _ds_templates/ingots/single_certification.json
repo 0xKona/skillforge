@@ -1,20 +1,24 @@
 {
     "type": "ingot_single_certification",
-    "fields": {
-        "certName": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
+    "content": {
+        "fields": {
+            "certName": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "certDate": {
+                "mandatory": true,
+                "included": true,
+                "value": ""
+            },
+            "certDescription": {
+                "mandatory": false,
+                "included": true,
+                "value": ""
+            }
         },
-        "certDate": {
-            "mandatory": "true",
-            "included": "true",
-            "value": ""
-        },
-        "certDescription": {
-            "mandatory": "false",
-            "included": "true",
-            "value": ""
-        }
+        "billetFormat": null,
+        "billets": []
     }
 }
