@@ -97,8 +97,6 @@ export const SKILL_PROFICIENCY_LEVELS = [
     'Master',
 ];
 
-export type SortOrder = 'date-desc' | 'date-asc' | 'custom';
-
 export const INGOT_FIELD_LABELS: Record<string, string> = {
     // Common
     name: 'Name',
