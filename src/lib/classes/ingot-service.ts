@@ -1,7 +1,18 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
-import { Ingot, IngotContent } from '@/lib/types/ingot';
-import { Award, Briefcase, FileText, GraduationCap, User } from 'lucide-react';
+import { Ingot, INGOT_TYPE_LABELS, IngotContent } from '@/lib/types/ingot';
+import {
+    Award,
+    Briefcase,
+    FileText,
+    GraduationCap,
+    User,
+    LucideIcon,
+    Volleyball,
+    Brain,
+    Headset,
+    Hammer,
+} from 'lucide-react';
 
 const client = generateClient<Schema>();
 
@@ -114,33 +125,38 @@ export class IngotService {
     }
 
     static getAnvilCardDisplayDetails(type: string) {
-        const normalized = type.toLowerCase();
-            if (normalized.includes('education'))
-                return {
-                    color: 'bg-blue-500',
-                    icon: GraduationCap,
-                    label: 'Education',
-                };
-            if (normalized.includes('experience'))
-                return {
-                    color: 'bg-emerald-500',
-                    icon: Briefcase,
-                    label: 'Experience',
-                };
-            if (normalized.includes('project'))
-                return { color: 'bg-purple-500', icon: FileText, label: 'Project' };
-            if (normalized.includes('certification'))
-                return {
+        const labelItem = INGOT_TYPE_LABELS.find((t) => t.value === type);
+        const label = labelItem
+            ? labelItem.label
+            : type.replace('ingot_', '').replace(/_/g, ' ');
+
+        const detailsMap: Record<string, { color: string; icon: LucideIcon }> =
+            {
+                ingot_education: { color: 'bg-blue-500', icon: GraduationCap },
+                ingot_experience: { color: 'bg-emerald-500', icon: Briefcase },
+                ingot_project: { color: 'bg-purple-500', icon: Hammer },
+                ingot_single_certification: {
                     color: 'bg-amber-500',
                     icon: Award,
-                    label: 'Certification',
-                };
-            if (normalized.includes('personal'))
-                return { color: 'bg-rose-500', icon: User, label: 'Personal' };
-            return {
-                color: 'bg-slate-500',
-                icon: FileText,
-                label: type.replace('ingot_', ''),
+                },
+                ingot_personal_info: { color: 'bg-rose-500', icon: User },
+                ingot_personal_statement: {
+                    color: 'bg-pink-500',
+                    icon: FileText,
+                },
+                ingot_skill: { color: 'bg-indigo-500', icon: Brain },
+                ingot_hobby: { color: 'bg-orange-500', icon: Volleyball },
+                ingot_reference: { color: 'bg-teal-500', icon: Headset },
             };
+
+        const details = detailsMap[type] || {
+            color: 'bg-slate-500',
+            icon: FileText,
+        };
+
+        return {
+            ...details,
+            label,
+        };
     }
 }

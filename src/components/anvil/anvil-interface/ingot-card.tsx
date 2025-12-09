@@ -83,7 +83,7 @@ export default function IngotCard({ ingotData }: Props) {
                     <Button
                         variant="secondary"
                         size="sm"
-                        className="h-8 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700"
+                        className="h-8 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 cursor-pointer"
                     >
                         <Edit className="h-3.5 w-3.5 mr-1.5" />
                         Edit
@@ -95,7 +95,7 @@ export default function IngotCard({ ingotData }: Props) {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 w-8 p-0 text-slate-400 hover:text-red-400 hover:bg-red-950/30"
+                            className="h-8 w-8 p-0 text-slate-400 hover:text-red-400 hover:bg-red-950/30 cursor-pointer"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <Trash2 className="h-3.5 w-3.5" />
