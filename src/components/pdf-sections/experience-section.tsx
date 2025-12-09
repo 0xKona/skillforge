@@ -3,50 +3,24 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
-import { Ingot, SortOrder } from '@/lib/types/ingot';
+import { Ingot } from '@/lib/types/ingot-types';
+import { sortBillets } from '@/lib/helpers/sort-helpers';
+import { SortOrder } from '@/lib/types/preview-util-types';
 
 interface Props {
     ingots: Ingot[];
     billetIds?: string[];
-    sortBy?: SortOrder;
     billetSortBy?: SortOrder;
 }
-
-const getDateValue = (dateStr: string) => {
-    if (!dateStr) return 0;
-    if (
-        dateStr.toLowerCase() === 'present' ||
-        dateStr.toLowerCase() === 'current'
-    )
-        return new Date().getTime();
-    return new Date(dateStr).getTime();
-};
 
 export const ExperienceSection = ({
     ingots,
     billetIds,
-    sortBy,
     billetSortBy,
 }: Props) => {
-    const displayIngots = [...ingots];
-
-    if (sortBy === 'date-desc') {
-        displayIngots.sort((a, b) => {
-            const dateA = getDateValue(a.content.fields.startDate?.value || '');
-            const dateB = getDateValue(b.content.fields.startDate?.value || '');
-            return dateB - dateA;
-        });
-    } else if (sortBy === 'date-asc') {
-        displayIngots.sort((a, b) => {
-            const dateA = getDateValue(a.content.fields.startDate?.value || '');
-            const dateB = getDateValue(b.content.fields.startDate?.value || '');
-            return dateA - dateB;
-        });
-    }
-
     return (
         <View>
-            {displayIngots.map((ingot) => {
+            {ingots.map((ingot) => {
                 const { fields, billets } = ingot.content;
                 const company = String(fields.companyName?.value || '');
                 const location = String(fields.location?.value || '');
@@ -64,27 +38,7 @@ export const ExperienceSection = ({
                     );
                 }
 
-                if (billetSortBy === 'date-desc') {
-                    displayBillets.sort((a, b) => {
-                        const dateA = getDateValue(
-                            a.fields.startDate?.value || ''
-                        );
-                        const dateB = getDateValue(
-                            b.fields.startDate?.value || ''
-                        );
-                        return dateB - dateA;
-                    });
-                } else if (billetSortBy === 'date-asc') {
-                    displayBillets.sort((a, b) => {
-                        const dateA = getDateValue(
-                            a.fields.startDate?.value || ''
-                        );
-                        const dateB = getDateValue(
-                            b.fields.startDate?.value || ''
-                        );
-                        return dateA - dateB;
-                    });
-                }
+                displayBillets = sortBillets(displayBillets, billetSortBy);
 
                 // If there are billets (roles), render them as primary entries
                 if (displayBillets.length > 0) {

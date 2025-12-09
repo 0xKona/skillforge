@@ -3,40 +3,16 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
-import { Ingot, SortOrder } from '@/lib/types/ingot';
+import { Ingot } from '@/lib/types/ingot-types';
 
 interface Props {
     ingots: Ingot[];
-    billetIds?: string[];
-    sortBy?: SortOrder;
-    billetSortBy?: SortOrder;
 }
 
-const getDateValue = (dateStr: string) => {
-    if (!dateStr) return 0;
-    return new Date(dateStr).getTime();
-};
-
-export const CertificationsSection = ({ ingots, sortBy }: Props) => {
-    const displayIngots = [...ingots];
-
-    if (sortBy === 'date-desc') {
-        displayIngots.sort((a, b) => {
-            const dateA = getDateValue(a.content.fields.certDate?.value || '');
-            const dateB = getDateValue(b.content.fields.certDate?.value || '');
-            return dateB - dateA;
-        });
-    } else if (sortBy === 'date-asc') {
-        displayIngots.sort((a, b) => {
-            const dateA = getDateValue(a.content.fields.certDate?.value || '');
-            const dateB = getDateValue(b.content.fields.certDate?.value || '');
-            return dateA - dateB;
-        });
-    }
-
+export const CertificationSection = ({ ingots }: Props) => {
     return (
         <View>
-            {displayIngots.map((ingot) => {
+            {ingots.map((ingot) => {
                 const { fields } = ingot.content;
                 const name = String(fields.certName?.value || '');
                 const desc = String(fields.certDescription?.value || '');

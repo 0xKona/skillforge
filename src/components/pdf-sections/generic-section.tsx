@@ -3,13 +3,10 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
-import { Ingot, SortOrder } from '@/lib/types/ingot';
+import { Ingot } from '@/lib/types/ingot-types';
 
 interface Props {
     ingots: Ingot[];
-    billetIds?: string[];
-    sortBy?: SortOrder;
-    billetSortBy?: SortOrder;
 }
 
 export const GenericSection = ({ ingots }: Props) => {

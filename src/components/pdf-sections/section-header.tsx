@@ -1,10 +1,11 @@
 import React from 'react';
 import { Text } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
-import { IngotType } from '@/lib/types/ingot';
+import { IngotType } from '@/lib/types/ingot-types';
 
 interface Props {
     ingotType: IngotType;
+    customTitle?: string;
 }
 
 const SECTION_TITLES: Record<string, string> = {
@@ -18,8 +19,8 @@ const SECTION_TITLES: Record<string, string> = {
     ingot_reference: 'References',
 };
 
-export const SectionHeader = ({ ingotType }: Props) => {
-    const title = SECTION_TITLES[ingotType];
+export const SectionHeader = ({ ingotType, customTitle }: Props) => {
+    const title = customTitle || SECTION_TITLES[ingotType];
 
     if (!title) return null;
 
