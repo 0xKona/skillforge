@@ -7,7 +7,7 @@ import {
 import { Input } from '@/components/shadcn-components/input';
 import { Label } from '@/components/shadcn-components/label';
 import DynamicForm from './dynamic-form';
-import { IngotField } from '@/lib/types/ingot';
+import { IngotField } from '@/lib/types/ingot-types';
 
 interface IngotDetailsProps {
     ingotName: string;

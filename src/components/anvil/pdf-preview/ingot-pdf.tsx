@@ -4,21 +4,19 @@ import React from 'react';
 import { Document, Page, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../../lib/pdf-styles/pdf-styles';
 import { PersonalInfoSection } from '../../pdf-sections/personal-info-section';
-import {
-    Ingot,
-    IngotEditorData,
-    IngotType,
-    SortOrder,
-} from '@/lib/types/ingot';
+import { Ingot, IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { ExperienceSection } from '@/components/pdf-sections/experience-section';
 import { EducationSection } from '@/components/pdf-sections/education-section';
 import { SkillsSection } from '@/components/pdf-sections/skills-section';
-import { CertificationsSection } from '@/components/pdf-sections/certifications-section';
+import { CertificationSection } from '@/components/pdf-sections/certifications-section';
 import { ProjectsSection } from '@/components/pdf-sections/projects-section';
 import { PersonalStatementSection } from '@/components/pdf-sections/personal-statement-section';
 import { GenericSection } from '@/components/pdf-sections/generic-section';
 import { ReferenceSection } from '@/components/pdf-sections/reference-section';
 import { SectionHeader } from '@/components/pdf-sections/section-header';
+import { SortOrder } from '@/lib/types/preview-util-types';
+
+// TODO FIX TYPING
 
 interface IngotPDFProps {
     ingotData: IngotEditorData;
@@ -65,7 +63,7 @@ export const IngotPDF = ({
                 );
             case 'ingot_single_certification':
                 return (
-                    <CertificationsSection
+                    <CertificationSection
                         ingots={[ingotData as Ingot]}
                         billetIds={billetIds}
                         sortBy={billetSortBy}
@@ -105,11 +103,19 @@ export const IngotPDF = ({
         }
     }
 
+    let customTitle;
+    if (ingotData.type === 'ingot_personal_statement') {
+        customTitle = ingotData.content.fields.title?.value;
+    }
+
     return (
         <Document>
             <Page size="A4" style={pdfStyles.page}>
                 <View>
-                    <SectionHeader ingotType={ingotData.type as IngotType} />
+                    <SectionHeader
+                        ingotType={ingotData.type as IngotType}
+                        customTitle={customTitle}
+                    />
                     {renderSection()}
                 </View>
             </Page>

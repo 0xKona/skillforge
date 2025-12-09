@@ -7,7 +7,10 @@ import { Button } from '@/components/shadcn-components/button';
 import { IngotPDF } from './ingot-pdf';
 import { Card } from '@/components/shadcn-components/card';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
-import { IngotEditorData, IngotField, SortOrder } from '@/lib/types/ingot';
+import {
+    IngotEditorData,
+    IngotField
+} from '@/lib/types/ingot-types';
 import {
     Select,
     SelectContent,
@@ -16,6 +19,7 @@ import {
     SelectValue,
 } from '@/components/shadcn-components/select';
 import { Label } from '@/components/shadcn-components/label';
+import { SortOrder } from '@/lib/types/preview-util-types';
 
 interface Props {
     isOpen: boolean;

@@ -1,6 +1,10 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
-import { Ingot, INGOT_TYPE_LABELS, IngotContent } from '@/lib/types/ingot';
+import {
+    Ingot,
+    INGOT_TYPE_LABELS,
+    IngotContent,
+} from '@/lib/types/ingot-types';
 import {
     Award,
     Briefcase,

@@ -12,7 +12,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '../../shadcn-components/alert-dialog';
-import { Ingot } from '@/lib/types/ingot';
+import { Ingot } from '@/lib/types/ingot-types';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import { cn } from '@/lib/utils';
 import { IngotService } from '@/lib/classes/ingot-service';

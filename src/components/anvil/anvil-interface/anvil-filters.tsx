@@ -8,7 +8,7 @@ import {
     SelectValue,
 } from '@/components/shadcn-components/select';
 import { Search, X } from 'lucide-react';
-import { INGOT_TYPE_LABELS } from '@/lib/types/ingot';
+import { INGOT_TYPE_LABELS } from '@/lib/types/ingot-types';
 import { Button } from '@/components/shadcn-components/button';
 
 export default function AnvilInterfaceFilters() {

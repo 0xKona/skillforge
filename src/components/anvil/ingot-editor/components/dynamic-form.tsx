@@ -1,6 +1,6 @@
 'use client';
 
-import { IngotField } from '@/lib/types/ingot';
+import { IngotField } from '@/lib/types/ingot-types';
 import { FormField } from './form-field';
 import { IngotFormHelper } from '@/lib/helpers/ingot-form-helpers';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Billet, BilletTemplate, IngotField } from '@/lib/types/ingot';
+import { Billet, BilletTemplate, IngotField } from '@/lib/types/ingot-types';
 import { BILLET_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { Button } from '@/components/shadcn-components/button';
 import {

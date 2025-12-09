@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Ingot } from '../types/ingot';
+import { Ingot } from '../types/ingot-types';
 import { IngotService } from '../classes/ingot-service';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';

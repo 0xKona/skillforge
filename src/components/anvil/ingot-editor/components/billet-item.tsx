@@ -1,4 +1,4 @@
-import { Billet } from '@/lib/types/ingot';
+import { Billet } from '@/lib/types/ingot-types';
 import { Button } from '@/components/shadcn-components/button';
 import {
     AlertDialog,

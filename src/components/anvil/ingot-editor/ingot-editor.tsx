@@ -7,7 +7,7 @@ import {
     IngotTypeLabelMap,
     IngotEditorData,
     IngotType,
-} from '@/lib/types/ingot';
+} from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './components/editor-header';
 import { IngotDetails } from './components/ingot-details';
 import { BilletSection } from './components/billet-section';

@@ -13,7 +13,7 @@ import {
     IngotField,
     QUALIFICATION_LEVELS,
     SKILL_PROFICIENCY_LEVELS,
-} from '@/lib/types/ingot';
+} from '@/lib/types/ingot-types';
 import { IngotFormHelper } from '@/lib/helpers/ingot-form-helpers';
 
 interface FormFieldProps {

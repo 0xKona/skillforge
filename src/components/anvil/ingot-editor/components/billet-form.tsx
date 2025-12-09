@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BilletTemplate, IngotField } from '@/lib/types/ingot';
+import { BilletTemplate, IngotField } from '@/lib/types/ingot-types';
 import DynamicForm from './dynamic-form';
 import { Button } from '@/components/shadcn-components/button';
 import { X, Check } from 'lucide-react';

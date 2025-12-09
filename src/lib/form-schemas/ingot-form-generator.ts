@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IngotField } from '@/lib/types/ingot';
+import { IngotField } from '@/lib/types/ingot-types';
 
 // Helped me do this
 // https://stackoverflow.com/questions/75984188/zod-how-to-dynamically-generate-a-schema

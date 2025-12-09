@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/shadcn-components/button';
 import IngotCard from './ingot-card';
 import IngotCardSkeleton from './ingot-card-skeleton';
-import { Ingot } from '@/lib/types/ingot';
+import { Ingot } from '@/lib/types/ingot-types';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import AnvilInterfaceFilters from './anvil-filters';
 import AnvilHeader from './anvil-header';
