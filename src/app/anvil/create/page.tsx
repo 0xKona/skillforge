@@ -4,7 +4,11 @@ import { useSearchParams } from 'next/navigation';
 import IngotEditor from '@/components/anvil/ingot-editor/ingot-editor';
 import IngotTypeSelection from '@/components/anvil/ingot-type-selection';
 import { Suspense } from 'react';
-import { NewIngot, IngotType, INGOT_TYPE_LABELS } from '@/lib/types/ingot';
+import {
+    NewIngot,
+    IngotType,
+    INGOT_TYPE_LABELS,
+} from '@/lib/types/ingot-types';
 
 function CreateIngotContent() {
     const searchParams = useSearchParams();
