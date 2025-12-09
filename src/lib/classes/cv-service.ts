@@ -1,69 +1,89 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
-import { CvStructure } from '@/lib/types/data-types';
+import { CV, CvContent, NewCV } from '@/lib/types/cv-types';
 
 const client = generateClient<Schema>();
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mapToCv = (item: any): CV => {
+    let cvContent: CvContent;
+    // Handle content if it's a string (JSON stringified) or object
+    if (typeof item.cvContent === 'string') {
+        try {
+            cvContent = JSON.parse(item.cvContent);
+        } catch {
+            cvContent = { sections: [] };
+        }
+    } else {
+        cvContent = item.cvContent as CvContent;
+    }
+
+    return {
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        version: item.version,
+        cvContent,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+    };
+};
+
 export class CvService {
-    static async createCv(
-        title: string,
-        structure: CvStructure,
-        description?: string
-    ) {
+    static async createCv(cvData: NewCV): Promise<CV> {
         const { data: newCv, errors } = await client.models.CV.create({
-            title,
-            description,
-            structure: JSON.stringify(structure),
-            isPublic: false,
+            title: cvData.title,
+            description: cvData.description,
+            version: cvData.version,
+            cvContent: JSON.stringify(cvData.cvContent),
         });
 
         if (errors) {
             throw new Error(`Failed to create CV: ${errors[0].message}`);
         }
 
-        return newCv;
+        return mapToCv(newCv);
     }
 
-    static async getCv(id: string) {
+    static async getCv(id: string): Promise<CV | null> {
         const { data: cv, errors } = await client.models.CV.get({ id });
 
         if (errors) {
             throw new Error(`Failed to get CV: ${errors[0].message}`);
         }
 
-        return cv;
+        if (!cv) return null;
+
+        return mapToCv(cv);
     }
 
-    static async listCvs() {
+    static async listCvs(): Promise<CV[]> {
         const { data: cvs, errors } = await client.models.CV.list();
 
         if (errors) {
             throw new Error(`Failed to list CVs: ${errors[0].message}`);
         }
 
-        return cvs;
+        return cvs.map(mapToCv);
     }
 
-    static async updateCv(id: string, updates: Partial<Schema['CV']['type']>) {
-        // If structure is being updated, ensure it's stringified if it's an object
-        const safeUpdates = { ...updates };
-        if (typeof safeUpdates.structure === 'object') {
-            safeUpdates.structure = JSON.stringify(safeUpdates.structure);
-        }
-
+    static async updateCv(cv: CV): Promise<CV> {
         const { data: updatedCv, errors } = await client.models.CV.update({
-            id,
-            ...safeUpdates,
+            id: cv.id,
+            title: cv.title,
+            description: cv.description,
+            version: cv.version,
+            cvContent: JSON.stringify(cv.cvContent),
         });
 
         if (errors) {
             throw new Error(`Failed to update CV: ${errors[0].message}`);
         }
 
-        return updatedCv;
+        return mapToCv(updatedCv);
     }
 
-    static async deleteCv(id: string) {
+    static async deleteCv(id: string): Promise<void> {
         const { errors } = await client.models.CV.delete({ id });
 
         if (errors) {

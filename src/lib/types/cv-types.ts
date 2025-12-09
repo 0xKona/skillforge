@@ -1,10 +1,16 @@
 import { IngotType } from './ingot';
 
-export interface CV_TEMPLATE_INTERFACE {
+export interface NewCV {
     version: number;
-    displayName: string;
-    description: string;
+    title: string;
+    description?: string | null;
     cvContent: CvContent;
+}
+
+export interface CV extends NewCV {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface CvContent {

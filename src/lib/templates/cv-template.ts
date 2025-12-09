@@ -1,9 +1,9 @@
-import { CV_TEMPLATE_INTERFACE } from '../types/cv-types';
+import { NewCV } from '../types/cv-types';
 
-export const CV_TEMPLATE: CV_TEMPLATE_INTERFACE = {
+export const CV_TEMPLATE: NewCV = {
     // Version should be updated whenever template is changed!!!
     version: 1,
-    displayName: '',
+    title: '',
     description: '',
     cvContent: {
         sections: [],

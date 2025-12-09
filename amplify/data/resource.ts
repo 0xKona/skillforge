@@ -6,10 +6,9 @@ const schema = a.schema({
         .model({
             title: a.string().required(),
             description: a.string(),
-            // JSON string storing the layout/order of sections and selected Ingot IDs
-            // Example: { "sections": [ { "name": "Education", "ingotIds": ["id1", "id2"] } ] }
-            structure: a.json(),
-            isPublic: a.boolean().default(false),
+            version: a.integer().required(),
+            // JSON string storing the sections and configuration
+            cvContent: a.json(),
         })
         .authorization((allow) => [allow.owner()]),
 
