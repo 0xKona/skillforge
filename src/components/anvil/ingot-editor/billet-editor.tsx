@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Billet, BilletTemplate, IngotField } from '@/lib/types/ingot';
-import { BILLET_TEMPLATES } from '@/lib/ingot-templates';
+import { BILLET_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { Button } from '@/components/shadcn-components/button';
 import {
     Card,

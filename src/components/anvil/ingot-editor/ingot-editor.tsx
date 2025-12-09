@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { INGOT_TEMPLATES } from '@/lib/ingot-templates';
+import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
 import {
     INGOT_TYPE_LABELS,
     IngotTypeLabelMap,

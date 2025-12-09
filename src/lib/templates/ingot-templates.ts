@@ -1,4 +1,4 @@
-import { IngotTemplate, BilletTemplate } from './types/ingot';
+import { IngotTemplate, BilletTemplate } from '../types/ingot';
 
 export const BILLET_TEMPLATES: Record<string, BilletTemplate> = {
     billet_edu_subject: {
