@@ -83,7 +83,7 @@ export default function CvCard({ cvData }: Props) {
             {/* Actions Footer */}
             <div className="px-5 pb-5 pt-0 flex justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all translate-y-0 sm:translate-y-2 sm:group-hover:translate-y-0">
                 <Link
-                    href={`/forge/edit/${cvData.id}`}
+                    href={`/forge/cv/${cvData.id}`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <Button

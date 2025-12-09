@@ -46,7 +46,7 @@ export default function CvLibraryInterface() {
                             className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`}
                         />
                     </Button>
-                    <Link href="/forge/create">
+                    <Link href="/forge/cv/new">
                         <Button className="bg-forge-orange hover:bg-forge-orange/90 text-white font-medium w-full md:w-auto">
                             <Plus className="mr-2 h-4 w-4" />
                             Create New CV
@@ -82,7 +82,7 @@ export default function CvLibraryInterface() {
                             : 'No CVs match your search.'}
                     </p>
                     {cvs.length === 0 && (
-                        <Link href="/forge/create">
+                        <Link href="/forge/cv/new">
                             <Button
                                 variant="outline"
                                 className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"

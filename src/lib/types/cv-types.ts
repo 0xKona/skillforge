@@ -1,4 +1,5 @@
-import { IngotType } from './ingot';
+import { IngotType } from './ingot-types';
+import { SortOrder } from './preview-util-types';
 
 export interface NewCV {
     version: number;
@@ -20,7 +21,9 @@ export interface CvContent {
 export interface Section {
     sectionType: IngotType;
     ingotIds: string[]; // Ordered list of Ingot IDs
-    includedBilletIds: string[]; // Billets to include (across all Ingots in this section)
-    sortIngotsBy?: 'date-desc' | 'date-asc' | 'none'; // New: Sort Ingots (e.g., by date)
-    sortBilletsBy: 'date-desc' | 'date-asc'; // Existing: Sort billets within each Ingot
+    billetIds: string[]; // Billets to include (across all Ingots in this section)
+    sortIngotsBy?: SortOrder; // New: Sort Ingots (e.g., by date)
+    sortBilletsBy: SortOrder; // Existing: Sort billets within each Ingot
+    customTitle?: string;
+    isVisible?: boolean;
 }

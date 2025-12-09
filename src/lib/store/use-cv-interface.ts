@@ -55,7 +55,7 @@ export const useCvInterfaceState = create<UseCvInterfaceStore>((set) => ({
     },
 
     openCv: (id: string) => {
-        redirect(`/forge/edit/${id}`);
+        redirect(`/forge/cv/${id}`);
     },
 
     setSearchQuery: (query: string) => set({ searchQuery: query }),
