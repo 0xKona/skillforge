@@ -2,8 +2,8 @@
 
 import dynamic from 'next/dynamic';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
-import { CvPDF } from './cv-pdf';
 import { CV } from '@/lib/types/cv-types';
+import { CvPDF } from './cv-pdf';
 
 const PDFViewer = dynamic(
     () => import('@react-pdf/renderer').then((mod) => mod.PDFViewer),
