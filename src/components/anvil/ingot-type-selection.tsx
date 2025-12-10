@@ -1,9 +1,12 @@
 import { TypographyH2 } from '../ui/typography/typography';
 import { Card } from '../shadcn-components/card';
 import Link from 'next/link';
-import { INGOT_TYPE_LABELS, IngotTypeLabelMap } from '@/lib/types/ingot-types';
 import { IngotService } from '@/lib/classes/ingot-service';
 import { cn } from '@/lib/utils';
+import {
+    INGOT_TYPE_LABELS,
+    IngotTypeLabelMap,
+} from '@/lib/mappings/ingot-mappings';
 
 function IngotTypeCard({ ingotType }: { ingotType: IngotTypeLabelMap }) {
     const {

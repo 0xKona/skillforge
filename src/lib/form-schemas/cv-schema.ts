@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { INGOT_TYPE_LABELS } from '../types/ingot-types';
+import { INGOT_TYPE_LABELS } from '../mappings/ingot-mappings';
 
 export const cvSectionSchema = z.object({
     sectionType: z.string(),

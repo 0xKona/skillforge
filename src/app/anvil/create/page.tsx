@@ -7,8 +7,8 @@ import { Suspense } from 'react';
 import {
     NewIngot,
     IngotType,
-    INGOT_TYPE_LABELS,
 } from '@/lib/types/ingot-types';
+import { INGOT_TYPE_LABELS } from '@/lib/mappings/ingot-mappings';
 
 function CreateIngotContent() {
     const searchParams = useSearchParams();

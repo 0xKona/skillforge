@@ -1,10 +1,6 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
-import {
-    Ingot,
-    INGOT_TYPE_LABELS,
-    IngotContent,
-} from '@/lib/types/ingot-types';
+import { Ingot, IngotContent } from '@/lib/types/ingot-types';
 import {
     Award,
     Briefcase,
@@ -17,6 +13,7 @@ import {
     Headset,
     Hammer,
 } from 'lucide-react';
+import { INGOT_TYPE_LABELS } from '../mappings/ingot-mappings';
 
 const client = generateClient<Schema>();
 

@@ -2,12 +2,7 @@
 
 import { useEffect } from 'react';
 import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
-import {
-    INGOT_TYPE_LABELS,
-    IngotTypeLabelMap,
-    IngotEditorData,
-    IngotType,
-} from '@/lib/types/ingot-types';
+import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './components/editor-header';
 import { IngotDetails } from './components/ingot-details';
 import { BilletSection } from './components/billet-section';
@@ -24,6 +19,10 @@ import IngotEditorSkeleton from './ingot-editor-skeleton';
 import IngotPreviewModal from '../pdf-preview/ingot-preview-modal';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
 import { IngotFormHelper } from '@/lib/helpers/ingot-form-helpers';
+import {
+    INGOT_TYPE_LABELS,
+    IngotTypeLabelMap,
+} from '@/lib/mappings/ingot-mappings';
 
 interface Props {
     initialIngotData: IngotEditorData;
