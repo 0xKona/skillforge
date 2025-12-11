@@ -85,20 +85,10 @@ export const CvPDF = ({ cv, availableIngots }: CvPDFProps) => {
                 return <ReferenceSection ingots={sectionIngots} />;
 
             case 'ingot_hobby':
-                return (
-                    <GenericSection
-                        ingots={sectionIngots}
-                        billetIds={section.billetIds}
-                    />
-                );
+                return <GenericSection ingots={sectionIngots} />;
 
             default:
-                return (
-                    <GenericSection
-                        ingots={sectionIngots}
-                        billetIds={section.billetIds}
-                    />
-                );
+                return <GenericSection ingots={sectionIngots} />;
         }
     };
 

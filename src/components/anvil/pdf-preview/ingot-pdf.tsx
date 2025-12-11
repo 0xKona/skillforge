@@ -16,8 +16,6 @@ import { ReferenceSection } from '@/components/pdf-sections/reference-section';
 import { SectionHeader } from '@/components/pdf-sections/section-header';
 import { SortOrder } from '@/lib/types/preview-util-types';
 
-// TODO FIX TYPING
-
 interface IngotPDFProps {
     ingotData: IngotEditorData;
     billetIds: string[];
@@ -51,7 +49,7 @@ export const IngotPDF = ({
                     <EducationSection
                         ingots={[ingotData as Ingot]}
                         billetIds={billetIds}
-                        sortBy={billetSortBy}
+                        billetSortBy={billetSortBy}
                     />
                 );
             case 'ingot_skill':
@@ -69,31 +67,15 @@ export const IngotPDF = ({
                     />
                 );
             case 'ingot_project':
-                return (
-                    <ProjectsSection
-                        ingots={[ingotData as Ingot]}
-                        billetIds={billetIds}
-                        sortBy={billetSortBy}
-                    />
-                );
+                return <ProjectsSection ingots={[ingotData as Ingot]} />;
             case 'ingot_personal_statement':
                 return <PersonalStatementSection ingot={ingotData as Ingot} />;
             case 'ingot_reference':
                 return <ReferenceSection ingots={[ingotData as Ingot]} />;
             case 'ingot_hobby':
-                return (
-                    <GenericSection
-                        ingots={[ingotData as Ingot]}
-                        billetIds={billetIds}
-                    />
-                );
+                return <GenericSection ingots={[ingotData as Ingot]} />;
             default:
-                return (
-                    <GenericSection
-                        ingots={[ingotData as Ingot]}
-                        billetIds={billetIds}
-                    />
-                );
+                return <GenericSection ingots={[ingotData as Ingot]} />;
         }
     }
 
