@@ -8,6 +8,7 @@ import { TypographyP } from '@/components/ui/typography/typography';
 import CvSectionEditorSortDropdown from '../components/cv-section-editor-billet-sort-dropdown';
 import CvEditorHeader from '../components/cv-editor-header';
 import CvSectionEditorBillets from '../components/cv-section-editor-billet';
+import IngotHelpers from '@/lib/classes/helper-ingot';
 
 // TODO TOMORROW - Continue Refactor
 
@@ -31,20 +32,12 @@ export function SectionEditor() {
     );
 
     // Check is there are billets that can be sorted by date
-    const canSortBillets: boolean = relevantIngots.some(
-        (ingot) =>
-            ingot.content.billets.length > 0 &&
-            ingot.content.billets.some((billet) =>
-                Object.values(billet.fields).some((f) => f.inputType === 'date')
-            )
-    );
+    const canSortBillets =
+        IngotHelpers.checkBilletsCanBeSortedByDate(relevantIngots);
 
     // Checks if any ingots have a date value, implying they can be sorted by date
-    const canSortIngots: boolean = relevantIngots.some((ingot) =>
-        Object.values(ingot.content.fields).some(
-            (field) => field.inputType === 'date'
-        )
-    );
+    const canSortIngots =
+        IngotHelpers.checkIngotsCanBeSortedByDate(relevantIngots);
 
     return (
         <div className="space-y-6">

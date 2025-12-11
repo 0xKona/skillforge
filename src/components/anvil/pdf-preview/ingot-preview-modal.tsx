@@ -7,10 +7,7 @@ import { Button } from '@/components/shadcn-components/button';
 import { IngotPDF } from './ingot-pdf';
 import { Card } from '@/components/shadcn-components/card';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
-import {
-    IngotEditorData,
-    IngotField
-} from '@/lib/types/ingot-types';
+import { Ingot, IngotEditorData, IngotField } from '@/lib/types/ingot-types';
 import {
     Select,
     SelectContent,
@@ -20,11 +17,14 @@ import {
 } from '@/components/shadcn-components/select';
 import { Label } from '@/components/shadcn-components/label';
 import { SortOrder } from '@/lib/types/preview-util-types';
+import IngotHelpers from '@/lib/classes/helper-ingot';
 
 interface Props {
     isOpen: boolean;
     ingotData: IngotEditorData;
 }
+
+// TODO - REFACTOR WITH HELPERS
 
 export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
     const { closePreviewModal } = useIngotPreviewState();
@@ -65,7 +65,10 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
         return 'Untitled';
     };
 
-    const showSortOptions = ingotData.type === 'ingot_experience';
+    // HERE
+    const showSortOptions = IngotHelpers.checkBilletsCanBeSortedByDate(
+        ingotData as Ingot
+    );
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8">
