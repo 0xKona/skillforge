@@ -10,8 +10,6 @@ import CvEditorHeader from '../components/cv-editor-header';
 import CvSectionEditorBillets from '../components/cv-section-editor-billet';
 import IngotHelpers from '@/lib/classes/helper-ingot';
 
-// TODO TOMORROW - Continue Refactor
-
 export function SectionEditor() {
     const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
         useCvEditorState();
