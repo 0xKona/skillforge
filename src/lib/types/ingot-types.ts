@@ -54,7 +54,7 @@ export type IngotType =
     | 'ingot_experience'
     | 'ingot_project'
     | 'ingot_skill'
-    | 'ingot_single_certification'
+    | 'ingot_certification'
     | 'ingot_personal_info'
     | 'ingot_personal_statement'
     | 'ingot_hobby'

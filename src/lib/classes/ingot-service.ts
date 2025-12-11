@@ -136,7 +136,7 @@ export class IngotService {
                 ingot_education: { color: 'bg-blue-500', icon: GraduationCap },
                 ingot_experience: { color: 'bg-emerald-500', icon: Briefcase },
                 ingot_project: { color: 'bg-purple-500', icon: Hammer },
-                ingot_single_certification: {
+                ingot_certification: {
                     color: 'bg-amber-500',
                     icon: Award,
                 },

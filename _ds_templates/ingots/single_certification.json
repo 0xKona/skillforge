@@ -1,5 +1,5 @@
 {
-    "type": "ingot_single_certification",
+    "type": "ingot_certification",
     "content": {
         "fields": {
             "certName": {

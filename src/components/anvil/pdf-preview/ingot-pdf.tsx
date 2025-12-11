@@ -61,12 +61,11 @@ export const IngotPDF = ({
                         billetIds={billetIds}
                     />
                 );
-            case 'ingot_single_certification':
+            case 'ingot_certification':
                 return (
                     <CertificationSection
                         ingots={[ingotData as Ingot]}
-                        billetIds={billetIds}
-                        sortBy={billetSortBy}
+                        ingotSortBy={billetSortBy}
                     />
                 );
             case 'ingot_project':

@@ -149,8 +149,8 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             billets: [],
         },
     },
-    ingot_single_certification: {
-        type: 'ingot_single_certification',
+    ingot_certification: {
+        type: 'ingot_certification',
         content: {
             fields: {
                 certName: { mandatory: true, value: '', inputType: 'text' },

@@ -13,7 +13,7 @@ const SECTION_TITLES: Record<string, string> = {
     ingot_experience: 'Experience',
     ingot_project: 'Projects',
     ingot_skill: 'Skills',
-    ingot_single_certification: 'Certifications',
+    ingot_certification: 'Certifications',
     ingot_personal_statement: 'Profile',
     ingot_hobby: 'Hobbies',
     ingot_reference: 'References',

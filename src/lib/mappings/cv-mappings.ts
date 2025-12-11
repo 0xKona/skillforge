@@ -12,7 +12,7 @@ export const CV_SECTION_LABELS: CvSectionLabelMap[] = [
     { value: 'ingot_experience', label: 'Experience' },
     { value: 'ingot_project', label: 'Projects' },
     { value: 'ingot_skill', label: 'Skills' },
-    { value: 'ingot_single_certification', label: 'Certifications' },
+    { value: 'ingot_certification', label: 'Certifications' },
     { value: 'ingot_hobby', label: 'Hobbies' },
     { value: 'ingot_reference', label: 'References' },
 ];
@@ -26,5 +26,5 @@ export function getCvSectionLabelByValue(value: IngotType) {
         throw new Error('Could not find a label for that type');
     }
 
-    return label
+    return label;
 }

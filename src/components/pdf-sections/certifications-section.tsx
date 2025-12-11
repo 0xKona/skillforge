@@ -4,15 +4,20 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
+import { SortOrder } from '@/lib/types/preview-util-types';
+import { sortIngots } from '@/lib/helpers/sort-helpers';
 
 interface Props {
     ingots: Ingot[];
+    ingotSortBy?: SortOrder;
 }
 
-export const CertificationSection = ({ ingots }: Props) => {
+export const CertificationSection = ({ ingots, ingotSortBy }: Props) => {
+    const orderedIngots = sortIngots(ingots, ingotSortBy);
+
     return (
         <View>
-            {ingots.map((ingot) => {
+            {orderedIngots.map((ingot) => {
                 const { fields } = ingot.content;
                 const name = String(fields.certName?.value || '');
                 const desc = String(fields.certDescription?.value || '');
