@@ -55,6 +55,7 @@ export const CvPDF = ({ cv, availableIngots }: CvPDFProps) => {
                 return (
                     <EducationSection
                         ingots={sectionIngots}
+                        billetIds={section.billetIds}
                         ingotSortBy={section.sortIngotsBy}
                     />
                 );

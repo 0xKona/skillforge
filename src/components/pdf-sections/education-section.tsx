@@ -9,10 +9,11 @@ import IngotHelpers from '@/lib/classes/helper-ingot';
 
 interface Props {
     ingots: Ingot[];
+    billetIds?: string[];
     ingotSortBy?: SortOrder;
 }
 
-export const EducationSection = ({ ingots, ingotSortBy }: Props) => {
+export const EducationSection = ({ ingots, billetIds, ingotSortBy }: Props) => {
     const sortedIngots = IngotHelpers.sortIngots(ingots, ingotSortBy);
 
     return (
@@ -30,6 +31,13 @@ export const EducationSection = ({ ingots, ingotSortBy }: Props) => {
                 const dateString = startDate
                     ? `${startDate} – ${endDate || 'Present'}`
                     : '';
+
+                let displayBillets = billets;
+                if (billetIds) {
+                    displayBillets = billets.filter((b) =>
+                        billetIds.includes(b.id)
+                    );
+                }
 
                 return (
                     <View key={ingot.id} style={pdfStyles.sectionContainer}>
@@ -51,7 +59,7 @@ export const EducationSection = ({ ingots, ingotSortBy }: Props) => {
                         </View>
 
                         {/* Subjects / Modules */}
-                        {billets.map((billet) => {
+                        {displayBillets.map((billet) => {
                             const name = String(
                                 billet.fields.name?.value || ''
                             );
