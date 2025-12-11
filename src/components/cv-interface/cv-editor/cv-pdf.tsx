@@ -77,13 +77,7 @@ export const CvPDF = ({ cv, availableIngots }: CvPDFProps) => {
                 );
 
             case 'ingot_project':
-                return (
-                    <ProjectsSection
-                        ingots={sectionIngots}
-                        billetIds={section.billetIds}
-                        billetSortBy={section.sortBilletsBy}
-                    />
-                );
+                return <ProjectsSection ingots={sectionIngots} />;
 
             case 'ingot_personal_statement':
                 return <PersonalStatementSection ingot={sectionIngots[0]} />;

@@ -4,12 +4,9 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { SortOrder } from '@/lib/types/preview-util-types';
 
 interface Props {
     ingots: Ingot[];
-    billetIds?: string[];
-    billetSortBy?: SortOrder;
 }
 
 export const ProjectsSection = ({ ingots }: Props) => {
@@ -24,9 +21,13 @@ export const ProjectsSection = ({ ingots }: Props) => {
                 return (
                     <View key={ingot.id} style={pdfStyles.sectionContainer}>
                         <View style={pdfStyles.row}>
+                            {/* Left Column */}
                             <View style={pdfStyles.leftColumn}>
                                 <Text style={pdfStyles.bold}>{title}</Text>
-                                <Text>{url ? ` | ${url}` : ''}</Text>
+                            </View>
+                            {/* Right Column */}
+                            <View style={pdfStyles.rightColumn}>
+                                <Text>{url ? url : ''}</Text>
                             </View>
                         </View>
 
