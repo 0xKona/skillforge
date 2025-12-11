@@ -4,8 +4,9 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { sortBillets, sortIngots } from '@/lib/helpers/sort-helpers';
+import { sortBillets } from '@/lib/helpers/sort-helpers';
 import { SortOrder } from '@/lib/types/preview-util-types';
+import IngotHelpers from '@/lib/classes/helper-ingot';
 
 interface Props {
     ingots: Ingot[];
@@ -20,11 +21,11 @@ export const ExperienceSection = ({
     billetSortBy,
     ingotSortBy,
 }: Props) => {
-    const sortedIngots = sortIngots(ingots, ingotSortBy);
+    const sortedIngots = IngotHelpers.sortIngots(ingots, ingotSortBy);
 
     return (
         <View>
-            {sortedIngots.map((ingot) => {
+            {sortedIngots.map((ingot: Ingot) => {
                 const { fields, billets } = ingot.content;
                 const company = String(fields.companyName?.value || '');
                 const location = String(fields.location?.value || '');

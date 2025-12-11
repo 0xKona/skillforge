@@ -1,4 +1,5 @@
 import { Ingot } from '../types/ingot-types';
+import { SortOrder } from '../types/preview-util-types';
 
 export default class IngotHelpers {
     /**
@@ -38,4 +39,39 @@ export default class IngotHelpers {
             )
         );
     }
+
+    private static getIngotDate = (ingot: Ingot): number => {
+        // Try to find a date field
+        const dateField = Object.values(ingot.content.fields).find(
+            (f) => f.inputType === 'date'
+        );
+        if (dateField && dateField.value) {
+            // Handle "Present" or "Current"
+            if (
+                dateField.value.toLowerCase() === 'present' ||
+                dateField.value.toLowerCase() === 'current'
+            ) {
+                return new Date().getTime();
+            }
+            return new Date(dateField.value).getTime();
+        }
+        // Fallback to createdAt
+        return new Date(ingot.createdAt).getTime();
+    };
+
+    /**
+     * Sort Ingots by Sort Type
+     * @param ingots
+     * @param sortBy
+     * @returns
+     */
+    static sortIngots = (ingots: Ingot[], sortBy?: SortOrder): Ingot[] => {
+        if (!sortBy || sortBy === 'none') return ingots;
+
+        return [...ingots].sort((a, b) => {
+            const dateA = this.getIngotDate(a);
+            const dateB = this.getIngotDate(b);
+            return sortBy === 'date-desc' ? dateB - dateA : dateA - dateB;
+        });
+    };
 }

@@ -45,13 +45,7 @@ export const IngotPDF = ({
                     />
                 );
             case 'ingot_education':
-                return (
-                    <EducationSection
-                        ingots={[ingotData as Ingot]}
-                        billetIds={billetIds}
-                        billetSortBy={billetSortBy}
-                    />
-                );
+                return <EducationSection ingots={[ingotData as Ingot]} />;
             case 'ingot_skill':
                 return (
                     <SkillsSection

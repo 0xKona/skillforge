@@ -4,23 +4,20 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { sortBillets } from '@/lib/helpers/sort-helpers';
 import { SortOrder } from '@/lib/types/preview-util-types';
+import IngotHelpers from '@/lib/classes/helper-ingot';
 
 interface Props {
     ingots: Ingot[];
-    billetIds?: string[];
-    billetSortBy?: SortOrder;
+    ingotSortBy?: SortOrder;
 }
 
-export const EducationSection = ({
-    ingots,
-    billetIds,
-    billetSortBy,
-}: Props) => {
+export const EducationSection = ({ ingots, ingotSortBy }: Props) => {
+    const sortedIngots = IngotHelpers.sortIngots(ingots, ingotSortBy);
+
     return (
         <View>
-            {ingots.map((ingot) => {
+            {sortedIngots.map((ingot) => {
                 const { fields, billets } = ingot.content;
                 const school = String(fields.schoolName?.value || '');
                 const location = String(fields.location?.value || '');
@@ -33,15 +30,6 @@ export const EducationSection = ({
                 const dateString = startDate
                     ? `${startDate} – ${endDate || 'Present'}`
                     : '';
-
-                let displayBillets = [...billets];
-                if (billetIds) {
-                    displayBillets = displayBillets.filter((b) =>
-                        billetIds.includes(b.id)
-                    );
-                }
-
-                displayBillets = sortBillets(displayBillets, billetSortBy);
 
                 return (
                     <View key={ingot.id} style={pdfStyles.sectionContainer}>
@@ -63,7 +51,7 @@ export const EducationSection = ({
                         </View>
 
                         {/* Subjects / Modules */}
-                        {displayBillets.map((billet) => {
+                        {billets.map((billet) => {
                             const name = String(
                                 billet.fields.name?.value || ''
                             );
