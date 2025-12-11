@@ -12,14 +12,14 @@ export const BILLET_TEMPLATES: Record<string, BilletTemplate> = {
     billet_exp_job: {
         type: 'billet_exp_job',
         fields: {
-            startDate: { mandatory: true, value: '', inputType: 'date' },
-            endDate: { mandatory: true, value: '', inputType: 'date' },
             jobTitle: { mandatory: true, value: '', inputType: 'text' },
             jobDescription: {
                 mandatory: false,
                 value: '',
                 inputType: 'textarea',
             },
+            startDate: { mandatory: true, value: '', inputType: 'date' },
+            endDate: { mandatory: true, value: '', inputType: 'date' },
         },
     },
     billet_grouped_certfication: {

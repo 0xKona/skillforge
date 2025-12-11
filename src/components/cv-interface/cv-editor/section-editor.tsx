@@ -3,22 +3,17 @@
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Checkbox } from '@/components/shadcn-components/checkbox';
 import { Label } from '@/components/shadcn-components/label';
-import { sortBillets } from '@/lib/helpers/sort-helpers';
 import { getIngotLabelByValue } from '@/lib/mappings/ingot-mappings';
 import { TypographyP } from '@/components/ui/typography/typography';
-import CvSectionEditorBilletSortDropdown from '../components/cv-section-editor-billet-sort-dropdown';
+import CvSectionEditorSortDropdown from '../components/cv-section-editor-billet-sort-dropdown';
 import CvEditorHeader from '../components/cv-editor-header';
+import CvSectionEditorBillets from '../components/cv-section-editor-billet';
 
 // TODO TOMORROW - Continue Refactor
 
 export function SectionEditor() {
-    const {
-        cv,
-        activeSectionIndex,
-        availableIngots,
-        toggleIngotInSection,
-        toggleBillet,
-    } = useCvEditorState();
+    const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
+        useCvEditorState();
 
     if (!cv || activeSectionIndex === null) return null;
 
@@ -35,8 +30,8 @@ export function SectionEditor() {
             index === self.findIndex((t) => t.id === ingot.id)
     );
 
-    // Check is there are billets that can be sorted
-    const canSortBillets = relevantIngots.some(
+    // Check is there are billets that can be sorted by date
+    const canSortBillets: boolean = relevantIngots.some(
         (ingot) =>
             ingot.content.billets.length > 0 &&
             ingot.content.billets.some((billet) =>
@@ -44,17 +39,38 @@ export function SectionEditor() {
             )
     );
 
+    // Checks if any ingots have a date value, implying they can be sorted by date
+    const canSortIngots: boolean = relevantIngots.some((ingot) =>
+        Object.values(ingot.content.fields).some(
+            (field) => field.inputType === 'date'
+        )
+    );
+
     return (
         <div className="space-y-6">
             {/* Section Editor Header */}
             <CvEditorHeader section={section} />
 
-            {/* Billet Sorting Dropdown Select */}
-            {canSortBillets && (
-                <CvSectionEditorBilletSortDropdown
-                    section={section}
-                    activeSectionIndex={activeSectionIndex}
-                />
+            {(canSortBillets || canSortIngots) && (
+                <div className="flex">
+                    {/* Ingot Sorting Dropdown Select */}
+                    {canSortIngots && (
+                        <CvSectionEditorSortDropdown
+                            section={section}
+                            activeSectionIndex={activeSectionIndex}
+                            type="ingot"
+                        />
+                    )}
+
+                    {/* Billet Sorting Dropdown Select */}
+                    {canSortBillets && (
+                        <CvSectionEditorSortDropdown
+                            section={section}
+                            activeSectionIndex={activeSectionIndex}
+                            type="billet"
+                        />
+                    )}
+                </div>
             )}
 
             {/* Ingot Selection */}
@@ -69,11 +85,13 @@ export function SectionEditor() {
                     </div>
                 ) : (
                     <div className="space-y-2">
+                        {/* Render each ingot the user has in that section */}
                         {relevantIngots.map((ingot) => (
                             <div
                                 key={ingot.id}
                                 className="border rounded-md p-3 space-y-3"
                             >
+                                {/* INGOT CARD */}
                                 <div className="flex items-start space-x-3">
                                     <Checkbox
                                         id={ingot.id}
@@ -97,45 +115,13 @@ export function SectionEditor() {
                                     </div>
                                 </div>
 
+                                {/* Render Billets for current ingot */}
                                 {section.ingotIds.includes(ingot.id) &&
                                     ingot.content.billets.length > 0 && (
-                                        <div className="ml-7 space-y-2 border-l-2 pl-3">
-                                            <p className="text-xs font-semibold text-muted-foreground">
-                                                Select items to include:
-                                            </p>
-                                            {sortBillets(
-                                                ingot.content.billets,
-                                                section.sortBilletsBy
-                                            ).map((billet) => (
-                                                <div
-                                                    key={billet.id}
-                                                    className="flex items-center space-x-2"
-                                                >
-                                                    <Checkbox
-                                                        id={billet.id}
-                                                        checked={section.billetIds.includes(
-                                                            billet.id
-                                                        )}
-                                                        onCheckedChange={() => {
-                                                            toggleBillet(
-                                                                activeSectionIndex,
-                                                                billet.id
-                                                            );
-                                                        }}
-                                                    />
-                                                    <Label
-                                                        htmlFor={billet.id}
-                                                        className="text-sm font-normal"
-                                                    >
-                                                        {Object.values(
-                                                            billet.fields
-                                                        ).find((f) => f.value)
-                                                            ?.value ||
-                                                            'Untitled Item'}
-                                                    </Label>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        <CvSectionEditorBillets
+                                            ingot={ingot}
+                                            section={section}
+                                        />
                                     )}
                             </div>
                         ))}

@@ -4,23 +4,27 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { sortBillets } from '@/lib/helpers/sort-helpers';
+import { sortBillets, sortIngots } from '@/lib/helpers/sort-helpers';
 import { SortOrder } from '@/lib/types/preview-util-types';
 
 interface Props {
     ingots: Ingot[];
     billetIds?: string[];
     billetSortBy?: SortOrder;
+    ingotSortBy?: SortOrder;
 }
 
 export const ExperienceSection = ({
     ingots,
     billetIds,
     billetSortBy,
+    ingotSortBy,
 }: Props) => {
+    const sortedIngots = sortIngots(ingots, ingotSortBy);
+
     return (
         <View>
-            {ingots.map((ingot) => {
+            {sortedIngots.map((ingot) => {
                 const { fields, billets } = ingot.content;
                 const company = String(fields.companyName?.value || '');
                 const location = String(fields.location?.value || '');
@@ -99,6 +103,7 @@ export const ExperienceSection = ({
                                                         pdfStyles.bulletContent
                                                     }
                                                 >
+                                                    {/* Strip out any bullet points or hyphens from text to avoid duplication */}
                                                     {line.replace(
                                                         /^[•-]\s*/,
                                                         ''
