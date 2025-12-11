@@ -1,5 +1,6 @@
 import { BILLET_TEMPLATES } from '../templates/ingot-templates';
 import { Billet } from '../types/ingot-types';
+import { SortOrder } from '../types/preview-util-types';
 
 export class BilletHelper {
     /**
@@ -30,4 +31,36 @@ export class BilletHelper {
             'Untitled Item'
         );
     }
+
+    private static getBilletDate = (billet: Billet): number => {
+        const dateField = Object.values(billet.fields).find(
+            (f) => f.inputType === 'date'
+        );
+        if (dateField && dateField.value) {
+            if (
+                dateField.value.toLowerCase() === 'present' ||
+                dateField.value.toLowerCase() === 'current'
+            ) {
+                return new Date().getTime();
+            }
+            return new Date(dateField.value).getTime();
+        }
+        return 0;
+    };
+
+    /**
+     * Sort billets by sort by parameter
+     * @param billets
+     * @param sortBy
+     * @returns
+     */
+    static sortBillets = (billets: Billet[], sortBy?: SortOrder): Billet[] => {
+        if (!sortBy) return billets;
+
+        return [...billets].sort((a, b) => {
+            const dateA = this.getBilletDate(a);
+            const dateB = this.getBilletDate(b);
+            return sortBy === 'date-desc' ? dateB - dateA : dateA - dateB;
+        });
+    };
 }

@@ -4,9 +4,9 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { sortBillets } from '@/lib/helpers/sort-helpers';
 import { SortOrder } from '@/lib/types/preview-util-types';
 import IngotHelpers from '@/lib/classes/helper-ingot';
+import { BilletHelper } from '@/lib/classes/billet-helper';
 
 interface Props {
     ingots: Ingot[];
@@ -43,7 +43,10 @@ export const ExperienceSection = ({
                     );
                 }
 
-                displayBillets = sortBillets(displayBillets, billetSortBy);
+                displayBillets = BilletHelper.sortBillets(
+                    displayBillets,
+                    billetSortBy
+                );
 
                 // If there are billets (roles), render them as primary entries
                 if (displayBillets.length > 0) {
