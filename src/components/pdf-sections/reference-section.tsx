@@ -20,11 +20,23 @@ export const ReferenceSection = ({ ingots }: Props) => {
 
                 return (
                     <View key={ingot.id} style={pdfStyles.sectionContainer}>
-                        <Text style={pdfStyles.bold}>{name}</Text>
-                        <Text>{company ? `, ${company}` : ''}</Text>
-                        {contact ? (
-                            <Text style={pdfStyles.description}>{contact}</Text>
-                        ) : null}
+                        <View style={pdfStyles.row}>
+                            <View style={pdfStyles.leftColumn}>
+                                <Text style={pdfStyles.bold}>
+                                    {name}
+                                    <Text style={pdfStyles.itemSubtitle}>
+                                        {company ? `, ${company}` : ''}
+                                    </Text>
+                                </Text>
+                            </View>
+                            <View style={pdfStyles.rightColumn}>
+                                {contact ? (
+                                    <Text style={pdfStyles.description}>
+                                        {contact}
+                                    </Text>
+                                ) : null}
+                            </View>
+                        </View>
                     </View>
                 );
             })}

@@ -82,12 +82,7 @@ export const CvPDF = ({ cv, availableIngots }: CvPDFProps) => {
                 return <PersonalStatementSection ingot={sectionIngots[0]} />;
 
             case 'ingot_reference':
-                return (
-                    <ReferenceSection
-                        ingots={sectionIngots}
-                        billetIds={section.billetIds}
-                    />
-                );
+                return <ReferenceSection ingots={sectionIngots} />;
 
             case 'ingot_hobby':
                 return (

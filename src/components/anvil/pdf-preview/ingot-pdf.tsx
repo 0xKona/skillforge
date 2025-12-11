@@ -79,12 +79,7 @@ export const IngotPDF = ({
             case 'ingot_personal_statement':
                 return <PersonalStatementSection ingot={ingotData as Ingot} />;
             case 'ingot_reference':
-                return (
-                    <ReferenceSection
-                        ingots={[ingotData as Ingot]}
-                        billetIds={billetIds}
-                    />
-                );
+                return <ReferenceSection ingots={[ingotData as Ingot]} />;
             case 'ingot_hobby':
                 return (
                     <GenericSection
