@@ -4,7 +4,6 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { SortOrder } from '@/lib/types/preview-util-types';
 
 interface Props {
     ingots: Ingot[];
@@ -34,7 +33,6 @@ export const SkillsSection = ({ ingots, billetIds }: Props) => {
                                 style={{
                                     ...pdfStyles.bold,
                                     marginBottom: 2,
-                                    textDecoration: 'underline',
                                 }}
                             >
                                 {groupName}
