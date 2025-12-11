@@ -124,6 +124,7 @@ export const INGOT_FIELD_LABELS: Record<string, string> = {
     skillName: 'Skill Name',
     skillDescription: 'Skill Description',
     proficiencyLevel: 'Proficiency Level',
+    groupName: 'Group Name',
 
     // Project
     projectTitle: 'Project Title',

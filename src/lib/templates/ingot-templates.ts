@@ -50,6 +50,13 @@ export const BILLET_TEMPLATES: Record<string, BilletTemplate> = {
             date: { mandatory: true, value: '', inputType: 'date' },
         },
     },
+    billet_skill: {
+        type: 'billet_skill',
+        fields: {
+            skillName: { mandatory: true, value: '', inputType: 'text' },
+            description: { mandatory: false, value: '', inputType: 'text' },
+        },
+    },
 };
 
 export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
@@ -136,19 +143,9 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
         type: 'ingot_skill',
         content: {
             fields: {
-                skillName: { mandatory: true, value: '', inputType: 'text' },
-                skillDescription: {
-                    mandatory: true,
-                    value: '',
-                    inputType: 'textarea',
-                },
-                proficiencyLevel: {
-                    mandatory: false,
-                    value: '',
-                    inputType: 'select',
-                },
+                groupName: { mandatory: true, value: '', inputType: 'text' },
             },
-            billetFormat: null,
+            billetFormat: 'billet_skill',
             billets: [],
         },
     },

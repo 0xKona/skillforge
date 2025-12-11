@@ -37,6 +37,7 @@ export function BilletItem({
             (fields.projectName?.value as string) ||
             (fields.certName?.value as string) ||
             (fields.platform?.value as string) ||
+            (fields.skillName?.value as string) ||
             'Untitled Billet'
         );
     };
