@@ -1,5 +1,5 @@
-import { Ingot } from '../types/ingot-types';
-import { SortOrder } from '../types/sorting-types';
+import { Ingot } from '../../types/ingot-types';
+import { SortOrder } from '../../types/sorting-types';
 
 export default class IngotHelpers {
     /**

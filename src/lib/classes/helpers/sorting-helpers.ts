@@ -1,4 +1,4 @@
-import { SortOrder } from '../types/sorting-types';
+import { SortOrder } from '../../types/sorting-types';
 
 export default class SortingHelpers {
     // Map of sort options / labels

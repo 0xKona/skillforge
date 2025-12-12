@@ -14,7 +14,7 @@ import {
     QUALIFICATION_LEVELS,
     SKILL_PROFICIENCY_LEVELS,
 } from '@/lib/types/ingot-types';
-import { IngotFormHelper } from '@/lib/helpers/ingot-form-helpers';
+import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
 
 interface FormFieldProps {
     fieldKey: string;

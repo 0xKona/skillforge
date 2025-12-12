@@ -6,7 +6,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/component-library/shadcn-components/select';
-import SortingHelpers from '@/lib/classes/helpers-sorting';
+import SortingHelpers from '@/lib/classes/helpers/sorting-helpers';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
 import { SortOrder } from '@/lib/types/sorting-types';

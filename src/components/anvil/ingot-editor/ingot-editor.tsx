@@ -17,7 +17,7 @@ import { redirect } from 'next/navigation';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
-import { IngotFormHelper } from '@/lib/helpers/ingot-form-helpers';
+import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
 import {
     INGOT_TYPE_LABELS,
     IngotTypeLabelMap,

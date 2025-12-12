@@ -8,7 +8,7 @@ import { TypographyP } from '@/components/ui/typography/typography';
 import CvSectionEditorSortDropdown from '../components/cv-section-editor-billet-sort-dropdown';
 import CvEditorHeader from '../components/cv-editor-header';
 import CvSectionEditorBillets from '../components/cv-section-editor-billet';
-import IngotHelpers from '@/lib/classes/helper-ingot';
+import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
 import Link from 'next/link';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import React from 'react';

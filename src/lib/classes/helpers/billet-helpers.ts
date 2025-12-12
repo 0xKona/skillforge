@@ -1,6 +1,6 @@
-import { BILLET_TEMPLATES } from '../templates/ingot-templates';
-import { Billet } from '../types/ingot-types';
-import { SortOrder } from '../types/sorting-types';
+import { BILLET_TEMPLATES } from '../../templates/ingot-templates';
+import { Billet } from '../../types/ingot-types';
+import { SortOrder } from '../../types/sorting-types';
 
 export class BilletHelper {
     /**

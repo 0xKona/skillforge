@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/component-library/shadcn-components/select';
 import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import { SortOrder } from '@/lib/types/sorting-types';
-import IngotHelpers from '@/lib/classes/helper-ingot';
+import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
 
 interface Props {
     isOpen: boolean;

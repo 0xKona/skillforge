@@ -1,5 +1,5 @@
 import type { Schema } from '@amplify/data/resource';
-import { CV, CvContent } from '../types/cv-types';
+import { CV, CvContent } from '../../types/cv-types';
 
 export default class CvHelpers {
     static mapDbDataToCv(item: Schema['CV']['type']): CV {

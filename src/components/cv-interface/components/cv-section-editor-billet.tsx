@@ -1,7 +1,7 @@
 import { Checkbox } from '@/components/ui/component-library/shadcn-components/checkbox';
 import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import { Badge } from '@/components/ui/component-library/shadcn-components/badge';
-import { BilletHelper } from '@/lib/classes/billet-helper';
+import { BilletHelper } from '@/lib/classes/helpers/billet-helpers';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
 import { Ingot, INGOT_FIELD_LABELS } from '@/lib/types/ingot-types';
