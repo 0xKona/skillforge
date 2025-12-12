@@ -35,6 +35,7 @@ interface CvEditorActions {
     toggleBillet: (sectionIndex: number, billetId: string) => void;
 
     saveCv: () => Promise<void>;
+    resetState: () => void;
 }
 
 type UseCvEditorStore = CvEditorState & CvEditorActions;
@@ -300,6 +301,7 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             }
 
             // Check if the CV already has an ID (exists in DB)
+            // (Should always be the case at this point)
             if ('id' in state.cv) {
                 // Update existing CV
                 const updated = await CvService.updateCv(state.cv as CV);
@@ -307,7 +309,7 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
                 set({ cv: updated });
                 toast.success('CV saved successfully');
             } else {
-                // Create new CV
+                // Create new CV - ( Shouldn't be required at this stage but kept as a backup )
                 const created = await CvService.createCv(state.cv as NewCV);
                 // Update local state with the newly created CV (which now has an ID)
                 set({ cv: created });
@@ -321,4 +323,5 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             set({ saving: false });
         }
     },
+    resetState: () => set(defaultState),
 }));

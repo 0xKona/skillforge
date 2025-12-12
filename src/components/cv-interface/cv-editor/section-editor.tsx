@@ -9,6 +9,9 @@ import CvSectionEditorSortDropdown from '../components/cv-section-editor-billet-
 import CvEditorHeader from '../components/cv-editor-header';
 import CvSectionEditorBillets from '../components/cv-section-editor-billet';
 import IngotHelpers from '@/lib/classes/helper-ingot';
+import Link from 'next/link';
+import { Button } from '@/components/shadcn-components/button';
+import React from 'react';
 
 export function SectionEditor() {
     const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
@@ -71,8 +74,21 @@ export function SectionEditor() {
                 </TypographyP>
 
                 {relevantIngots.length === 0 ? (
-                    <div className="text-sm text-muted-foreground">
-                        {`No ${getIngotLabelByValue(section.sectionType).toLowerCase()} items found in your library`}
+                    <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
+                        <p className="text-slate-400 mb-4">
+                            {`You haven't created any ${getIngotLabelByValue(section.sectionType).toLowerCase()} yet.`}
+                        </p>
+
+                        <Link
+                            href={`/anvil/create?ingotType=${section.sectionType}`}
+                        >
+                            <Button
+                                variant="outline"
+                                className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"
+                            >
+                                {`Create a ${getIngotLabelByValue(section.sectionType).toLowerCase()} ingot`}
+                            </Button>
+                        </Link>
                     </div>
                 ) : (
                     <div className="space-y-2">

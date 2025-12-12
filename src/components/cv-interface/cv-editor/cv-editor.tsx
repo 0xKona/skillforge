@@ -32,9 +32,17 @@ export function CvEditor({ cvId }: CvEditorProps) {
         saveCv,
         cv,
         activeSectionIndex,
+        resetState,
     } = useCvEditorState();
 
     const isMobile = useIsMobile();
+
+    useEffect(() => {
+        return () => {
+            // Reset the state when the component unmounts
+            resetState();
+        };
+    }, []);
 
     useEffect(() => {
         initializeEditor(cvId);
