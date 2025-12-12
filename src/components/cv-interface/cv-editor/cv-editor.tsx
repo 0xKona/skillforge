@@ -20,7 +20,6 @@ import { CvPreview } from './cv-preview';
 import { TypographyH3 } from '@/components/ui/typography/typography';
 import CvValidationError from '../components/cv-validation-error';
 import CvEditorSkeleton from '../components/cv-editor-skeleton';
-import { redirect } from 'next/navigation';
 
 interface CvEditorProps {
     cvId?: string;
@@ -61,11 +60,6 @@ export function CvEditor({ cvId }: CvEditorProps) {
 
     if (!cv) return <div>Failed to load CV</div>;
 
-    function handleSaveAndClose() {
-        saveCv();
-        redirect('/forge');
-    }
-
     const EditorContent = (
         <div className="space-y-6 p-4 h-full overflow-y-auto">
             <CvValidationError />
@@ -88,7 +82,7 @@ export function CvEditor({ cvId }: CvEditorProps) {
         <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-800">
             <TypographyH3 className="text-2xl font-bold">Edit CV</TypographyH3>
             <div className="flex items-center gap-3">
-                <Button onClick={handleSaveAndClose} disabled={saving}>
+                <Button onClick={saveCv} disabled={saving}>
                     {saving && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}

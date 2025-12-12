@@ -12,6 +12,7 @@ interface CvEditorState {
     saving: boolean;
     isAutoSaving: boolean;
     cv: CV | NewCV | null;
+    originalCv: CV | null;
     availableIngots: Ingot[];
     validationErrors: string[];
     validationWarnings: string[];
@@ -47,6 +48,7 @@ const defaultState: CvEditorState = {
     saving: false,
     isAutoSaving: false,
     cv: null,
+    originalCv: null,
     availableIngots: [],
     validationErrors: [],
     validationWarnings: [],
@@ -119,7 +121,12 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             }
 
             // Update the store with the loaded CV, available ingots, and set loading to false
-            set({ cv, availableIngots: ingots, loading: false });
+            set({
+                cv,
+                originalCv: cv as CV,
+                availableIngots: ingots,
+                loading: false,
+            });
 
             // Check for any issues with the CV on load and alert user
             const { errors, warnings } = validateCv(cv as CvFormValues);
@@ -330,7 +337,13 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
 
         // Set saving state to true to show spinner/disable buttons
         set({ saving: true });
+
         try {
+            // If no changes have been made, do not save (saved DB usage and cost)
+            if (JSON.stringify(state.cv) === JSON.stringify(state.originalCv)) {
+                set({ saving: false });
+                return;
+            }
             // Validate the CV data against the schema before saving
             const { errors, warnings } = validateCv(state.cv as CvFormValues);
             // Update state with validation results
@@ -363,6 +376,7 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             toast.error('Failed to save CV, Please try again');
         } finally {
             set({ saving: false });
+            redirect('/forge');
         }
     },
     autoSaveCv: async () => {
