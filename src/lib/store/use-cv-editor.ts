@@ -62,10 +62,49 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             if (cvId) {
                 // If a cvId is provided, attempt to fetch the existing CV data
                 const existingCv = await CvService.getCv(cvId);
+                console.log('Existing CV: ', existingCv);
                 // If the CV doesn't exist, throw an error to be caught below
                 if (!existingCv) throw new Error('CV not found');
                 // Assign the fetched CV to the local variable
                 cv = existingCv;
+
+                // Check for missing ingots
+                const availableIngotIds = new Set(ingots.map((i) => i.id));
+                let missingIngotsFound = false;
+
+                // Iterate through sections and filter out missing ingot IDs
+                const updatedSections = cv.cvContent.sections.map((section) => {
+                    const originalCount = section.ingotIds.length;
+                    const validIngotIds = section.ingotIds.filter((id) =>
+                        availableIngotIds.has(id)
+                    );
+
+                    if (validIngotIds.length !== originalCount) {
+                        missingIngotsFound = true;
+                    }
+
+                    return {
+                        ...section,
+                        ingotIds: validIngotIds,
+                    };
+                });
+
+                // If missing ingots were found, update the CV and notify the user
+                if (missingIngotsFound) {
+                    cv = {
+                        ...cv,
+                        cvContent: {
+                            ...cv.cvContent,
+                            sections: updatedSections,
+                        },
+                    };
+                    // Save the cleaned CV immediately
+                    // We cast to CV because we know it has an ID at this point
+                    cv = await CvService.updateCv(cv as CV);
+                    toast.warning(
+                        'Some ingots in this CV were missing and have been removed.'
+                    );
+                }
             } else {
                 // If no cvId is provided, initialize a new default CV object
                 cv = {
