@@ -1,6 +1,6 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
-import { Ingot, IngotContent } from '@/lib/types/ingot-types';
+import { Ingot, IngotContent, IngotType } from '@/lib/types/ingot-types';
 import {
     Award,
     Briefcase,
@@ -13,7 +13,7 @@ import {
     Headset,
     Hammer,
 } from 'lucide-react';
-import { INGOT_TYPE_LABELS } from '../../mappings/ingot-mappings';
+import MappingHelpers from '../helpers/mapping-helpers';
 
 const client = generateClient<Schema>();
 
@@ -126,10 +126,7 @@ export class IngotService {
     }
 
     static getAnvilCardDisplayDetails(type: string) {
-        const labelItem = INGOT_TYPE_LABELS.find((t) => t.value === type);
-        const label = labelItem
-            ? labelItem.label
-            : type.replace('ingot_', '').replace(/_/g, ' ');
+        const label = MappingHelpers.getIngotLabelByType(type as IngotType);
 
         const detailsMap: Record<string, { color: string; icon: LucideIcon }> =
             {

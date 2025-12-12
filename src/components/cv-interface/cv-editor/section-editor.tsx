@@ -3,7 +3,6 @@
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Checkbox } from '@/components/ui/component-library/shadcn-components/checkbox';
 import { Label } from '@/components/ui/component-library/shadcn-components/label';
-import { getIngotLabelByValue } from '@/lib/mappings/ingot-mappings';
 import { TypographyP } from '@/components/ui/typography/typography';
 import CvSectionEditorSortDropdown from '../components/cv-section-editor-billet-sort-dropdown';
 import CvEditorHeader from '../components/cv-editor-header';
@@ -13,6 +12,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import React from 'react';
 import { CV } from '@/lib/types/cv-types';
+import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
 export function SectionEditor() {
     const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
@@ -77,7 +77,7 @@ export function SectionEditor() {
                 {relevantIngots.length === 0 ? (
                     <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
                         <p className="text-slate-400 mb-4">
-                            {`You haven't created any ${getIngotLabelByValue(section.sectionType).toLowerCase()} yet.`}
+                            {`You haven't created any ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} yet.`}
                         </p>
 
                         <Link
@@ -87,7 +87,7 @@ export function SectionEditor() {
                                 variant="outline"
                                 className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"
                             >
-                                {`Create a ${getIngotLabelByValue(section.sectionType).toLowerCase()} ingot`}
+                                {`Create a ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} ingot`}
                             </Button>
                         </Link>
                     </div>

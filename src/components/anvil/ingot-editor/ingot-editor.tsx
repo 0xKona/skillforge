@@ -18,11 +18,8 @@ import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
 import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
-import {
-    INGOT_TYPE_LABELS,
-    IngotTypeLabelMap,
-} from '@/lib/mappings/ingot-mappings';
 import IngotPreviewModal from '@/components/pdf-preview/ingot-preview-modal';
+import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
 interface Props {
     initialIngotData: IngotEditorData;
@@ -129,11 +126,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
         <div className="w-full mx-auto p-6 space-y-6">
             <EditorHeader
                 title={ingotId ? 'Edit Ingot' : 'Create Ingot'}
-                typeLabel={
-                    INGOT_TYPE_LABELS.find(
-                        (ingot: IngotTypeLabelMap) => ingot.value === ingotType
-                    )?.label
-                }
+                typeLabel={MappingHelpers.getIngotLabelByType(ingotType)}
                 loading={isLoading}
                 onPreview={openPreviewModal}
                 onSave={handleSave}

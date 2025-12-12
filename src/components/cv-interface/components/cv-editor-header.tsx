@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import { TypographyH4 } from '@/components/ui/typography/typography';
-import { getIngotLabelByValue } from '@/lib/mappings/ingot-mappings';
+import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
 import { ArrowLeft } from 'lucide-react';
@@ -22,7 +22,7 @@ export default function CvEditorHeader({ section }: Props) {
                 <ArrowLeft className="h-4 w-4" />
             </Button>
             <TypographyH4 className="text-lg font-semibold capitalize">
-                {`Edit ${getIngotLabelByValue(section.sectionType)} section`}
+                {`Edit ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType)} section`}
             </TypographyH4>
         </div>
     );

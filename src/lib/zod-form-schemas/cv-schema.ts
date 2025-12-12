@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { INGOT_TYPE_LABELS } from '../mappings/ingot-mappings';
+import MappingHelpers from '../classes/helpers/mapping-helpers';
+import { IngotType } from '../types/ingot-types';
 
 export const cvSectionSchema = z.object({
     sectionType: z.string(),
@@ -47,9 +48,9 @@ export const validateCv = (cv: CvFormValues) => {
     // Check for empty sections
     cv.cvContent.sections.forEach((section) => {
         if (section.isVisible !== false && section.ingotIds.length === 0) {
-            const label =
-                INGOT_TYPE_LABELS.find((t) => t.value === section.sectionType)
-                    ?.label || section.sectionType;
+            const label = MappingHelpers.getCvSectionLabelBySectionType(
+                section.sectionType as IngotType
+            );
             warnings.push(`The ${label} section is empty.`);
         }
     });

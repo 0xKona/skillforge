@@ -4,21 +4,14 @@ import { useSearchParams } from 'next/navigation';
 import IngotEditor from '@/components/anvil/ingot-editor/ingot-editor';
 import IngotTypeSelection from '@/components/anvil/ingot-type-selection';
 import { Suspense } from 'react';
-import {
-    NewIngot,
-    IngotType,
-} from '@/lib/types/ingot-types';
-import { INGOT_TYPE_LABELS } from '@/lib/mappings/ingot-mappings';
+import { NewIngot } from '@/lib/types/ingot-types';
+import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
 function CreateIngotContent() {
     const searchParams = useSearchParams();
     const initialType = searchParams.get('ingotType');
 
-    const isValidIngotType = (type: string | null): type is IngotType => {
-        return INGOT_TYPE_LABELS.some((t) => t.value === type);
-    };
-
-    if (isValidIngotType(initialType)) {
+    if (MappingHelpers.checkIsValidIngotType(initialType)) {
         const ingotData: NewIngot = {
             name: '',
             type: initialType,
