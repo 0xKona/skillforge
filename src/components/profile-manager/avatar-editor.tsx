@@ -1,4 +1,4 @@
-import { AvatarService } from '@/lib/classes/avatar-service';
+import { AvatarService } from '@/lib/classes/services/avatar-service';
 import React from 'react';
 import { toast } from 'sonner';
 import {

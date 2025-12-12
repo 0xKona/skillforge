@@ -13,7 +13,7 @@ import {
     Headset,
     Hammer,
 } from 'lucide-react';
-import { INGOT_TYPE_LABELS } from '../mappings/ingot-mappings';
+import { INGOT_TYPE_LABELS } from '../../mappings/ingot-mappings';
 
 const client = generateClient<Schema>();
 

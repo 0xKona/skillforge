@@ -15,7 +15,7 @@ import {
 import { Ingot } from '@/lib/types/ingot-types';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import { cn } from '@/lib/utils';
-import { IngotService } from '@/lib/classes/ingot-service';
+import { IngotService } from '@/lib/classes/services/ingot-service';
 import { Edit, Trash2 } from 'lucide-react';
 
 interface Props {

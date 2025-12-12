@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import FormInput, { FormInputType } from '@/components/ui/form-input';
-import { ProfileService } from '@/lib/classes/profile-service';
+import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';

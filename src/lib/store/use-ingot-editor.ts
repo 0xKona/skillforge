@@ -6,7 +6,7 @@ import {
     IngotType,
     IngotEditorData,
 } from '../types/ingot-types';
-import { IngotService } from '../classes/ingot-service';
+import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
 import { generateSchemaFromIngotFields } from '../form-schemas/ingot-form-generator';
 

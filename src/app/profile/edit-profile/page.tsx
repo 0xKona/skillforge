@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/component-library/shadcn-components/sk
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import FormInput from '@/components/ui/form-input';
 import FormTextarea from '@/components/ui/form-textarea';
-import { ProfileService } from '@/lib/classes/profile-service';
+import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';

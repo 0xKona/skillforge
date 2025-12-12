@@ -1,7 +1,7 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
 import { CV, NewCV } from '@/lib/types/cv-types';
-import CvHelpers from './helpers/cv-helpers';
+import CvHelpers from '../helpers/cv-helpers';
 
 const client = generateClient<Schema>();
 

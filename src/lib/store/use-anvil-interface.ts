@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Ingot } from '../types/ingot-types';
-import { IngotService } from '../classes/ingot-service';
+import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
 
