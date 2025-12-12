@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import VerifyCodeCard from './verify-code';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import { useRouter } from 'next/navigation';
 
@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 jest.mock('aws-amplify/auth');
 
 // Mock Zustand store
-jest.mock('@/lib/store/auth-form');
+jest.mock('@/lib/store/use-auth-form');
 
 // Mock Next.js navigation
 jest.mock('next/navigation', () => ({

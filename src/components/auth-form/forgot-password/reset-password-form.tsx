@@ -8,11 +8,11 @@ import FormInput from '../../ui/form-input';
 import SubmitAuthForm from '../submit-form';
 import FormHeader from '../form-header';
 import { Button } from '../../ui/component-library/shadcn-components/button';
-import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { UseFormReturn } from 'react-hook-form';
 import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
-import { useAuthFlowState } from '@/lib/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/use-auth-form';
 import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import {
     InputOTP,

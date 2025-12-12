@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import FormInput from '../ui/form-input';
 import SubmitAuthForm from './submit-form';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 

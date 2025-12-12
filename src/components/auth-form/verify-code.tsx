@@ -15,7 +15,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from '../ui/component-library/shadcn-components/input-opt';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';

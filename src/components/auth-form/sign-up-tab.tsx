@@ -12,7 +12,7 @@ import {
 } from '@/lib/zod-form-schemas/auth-schema';
 import FormInput from '@/components/ui/form-input';
 import SubmitAuthForm from './submit-form';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 
 export default function SignUpTab() {
     // Local component state

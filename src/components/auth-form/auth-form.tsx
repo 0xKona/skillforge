@@ -11,7 +11,7 @@ import VerifyCodeCard from './verify-code';
 import SignInTab from './sign-in-tab';
 import SignUpTab from './sign-up-tab';
 import ForgotPassword from './forgot-password/forgot-password';
-import { useAuthFlowState } from '@/lib/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/use-auth-form';
 import { useEffect } from 'react';
 import { Card } from '../ui/component-library/shadcn-components/card';
 

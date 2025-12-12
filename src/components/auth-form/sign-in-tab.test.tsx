@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SignInTab from './sign-in-tab';
-import { useAuthFlowState } from '@/lib/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/use-auth-form';
 import { defaultAuthFlowState } from '@/test-utils/test-helpers';
 import { signIn, resendSignUpCode } from 'aws-amplify/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -17,7 +17,7 @@ const SUBMIT_BUTTON_ID = 'submit-signin';
 jest.mock('aws-amplify/auth');
 
 // Mock Zustand store
-jest.mock('@/lib/store/auth-form');
+jest.mock('@/lib/store/use-auth-form');
 
 // Mock Next.js navigation
 jest.mock('next/navigation', () => ({

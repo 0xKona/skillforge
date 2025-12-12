@@ -13,9 +13,9 @@ import { resetPassword } from 'aws-amplify/auth';
 import FormInput from '@/components/ui/form-input';
 import SubmitAuthForm from '../submit-form';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { UseFormReturn } from 'react-hook-form';
-import { useAuthFlowState } from '@/lib/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/use-auth-form';
 
 interface Props {
     requestForm: UseFormReturn<ForgotPasswordRequest>;

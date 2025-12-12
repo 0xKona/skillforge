@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import ForgotPassword from './forgot-password';
-import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { defaultPasswordResetStoreState } from '@/test-utils/test-helpers';
 
 // Mock the Zustand store that manages password reset state
-jest.mock('@/lib/store/password-reset');
+jest.mock('@/lib/store/use-password-reset');
 
 // Mock the child components - we only care which component is rendered, not how it works
 jest.mock('./request-code', () => {
