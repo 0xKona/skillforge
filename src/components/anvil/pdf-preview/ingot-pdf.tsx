@@ -14,7 +14,7 @@ import { PersonalStatementSection } from '@/components/pdf-sections/personal-sta
 import { GenericSection } from '@/components/pdf-sections/generic-section';
 import { ReferenceSection } from '@/components/pdf-sections/reference-section';
 import { SectionHeader } from '@/components/pdf-sections/section-header';
-import { SortOrder } from '@/lib/types/preview-util-types';
+import { SortOrder } from '@/lib/types/sorting-types';
 
 interface IngotPDFProps {
     ingotData: IngotEditorData;

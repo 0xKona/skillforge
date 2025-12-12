@@ -16,7 +16,7 @@ import {
     SelectValue,
 } from '@/components/shadcn-components/select';
 import { Label } from '@/components/shadcn-components/label';
-import { SortOrder } from '@/lib/types/preview-util-types';
+import { SortOrder } from '@/lib/types/sorting-types';
 import IngotHelpers from '@/lib/classes/helper-ingot';
 
 interface Props {

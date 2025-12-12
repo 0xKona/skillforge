@@ -1,5 +1,5 @@
 import { IngotType } from './ingot-types';
-import { SortOrder } from './preview-util-types';
+import { SortOrder } from './sorting-types';
 
 export interface NewCV {
     version: number;

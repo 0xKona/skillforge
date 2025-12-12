@@ -12,7 +12,7 @@ import {
     SortOrder,
     sortOrderLabelMap,
     sortOrderOptions,
-} from '@/lib/types/preview-util-types';
+} from '@/lib/types/sorting-types';
 
 interface Props {
     section: Section;

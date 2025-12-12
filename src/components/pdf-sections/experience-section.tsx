@@ -4,7 +4,7 @@ import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { SortOrder } from '@/lib/types/preview-util-types';
+import { SortOrder } from '@/lib/types/sorting-types';
 import IngotHelpers from '@/lib/classes/helper-ingot';
 import { BilletHelper } from '@/lib/classes/billet-helper';
 
