@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation';
 interface CvEditorState {
     loading: boolean;
     saving: boolean;
+    isAutoSaving: boolean;
     cv: CV | NewCV | null;
     availableIngots: Ingot[];
     validationErrors: string[];
@@ -35,6 +36,7 @@ interface CvEditorActions {
     toggleBillet: (sectionIndex: number, billetId: string) => void;
 
     saveCv: () => Promise<void>;
+    autoSaveCv: () => Promise<void>;
     resetState: () => void;
 }
 
@@ -43,6 +45,7 @@ type UseCvEditorStore = CvEditorState & CvEditorActions;
 const defaultState: CvEditorState = {
     loading: true,
     saving: false,
+    isAutoSaving: false,
     cv: null,
     availableIngots: [],
     validationErrors: [],
@@ -360,6 +363,35 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             toast.error('Failed to save CV, Please try again');
         } finally {
             set({ saving: false });
+        }
+    },
+    autoSaveCv: async () => {
+        // Get the current state
+        const state = get();
+        // If no CV is loaded, do nothing
+        if (!state.cv) return;
+
+        // Only autosave if the CV has an ID (it's been saved at least once)
+        if (!('id' in state.cv)) return;
+
+        // Set auto-saving state to true
+        set({ isAutoSaving: true });
+        try {
+            // Validate the CV data against the schema before saving
+            // We don't block autosave on validation errors, but we could log them or update the state
+            // For now, let's just update the validation state so the user sees errors if they exist
+            const { errors, warnings } = validateCv(state.cv as CvFormValues);
+            set({ validationErrors: errors, validationWarnings: warnings });
+
+            // Update existing CV
+            // We ignore the return value to avoid re-rendering the UI with a new object reference
+            await CvService.updateCv(state.cv as CV);
+        } catch (error) {
+            console.error('Failed to auto-save CV', error);
+            // We might want to show a toast here if autosave fails repeatedly,
+            // but for now let's keep it quiet or maybe a small indicator
+        } finally {
+            set({ isAutoSaving: false });
         }
     },
     resetState: () => set(defaultState),

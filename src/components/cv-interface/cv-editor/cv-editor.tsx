@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { useIsMobile } from '@/hooks/use-is-mobile';
+import { useCvAutoSave } from '@/hooks/use-cv-auto-save';
 import {
     Tabs,
     TabsContent,
@@ -19,6 +20,7 @@ import { CvPreview } from './cv-preview';
 import { TypographyH3 } from '@/components/ui/typography/typography';
 import CvValidationError from '../components/cv-validation-error';
 import CvEditorSkeleton from '../components/cv-editor-skeleton';
+import { toast } from 'sonner';
 
 interface CvEditorProps {
     cvId?: string;
@@ -29,6 +31,7 @@ export function CvEditor({ cvId }: CvEditorProps) {
         initializeEditor,
         loading,
         saving,
+        isAutoSaving,
         saveCv,
         cv,
         activeSectionIndex,
@@ -38,9 +41,12 @@ export function CvEditor({ cvId }: CvEditorProps) {
 
     const isMobile = useIsMobile();
 
+    // Auto-save every 30 seconds (default option)
+    useCvAutoSave();
+
     useEffect(() => {
         return () => {
-            // Reset the state when the component unmounts
+            // Reset state when the component unmounts
             resetState();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,13 +107,16 @@ export function CvEditor({ cvId }: CvEditorProps) {
                 <TypographyH3 className="text-2xl font-bold">
                     Edit CV
                 </TypographyH3>
-                <Button onClick={saveCv} disabled={saving}>
-                    {saving && (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}
-                    <Save className="mr-2 h-4 w-4" />
-                    Save
-                </Button>
+                <div className="flex items-center gap-3">
+                    {isAutoSaving && toast('Autosaving...')}
+                    <Button onClick={saveCv} disabled={saving}>
+                        {saving && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        <Save className="mr-2 h-4 w-4" />
+                        Save
+                    </Button>
+                </div>
             </div>
             {/* Body */}
             <div className="flex-1 flex flex-col md:flex-row overflow-hidden ">
