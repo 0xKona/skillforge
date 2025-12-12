@@ -11,13 +11,9 @@ import {
     SelectValue,
 } from '@/components/ui/component-library/shadcn-components/select';
 import { TypographyH4 } from '@/components/ui/typography/typography';
-import {
-    CV_SECTION_LABELS,
-    CvSectionLabelMap,
-    getCvSectionLabelByValue,
-} from '@/lib/mappings/cv-mappings';
 import { toast } from 'sonner';
 import CvSectionEditorCard from '../components/cv-section-editor-card';
+import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
 export function SectionList() {
     const { cv, addSection } = useCvEditorState();
@@ -36,7 +32,7 @@ export function SectionList() {
     const handleAddSection = (type: IngotType) => {
         if (checkSectionAlreadyExists(type)) {
             toast.warning(
-                `You already have an ${getCvSectionLabelByValue(type)} section!`
+                `You already have an ${MappingHelpers.getCvSectionLabelBySectionType(type)} section!`
             );
         } else {
             addSection(type as IngotType);
@@ -57,13 +53,15 @@ export function SectionList() {
                         <SelectValue placeholder="Add Section" />
                     </SelectTrigger>
                     <SelectContent>
-                        {CV_SECTION_LABELS.map(
-                            (sectionObj: CvSectionLabelMap) => (
+                        {MappingHelpers.getCvSectionsList().map(
+                            (sectionType: IngotType) => (
                                 <SelectItem
-                                    key={JSON.stringify(sectionObj)}
-                                    value={sectionObj.value}
+                                    key={sectionType}
+                                    value={sectionType}
                                 >
-                                    {sectionObj.label}
+                                    {MappingHelpers.getCvSectionLabelBySectionType(
+                                        sectionType
+                                    )}
                                 </SelectItem>
                             )
                         )}
