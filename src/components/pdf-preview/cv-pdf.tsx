@@ -3,16 +3,8 @@ import { Document, Page, View } from '@react-pdf/renderer';
 import { pdfStyles } from '@/lib/pdf-styles/pdf-styles';
 import { CV, Section } from '@/lib/types/cv-types';
 import { Ingot, IngotType } from '@/lib/types/ingot-types';
-import { PersonalInfoSection } from '@/components/pdf-preview/pdf-sections/personal-info-section';
-import { ExperienceSection } from '@/components/pdf-preview/pdf-sections/experience-section';
-import { EducationSection } from '@/components/pdf-preview/pdf-sections/education-section';
-import { SkillsSection } from '@/components/pdf-preview/pdf-sections/skills-section';
-import { CertificationSection } from '@/components/pdf-preview/pdf-sections/certifications-section';
-import { ProjectsSection } from '@/components/pdf-preview/pdf-sections/projects-section';
-import { PersonalStatementSection } from '@/components/pdf-preview/pdf-sections/personal-statement-section';
-import { GenericSection } from '@/components/pdf-preview/pdf-sections/generic-section';
-import { ReferenceSection } from '@/components/pdf-preview/pdf-sections/reference-section';
 import { SectionHeader } from '@/components/pdf-preview/pdf-sections/section-header';
+import SectionRenderer from './section-renderer';
 
 interface CvPDFProps {
     cv: CV;
@@ -31,66 +23,15 @@ export const CvPDF = ({ cv, availableIngots }: CvPDFProps) => {
 
         if (sectionIngots.length === 0) return null;
 
-        switch (section.sectionType) {
-            case 'ingot_personal_info':
-                // Personal Info usually only has one ingot
-                return (
-                    <PersonalInfoSection
-                        ingot={sectionIngots[0]}
-                        billetIds={section.billetIds}
-                    />
-                );
-
-            case 'ingot_experience':
-                return (
-                    <ExperienceSection
-                        ingots={sectionIngots}
-                        billetIds={section.billetIds}
-                        billetSortBy={section.sortBilletsBy}
-                        ingotSortBy={section.sortIngotsBy}
-                    />
-                );
-
-            case 'ingot_education':
-                return (
-                    <EducationSection
-                        ingots={sectionIngots}
-                        billetIds={section.billetIds}
-                        ingotSortBy={section.sortIngotsBy}
-                    />
-                );
-
-            case 'ingot_skill':
-                return (
-                    <SkillsSection
-                        ingots={sectionIngots}
-                        billetIds={section.billetIds}
-                    />
-                );
-
-            case 'ingot_certification':
-                return (
-                    <CertificationSection
-                        ingots={sectionIngots}
-                        ingotSortBy={section.sortIngotsBy}
-                    />
-                );
-
-            case 'ingot_project':
-                return <ProjectsSection ingots={sectionIngots} />;
-
-            case 'ingot_personal_statement':
-                return <PersonalStatementSection ingot={sectionIngots[0]} />;
-
-            case 'ingot_reference':
-                return <ReferenceSection ingots={sectionIngots} />;
-
-            case 'ingot_hobby':
-                return <GenericSection ingots={sectionIngots} />;
-
-            default:
-                return <GenericSection ingots={sectionIngots} />;
-        }
+        return (
+            <SectionRenderer
+                sectionType={section.sectionType}
+                ingots={sectionIngots}
+                billetIds={section.billetIds}
+                billetSortBy={section.sortBilletsBy}
+                ingotSortBy={section.sortIngotsBy}
+            />
+        );
     };
 
     return (
