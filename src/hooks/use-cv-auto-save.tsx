@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
+import { toast } from 'sonner';
 
 export const useCvAutoSave = (intervalMs: number = 30000) => {
     const { cv, autoSaveCv } = useCvEditorState();
@@ -18,6 +19,7 @@ export const useCvAutoSave = (intervalMs: number = 30000) => {
             if (!currentCv || !('id' in currentCv)) return;
 
             autoSaveCv();
+            toast('Autosaving CV...');
         }, intervalMs);
 
         return () => {
