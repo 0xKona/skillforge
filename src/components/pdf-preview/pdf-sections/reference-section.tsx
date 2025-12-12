@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import { pdfStyles } from '../../lib/pdf-styles/pdf-styles';
+import { pdfStyles } from '../../../lib/pdf-styles/pdf-styles';
 import { Ingot } from '@/lib/types/ingot-types';
 
 interface Props {

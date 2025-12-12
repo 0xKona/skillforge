@@ -3,16 +3,16 @@ import { Document, Page, View } from '@react-pdf/renderer';
 import { pdfStyles } from '@/lib/pdf-styles/pdf-styles';
 import { CV, Section } from '@/lib/types/cv-types';
 import { Ingot, IngotType } from '@/lib/types/ingot-types';
-import { PersonalInfoSection } from '@/components/pdf-sections/personal-info-section';
-import { ExperienceSection } from '@/components/pdf-sections/experience-section';
-import { EducationSection } from '@/components/pdf-sections/education-section';
-import { SkillsSection } from '@/components/pdf-sections/skills-section';
-import { CertificationSection } from '@/components/pdf-sections/certifications-section';
-import { ProjectsSection } from '@/components/pdf-sections/projects-section';
-import { PersonalStatementSection } from '@/components/pdf-sections/personal-statement-section';
-import { GenericSection } from '@/components/pdf-sections/generic-section';
-import { ReferenceSection } from '@/components/pdf-sections/reference-section';
-import { SectionHeader } from '@/components/pdf-sections/section-header';
+import { PersonalInfoSection } from '@/components/pdf-preview/pdf-sections/personal-info-section';
+import { ExperienceSection } from '@/components/pdf-preview/pdf-sections/experience-section';
+import { EducationSection } from '@/components/pdf-preview/pdf-sections/education-section';
+import { SkillsSection } from '@/components/pdf-preview/pdf-sections/skills-section';
+import { CertificationSection } from '@/components/pdf-preview/pdf-sections/certifications-section';
+import { ProjectsSection } from '@/components/pdf-preview/pdf-sections/projects-section';
+import { PersonalStatementSection } from '@/components/pdf-preview/pdf-sections/personal-statement-section';
+import { GenericSection } from '@/components/pdf-preview/pdf-sections/generic-section';
+import { ReferenceSection } from '@/components/pdf-preview/pdf-sections/reference-section';
+import { SectionHeader } from '@/components/pdf-preview/pdf-sections/section-header';
 
 interface CvPDFProps {
     cv: CV;
