@@ -40,8 +40,8 @@ export function CvEditor({ cvId }: CvEditorProps) {
 
     const isMobile = useIsMobile();
 
-    // Auto-save every 30 seconds (default option)
-    useCvAutoSave();
+    // Auto-save every 60 seconds (default option)
+    useCvAutoSave(60000);
 
     useEffect(() => {
         return () => {
@@ -84,43 +84,55 @@ export function CvEditor({ cvId }: CvEditorProps) {
         </div>
     );
 
+    const HeaderContent = (
+        <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-800">
+            <TypographyH3 className="text-2xl font-bold">Edit CV</TypographyH3>
+            <div className="flex items-center gap-3">
+                <Button onClick={handleSaveAndClose} disabled={saving}>
+                    {saving && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    <Save className="mr-2 h-4 w-4" />
+                    Save & Close
+                </Button>
+            </div>
+        </div>
+    );
+
     if (isMobile) {
         return (
-            <Tabs
-                defaultValue="edit"
-                className="w-full min-h-device flex flex-col"
-            >
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="preview">Preview</TabsTrigger>
-                    <TabsTrigger value="edit">Edit</TabsTrigger>
-                </TabsList>
-                <TabsContent value="preview" className="flex-1 overflow-hidden">
-                    {PreviewContent}
-                </TabsContent>
-                <TabsContent value="edit" className="flex-1 overflow-hidden">
-                    {EditorContent}
-                </TabsContent>
-            </Tabs>
+            <div className="h-[calc(100dvh-100px)] w-full flex flex-col">
+                {HeaderContent}
+                <Tabs
+                    defaultValue="edit"
+                    className="w-full flex-1 flex flex-col min-h-0"
+                >
+                    <div className="px-4 py-2">
+                        <TabsList className="grid w-full grid-cols-2 shrink-0">
+                            <TabsTrigger value="preview">Preview</TabsTrigger>
+                            <TabsTrigger value="edit">Edit</TabsTrigger>
+                        </TabsList>
+                    </div>
+                    <TabsContent
+                        value="preview"
+                        className="flex-1 overflow-hidden min-h-0"
+                    >
+                        {PreviewContent}
+                    </TabsContent>
+                    <TabsContent
+                        value="edit"
+                        className="flex-1 overflow-hidden min-h-0"
+                    >
+                        {EditorContent}
+                    </TabsContent>
+                </Tabs>
+            </div>
         );
     }
 
     return (
         <div className="bg-slate-900 w-full min-h-[1200px] rounded-xl border border-slate-700 flex flex-col overflow-hidden shadow-2xl">
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-800">
-                <TypographyH3 className="text-2xl font-bold">
-                    Edit CV
-                </TypographyH3>
-                <div className="flex items-center gap-3">
-                    <Button onClick={handleSaveAndClose} disabled={saving}>
-                        {saving && (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        )}
-                        <Save className="mr-2 h-4 w-4" />
-                        Save & Close
-                    </Button>
-                </div>
-            </div>
+            {HeaderContent}
             {/* Body */}
             <div className="flex-1 flex flex-col md:flex-row overflow-hidden ">
                 {/* Left Panel (Preview) */}
