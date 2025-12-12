@@ -33,6 +33,7 @@ export function CvEditor({ cvId }: CvEditorProps) {
         cv,
         activeSectionIndex,
         resetState,
+        availableIngots,
     } = useCvEditorState();
 
     const isMobile = useIsMobile();
@@ -42,6 +43,7 @@ export function CvEditor({ cvId }: CvEditorProps) {
             // Reset the state when the component unmounts
             resetState();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -65,7 +67,10 @@ export function CvEditor({ cvId }: CvEditorProps) {
 
     const PreviewContent = (
         <div className="h-full overflow-hidden bg-slate-900">
-            <CvPreview />
+            <CvPreview
+                sections={cv.cvContent.sections}
+                availableIngots={availableIngots}
+            />
         </div>
     );
 
