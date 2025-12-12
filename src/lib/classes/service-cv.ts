@@ -1,33 +1,9 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@amplify/data/resource';
-import { CV, CvContent, NewCV } from '@/lib/types/cv-types';
+import { CV, NewCV } from '@/lib/types/cv-types';
+import CvHelpers from './helpers-cv';
 
 const client = generateClient<Schema>();
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mapToCv = (item: any): CV => {
-    let cvContent: CvContent;
-    // Handle content if it's a string (JSON stringified) or object
-    if (typeof item.cvContent === 'string') {
-        try {
-            cvContent = JSON.parse(item.cvContent);
-        } catch {
-            cvContent = { sections: [] };
-        }
-    } else {
-        cvContent = item.cvContent as CvContent;
-    }
-
-    return {
-        id: item.id,
-        title: item.title,
-        description: item.description,
-        version: item.version,
-        cvContent,
-        createdAt: item.createdAt,
-        updatedAt: item.updatedAt,
-    };
-};
 
 export class CvService {
     static async createCv(cvData: NewCV): Promise<CV> {
@@ -42,7 +18,11 @@ export class CvService {
             throw new Error(`Failed to create CV: ${errors[0].message}`);
         }
 
-        return mapToCv(newCv);
+        if (!newCv) {
+            throw new Error('Failed to create CV: No data returned');
+        }
+
+        return CvHelpers.mapDbDataToCv(newCv);
     }
 
     static async getCv(id: string): Promise<CV | null> {
@@ -54,7 +34,7 @@ export class CvService {
 
         if (!cv) return null;
 
-        return mapToCv(cv);
+        return CvHelpers.mapDbDataToCv(cv);
     }
 
     static async listCvs(): Promise<CV[]> {
@@ -64,7 +44,7 @@ export class CvService {
             throw new Error(`Failed to list CVs: ${errors[0].message}`);
         }
 
-        return cvs.map(mapToCv);
+        return cvs.map(CvHelpers.mapDbDataToCv);
     }
 
     static async updateCv(cv: CV): Promise<CV> {
@@ -80,7 +60,11 @@ export class CvService {
             throw new Error(`Failed to update CV: ${errors[0].message}`);
         }
 
-        return mapToCv(updatedCv);
+        if (!updatedCv) {
+            throw new Error('Failed to update CV: No data returned');
+        }
+
+        return CvHelpers.mapDbDataToCv(updatedCv);
     }
 
     static async deleteCv(id: string): Promise<void> {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { CV } from '../types/cv-types';
-import { CvService } from '../classes/cv-service';
+import { CvService } from '../classes/service-cv';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
 

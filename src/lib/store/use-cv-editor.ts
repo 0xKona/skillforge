@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { CV, NewCV, Section } from '../types/cv-types';
 import { Ingot, IngotType } from '../types/ingot-types';
-import { CvService } from '../classes/cv-service';
+import { CvService } from '../classes/service-cv';
 import { IngotService } from '../classes/ingot-service';
 import { toast } from 'sonner';
 import { CvFormValues, validateCv } from '../form-schemas/cv-schema';
