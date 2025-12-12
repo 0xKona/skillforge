@@ -1,4 +1,4 @@
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import { TypographyH4 } from '@/components/ui/typography/typography';
 import { getIngotLabelByValue } from '@/lib/mappings/ingot-mappings';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';

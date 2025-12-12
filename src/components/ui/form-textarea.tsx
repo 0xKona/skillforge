@@ -1,8 +1,8 @@
 'use client';
 
 import { Controller, UseFormReturn } from 'react-hook-form';
-import { Label } from '../shadcn-components/label';
-import { Textarea } from '../shadcn-components/textarea';
+import { Label } from './component-library/shadcn-components/label';
+import { Textarea } from './component-library/shadcn-components/textarea';
 import React from 'react';
 
 interface Props {

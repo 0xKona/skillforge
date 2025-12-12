@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import CvCard from './components/cv-card';
 import CvCardSkeleton from './components/cv-card-skeleton';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
 import { Plus, RefreshCw } from 'lucide-react';
-import { Input } from '@/components/shadcn-components/input';
+import { Input } from '@/components/ui/component-library/shadcn-components/input';
 
 export default function CvLibraryInterface() {
     const { loading, cvs, loadCvs, searchQuery, setSearchQuery } =

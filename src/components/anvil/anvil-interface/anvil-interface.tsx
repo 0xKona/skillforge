@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import IngotCard from './ingot-card';
 import IngotCardSkeleton from './ingot-card-skeleton';
 import { Ingot } from '@/lib/types/ingot-types';

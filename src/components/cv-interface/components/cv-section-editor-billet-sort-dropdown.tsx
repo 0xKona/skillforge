@@ -1,11 +1,11 @@
-import { Label } from '@/components/shadcn-components/label';
+import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/shadcn-components/select';
+} from '@/components/ui/component-library/shadcn-components/select';
 import SortingHelpers from '@/lib/classes/helpers-sorting';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';

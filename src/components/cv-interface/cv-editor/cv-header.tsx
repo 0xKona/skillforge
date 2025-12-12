@@ -1,9 +1,9 @@
 'use client';
 
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
-import { Input } from '@/components/shadcn-components/input';
-import { Textarea } from '@/components/shadcn-components/textarea';
-import { Label } from '@/components/shadcn-components/label';
+import { Input } from '@/components/ui/component-library/shadcn-components/input';
+import { Textarea } from '@/components/ui/component-library/shadcn-components/textarea';
+import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import { TypographyH4 } from '@/components/ui/typography/typography';
 
 export function CvHeader() {

@@ -1,8 +1,8 @@
 'use client';
 
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
-import { Checkbox } from '@/components/shadcn-components/checkbox';
-import { Label } from '@/components/shadcn-components/label';
+import { Checkbox } from '@/components/ui/component-library/shadcn-components/checkbox';
+import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import { getIngotLabelByValue } from '@/lib/mappings/ingot-mappings';
 import { TypographyP } from '@/components/ui/typography/typography';
 import CvSectionEditorSortDropdown from '../components/cv-section-editor-billet-sort-dropdown';
@@ -10,7 +10,7 @@ import CvEditorHeader from '../components/cv-editor-header';
 import CvSectionEditorBillets from '../components/cv-section-editor-billet';
 import IngotHelpers from '@/lib/classes/helper-ingot';
 import Link from 'next/link';
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import React from 'react';
 import { CV } from '@/lib/types/cv-types';
 

@@ -1,14 +1,14 @@
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
-import { Input } from '@/components/shadcn-components/input';
+import { Input } from '@/components/ui/component-library/shadcn-components/input';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/shadcn-components/select';
+} from '@/components/ui/component-library/shadcn-components/select';
 import { Search, X } from 'lucide-react';
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import { INGOT_TYPE_LABELS } from '@/lib/mappings/ingot-mappings';
 
 export default function AnvilInterfaceFilters() {

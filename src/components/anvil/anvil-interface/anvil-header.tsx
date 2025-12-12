@@ -1,4 +1,4 @@
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import { RefreshButton } from '@/components/ui/refresh-button';
 import { TypographyH2 } from '@/components/ui/typography/typography';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';

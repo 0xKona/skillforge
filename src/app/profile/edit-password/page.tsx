@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import FormInput, { FormInputType } from '@/components/ui/form-input';
 import { ProfileService } from '@/lib/classes/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';

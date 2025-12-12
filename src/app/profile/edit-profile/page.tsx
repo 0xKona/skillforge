@@ -1,7 +1,7 @@
 'use client';
 
-import { Skeleton } from '@/components/shadcn-components/skeleton';
-import { Button } from '@/components/shadcn-components/button';
+import { Skeleton } from '@/components/ui/component-library/shadcn-components/skeleton';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import FormInput from '@/components/ui/form-input';
 import FormTextarea from '@/components/ui/form-textarea';
 import { ProfileService } from '@/lib/classes/profile-service';

@@ -1,6 +1,6 @@
-import { Checkbox } from '@/components/shadcn-components/checkbox';
-import { Label } from '@/components/shadcn-components/label';
-import { Badge } from '@/components/shadcn-components/badge';
+import { Checkbox } from '@/components/ui/component-library/shadcn-components/checkbox';
+import { Label } from '@/components/ui/component-library/shadcn-components/label';
+import { Badge } from '@/components/ui/component-library/shadcn-components/badge';
 import { BilletHelper } from '@/lib/classes/billet-helper';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';

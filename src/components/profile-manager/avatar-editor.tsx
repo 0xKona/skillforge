@@ -5,7 +5,7 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '../shadcn-components/avatar';
+} from '../ui/component-library/shadcn-components/avatar';
 import { CameraIcon } from 'lucide-react';
 import { TypographyP } from '../ui/typography/typography';
 import {
@@ -17,7 +17,7 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from '../shadcn-components/alert-dialog';
+} from '../ui/component-library/shadcn-components/alert-dialog';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 
 export default function AvatarDisplayEditor() {

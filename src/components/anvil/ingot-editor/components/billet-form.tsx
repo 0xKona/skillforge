@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BilletTemplate, IngotField } from '@/lib/types/ingot-types';
 import DynamicForm from './dynamic-form';
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import { X, Check } from 'lucide-react';
 import { generateSchemaFromIngotFields } from '@/lib/form-schemas/ingot-form-generator';
 import { toast } from 'sonner';

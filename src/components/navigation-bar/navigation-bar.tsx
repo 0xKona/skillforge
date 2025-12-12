@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from '@/components/icons/logo';
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import HomeIcon from '../icons/home';
 import ForgeIcon from '../icons/forge';
 import AnvilIcon from '../icons/anvil';
@@ -12,7 +12,7 @@ import { RefObject, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/use-click-outside';
 import UserDropdown from './user-dropdown';
 import { useClientAuth } from '@/lib/store/use-client-auth';
-import { Skeleton } from '../shadcn-components/skeleton';
+import { Skeleton } from '../ui/component-library/shadcn-components/skeleton';
 
 // TODO - REFACTOR AND TEST
 
@@ -169,7 +169,7 @@ export default function NavBar() {
                     {loading ? (
                         <Skeleton className="h-10 w-10 rounded-full bg-slate-800" />
                     ) : isAuthenticated ? (
-                            <UserDropdown />
+                        <UserDropdown />
                     ) : (
                         <Button variant="default" size="lg">
                             <Link href={'/login'}>Login</Link>

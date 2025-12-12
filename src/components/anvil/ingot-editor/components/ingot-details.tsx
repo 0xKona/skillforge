@@ -3,9 +3,9 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
-} from '@/components/shadcn-components/card';
-import { Input } from '@/components/shadcn-components/input';
-import { Label } from '@/components/shadcn-components/label';
+} from '@/components/ui/component-library/shadcn-components/card';
+import { Input } from '@/components/ui/component-library/shadcn-components/input';
+import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import DynamicForm from './dynamic-form';
 import { IngotField } from '@/lib/types/ingot-types';
 

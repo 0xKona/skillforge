@@ -9,8 +9,8 @@ import {
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '@/components/shadcn-components/tabs';
-import { Button } from '@/components/shadcn-components/button';
+} from '@/components/ui/component-library/shadcn-components/tabs';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import { Loader2, Save } from 'lucide-react';
 import { CvHeader } from './cv-header';
 import { SectionList } from './section-list';

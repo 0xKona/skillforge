@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/shadcn-components/skeleton';
+import { Skeleton } from '@/components/ui/component-library/shadcn-components/skeleton';
 
 export default function CvEditorSkeleton() {
     return (

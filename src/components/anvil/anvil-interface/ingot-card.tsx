@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Card } from '../../shadcn-components/card';
-import { Button } from '../../shadcn-components/button';
+import { Card } from '../../ui/component-library/shadcn-components/card';
+import { Button } from '../../ui/component-library/shadcn-components/button';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -11,7 +11,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '../../shadcn-components/alert-dialog';
+} from '../../ui/component-library/shadcn-components/alert-dialog';
 import { Ingot } from '@/lib/types/ingot-types';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import { cn } from '@/lib/utils';

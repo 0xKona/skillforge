@@ -1,8 +1,8 @@
 'use client';
 
 import { Controller, UseFormReturn } from 'react-hook-form';
-import { Label } from '../shadcn-components/label';
-import { Input } from '../shadcn-components/input';
+import { Label } from './component-library/shadcn-components/label';
+import { Input } from './component-library/shadcn-components/input';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import React from 'react';
 

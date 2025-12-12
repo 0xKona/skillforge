@@ -1,6 +1,6 @@
 'use client';
 
-import { CardContent } from '@/components/shadcn-components/card';
+import { CardContent } from '@/components/ui/component-library/shadcn-components/card';
 import React, { useState } from 'react';
 import { signUp } from 'aws-amplify/auth';
 import * as z from 'zod';

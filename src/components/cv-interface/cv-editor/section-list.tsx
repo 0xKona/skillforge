@@ -9,7 +9,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/shadcn-components/select';
+} from '@/components/ui/component-library/shadcn-components/select';
 import { TypographyH4 } from '@/components/ui/typography/typography';
 import {
     CV_SECTION_LABELS,
