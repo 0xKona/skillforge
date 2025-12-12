@@ -4,6 +4,8 @@ import { IngotField } from '@/lib/types/ingot-types';
 // Helped me do this
 // https://stackoverflow.com/questions/75984188/zod-how-to-dynamically-generate-a-schema
 
+// Came back to this a week later and am completely lost, TODO - Refactor to make more readable / maintainable
+
 export const generateSchemaFromIngotFields = (
     fields: Record<string, IngotField>
 ) => {
