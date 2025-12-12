@@ -16,13 +16,13 @@ import { TabsTrigger } from '@/components/animate-ui/components/animate/tabs';
 import { redirect } from 'next/navigation';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
-import IngotPreviewModal from '../pdf-preview/ingot-preview-modal';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
 import { IngotFormHelper } from '@/lib/helpers/ingot-form-helpers';
 import {
     INGOT_TYPE_LABELS,
     IngotTypeLabelMap,
 } from '@/lib/mappings/ingot-mappings';
+import IngotPreviewModal from '@/components/pdf-preview/ingot-preview-modal';
 
 interface Props {
     initialIngotData: IngotEditorData;

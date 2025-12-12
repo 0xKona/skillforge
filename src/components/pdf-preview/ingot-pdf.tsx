@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { Document, Page, View } from '@react-pdf/renderer';
-import { pdfStyles } from '../../../lib/pdf-styles/pdf-styles';
-import { PersonalInfoSection } from '../../pdf-preview/pdf-sections/personal-info-section';
 import { Ingot, IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { ExperienceSection } from '@/components/pdf-preview/pdf-sections/experience-section';
 import { EducationSection } from '@/components/pdf-preview/pdf-sections/education-section';
@@ -15,6 +13,8 @@ import { GenericSection } from '@/components/pdf-preview/pdf-sections/generic-se
 import { ReferenceSection } from '@/components/pdf-preview/pdf-sections/reference-section';
 import { SectionHeader } from '@/components/pdf-preview/pdf-sections/section-header';
 import { SortOrder } from '@/lib/types/sorting-types';
+import { PersonalInfoSection } from './pdf-sections/personal-info-section';
+import { pdfStyles } from '@/lib/pdf-styles/pdf-styles';
 
 interface IngotPDFProps {
     ingotData: IngotEditorData;
