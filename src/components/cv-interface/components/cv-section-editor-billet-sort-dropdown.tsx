@@ -6,13 +6,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/shadcn-components/select';
+import SortingHelpers from '@/lib/classes/helpers-sorting';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
-import {
-    SortOrder,
-    sortOrderLabelMap,
-    sortOrderOptions,
-} from '@/lib/types/sorting-types';
+import { SortOrder } from '@/lib/types/sorting-types';
 
 interface Props {
     section: Section;
@@ -62,11 +59,13 @@ export default function CvSectionEditorSortDropdown({
                     <SelectValue placeholder="Sort order" />
                 </SelectTrigger>
                 <SelectContent>
-                    {sortOrderOptions.map((sortOption: SortOrder) => (
-                        <SelectItem key={sortOption} value={sortOption}>
-                            {sortOrderLabelMap[sortOption]}
-                        </SelectItem>
-                    ))}
+                    {SortingHelpers.getSortOrderOptions().map(
+                        (sortOption: SortOrder) => (
+                            <SelectItem key={sortOption} value={sortOption}>
+                                {SortingHelpers.getSortOrderLabel(sortOption)}
+                            </SelectItem>
+                        )
+                    )}
                 </SelectContent>
             </Select>
         </div>
