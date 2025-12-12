@@ -10,7 +10,7 @@ import FormHeader from '../form-header';
 import { Button } from '../../ui/component-library/shadcn-components/button';
 import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
 import { UseFormReturn } from 'react-hook-form';
-import { ResetPasswordForm } from '@/lib/form-schemas/auth-schema';
+import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
 import { useAuthFlowState } from '@/lib/store/auth-form';
 import { Label } from '@/components/ui/component-library/shadcn-components/label';

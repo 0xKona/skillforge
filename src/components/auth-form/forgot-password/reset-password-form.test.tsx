@@ -9,7 +9,7 @@ import {
 } from '@/test-utils/test-helpers';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { resetPasswordFormSchema } from '@/lib/form-schemas/auth-schema';
+import { resetPasswordFormSchema } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
 
 // IDs

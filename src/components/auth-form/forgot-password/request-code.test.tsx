@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
     forgotPasswordRequestSchema,
     resetPasswordFormSchema,
-} from '@/lib/form-schemas/auth-schema';
+} from '@/lib/zod-form-schemas/auth-schema';
 import { resetPassword } from 'aws-amplify/auth';
 
 // IDs

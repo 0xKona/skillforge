@@ -4,7 +4,7 @@ import { Ingot, IngotType } from '../types/ingot-types';
 import { CvService } from '../classes/services/service-cv';
 import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
-import { CvFormValues, validateCv } from '../form-schemas/cv-schema';
+import { CvFormValues, validateCv } from '../zod-form-schemas/cv-schema';
 import { redirect } from 'next/navigation';
 
 interface CvEditorState {

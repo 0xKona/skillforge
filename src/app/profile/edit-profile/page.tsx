@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import {
     editProfileFormSchema,
     EditProfileFormValues,
-} from '@/lib/form-schemas/edit-profile-schema';
+} from '@/lib/zod-form-schemas/edit-profile-schema';
 import {
     TypographyH3,
     TypographyP,

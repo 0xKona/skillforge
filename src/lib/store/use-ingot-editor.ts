@@ -8,7 +8,7 @@ import {
 } from '../types/ingot-types';
 import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
-import { generateSchemaFromIngotFields } from '../form-schemas/ingot-form-generator';
+import { generateSchemaFromIngotFields } from '../zod-form-schemas/ingot-form-generator';
 
 interface UseIngotEditorState {
     isLoading: boolean;

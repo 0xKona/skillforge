@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import {
     editPasswordFormSchema,
     EditPasswordFormValues,
-} from '@/lib/form-schemas/edit-password-schema';
+} from '@/lib/zod-form-schemas/edit-password-schema';
 import {
     TypographyH3,
     TypographyP,

@@ -8,7 +8,7 @@ import FormHeader from '../form-header';
 import {
     ForgotPasswordRequest,
     ResetPasswordForm,
-} from '@/lib/form-schemas/auth-schema';
+} from '@/lib/zod-form-schemas/auth-schema';
 import { resetPassword } from 'aws-amplify/auth';
 import FormInput from '@/components/ui/form-input';
 import SubmitAuthForm from '../submit-form';
