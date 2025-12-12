@@ -177,6 +177,16 @@ export const useIngotEditorState = create<UseIngotEditorStore>((set, get) => ({
             return false;
         } finally {
             set({ isLoading: false });
+
+            // Redirect if required
+            // Get redirectToCv from URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectToCv = urlParams.get('redirectToCv');
+
+            // If there is one, redirect to it
+            if (redirectToCv) {
+                window.location.href = `/forge/cv/${redirectToCv}`;
+            }
         }
     },
 }));

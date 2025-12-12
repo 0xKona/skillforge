@@ -12,6 +12,7 @@ import IngotHelpers from '@/lib/classes/helper-ingot';
 import Link from 'next/link';
 import { Button } from '@/components/shadcn-components/button';
 import React from 'react';
+import { CV } from '@/lib/types/cv-types';
 
 export function SectionEditor() {
     const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
@@ -80,7 +81,7 @@ export function SectionEditor() {
                         </p>
 
                         <Link
-                            href={`/anvil/create?ingotType=${section.sectionType}`}
+                            href={`/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as CV).id}`}
                         >
                             <Button
                                 variant="outline"
