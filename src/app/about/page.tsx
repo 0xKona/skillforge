@@ -1,12 +1,14 @@
-import { TypographyH1 } from '@/components/ui/typography/typography';
 import PageWrapper from '@/components/wrappers/page-wrapper';
+import { AboutHero } from '@/components/about/about-hero';
+import { AboutFeatures } from '@/components/about/about-features';
+import { AboutHowItWorks } from '@/components/about/about-how-it-works';
 
-export default async function LoginPage() {
+export default async function AboutPage() {
     return (
-        <PageWrapper className="flex items-start justify-center relative md:pt-20">
-            <TypographyH1 className="text-slate-50">
-                Welcome to the About Page
-            </TypographyH1>
+        <PageWrapper className="flex flex-col min-h-screen bg-slate-950">
+            <AboutHero />
+            <AboutFeatures />
+            <AboutHowItWorks />
         </PageWrapper>
     );
 }
