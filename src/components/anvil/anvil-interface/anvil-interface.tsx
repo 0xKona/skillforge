@@ -8,7 +8,7 @@ import IngotCardSkeleton from './ingot-card-skeleton';
 import { Ingot } from '@/lib/types/ingot-types';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import AnvilInterfaceFilters from './anvil-filters';
-import AnvilHeader from './anvil-header';
+import LibraryHeader from '@/components/ui/library-header';
 
 export default function AnvilInterface() {
     const {
@@ -35,7 +35,15 @@ export default function AnvilInterface() {
 
     return (
         <div className="w-full mx-auto p-6 space-y-6">
-            <AnvilHeader />
+            {/* <AnvilHeader /> */}
+            <LibraryHeader
+                isLoading={loading}
+                onRefresh={loadAnvilIngots}
+                mainButtonText="Create New Ingot"
+                mainButtonLink="/anvil/create"
+                headerTitleText="Ingot Library"
+                headerDescriptionText="Manage and organize your knowledge Ingots"
+            />
             <AnvilInterfaceFilters />
 
             {/* Loading */}

@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/component-library/shadcn-components/butt
 import CvCard from './components/cv-card';
 import CvCardSkeleton from './components/cv-card-skeleton';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
-import { Plus, RefreshCw } from 'lucide-react';
 import { Input } from '@/components/ui/component-library/shadcn-components/input';
+import LibraryHeader from '../ui/library-header';
 
 export default function CvLibraryInterface() {
     const { loading, cvs, loadCvs, searchQuery, setSearchQuery } =
@@ -25,35 +25,14 @@ export default function CvLibraryInterface() {
     return (
         <div className="w-full mx-auto p-6 space-y-6">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-6">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-100 tracking-tight">
-                        CV Library
-                    </h1>
-                    <p className="text-slate-400 mt-1">
-                        Manage and organize your Curriculum Vitae
-                    </p>
-                </div>
-                <div className="flex items-center gap-3 w-full md:w-auto">
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => loadCvs()}
-                        className="border-slate-700 bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-700"
-                        title="Refresh List"
-                    >
-                        <RefreshCw
-                            className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`}
-                        />
-                    </Button>
-                    <Link href="/forge/cv/new">
-                        <Button className="bg-forge-orange hover:bg-forge-orange/90 text-white font-medium w-full md:w-auto">
-                            <Plus className="mr-2 h-4 w-4" />
-                            Create New CV
-                        </Button>
-                    </Link>
-                </div>
-            </div>
+            <LibraryHeader
+                isLoading={loading}
+                onRefresh={loadCvs}
+                mainButtonText="Create New CV"
+                mainButtonLink="/forge/cv/new"
+                headerTitleText="CV Library"
+                headerDescriptionText="Manage and organize your Curriculum Vitae"
+            />
 
             {/* Filters */}
             <div className="flex flex-col sm:flex-row gap-4 items-center bg-slate-900/50 p-4 rounded-xl border border-slate-800/50 backdrop-blur-sm">
