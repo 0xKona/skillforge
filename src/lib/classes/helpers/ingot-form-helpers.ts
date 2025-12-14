@@ -16,23 +16,23 @@ export class IngotFormHelper {
      * @returns An array of field groups, where each group is either a single field or a row of fields
      */
     static getGroupedFields(fields: Record<string, IngotField>) {
-        const keys = Object.keys(fields);
+        const fieldKeys = Object.keys(fields);
         const groups: { type: 'row' | 'single'; keys: string[] }[] = [];
         const processed = new Set<string>();
 
-        keys.forEach((key) => {
+        fieldKeys.forEach((fieldKey) => {
             // If we've already handled this key (e.g., as part of a group), skip it
-            if (processed.has(key)) return;
+            if (processed.has(fieldKey)) return;
 
             // Special handling for 'endDate':
             // If 'startDate' is also present, we skip 'endDate' here because it will be
             // picked up when we process 'startDate' below.
-            if (key === 'endDate' && keys.includes('startDate')) {
+            if (fieldKey === 'endDate' && fieldKeys.includes('startDate')) {
                 return;
             }
 
             // Group Start Date and End Date into a single row
-            if (key === 'startDate' && keys.includes('endDate')) {
+            if (fieldKey === 'startDate' && fieldKeys.includes('endDate')) {
                 groups.push({ type: 'row', keys: ['startDate', 'endDate'] });
                 processed.add('startDate');
                 processed.add('endDate');
@@ -40,7 +40,7 @@ export class IngotFormHelper {
             }
 
             // Group City and State into a single row (future proofing)
-            if (key === 'city' && keys.includes('state')) {
+            if (fieldKey === 'city' && fieldKeys.includes('state')) {
                 groups.push({ type: 'row', keys: ['city', 'state'] });
                 processed.add('city');
                 processed.add('state');
@@ -48,8 +48,8 @@ export class IngotFormHelper {
             }
 
             // Default case: Add the field as a single item on its own row
-            groups.push({ type: 'single', keys: [key] });
-            processed.add(key);
+            groups.push({ type: 'single', keys: [fieldKey] });
+            processed.add(fieldKey);
         });
 
         return groups;
