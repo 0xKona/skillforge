@@ -88,25 +88,6 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Disclaimer Section */}
-                <div className="border-t border-slate-800/50 pt-8 pb-8">
-                    <div className="bg-slate-900/50 rounded-lg p-6 border border-slate-800">
-                        <h4 className="text-sm font-semibold text-amber-500 mb-2">
-                            Educational Project Disclaimer
-                        </h4>
-                        <p className="text-xs text-slate-400 leading-relaxed">
-                            SkillForge is an educational project developed for
-                            demonstration and learning purposes. It is not
-                            intended for widespread commercial use. Please be
-                            aware that this service may:
-                        </p>
-                        <ul className="list-disc list-inside text-xs text-slate-400 mt-2 space-y-1 ml-2">
-                            <li>Change and update.</li>
-                            <li>Go offline without notice.</li>
-                        </ul>
-                    </div>
-                </div>
-
                 {/* Bottom Bar */}
                 <div className="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-slate-500 text-sm">

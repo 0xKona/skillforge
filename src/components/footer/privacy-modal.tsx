@@ -5,6 +5,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogFooter,
+    DialogClose,
 } from '@/components/ui/component-library/shadcn-components/dialog';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import { Shield, Lock, Server, EyeOff } from 'lucide-react';
@@ -20,7 +22,7 @@ export function PrivacyModal() {
                     Privacy & Data Use
                 </Button>
             </DialogTrigger>
-            <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 max-w-2xl">
+            <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 max-w-2xl max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold flex items-center gap-2">
                         <Shield className="h-6 w-6 text-forge-orange" />
@@ -89,16 +91,40 @@ export function PrivacyModal() {
                         </div>
                     </div>
 
-                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 mt-4">
-                        <p className="text-xs text-amber-500/80">
-                            <strong>Reminder:</strong> As an educational
-                            project, while we implement standard security
-                            measures, we recommend not storing highly sensitive
-                            personal identification like passport and national
-                            insurance numbers etc or financial data.
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 mt-4 space-y-2">
+                        <h4 className="text-sm font-semibold text-amber-500">
+                            Educational Project Disclaimer
+                        </h4>
+                        <p className="text-xs text-amber-500/80 leading-relaxed">
+                            SkillForge is an educational project developed for
+                            demonstration and learning purposes. It is not
+                            intended for widespread commercial use.
                         </p>
+                        <ul className="list-disc list-inside text-xs text-amber-500/80 space-y-1 ml-1">
+                            <li>
+                                The service may change, update, or go offline
+                                without notice.
+                            </li>
+                            <li>Data persistence is not guaranteed.</li>
+                            <li>
+                                Please do not store highly sensitive personal
+                                identification (e.g., passport numbers) or
+                                financial data.
+                            </li>
+                        </ul>
                     </div>
                 </div>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            className="w-full sm:w-auto bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white border border-slate-700"
+                        >
+                            Close
+                        </Button>
+                    </DialogClose>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     );
