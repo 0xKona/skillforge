@@ -1,42 +1,34 @@
-import Logo from '@/components/icons/logo';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import {
-    TypographyH1,
-    TypographyH3,
-} from '@/components/ui/typography/typography';
 import PageWrapper from '@/components/wrappers/page-wrapper';
 import { isAuthenticated } from '@/lib/amplify/server-utils';
-import Link from 'next/link';
+import { HomeHero } from '@/components/home/home-hero';
+import { AboutFeatures } from '@/components/about/about-features';
+import { HomeLearnMore } from '@/components/home/home-learn-more';
+import {
+    TypographyH2,
+    TypographyP,
+} from '@/components/ui/typography/typography';
 
-async function HeroSection() {
+export default async function Home() {
     const isLoggedIn = await isAuthenticated();
 
     return (
-        <div className="flex flex-col items-center flex-1 gap-2">
-            <div className="max-w-2xl w-full flex justify-center">
-                <Logo size={200} color="#f97316" />
-            </div>
-            <TypographyH1 className="text-slate-50">
-                Forge the Ultimate CV
-            </TypographyH1>
-            <TypographyH3 className="text-slate-400">
-                Get started now
-            </TypographyH3>
-            <Button className="cursor-pointer" variant={'default'} size={'lg'}>
-                {isLoggedIn ? (
-                    <Link href={'/forge'}>Let&apos;s Go!</Link>
-                ) : (
-                    <Link href={'/login'}>Sign up now!</Link>
-                )}
-            </Button>
-        </div>
-    );
-}
+        <PageWrapper className="flex flex-col min-h-screen bg-slate-950">
+            <HomeHero isLoggedIn={isLoggedIn} />
 
-export default async function Home() {
-    return (
-        <PageWrapper className="flex flex-col items-center font-sans p-8 pb-20 gap-16 sm:p-20">
-            <HeroSection />
+            <div className="py-24 border-y border-slate-800/50 bg-slate-900/20">
+                <div className="text-center mb-12 px-6">
+                    <TypographyH2 className="text-3xl md:text-4xl font-bold text-slate-100 border-none mb-4">
+                        The SkillForge Ecosystem
+                    </TypographyH2>
+                    <TypographyP className="text-slate-400 max-w-2xl mx-auto text-lg">
+                        Everything you need to build the perfect CV, all in one
+                        place.
+                    </TypographyP>
+                </div>
+                <AboutFeatures />
+            </div>
+
+            <HomeLearnMore />
         </PageWrapper>
     );
 }
