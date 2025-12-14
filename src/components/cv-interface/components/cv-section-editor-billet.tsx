@@ -6,6 +6,7 @@ import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
 import { Ingot, INGOT_FIELD_LABELS } from '@/lib/types/ingot-types';
 import { cn } from '@/lib/utils';
+import { TypographyP } from '@/components/ui/typography/typography';
 
 interface Props {
     ingot: Ingot;
@@ -23,9 +24,9 @@ export default function CvSectionEditorBillets({ ingot, section }: Props) {
         <div className="ml-7 mt-2 space-y-3 border-l-2 border-slate-700 pl-4">
             {/* Header Section: Title and Count */}
             <div className="flex items-center justify-between">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <TypographyP className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     Include Items
-                </p>
+                </TypographyP>
                 <Badge
                     variant="outline"
                     className="text-[10px] px-1.5 py-0 h-5 text-slate-500 border-slate-700"
