@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    transpilePackages: ['@react-pdf/renderer'],
 };
 
 export default nextConfig;
