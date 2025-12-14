@@ -1,4 +1,5 @@
 import {
+    HighlightSpanTextP,
     TypographyH1,
     TypographyP,
 } from '@/components/ui/typography/typography';
@@ -7,12 +8,6 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 export function AboutHero() {
-    function SpanTextP({ children }: { children: string }) {
-        return (
-            <span className="text-forge-orange font-semibold">{children}</span>
-        );
-    }
-
     return (
         <div className="flex flex-col items-center text-center space-y-6 py-12 md:py-24 max-w-4xl mx-auto px-6">
             <div className="space-y-4">
@@ -20,11 +15,11 @@ export function AboutHero() {
                     Forge Your Professional Future
                 </TypographyH1>
                 <TypographyP className="text-xl text-slate-400 max-w-2xl mx-auto">
-                    <SpanTextP>SkillForge</SpanTextP> is the ultimate tool for
-                    crafting dynamic, tailored CVs. Manage your skills,
-                    experience, and achievements as reusable{' '}
-                    <SpanTextP>Ingots</SpanTextP> and forge them into the
-                    perfect CV for every opportunity.
+                    <HighlightSpanTextP>SkillForge</HighlightSpanTextP> is the
+                    ultimate tool for crafting dynamic, tailored CVs. Manage
+                    your skills, experience, and achievements as reusable{' '}
+                    <HighlightSpanTextP>Ingots</HighlightSpanTextP> and forge
+                    them into the perfect CV for every opportunity.
                 </TypographyP>
             </div>
 

@@ -44,7 +44,7 @@ export function AboutFeatures() {
             {features.map((feature, index) => (
                 <Card
                     key={index}
-                    className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors"
+                    className="bg-slate-900/75 border-slate-800 hover:border-slate-700 transition-colors z-10"
                 >
                     <CardHeader>
                         <feature.icon
