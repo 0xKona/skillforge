@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import AuthForm from './auth-form';
-import { useAuthFlowState } from '@/lib/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/use-auth-form';
 import { defaultAuthFlowState } from '@/test-utils/test-helpers';
 
 // Mock the auth flow state store
-jest.mock('@/lib/store/auth-form');
+jest.mock('@/lib/store/use-auth-form');
 
 // Mock the child components - we only care which component is rendered, not how it works
 jest.mock('./verify-code', () => {

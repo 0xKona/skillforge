@@ -1,5 +1,5 @@
 import BilletEditor from '../billet-editor';
-import { Billet } from '@/lib/types/ingot';
+import { Billet } from '@/lib/types/ingot-types';
 
 interface BilletSectionProps {
     billets: Billet[];

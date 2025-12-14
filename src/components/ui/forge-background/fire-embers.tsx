@@ -1,27 +1,17 @@
-'use client';
-
 import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
 
 interface FireEmbersProps {
     count?: number;
 }
 
 export default function FireEmbers({ count = 15 }: FireEmbersProps) {
-    const [embers, setEmbers] = useState<
-        Array<{ id: number; left: string; delay: string; duration: string }>
-    >([]);
-
-    useEffect(() => {
-        // Generate random values for each ember only on the client
-        const newEmbers = Array.from({ length: count }, (_, i) => ({
-            id: i,
-            left: `${Math.random() * 100}%`,
-            delay: `${-Math.random() * 12}s`, // Negative delay to start mid-animation
-            duration: `${7 + Math.random() * 5}s`, // 7-12 seconds
-        }));
-        setEmbers(newEmbers);
-    }, [count]);
+    // Generate random values for each ember on every render
+    const embers = Array.from({ length: count }, (_, i) => ({
+        id: i,
+        left: `${Math.random() * 100}%`,
+        delay: `${-Math.random() * 12}s`, // Negative delay to start mid-animation
+        duration: `${7 + Math.random() * 5}s`, // 7-12 seconds
+    }));
 
     const emberStyle = cn(
         // Position at bottom, fixed size (3px), circle shape, apply float animation

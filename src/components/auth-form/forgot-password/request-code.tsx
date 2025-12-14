@@ -1,18 +1,21 @@
 'use client';
 
-import { Card, CardContent } from '@/components/shadcn-components/card';
+import {
+    Card,
+    CardContent,
+} from '@/components/ui/component-library/shadcn-components/card';
 import FormHeader from '../form-header';
 import {
     ForgotPasswordRequest,
     ResetPasswordForm,
-} from '@/lib/form-schemas/auth-schema';
+} from '@/lib/zod-form-schemas/auth-schema';
 import { resetPassword } from 'aws-amplify/auth';
 import FormInput from '@/components/ui/form-input';
 import SubmitAuthForm from '../submit-form';
-import { Button } from '@/components/shadcn-components/button';
-import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { UseFormReturn } from 'react-hook-form';
-import { useAuthFlowState } from '@/lib/store/auth-form';
+import { useAuthFlowState } from '@/lib/store/use-auth-form';
 
 interface Props {
     requestForm: UseFormReturn<ForgotPasswordRequest>;

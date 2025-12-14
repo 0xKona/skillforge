@@ -1,5 +1,5 @@
 import Logo from '@/components/icons/logo';
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import {
     TypographyH1,
     TypographyH3,

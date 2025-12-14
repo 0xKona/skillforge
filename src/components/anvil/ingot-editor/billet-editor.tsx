@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Billet, BilletTemplate, IngotField } from '@/lib/types/ingot';
-import { BILLET_TEMPLATES } from '@/lib/ingot-templates';
-import { Button } from '@/components/shadcn-components/button';
+import { Billet, BilletTemplate, IngotField } from '@/lib/types/ingot-types';
+import { BILLET_TEMPLATES } from '@/lib/templates/ingot-templates';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
-} from '@/components/shadcn-components/card';
+} from '@/components/ui/component-library/shadcn-components/card';
 import { Plus } from 'lucide-react';
 import { BilletList } from './components/billet-list';
 import { BilletForm } from './components/billet-form';

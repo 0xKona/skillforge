@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/components/shadcn-components/button';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import FormInput, { FormInputType } from '@/components/ui/form-input';
-import { ProfileService } from '@/lib/classes/profile-service';
+import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import {
     editPasswordFormSchema,
     EditPasswordFormValues,
-} from '@/lib/form-schemas/edit-password-schema';
+} from '@/lib/zod-form-schemas/edit-password-schema';
 import {
     TypographyH3,
     TypographyP,

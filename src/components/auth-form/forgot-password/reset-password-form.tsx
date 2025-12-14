@@ -1,21 +1,24 @@
 'use client';
 
-import { Card, CardContent } from '@/components/shadcn-components/card';
+import {
+    Card,
+    CardContent,
+} from '@/components/ui/component-library/shadcn-components/card';
 import FormInput from '../../ui/form-input';
 import SubmitAuthForm from '../submit-form';
 import FormHeader from '../form-header';
-import { Button } from '../../shadcn-components/button';
-import { useRequestPasswordResetStore } from '@/lib/store/password-reset';
+import { Button } from '../../ui/component-library/shadcn-components/button';
+import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { UseFormReturn } from 'react-hook-form';
-import { ResetPasswordForm } from '@/lib/form-schemas/auth-schema';
+import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
-import { useAuthFlowState } from '@/lib/store/auth-form';
-import { Label } from '@/components/shadcn-components/label';
+import { useAuthFlowState } from '@/lib/store/use-auth-form';
+import { Label } from '@/components/ui/component-library/shadcn-components/label';
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from '@/components/shadcn-components/input-opt';
+} from '@/components/ui/component-library/shadcn-components/input-opt';
 
 interface Props {
     resetForm: UseFormReturn<ResetPasswordForm>;

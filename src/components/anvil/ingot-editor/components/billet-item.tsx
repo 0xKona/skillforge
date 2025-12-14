@@ -1,5 +1,5 @@
-import { Billet } from '@/lib/types/ingot';
-import { Button } from '@/components/shadcn-components/button';
+import { Billet } from '@/lib/types/ingot-types';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,7 +10,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '@/components/shadcn-components/alert-dialog';
+} from '@/components/ui/component-library/shadcn-components/alert-dialog';
 import { Trash2, Edit2 } from 'lucide-react';
 
 interface BilletItemProps {
@@ -37,6 +37,7 @@ export function BilletItem({
             (fields.projectName?.value as string) ||
             (fields.certName?.value as string) ||
             (fields.platform?.value as string) ||
+            (fields.skillName?.value as string) ||
             'Untitled Billet'
         );
     };

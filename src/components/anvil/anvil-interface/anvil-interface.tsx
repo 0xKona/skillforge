@@ -2,13 +2,13 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/shadcn-components/button';
-import IngotCard from './ingot-card';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import IngotCardSkeleton from './ingot-card-skeleton';
-import { Ingot } from '@/lib/types/ingot';
+import { Ingot } from '@/lib/types/ingot-types';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import AnvilInterfaceFilters from './anvil-filters';
-import AnvilHeader from './anvil-header';
+import LibraryHeader from '@/components/ui/library-header';
+import LibraryCard from '@/components/ui/library-card';
 
 export default function AnvilInterface() {
     const {
@@ -35,7 +35,15 @@ export default function AnvilInterface() {
 
     return (
         <div className="w-full mx-auto p-6 space-y-6">
-            <AnvilHeader />
+            {/* <AnvilHeader /> */}
+            <LibraryHeader
+                isLoading={loading}
+                onRefresh={loadAnvilIngots}
+                mainButtonText="Create New Ingot"
+                mainButtonLink="/anvil/create"
+                headerTitleText="Ingot Library"
+                headerDescriptionText="Manage and organize your knowledge Ingots"
+            />
             <AnvilInterfaceFilters />
 
             {/* Loading */}
@@ -76,7 +84,7 @@ export default function AnvilInterface() {
                 // Ingot Grid
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredIngots.map((ingot: Ingot) => (
-                        <IngotCard key={ingot.id} ingotData={ingot} />
+                        <LibraryCard key={ingot.id} cardData={ingot} />
                     ))}
                 </div>
             )}

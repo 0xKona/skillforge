@@ -7,15 +7,15 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@/components/shadcn-components/card';
-import { Label } from '@/components/shadcn-components/label';
-import { Button } from '@/components/shadcn-components/button';
+} from '@/components/ui/component-library/shadcn-components/card';
+import { Label } from '@/components/ui/component-library/shadcn-components/label';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from '../shadcn-components/input-opt';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/auth-form';
+} from '../ui/component-library/shadcn-components/input-opt';
+import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';

@@ -1,10 +1,10 @@
 'use client';
 
-import { Skeleton } from '@/components/shadcn-components/skeleton';
-import { Button } from '@/components/shadcn-components/button';
+import { Skeleton } from '@/components/ui/component-library/shadcn-components/skeleton';
+import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import FormInput from '@/components/ui/form-input';
 import FormTextarea from '@/components/ui/form-textarea';
-import { ProfileService } from '@/lib/classes/profile-service';
+import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import {
     editProfileFormSchema,
     EditProfileFormValues,
-} from '@/lib/form-schemas/edit-profile-schema';
+} from '@/lib/zod-form-schemas/edit-profile-schema';
 import {
     TypographyH3,
     TypographyP,

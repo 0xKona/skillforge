@@ -1,4 +1,4 @@
-import { Billet } from '@/lib/types/ingot';
+import { Billet } from '@/lib/types/ingot-types';
 import { BilletItem } from './billet-item';
 
 interface BilletListProps {

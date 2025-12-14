@@ -5,10 +5,10 @@ import {
     IngotTemplate,
     IngotType,
     IngotEditorData,
-} from '../types/ingot';
-import { IngotService } from '../classes/ingot-service';
+} from '../types/ingot-types';
+import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
-import { generateSchemaFromIngotFields } from '../form-schemas/ingot-form-generator';
+import { generateSchemaFromIngotFields } from '../zod-form-schemas/ingot-form-generator';
 
 interface UseIngotEditorState {
     isLoading: boolean;
@@ -177,6 +177,16 @@ export const useIngotEditorState = create<UseIngotEditorStore>((set, get) => ({
             return false;
         } finally {
             set({ isLoading: false });
+
+            // Redirect if required
+            // Get redirectToCv from URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectToCv = urlParams.get('redirectToCv');
+
+            // If there is one, redirect to it
+            if (redirectToCv) {
+                window.location.href = `/forge/cv/${redirectToCv}`;
+            }
         }
     },
 }));

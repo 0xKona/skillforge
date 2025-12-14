@@ -1,15 +1,18 @@
 'use client';
 
-import { CardContent } from '@/components/shadcn-components/card';
+import { CardContent } from '@/components/ui/component-library/shadcn-components/card';
 import React, { useState } from 'react';
 import { signUp } from 'aws-amplify/auth';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SignUpForm, signUpFormSchema } from '@/lib/form-schemas/auth-schema';
+import {
+    SignUpForm,
+    signUpFormSchema,
+} from '@/lib/zod-form-schemas/auth-schema';
 import FormInput from '@/components/ui/form-input';
 import SubmitAuthForm from './submit-form';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/auth-form';
+import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 
 export default function SignUpTab() {
     // Local component state

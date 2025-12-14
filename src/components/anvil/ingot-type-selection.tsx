@@ -1,20 +1,23 @@
 import { TypographyH2 } from '../ui/typography/typography';
-import { Card } from '../shadcn-components/card';
+import { Card } from '../ui/component-library/shadcn-components/card';
 import Link from 'next/link';
-import { INGOT_TYPE_LABELS, IngotTypeLabelMap } from '@/lib/types/ingot';
-import { IngotService } from '@/lib/classes/ingot-service';
+import { IngotService } from '@/lib/classes/services/ingot-service';
 import { cn } from '@/lib/utils';
+import { IngotType } from '@/lib/types/ingot-types';
+import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
-function IngotTypeCard({ ingotType }: { ingotType: IngotTypeLabelMap }) {
+function IngotTypeCard({ ingotType }: { ingotType: IngotType }) {
+    const ingotLabel = MappingHelpers.getIngotLabelByType(ingotType);
+
     const {
         color,
         icon: Icon,
         label,
-    } = IngotService.getAnvilCardDisplayDetails(ingotType.value);
+    } = IngotService.getAnvilCardDisplayDetails(ingotType);
 
     return (
         <Link
-            href={`/anvil/create?ingotType=${ingotType.value}`}
+            href={`/anvil/create?ingotType=${ingotType}`}
             className="block h-full"
         >
             <Card className="group relative overflow-hidden bg-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer flex flex-col h-full p-0 gap-0">
@@ -47,10 +50,10 @@ function IngotTypeCard({ ingotType }: { ingotType: IngotTypeLabelMap }) {
                     {/* Title */}
                     <div className="space-y-1.5">
                         <h3 className="font-semibold text-lg text-slate-100 leading-tight group-hover:text-forge-orange transition-colors">
-                            {ingotType.label}
+                            {ingotLabel}
                         </h3>
                         <p className="text-xs text-slate-500">
-                            Create a new {ingotType.label.toLowerCase()} entry.
+                            Create a new {ingotLabel.toLowerCase()} entry.
                         </p>
                     </div>
                 </div>
@@ -69,12 +72,9 @@ export default function IngotTypeSelection() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {Object.values(INGOT_TYPE_LABELS).map(
-                    (ingotType: IngotTypeLabelMap) => (
-                        <IngotTypeCard
-                            key={ingotType.value}
-                            ingotType={ingotType}
-                        />
+                {MappingHelpers.getIngotTypeList().map(
+                    (ingotType: IngotType) => (
+                        <IngotTypeCard key={ingotType} ingotType={ingotType} />
                     )
                 )}
             </div>

@@ -1,13 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { INGOT_TEMPLATES } from '@/lib/ingot-templates';
-import {
-    INGOT_TYPE_LABELS,
-    IngotTypeLabelMap,
-    IngotEditorData,
-    IngotType,
-} from '@/lib/types/ingot';
+import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
+import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './components/editor-header';
 import { IngotDetails } from './components/ingot-details';
 import { BilletSection } from './components/billet-section';
@@ -21,9 +16,10 @@ import { TabsTrigger } from '@/components/animate-ui/components/animate/tabs';
 import { redirect } from 'next/navigation';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
-import IngotPreviewModal from '../pdf-preview/ingot-preview-modal';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
-import { IngotFormHelper } from '@/lib/helpers/ingot-form-helpers';
+import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
+import IngotPreviewModal from '@/components/pdf-preview/ingot-preview-modal';
+import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
 interface Props {
     initialIngotData: IngotEditorData;
@@ -130,11 +126,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
         <div className="w-full mx-auto p-6 space-y-6">
             <EditorHeader
                 title={ingotId ? 'Edit Ingot' : 'Create Ingot'}
-                typeLabel={
-                    INGOT_TYPE_LABELS.find(
-                        (ingot: IngotTypeLabelMap) => ingot.value === ingotType
-                    )?.label
-                }
+                typeLabel={MappingHelpers.getIngotLabelByType(ingotType)}
                 loading={isLoading}
                 onPreview={openPreviewModal}
                 onSave={handleSave}

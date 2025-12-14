@@ -9,7 +9,10 @@
         "lint": "eslint",
         "format": "prettier --write .",
         "test": "jest",
-        "testv": "jest --verbose"
+        "testv": "jest --verbose",
+        "sandbox:start": "npx ampx sandbox",
+        "sandbox:delete": "npx ampx delete",
+        "type-check": "tsc --noEmit"
     },
     "dependencies": {
         "@aws-amplify/adapter-nextjs": "^1.6.10",

@@ -1,5 +1,5 @@
 import { RefreshCw } from 'lucide-react';
-import { Button } from '../shadcn-components/button';
+import { Button } from './component-library/shadcn-components/button';
 
 interface RefreshButtonProps {
     onClick: () => void;

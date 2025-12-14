@@ -7,7 +7,7 @@ import {
 } from 'aws-amplify/auth';
 import type { FetchUserAttributesOutput } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
-import { AvatarService } from '@/lib/classes/avatar-service';
+import { AvatarService } from '@/lib/classes/services/avatar-service';
 
 interface ClientAuthState {
     userAttributes: FetchUserAttributesOutput | null;
