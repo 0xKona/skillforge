@@ -170,6 +170,18 @@ export class IngotService {
     }
 
     /**
+     * Deletes all Ingots for the current user.
+     * @returns A Promise that resolves when all Ingots are deleted.
+     */
+    static async deleteAllIngots(): Promise<void> {
+        const ingots = await this.listIngots();
+        const deletePromises = ingots.map((ingot) =>
+            this.deleteIngot(ingot.id)
+        );
+        await Promise.all(deletePromises);
+    }
+
+    /**
      * Gets display details for an anvil card based on the ingot type.
      * @param type - The type of the ingot.
      * @returns An object containing the label, color, and icon for the card.
