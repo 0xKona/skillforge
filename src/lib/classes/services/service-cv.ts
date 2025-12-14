@@ -102,4 +102,14 @@ export class CvService {
             throw new Error(`Failed to delete CV: ${errors[0].message}`);
         }
     }
+
+    /**
+     * Deletes all CVs for the current user.
+     * @returns A Promise that resolves when all CVs are deleted.
+     */
+    static async deleteAllCvs(): Promise<void> {
+        const cvs = await this.listCvs();
+        const deletePromises = cvs.map((cv) => this.deleteCv(cv.id));
+        await Promise.all(deletePromises);
+    }
 }

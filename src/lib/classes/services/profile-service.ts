@@ -2,7 +2,10 @@ import {
     fetchUserAttributes,
     updateUserAttributes,
     updatePassword,
+    deleteUser,
 } from 'aws-amplify/auth';
+import { IngotService } from './ingot-service';
+import { CvService } from './service-cv';
 
 export interface UserProfile {
     username?: string;
@@ -69,6 +72,25 @@ export class ProfileService {
             });
         } catch (error) {
             console.error('Error updating password:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Deletes the user's account and all associated data (Ingots, CVs).
+     */
+    static async deleteUserAccount(): Promise<void> {
+        try {
+            // 1. Delete all Ingots
+            await IngotService.deleteAllIngots();
+
+            // 2. Delete all CVs
+            await CvService.deleteAllCvs();
+
+            // 3. Delete the user account
+            await deleteUser();
+        } catch (error) {
+            console.error('Error deleting user account:', error);
             throw error;
         }
     }
