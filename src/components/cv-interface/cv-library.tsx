@@ -6,12 +6,11 @@ import { Button } from '@/components/ui/component-library/shadcn-components/butt
 import CvCard from './components/cv-card';
 import CvCardSkeleton from './components/cv-card-skeleton';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
-import { Input } from '@/components/ui/component-library/shadcn-components/input';
 import LibraryHeader from '../ui/library-header';
+import CvLibrarySearch from './components/cv-library-search';
 
 export default function CvLibraryInterface() {
-    const { loading, cvs, loadCvs, searchQuery, setSearchQuery } =
-        useCvInterfaceState();
+    const { loading, cvs, loadCvs, searchQuery } = useCvInterfaceState();
 
     useEffect(() => {
         loadCvs();
@@ -35,16 +34,7 @@ export default function CvLibraryInterface() {
             />
 
             {/* Filters */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center bg-slate-900/50 p-4 rounded-xl border border-slate-800/50 backdrop-blur-sm">
-                <div className="relative w-full sm:max-w-xs">
-                    <Input
-                        placeholder="Search CVs..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-500 focus:ring-forge-orange/20 focus:border-forge-orange/50"
-                    />
-                </div>
-            </div>
+            <CvLibrarySearch />
 
             {/* Content */}
             {loading ? (
