@@ -3,11 +3,11 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import CvCard from './components/cv-card';
 import CvCardSkeleton from './components/cv-card-skeleton';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
 import LibraryHeader from '../ui/library-header';
 import CvLibrarySearch from './components/cv-library-search';
+import LibraryCard from '../ui/library-card';
 
 export default function CvLibraryInterface() {
     const { loading, cvs, loadCvs, searchQuery } = useCvInterfaceState();
@@ -64,7 +64,7 @@ export default function CvLibraryInterface() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredCvs.map((cv) => (
-                        <CvCard key={cv.id} cvData={cv} />
+                        <LibraryCard key={cv.id} cardData={cv} />
                     ))}
                 </div>
             )}

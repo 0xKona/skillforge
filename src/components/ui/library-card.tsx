@@ -1,8 +1,6 @@
-'use client';
-
 import Link from 'next/link';
-import { Card } from '../../ui/component-library/shadcn-components/card';
-import { Button } from '../../ui/component-library/shadcn-components/button';
+import { Card } from './component-library/shadcn-components/card';
+import { Button } from './component-library/shadcn-components/button';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -13,29 +11,64 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '../../ui/component-library/shadcn-components/alert-dialog';
+} from './component-library/shadcn-components/alert-dialog';
+import { Ingot } from '@/lib/types/ingot-types';
 import { CV } from '@/lib/types/cv-types';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
+import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import { cn } from '@/lib/utils';
-import { Edit, Trash2, FileText } from 'lucide-react';
+import { IngotService } from '@/lib/classes/services/ingot-service';
+import { Edit, Trash2, FileText, LucideIcon } from 'lucide-react';
 
-interface Props {
-    cvData: CV;
+interface LibraryCardProps {
+    cardData: Ingot | CV;
 }
 
-export default function CvCard({ cvData }: Props) {
-    const { deleteCv, openCv } = useCvInterfaceState();
+export default function LibraryCard({ cardData }: LibraryCardProps) {
+    const isIngot = 'type' in cardData;
+    const cvState = useCvInterfaceState();
+    const anvilState = useAnvilInterfaceState();
 
-    // CVs generally have a standard look, but we can customize this if needed
-    const color = 'bg-blue-600';
-    const Icon = FileText;
-    const label = 'CV';
+    let color: string,
+        Icon: LucideIcon,
+        label: string,
+        title: string,
+        description: string | undefined,
+        editHref: string,
+        openFn: (id: string) => void,
+        deleteFn: (id: string) => void;
+
+    if (isIngot) {
+        const ingot = cardData as Ingot;
+        const details = IngotService.getAnvilCardDisplayDetails(
+            ingot.type || ''
+        );
+        color = details.color;
+        Icon = details.icon;
+        label = details.label;
+        title = ingot.name || 'Untitled Ingot';
+        editHref = `/anvil/edit/${ingot.id}`;
+        openFn = anvilState.openAnvilIngot;
+        deleteFn = anvilState.deleteAnvilIngot;
+    } else {
+        const cv = cardData as CV;
+        color = 'bg-blue-600';
+        Icon = FileText;
+        label = 'CV';
+        title = cv.title || 'Untitled CV';
+        description = cv.description as string;
+        editHref = `/forge/cv/${cv.id}`;
+        openFn = cvState.openCv;
+        deleteFn = cvState.deleteCv;
+    }
+
+    const updatedAt = cardData.updatedAt || Date.now();
 
     return (
         <Card
-            key={cvData.id}
+            key={cardData.id}
             className="group relative overflow-hidden bg-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer flex flex-col h-full p-0 gap-0"
-            onClick={() => openCv(cvData.id)}
+            onClick={() => openFn(cardData.id)}
         >
             {/* Banner / Type Indicator */}
             <div className={cn('h-1.5 w-full absolute top-0 left-0', color)} />
@@ -64,17 +97,14 @@ export default function CvCard({ cvData }: Props) {
                 {/* Title */}
                 <div className="space-y-1.5">
                     <h3 className="font-semibold text-lg text-slate-100 leading-tight line-clamp-2 group-hover:text-forge-orange transition-colors">
-                        {cvData.title || 'Untitled CV'}
+                        {title}
                     </h3>
                     <p className="text-xs text-slate-500">
-                        Updated{' '}
-                        {new Date(
-                            cvData.updatedAt || Date.now()
-                        ).toLocaleDateString()}
+                        Updated {new Date(updatedAt).toLocaleDateString()}
                     </p>
-                    {cvData.description && (
+                    {description && (
                         <p className="text-sm text-slate-400 line-clamp-2 mt-2">
-                            {cvData.description}
+                            {description}
                         </p>
                     )}
                 </div>
@@ -82,10 +112,7 @@ export default function CvCard({ cvData }: Props) {
 
             {/* Actions Footer */}
             <div className="px-5 pb-5 pt-0 flex justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all translate-y-0 sm:translate-y-2 sm:group-hover:translate-y-0">
-                <Link
-                    href={`/forge/cv/${cvData.id}`}
-                    onClick={(e) => e.stopPropagation()}
-                >
+                <Link href={editHref} onClick={(e) => e.stopPropagation()}>
                     <Button
                         variant="secondary"
                         size="sm"
@@ -110,11 +137,10 @@ export default function CvCard({ cvData }: Props) {
                     <AlertDialogContent className="bg-slate-900 border-slate-800">
                         <AlertDialogHeader>
                             <AlertDialogTitle className="text-slate-100">
-                                Delete CV?
+                                Delete {label}?
                             </AlertDialogTitle>
                             <AlertDialogDescription className="text-slate-400">
-                                {`This action cannot be undone. This will
-                                permanently delete the CV "${cvData.title}".`}
+                                {`This action cannot be undone. This will permanently delete the ${label.toLowerCase()} "${title}".`}
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -124,7 +150,7 @@ export default function CvCard({ cvData }: Props) {
                             <AlertDialogAction
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    deleteCv(cvData.id);
+                                    deleteFn(cardData.id);
                                 }}
                                 className="bg-red-600 text-white hover:bg-red-700 border-none"
                             >
