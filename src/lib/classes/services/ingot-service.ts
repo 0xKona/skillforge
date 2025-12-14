@@ -17,6 +17,13 @@ import MappingHelpers from '../helpers/mapping-helpers';
 
 const client = generateClient<Schema>();
 
+/**
+ * Maps a database item to an Ingot object.
+ * Handles the content field by parsing it if it's a JSON string, or using it directly if it's an object.
+ * If parsing fails, defaults to an empty IngotContent object.
+ * @param item - The database item to map.
+ * @returns An Ingot object with mapped fields including parsed content.
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapToIngot = (item: any): Ingot => {
     let content: IngotContent;
@@ -41,7 +48,18 @@ const mapToIngot = (item: any): Ingot => {
     };
 };
 
+/**
+ * Service class for managing Ingot objects via AWS Amplify client.
+ * Provides methods for creating, reading, updating, and deleting ingots, as well as utility methods for display details.
+ */
 export class IngotService {
+    /**
+     * Creates a new Ingot in the database.
+     * @param type - The type of the ingot.
+     * @param name - The name of the ingot.
+     * @param content - The content of the ingot.
+     * @returns A Promise that resolves to the created Ingot object.
+     */
     static async createIngot(
         type: string,
         name: string,
@@ -60,6 +78,11 @@ export class IngotService {
         return mapToIngot(newIngot);
     }
 
+    /**
+     * Retrieves a single Ingot by its ID.
+     * @param id - The ID of the ingot to retrieve.
+     * @returns A Promise that resolves to the Ingot object or null if not found.
+     */
     static async getIngot(id: string): Promise<Ingot | null> {
         const { data: ingot, errors } = await client.models.Ingot.get({ id });
 
@@ -72,6 +95,11 @@ export class IngotService {
         return mapToIngot(ingot);
     }
 
+    /**
+     * Lists all Ingots, optionally filtered by type.
+     * @param type - Optional type to filter the ingots.
+     * @returns A Promise that resolves to an array of Ingot objects.
+     */
     static async listIngots(type?: string): Promise<Ingot[]> {
         const { data: ingots, errors } = await client.models.Ingot.list({
             filter: type ? { type: { eq: type } } : undefined,
@@ -84,6 +112,10 @@ export class IngotService {
         return ingots.map(mapToIngot);
     }
 
+    /**
+     * Lists Ingots with a limited selection set for anvil display.
+     * @returns A Promise that resolves to an array of Ingot objects with selected fields.
+     */
     static async listAnvilIngotData(): Promise<Ingot[]> {
         const { data: ingots, errors } = await client.models.Ingot.list({
             selectionSet: ['id', 'name', 'type', 'updatedAt'],
@@ -96,6 +128,13 @@ export class IngotService {
         return ingots.map(mapToIngot);
     }
 
+    /**
+     * Updates an existing Ingot in the database.
+     * @param id - The ID of the ingot to update.
+     * @param name - The new name of the ingot.
+     * @param content - The new content of the ingot.
+     * @returns A Promise that resolves to the updated Ingot object.
+     */
     static async updateIngot(
         id: string,
         name: string,
@@ -117,6 +156,11 @@ export class IngotService {
         return mapToIngot(updatedIngot);
     }
 
+    /**
+     * Deletes an Ingot from the database.
+     * @param id - The ID of the ingot to delete.
+     * @returns A Promise that resolves when the deletion is complete.
+     */
     static async deleteIngot(id: string) {
         const { errors } = await client.models.Ingot.delete({ id });
 
@@ -125,6 +169,11 @@ export class IngotService {
         }
     }
 
+    /**
+     * Gets display details for an anvil card based on the ingot type.
+     * @param type - The type of the ingot.
+     * @returns An object containing the label, color, and icon for the card.
+     */
     static getAnvilCardDisplayDetails(type: string) {
         const label = MappingHelpers.getIngotLabelByType(type as IngotType);
 
