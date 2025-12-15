@@ -4,7 +4,7 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '../ui/component-library/shadcn-components/avatar';
+} from '../../ui/component-library/shadcn-components/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,11 +13,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '../ui/component-library/shadcn-components/dropdown-menu';
+} from '../../ui/component-library/shadcn-components/dropdown-menu';
 import Link from 'next/link';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 import React from 'react';
-import { Skeleton } from '../ui/component-library/shadcn-components/skeleton';
+import { Skeleton } from '../../ui/component-library/shadcn-components/skeleton';
 
 export default function UserDropdown() {
     const { signOut, avatarUrl } = useClientAuth();

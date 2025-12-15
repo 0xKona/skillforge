@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import NavBar from '../navigation-bar/navigation-bar';
+import NavBar from '../layout/navigation/navigation-bar';
 import Footer from '../layout/footer/footer';
 import BluePrintForgeBg from '../ui/forge-background';
 
