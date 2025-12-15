@@ -11,6 +11,8 @@ import {
 } from '@/ui/shadcn/dropdown-menu';
 import { Button } from '@/ui/shadcn/button';
 
+// Not currently used, used in future to set the site theme to either light, dark or system
+
 export function ThemeToggle() {
     const { setTheme } = useTheme();
 
