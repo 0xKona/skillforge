@@ -1,7 +1,7 @@
 'use client';
 
 import BackButton from '@/components/back-button/back';
-import AvatarDisplayEditor from '@/components/profile-manager/avatar-editor';
+import AvatarDisplayEditor from '@/components/features/profile/avatar-editor';
 import { Card } from '@/components/ui/component-library/shadcn-components/card';
 import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { cn } from '@/lib/utils';
