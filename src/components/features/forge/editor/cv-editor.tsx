@@ -16,10 +16,10 @@ import { CvHeader } from './cv-header';
 import { SectionList } from './section-list';
 import { SectionEditor } from './section-editor';
 
-import { CvPreview } from '../../pdf-preview/cv-preview';
+import { CvPreview } from '../../../pdf-preview/cv-preview';
 import { TypographyH3 } from '@/components/ui/typography/typography';
-import CvValidationError from '../components/cv-validation-error';
-import CvEditorSkeleton from '../components/cv-editor-skeleton';
+import CvValidationError from '../forge-components/cv-validation-error';
+import CvEditorSkeleton from '../forge-components/cv-editor-skeleton';
 
 interface CvEditorProps {
     cvId?: string;

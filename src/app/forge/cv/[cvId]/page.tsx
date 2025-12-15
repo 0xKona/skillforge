@@ -1,4 +1,4 @@
-import { CvEditor } from '@/components/cv-interface/cv-editor/cv-editor';
+import { CvEditor } from '@/components/features/forge/editor/cv-editor';
 import { serverClient } from '@/lib/amplify/server-data-client';
 import { CV_TEMPLATE } from '@/lib/templates/cv-template';
 import { randomUUID } from 'node:crypto';

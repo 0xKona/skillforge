@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import React, { useMemo } from 'react';
 import { CV, Section } from '@/lib/types/cv-types';
 import { Ingot } from '@/lib/types/ingot-types';
-import { CvPDF } from '../../pdf-preview/cv-pdf';
+import { CvPDF } from '../../../pdf-preview/cv-pdf';
 
 const PDFViewer = dynamic(
     () => import('@react-pdf/renderer').then((mod) => mod.PDFViewer),

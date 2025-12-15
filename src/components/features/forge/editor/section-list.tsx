@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/component-library/shadcn-components/select';
 import { TypographyH4 } from '@/components/ui/typography/typography';
 import { toast } from 'sonner';
-import CvSectionEditorCard from '../components/cv-section-editor-card';
+import CvSectionEditorCard from '../forge-components/cv-section-editor-card';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
 export function SectionList() {

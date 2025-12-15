@@ -3,12 +3,12 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import CvCardSkeleton from './components/cv-card-skeleton';
+import CvCardSkeleton from './forge-components/cv-card-skeleton';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
-import LibraryHeader from '../ui/library-header';
-import CvLibrarySearch from './components/cv-library-search';
-import LibraryCard from '../ui/library-card';
-import { TypographyP } from '../ui/typography/typography';
+import LibraryHeader from '../../ui/library-header';
+import CvLibrarySearch from './forge-components/cv-library-search';
+import LibraryCard from '../../ui/library-card';
+import { TypographyP } from '../../ui/typography/typography';
 
 export default function CvLibraryInterface() {
     const { loading, cvs, loadCvs, searchQuery } = useCvInterfaceState();
