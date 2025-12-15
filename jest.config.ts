@@ -16,6 +16,9 @@ const config: Config = {
         '<rootDir>/src/__mocks__/setup.tsx',
     ],
     moduleNameMapper: {
+        '^@/ui/(.*)$': '<rootDir>/src/components/common/ui/$1',
+        '^@/widgets/(.*)$': '<rootDir>/src/components/common/widgets/$1',
+        '^@/effects/(.*)$': '<rootDir>/src/components/common/effects/$1',
         '^@/(.*)$': '<rootDir>/src/$1',
     },
 };
