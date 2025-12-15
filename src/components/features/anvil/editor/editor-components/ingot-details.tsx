@@ -1,9 +1,4 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/ui/shadcn/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/ui/shadcn/card';
 import { Input } from '@/ui/shadcn/input';
 import { Label } from '@/ui/shadcn/label';
 import DynamicForm from './dynamic-form';
