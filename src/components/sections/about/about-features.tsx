@@ -5,7 +5,7 @@ import {
     CardTitle,
 } from '@/components/ui/component-library/shadcn-components/card';
 import { Hammer, Anvil, FileText, RefreshCw } from 'lucide-react';
-import { TypographyP } from '../ui/typography/typography';
+import { TypographyP } from '../../ui/typography/typography';
 
 const features = [
     {

@@ -18,7 +18,7 @@ import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
 import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
-import IngotPreviewModal from '@/components/pdf-preview/ingot-preview-modal';
+import IngotPreviewModal from '@/components/features/pdf/ingot-preview-modal';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 
 interface Props {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from '@react-pdf/renderer';
-import { pdfStyles } from '../../../lib/pdf-styles/pdf-styles';
+import { pdfStyles } from '../../../../lib/pdf-styles/pdf-styles';
 import { IngotType } from '@/lib/types/ingot-types';
 
 interface Props {
