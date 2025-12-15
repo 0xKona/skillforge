@@ -1,9 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { CvPreview } from './cv-preview';
+import { Section } from '@/lib/types/cv-types';
+import { Ingot } from '@/lib/types/ingot-types';
+import { ReactNode } from 'react';
 
 // Mock dynamic import of PDFViewer
 jest.mock('next/dynamic', () => () => {
-    const DynamicComponent = ({ children }: any) => (
+    const DynamicComponent = ({ children }: { children: ReactNode }) => (
         <div data-testid="pdf-viewer">{children}</div>
     );
     return DynamicComponent;
@@ -15,8 +18,8 @@ jest.mock('../../pdf/cv-pdf', () => ({
 }));
 
 describe('CvPreview', () => {
-    const mockSections: any[] = [];
-    const mockAvailableIngots: any[] = [];
+    const mockSections: Section[] = [];
+    const mockAvailableIngots: Ingot[] = [];
 
     it('renders PDFViewer and CvPDF', () => {
         render(
