@@ -14,11 +14,7 @@ import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSlot,
-} from '@/ui/shadcn/input-opt';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';
 
 export default function VerifyCodeCard() {
     // Array is created to loop over when generating OTP slots

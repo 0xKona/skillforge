@@ -1,8 +1,4 @@
-import {
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/ui/shadcn/card';
+import { CardDescription, CardHeader, CardTitle } from '@/ui/shadcn/card';
 
 interface Props {
     id?: string;
