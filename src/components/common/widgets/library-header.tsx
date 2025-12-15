@@ -1,9 +1,6 @@
 import { Button } from '@/ui/shadcn/button';
 import { RefreshButton } from '@/widgets/refresh-button';
-import {
-    TypographyH2,
-    TypographyP,
-} from '@/ui/typography/typography';
+import { TypographyH2, TypographyP } from '@/ui/typography/typography';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
