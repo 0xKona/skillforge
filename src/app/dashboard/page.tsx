@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import { useClientAuth } from '@/lib/store/use-client-auth';
-import { Card } from '@/components/ui/component-library/shadcn-components/card';
-import NavBar from '@/components/navigation-bar/navigation-bar';
+import { Card } from '@/ui/shadcn/card';
+import NavBar from '@/components/layout/navigation/navigation-bar';
 
 export default function Dashboard() {
     const { userId, userAttributes, loading, error, signOut } = useClientAuth();

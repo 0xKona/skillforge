@@ -1,8 +1,8 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import IngotEditor from '@/components/anvil/ingot-editor/ingot-editor';
-import IngotTypeSelection from '@/components/anvil/ingot-type-selection';
+import IngotEditor from '@/components/features/anvil/editor/ingot-editor';
+import IngotTypeSelection from '@/components/features/anvil/ingot-type-selection';
 import { Suspense } from 'react';
 import { NewIngot } from '@/lib/types/ingot-types';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';

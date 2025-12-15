@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import FormInput, { FormInputType } from '@/components/ui/form-input';
+import { Button } from '@/ui/shadcn/button';
+import FormInput, { FormInputType } from '@/ui/form-input';
 import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
@@ -14,7 +14,7 @@ import {
 import {
     TypographyH3,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 
 export default function EditPasswordPage() {
     const [isSaving, setIsSaving] = useState(false);

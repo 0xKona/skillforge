@@ -1,9 +1,9 @@
 'use client';
 
-import BackButton from '@/components/back-button/back';
-import AvatarDisplayEditor from '@/components/profile-manager/avatar-editor';
-import { Card } from '@/components/ui/component-library/shadcn-components/card';
-import PageWrapper from '@/components/wrappers/page-wrapper';
+import BackButton from '@/components/common/widgets/back-button';
+import AvatarDisplayEditor from '@/components/features/profile/avatar-editor';
+import { Card } from '@/ui/shadcn/card';
+import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { cn } from '@/lib/utils';
 import { Amplify } from 'aws-amplify';
 import { Lock, Trash2, User } from 'lucide-react';

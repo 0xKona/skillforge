@@ -1,12 +1,12 @@
-import PageWrapper from '@/components/wrappers/page-wrapper';
+import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { isAuthenticated } from '@/lib/amplify/server-utils';
-import { HomeHero } from '@/components/home/home-hero';
-import { AboutFeatures } from '@/components/about/about-features';
-import { HomeLearnMore } from '@/components/home/home-learn-more';
+import { HomeHero } from '@/components/sections/home/home-hero';
+import { AboutFeatures } from '@/components/sections/about/about-features';
+import { HomeLearnMore } from '@/components/sections/home/home-learn-more';
 import {
     TypographyH2,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 
 export default async function Home() {
     const isLoggedIn = await isAuthenticated();

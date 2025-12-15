@@ -1,6 +1,0 @@
-<!-- paste this into a .svg file and import into Figma as an image fill; canvas 24x24 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <rect width="24" height="24" fill="transparent"/>
-  <rect x="0" y="0" width="1" height="24" fill="rgba(128,128,128,0.07)"/>
-  <rect x="0" y="0" width="24" height="1" fill="rgba(128,128,128,0.07)"/>
-</svg>

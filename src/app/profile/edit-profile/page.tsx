@@ -1,9 +1,9 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/component-library/shadcn-components/skeleton';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import FormInput from '@/components/ui/form-input';
-import FormTextarea from '@/components/ui/form-textarea';
+import { Skeleton } from '@/ui/shadcn/skeleton';
+import { Button } from '@/ui/shadcn/button';
+import FormInput from '@/ui/form-input';
+import FormTextarea from '@/ui/form-textarea';
 import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ import {
 import {
     TypographyH3,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 
 export default function EditProfilePage() {
     const [isLoading, setIsLoading] = useState(true);

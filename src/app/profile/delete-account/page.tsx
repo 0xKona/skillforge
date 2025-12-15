@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ProfileService } from '@/lib/classes/services/profile-service';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import { Input } from '@/components/ui/component-library/shadcn-components/input';
+import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 import {
     Dialog,
     DialogContent,
@@ -12,12 +12,12 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from '@/components/ui/component-library/shadcn-components/dialog';
+} from '@/ui/shadcn/dialog';
 import {
     TypographyH3,
     TypographyH4,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 import { AlertTriangle, Loader2, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 

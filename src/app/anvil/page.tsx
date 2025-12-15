@@ -1,4 +1,4 @@
-import AnvilInterface from '@/components/anvil/anvil-interface/anvil-interface';
+import AnvilInterface from '@/components/features/anvil/library/anvil-interface';
 
 export default async function AnvilPage() {
     return (

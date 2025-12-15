@@ -1,4 +1,4 @@
-import CvLibraryInterface from '@/components/cv-interface/cv-library';
+import CvLibraryInterface from '@/components/features/forge/cv-library';
 
 export default async function LoginPage() {
     return (

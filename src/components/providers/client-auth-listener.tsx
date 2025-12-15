@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 import { usePathname, useRouter } from 'next/navigation';
-import { PROTECTED_ROUTES } from '@/lib/routes';
+import { PROTECTED_ROUTES } from '@/lib/constants/routing';
 
 /**
  * ClientAuthListener

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runWithAmplifyServerContext } from '@/lib/amplify/server-utils';
 import { fetchAuthSession } from 'aws-amplify/auth/server';
-import { PROTECTED_ROUTES, AUTH_ROUTES } from '@/lib/routes';
+import { AUTH_ROUTES, PROTECTED_ROUTES } from './lib/constants/routing';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
