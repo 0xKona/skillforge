@@ -13,7 +13,7 @@ import SignUpTab from './sign-up-tab';
 import ForgotPassword from './forgot-password/forgot-password';
 import { useAuthFlowState } from '@/lib/store/use-auth-form';
 import { useEffect } from 'react';
-import { Card } from '../ui/component-library/shadcn-components/card';
+import { Card } from '@/components/ui/component-library/shadcn-components/card';
 
 interface Props {
     message?: React.ReactNode | null;
