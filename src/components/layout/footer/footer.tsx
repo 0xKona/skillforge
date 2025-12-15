@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Logo from '@/components/icons/logo';
+import Logo from '@/components/common/icons/logo';
 import { TypographyP } from '../../ui/typography/typography';
 import { PrivacyModal } from './privacy-modal';
 

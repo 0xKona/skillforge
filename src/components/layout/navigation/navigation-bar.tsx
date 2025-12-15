@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Logo from '@/components/icons/logo';
+import Logo from '@/components/common/icons/logo';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import UserDropdown from './nav-profile-menu';
 import { useClientAuth } from '@/lib/store/use-client-auth';

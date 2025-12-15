@@ -1,6 +1,6 @@
 import AuthForm from '@/components/features/auth/auth-form';
 import LoginPageMessage from '@/components/features/auth/message';
-import Logo from '@/components/icons/logo';
+import Logo from '@/components/common/icons/logo';
 import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { isAuthenticated } from '@/lib/amplify/server-utils';
 import { redirect } from 'next/navigation';

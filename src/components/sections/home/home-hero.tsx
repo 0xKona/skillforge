@@ -1,4 +1,4 @@
-import Logo from '@/components/icons/logo';
+import Logo from '@/components/common/icons/logo';
 import { Button } from '@/components/ui/component-library/shadcn-components/button';
 import {
     HighlightSpanTextP,

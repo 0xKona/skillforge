@@ -1,9 +1,9 @@
 'use client';
 
-import AboutIcon from '../../icons/about';
-import AnvilIcon from '../../icons/anvil';
-import ForgeIcon from '../../icons/forge';
-import HomeIcon from '../../icons/home';
+import AboutIcon from '../../common/icons/about';
+import AnvilIcon from '../../common/icons/anvil';
+import ForgeIcon from '../../common/icons/forge';
+import HomeIcon from '../../common/icons/home';
 
 export default function NavIcon({
     route,
