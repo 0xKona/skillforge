@@ -1,4 +1,4 @@
-import PageWrapper from '@/components/wrappers/page-wrapper';
+import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { isAuthenticated } from '@/lib/amplify/server-utils';
 import { HomeHero } from '@/components/home/home-hero';
 import { AboutFeatures } from '@/components/about/about-features';

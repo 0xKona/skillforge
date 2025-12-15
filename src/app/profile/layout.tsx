@@ -3,7 +3,7 @@
 import BackButton from '@/components/back-button/back';
 import AvatarDisplayEditor from '@/components/profile-manager/avatar-editor';
 import { Card } from '@/components/ui/component-library/shadcn-components/card';
-import PageWrapper from '@/components/wrappers/page-wrapper';
+import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { cn } from '@/lib/utils';
 import { Amplify } from 'aws-amplify';
 import { Lock, Trash2, User } from 'lucide-react';
