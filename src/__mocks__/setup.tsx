@@ -3,6 +3,31 @@
  * Global mock setup for Jest
  */
 
+// Suppress specific console warnings and logs
+const originalConsoleLog = console.log;
+const originalConsoleWarn = console.warn;
+
+console.log = (...args) => {
+    if (
+        typeof args[0] === 'string' &&
+        (args[0].includes('Uploading file:') ||
+            args[0].includes('Avatar updated successfully:'))
+    ) {
+        return;
+    }
+    originalConsoleLog(...args);
+};
+
+console.warn = (...args) => {
+    if (
+        typeof args[0] === 'string' &&
+        args[0].includes('Amplify has not been configured')
+    ) {
+        return;
+    }
+    originalConsoleWarn(...args);
+};
+
 // Mock AWS Amplify globally to prevent real API calls during tests
 jest.mock('aws-amplify/auth', () => ({
     resetPassword: jest.fn(),
