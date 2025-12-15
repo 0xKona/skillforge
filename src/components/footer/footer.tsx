@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Logo from '@/components/icons/logo';
 import { TypographyP } from '../ui/typography/typography';
-import { Github } from 'lucide-react';
 import { PrivacyModal } from './privacy-modal';
 
 export default function Footer() {
