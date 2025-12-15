@@ -1,4 +1,8 @@
-import { TypographyH2 } from '@/ui/typography/typography';
+import {
+    TypographyH2,
+    TypographyH3,
+    TypographyP,
+} from '@/ui/typography/typography';
 import { Card } from '@/ui/shadcn/card';
 import Link from 'next/link';
 import { IngotService } from '@/lib/classes/services/ingot-service';
@@ -49,12 +53,12 @@ function IngotTypeCard({ ingotType }: { ingotType: IngotType }) {
 
                     {/* Title */}
                     <div className="space-y-1.5">
-                        <h3 className="font-semibold text-lg text-slate-100 leading-tight group-hover:text-forge-orange transition-colors">
+                        <TypographyH3 className="font-semibold text-lg text-slate-100 leading-tight group-hover:text-forge-orange transition-colors">
                             {ingotLabel}
-                        </h3>
-                        <p className="text-xs text-slate-500">
+                        </TypographyH3>
+                        <TypographyP className="text-xs text-slate-500">
                             Create a new {ingotLabel.toLowerCase()} entry.
-                        </p>
+                        </TypographyP>
                     </div>
                 </div>
             </Card>

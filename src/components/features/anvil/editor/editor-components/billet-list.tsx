@@ -1,4 +1,5 @@
 import { Billet } from '@/lib/types/ingot-types';
+import { TypographyP } from '@/ui/typography/typography';
 import { BilletItem } from './billet-item';
 
 interface BilletListProps {
@@ -19,7 +20,9 @@ export function BilletList({
     if (billets.length === 0 && !isAdding) {
         return (
             <div className="h-40 flex flex-col items-center justify-center text-slate-500 border-2 border-dashed border-slate-700/50 rounded-lg">
-                <p className="text-sm">No billets added yet.</p>
+                <TypographyP className="text-sm">
+                    No billets added yet.
+                </TypographyP>
             </div>
         );
     }

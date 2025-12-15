@@ -3,6 +3,10 @@ import Logo from '@/components/common/icons/logo';
 import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { isAuthenticated } from '@/lib/amplify/server-utils';
 import { redirect } from 'next/navigation';
+import {
+    TypographyH1,
+    TypographyP,
+} from '@/components/common/ui/typography/typography';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,13 +36,13 @@ export default async function LoginPage() {
                                 className="drop-shadow-[0_0_30px_rgba(249,115,22,0.5)]"
                             />
                         </div>
-                        <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">
+                        <TypographyH1 className="text-4xl font-bold tracking-tight mb-2 text-white">
                             SkillForge
-                        </h1>
+                        </TypographyH1>
                     </div>
-                    <p className="text-gray-300">
+                    <TypographyP className="text-gray-300">
                         Welcome! Please sign in to continue.
-                    </p>
+                    </TypographyP>
                 </div>
                 <AuthForm />
             </div>

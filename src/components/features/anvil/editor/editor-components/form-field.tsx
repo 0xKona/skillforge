@@ -1,4 +1,5 @@
 import { Input } from '@/ui/shadcn/input';
+import { TypographyP } from '@/ui/typography/typography';
 import { Label } from '@/ui/shadcn/label';
 import { Textarea } from '@/ui/shadcn/textarea';
 import { Checkbox } from '@/ui/shadcn/checkbox';
@@ -82,7 +83,11 @@ export function FormField({
                         ))}
                     </SelectContent>
                 </Select>
-                {error && <p className="text-xs text-red-400">{error}</p>}
+                {error && (
+                    <TypographyP className="text-xs text-red-400">
+                        {error}
+                    </TypographyP>
+                )}
             </div>
         );
     }
@@ -144,7 +149,11 @@ export function FormField({
                     }
                 />
             )}
-            {error && <p className="text-xs text-red-400">{error}</p>}
+            {error && (
+                <TypographyP className="text-xs text-red-400">
+                    {error}
+                </TypographyP>
+            )}
         </div>
     );
 }

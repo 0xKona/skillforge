@@ -1,4 +1,5 @@
 import { Billet } from '@/lib/types/ingot-types';
+import { TypographyP } from '@/ui/typography/typography';
 import { Button } from '@/ui/shadcn/button';
 import {
     AlertDialog,
@@ -52,9 +53,9 @@ export function BilletItem({
                 <h5 className="text-slate-200 text-sm font-medium truncate">
                     {getDisplayName(billet)}
                 </h5>
-                <p className="text-slate-500 text-xs truncate mt-0.5">
+                <TypographyP className="text-slate-500 text-xs truncate mt-0.5">
                     {billet.type.replace('billet_', '').replace(/_/g, ' ')}
-                </p>
+                </TypographyP>
             </div>
             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button

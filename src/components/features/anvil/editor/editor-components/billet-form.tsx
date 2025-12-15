@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { TypographyH4 } from '@/ui/typography/typography';
 import { BilletTemplate, IngotField } from '@/lib/types/ingot-types';
 import DynamicForm from './dynamic-form';
 import { Button } from '@/ui/shadcn/button';
@@ -97,9 +98,9 @@ export function BilletForm({
     return (
         <div className="mb-6 p-4 rounded-lg bg-slate-900/50 border border-slate-700 animate-in fade-in slide-in-from-top-2 space-y-4">
             <div className="flex justify-between items-center mb-2">
-                <h4 className="text-sm font-medium text-slate-200">
+                <TypographyH4 className="text-sm font-medium text-slate-200">
                     {isAdding ? 'New Billet' : 'Edit Billet'}
-                </h4>
+                </TypographyH4>
                 <span className="text-xs text-slate-500 uppercase font-mono">
                     {type.replace('billet_', '').replace(/_/g, ' ')}
                 </span>

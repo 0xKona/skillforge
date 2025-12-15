@@ -5,6 +5,7 @@ import { Label } from '@/ui/shadcn/label';
 import { Input } from '@/ui/shadcn/input';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import React from 'react';
+import { TypographyP } from './typography/typography';
 
 export type FormInputType = 'email' | 'text' | 'password';
 
@@ -86,12 +87,12 @@ export default function FormInput({
                             </div>
                         )}{' '}
                         {fieldState.error && (
-                            <p
+                            <TypographyP
                                 data-testid={`${id}-error`}
                                 className="text-xs text-red-500"
                             >
                                 {fieldState.error.message}
-                            </p>
+                            </TypographyP>
                         )}
                     </>
                 )}
