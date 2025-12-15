@@ -36,7 +36,7 @@ export default function BurgerNav() {
                         {navigationBarLinks.map(
                             (navItem: NavigationLinkObject) => (
                                 <NavItem
-                                    key={JSON.stringify(navItem)}
+                                    key={navItem.route}
                                     navItem={navItem}
                                 />
                             )
