@@ -20,7 +20,10 @@
         ],
         "paths": {
             "@/*": ["./src/*"],
-            "@amplify/*": ["./amplify/*"]
+            "@amplify/*": ["./amplify/*"],
+            "@/ui/*": ["./src/components/common/ui/*"],
+            "@/widgets/*": ["./src/components/common/widgets/*"],
+            "@/effects/*": ["./src/components/common/effects/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

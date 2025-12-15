@@ -2,7 +2,7 @@ import {
     TypographyH2,
     TypographyH3,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 
 const steps = [
     {

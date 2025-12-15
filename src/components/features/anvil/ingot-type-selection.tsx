@@ -1,5 +1,5 @@
-import { TypographyH2 } from '../../ui/typography/typography';
-import { Card } from '../../ui/component-library/shadcn-components/card';
+import { TypographyH2 } from '@/ui/typography/typography';
+import { Card } from '@/ui/shadcn/card';
 import Link from 'next/link';
 import { IngotService } from '@/lib/classes/services/ingot-service';
 import { cn } from '@/lib/utils';

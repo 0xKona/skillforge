@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import { TypographyH4 } from '@/components/ui/typography/typography';
+import { Button } from '@/ui/shadcn/button';
+import { TypographyH4 } from '@/ui/typography/typography';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';

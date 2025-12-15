@@ -7,13 +7,13 @@ import {
     DialogTrigger,
     DialogFooter,
     DialogClose,
-} from '@/components/ui/component-library/shadcn-components/dialog';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+} from '@/ui/shadcn/dialog';
+import { Button } from '@/ui/shadcn/button';
 import { Shield, Lock, Server, EyeOff } from 'lucide-react';
 import {
     TypographyH4,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 
 export function PrivacyModal() {
     return (

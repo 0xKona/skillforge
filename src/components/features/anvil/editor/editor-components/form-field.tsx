@@ -1,14 +1,14 @@
-import { Input } from '@/components/ui/component-library/shadcn-components/input';
-import { Label } from '@/components/ui/component-library/shadcn-components/label';
-import { Textarea } from '@/components/ui/component-library/shadcn-components/textarea';
-import { Checkbox } from '@/components/ui/component-library/shadcn-components/checkbox';
+import { Input } from '@/ui/shadcn/input';
+import { Label } from '@/ui/shadcn/label';
+import { Textarea } from '@/ui/shadcn/textarea';
+import { Checkbox } from '@/ui/shadcn/checkbox';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/component-library/shadcn-components/select';
+} from '@/ui/shadcn/select';
 import {
     IngotField,
     QUALIFICATION_LEVELS,

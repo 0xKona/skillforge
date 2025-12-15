@@ -9,8 +9,8 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/component-library/shadcn-components/select';
-import { TypographyH4 } from '@/components/ui/typography/typography';
+} from '@/ui/shadcn/select';
+import { TypographyH4 } from '@/ui/typography/typography';
 import { toast } from 'sonner';
 import CvSectionEditorCard from '../forge-components/cv-section-editor-card';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';

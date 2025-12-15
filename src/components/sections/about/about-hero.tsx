@@ -2,8 +2,8 @@ import {
     HighlightSpanTextP,
     TypographyH1,
     TypographyP,
-} from '@/components/ui/typography/typography';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+} from '@/ui/typography/typography';
+import { Button } from '@/ui/shadcn/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 

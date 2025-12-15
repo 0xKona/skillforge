@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { X, Square, CheckSquare } from 'lucide-react';
 import { PDFViewer } from '@react-pdf/renderer';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import { IngotPDF } from './ingot-pdf';
-import { Card } from '@/components/ui/component-library/shadcn-components/card';
+import { Card } from '@/ui/shadcn/card';
 import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
 import { Ingot, IngotEditorData, IngotField } from '@/lib/types/ingot-types';
 import {
@@ -14,8 +14,8 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/component-library/shadcn-components/select';
-import { Label } from '@/components/ui/component-library/shadcn-components/label';
+} from '@/ui/shadcn/select';
+import { Label } from '@/ui/shadcn/label';
 import { SortOrder } from '@/lib/types/sorting-types';
 import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
 

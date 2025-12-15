@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import { Input } from '@/components/ui/component-library/shadcn-components/input';
+import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
 import { X } from 'lucide-react';
 

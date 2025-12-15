@@ -3,7 +3,7 @@
 import {
     Card,
     CardContent,
-} from '@/components/ui/component-library/shadcn-components/card';
+} from '@/ui/shadcn/card';
 import SubmitAuthForm from '../submit-form';
 import FormHeader from '../form-header';
 import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
@@ -11,14 +11,14 @@ import { UseFormReturn } from 'react-hook-form';
 import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
 import { useAuthFlowState } from '@/lib/store/use-auth-form';
-import { Label } from '@/components/ui/component-library/shadcn-components/label';
+import { Label } from '@/ui/shadcn/label';
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from '@/components/ui/component-library/shadcn-components/input-opt';
-import FormInput from '@/components/ui/form-input';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+} from '@/ui/shadcn/input-opt';
+import FormInput from '@/ui/form-input';
+import { Button } from '@/ui/shadcn/button';
 
 interface Props {
     resetForm: UseFormReturn<ResetPasswordForm>;

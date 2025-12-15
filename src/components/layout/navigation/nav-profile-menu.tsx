@@ -1,10 +1,6 @@
 'use client';
 
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '../../ui/component-library/shadcn-components/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/shadcn/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,11 +9,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '../../ui/component-library/shadcn-components/dropdown-menu';
+} from '@/ui/shadcn/dropdown-menu';
 import Link from 'next/link';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 import React from 'react';
-import { Skeleton } from '../../ui/component-library/shadcn-components/skeleton';
+import { Skeleton } from '@/ui/shadcn/skeleton';
 
 export default function UserDropdown() {
     const { signOut, avatarUrl } = useClientAuth();

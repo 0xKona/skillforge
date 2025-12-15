@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import { Card } from '@/components/ui/component-library/shadcn-components/card';
+import { Button } from '@/ui/shadcn/button';
+import { Card } from '@/ui/shadcn/card';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
 import { Trash2, ChevronRight, ArrowUp, ArrowDown } from 'lucide-react';

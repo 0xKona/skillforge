@@ -11,8 +11,8 @@ import {
     TabsContent,
     TabsContents,
     TabsList,
-} from '@/components/animate-ui/animate/tabs';
-import { TabsTrigger } from '@/components/animate-ui/components/animate/tabs';
+} from '@/ui/animate-ui/animate/tabs';
+import { TabsTrigger } from '@/ui/animate-ui/components/animate/tabs';
 import { redirect } from 'next/navigation';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';

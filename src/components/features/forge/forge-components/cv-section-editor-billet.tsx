@@ -1,12 +1,12 @@
-import { Checkbox } from '@/components/ui/component-library/shadcn-components/checkbox';
-import { Label } from '@/components/ui/component-library/shadcn-components/label';
-import { Badge } from '@/components/ui/component-library/shadcn-components/badge';
+import { Checkbox } from '@/ui/shadcn/checkbox';
+import { Label } from '@/ui/shadcn/label';
+import { Badge } from '@/ui/shadcn/badge';
 import { BilletHelper } from '@/lib/classes/helpers/billet-helpers';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
 import { Ingot, INGOT_FIELD_LABELS } from '@/lib/types/ingot-types';
 import { cn } from '@/lib/utils';
-import { TypographyP } from '@/components/ui/typography/typography';
+import { TypographyP } from '@/ui/typography/typography';
 
 interface Props {
     ingot: Ingot;

@@ -1,5 +1,5 @@
-import { Skeleton } from '../../../ui/component-library/shadcn-components/skeleton';
-import { Card } from '../../../ui/component-library/shadcn-components/card';
+import { Skeleton } from '@/ui/shadcn/skeleton';
+import { Card } from '@/ui/shadcn/card';
 
 export default function CvCardSkeleton() {
     return (

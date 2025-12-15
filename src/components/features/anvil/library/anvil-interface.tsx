@@ -2,13 +2,13 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import IngotCardSkeleton from './ingot-card-skeleton';
 import { Ingot } from '@/lib/types/ingot-types';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import AnvilInterfaceFilters from './anvil-filters';
-import LibraryHeader from '@/components/ui/library-header';
-import LibraryCard from '@/components/ui/library-card';
+import LibraryHeader from '@/widgets/library-header';
+import LibraryCard from '@/widgets/library-card';
 
 export default function AnvilInterface() {
     const {

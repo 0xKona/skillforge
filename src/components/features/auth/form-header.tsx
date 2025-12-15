@@ -2,7 +2,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
-} from '@/components/ui/component-library/shadcn-components/card';
+} from '@/ui/shadcn/card';
 
 interface Props {
     id?: string;

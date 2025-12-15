@@ -9,15 +9,15 @@ import {
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '@/components/ui/component-library/shadcn-components/tabs';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+} from '@/ui/shadcn/tabs';
+import { Button } from '@/ui/shadcn/button';
 import { Loader2, Save } from 'lucide-react';
 import { CvHeader } from './cv-header';
 import { SectionList } from './section-list';
 import { SectionEditor } from './section-editor';
 
 import { CvPreview } from '../../pdf/cv-preview';
-import { TypographyH3 } from '@/components/ui/typography/typography';
+import { TypographyH3 } from '@/ui/typography/typography';
 import CvValidationError from '../forge-components/cv-validation-error';
 import CvEditorSkeleton from '../forge-components/cv-editor-skeleton';
 

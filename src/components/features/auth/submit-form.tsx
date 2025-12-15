@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 
 interface Props {
     id?: string;

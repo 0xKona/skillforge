@@ -1,13 +1,9 @@
 import { AvatarService } from '@/lib/classes/services/avatar-service';
 import React from 'react';
 import { toast } from 'sonner';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '../../ui/component-library/shadcn-components/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/shadcn/avatar';
 import { CameraIcon } from 'lucide-react';
-import { TypographyP } from '../../ui/typography/typography';
+import { TypographyP } from '@/ui/typography/typography';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -17,7 +13,7 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from '../../ui/component-library/shadcn-components/alert-dialog';
+} from '@/ui/shadcn/alert-dialog';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 
 export default function AvatarDisplayEditor() {

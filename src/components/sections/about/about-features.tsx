@@ -1,11 +1,6 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/component-library/shadcn-components/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/ui/shadcn/card';
 import { Hammer, Anvil, FileText, RefreshCw } from 'lucide-react';
-import { TypographyP } from '../../ui/typography/typography';
+import { TypographyP } from '@/ui/typography/typography';
 
 const features = [
     {

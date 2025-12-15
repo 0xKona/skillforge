@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/component-library/shadcn-components/skeleton';
+import { Skeleton } from '@/ui/shadcn/skeleton';
 
 export default function IngotEditorSkeleton() {
     return (

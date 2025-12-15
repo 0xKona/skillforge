@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Card } from './component-library/shadcn-components/card';
-import { Button } from './component-library/shadcn-components/button';
+import { Card } from '@/ui/shadcn/card';
+import { Button } from '@/ui/shadcn/button';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -11,7 +11,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from './component-library/shadcn-components/alert-dialog';
+} from '@/ui/shadcn/alert-dialog';
 import { Ingot } from '@/lib/types/ingot-types';
 import { CV } from '@/lib/types/cv-types';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';

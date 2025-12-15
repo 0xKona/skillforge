@@ -1,6 +1,6 @@
 'use client';
 
-import { CardContent } from '@/components/ui/component-library/shadcn-components/card';
+import { CardContent } from '@/ui/shadcn/card';
 import React, { useState } from 'react';
 import { signUp } from 'aws-amplify/auth';
 import * as z from 'zod';
@@ -10,7 +10,7 @@ import {
     SignUpForm,
     signUpFormSchema,
 } from '@/lib/zod-form-schemas/auth-schema';
-import FormInput from '@/components/ui/form-input';
+import FormInput from '@/ui/form-input';
 import SubmitAuthForm from './submit-form';
 import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 

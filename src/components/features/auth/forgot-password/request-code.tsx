@@ -3,16 +3,16 @@
 import {
     Card,
     CardContent,
-} from '@/components/ui/component-library/shadcn-components/card';
+} from '@/ui/shadcn/card';
 import FormHeader from '../form-header';
 import {
     ForgotPasswordRequest,
     ResetPasswordForm,
 } from '@/lib/zod-form-schemas/auth-schema';
 import { resetPassword } from 'aws-amplify/auth';
-import FormInput from '@/components/ui/form-input';
+import FormInput from '@/ui/form-input';
 import SubmitAuthForm from '../submit-form';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { UseFormReturn } from 'react-hook-form';
 import { useAuthFlowState } from '@/lib/store/use-auth-form';

@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import Logo from '@/components/common/icons/logo';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import UserDropdown from './nav-profile-menu';
 import { useClientAuth } from '@/lib/store/use-client-auth';
-import { Skeleton } from '../../ui/component-library/shadcn-components/skeleton';
+import { Skeleton } from '@/ui/shadcn/skeleton';
 import { NavigationLinkObject } from '@/lib/types/nav-types';
 import BurgerNav from './nav-menu-mobile';
 import NavItem from './nav-item';

@@ -1,6 +1,6 @@
-import { Badge } from '@/components/ui/component-library/shadcn-components/badge';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
-import { TypographyH2 } from '@/components/ui/typography/typography';
+import { Badge } from '@/ui/shadcn/badge';
+import { Button } from '@/ui/shadcn/button';
+import { TypographyH2 } from '@/ui/typography/typography';
 import { Eye, Loader2, Save } from 'lucide-react';
 
 interface EditorHeaderProps {

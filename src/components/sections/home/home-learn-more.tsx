@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import {
     TypographyH2,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 

@@ -1,8 +1,8 @@
 'use client';
 
-import BackButton from '@/components/back-button/back';
+import BackButton from '@/components/common/widgets/back-button';
 import AvatarDisplayEditor from '@/components/features/profile/avatar-editor';
-import { Card } from '@/components/ui/component-library/shadcn-components/card';
+import { Card } from '@/ui/shadcn/card';
 import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { cn } from '@/lib/utils';
 import { Amplify } from 'aws-amplify';

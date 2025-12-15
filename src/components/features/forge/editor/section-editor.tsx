@@ -1,15 +1,15 @@
 'use client';
 
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
-import { Checkbox } from '@/components/ui/component-library/shadcn-components/checkbox';
-import { Label } from '@/components/ui/component-library/shadcn-components/label';
-import { TypographyP } from '@/components/ui/typography/typography';
+import { Checkbox } from '@/ui/shadcn/checkbox';
+import { Label } from '@/ui/shadcn/label';
+import { TypographyP } from '@/ui/typography/typography';
 import CvSectionEditorSortDropdown from '../forge-components/cv-section-editor-billet-sort-dropdown';
 import CvEditorHeader from '../forge-components/cv-editor-header';
 import CvSectionEditorBillets from '../forge-components/cv-section-editor-billet';
 import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
 import Link from 'next/link';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import React from 'react';
 import { CV } from '@/lib/types/cv-types';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';

@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+import { Button } from '@/ui/shadcn/button';
 import { useClientAuth } from '@/lib/store/use-client-auth';
-import { Card } from '@/components/ui/component-library/shadcn-components/card';
+import { Card } from '@/ui/shadcn/card';
 import NavBar from '@/components/layout/navigation/navigation-bar';
 
 export default function Dashboard() {

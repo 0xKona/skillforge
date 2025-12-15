@@ -6,7 +6,7 @@ import { HomeLearnMore } from '@/components/sections/home/home-learn-more';
 import {
     TypographyH2,
     TypographyP,
-} from '@/components/ui/typography/typography';
+} from '@/ui/typography/typography';
 
 export default async function Home() {
     const isLoggedIn = await isAuthenticated();

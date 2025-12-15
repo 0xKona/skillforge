@@ -7,9 +7,9 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@/components/ui/component-library/shadcn-components/card';
-import { Label } from '@/components/ui/component-library/shadcn-components/label';
-import { Button } from '@/components/ui/component-library/shadcn-components/button';
+} from '@/ui/shadcn/card';
+import { Label } from '@/ui/shadcn/label';
+import { Button } from '@/ui/shadcn/button';
 import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import React, { useState } from 'react';
@@ -18,7 +18,7 @@ import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from '@/components/ui/component-library/shadcn-components/input-opt';
+} from '@/ui/shadcn/input-opt';
 
 export default function VerifyCodeCard() {
     // Array is created to loop over when generating OTP slots
