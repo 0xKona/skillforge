@@ -1,4 +1,4 @@
-import IngotEditor from '@/components/anvil/ingot-editor/ingot-editor';
+import IngotEditor from '@/components/features/anvil/editor/ingot-editor';
 import { serverClient } from '@/lib/amplify/server-data-client';
 import { IngotContent, IngotType, Ingot } from '@/lib/types/ingot-types';
 

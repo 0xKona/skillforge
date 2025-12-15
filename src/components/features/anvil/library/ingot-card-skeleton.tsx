@@ -1,5 +1,5 @@
-import { Card } from '../../ui/component-library/shadcn-components/card';
-import { Skeleton } from '../../ui/component-library/shadcn-components/skeleton';
+import { Card } from '../../../ui/component-library/shadcn-components/card';
+import { Skeleton } from '../../../ui/component-library/shadcn-components/skeleton';
 
 export default function IngotCardSkeleton() {
     return (

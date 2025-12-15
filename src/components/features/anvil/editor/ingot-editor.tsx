@@ -3,9 +3,9 @@
 import { useEffect } from 'react';
 import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
-import { EditorFooter, EditorHeader } from './components/editor-header';
-import { IngotDetails } from './components/ingot-details';
-import { BilletSection } from './components/billet-section';
+import { EditorFooter, EditorHeader } from './editor-components/editor-header';
+import { IngotDetails } from './editor-components/ingot-details';
+import { BilletSection } from './editor-components/billet-section';
 import {
     Tabs,
     TabsContent,

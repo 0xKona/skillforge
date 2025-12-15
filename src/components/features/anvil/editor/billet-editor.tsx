@@ -11,8 +11,8 @@ import {
     CardTitle,
 } from '@/components/ui/component-library/shadcn-components/card';
 import { Plus } from 'lucide-react';
-import { BilletList } from './components/billet-list';
-import { BilletForm } from './components/billet-form';
+import { BilletList } from './editor-components/billet-list';
+import { BilletForm } from './editor-components/billet-form';
 
 interface Props {
     billets: Billet[];
