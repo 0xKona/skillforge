@@ -4,12 +4,7 @@ import { useEffect } from 'react';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { useIsMobile } from '@/hooks/use-is-mobile';
 import { useCvAutoSave } from '@/hooks/use-cv-auto-save';
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '@/ui/shadcn/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/shadcn/tabs';
 import { Button } from '@/ui/shadcn/button';
 import { Loader2, Save } from 'lucide-react';
 import { CvHeader } from './cv-header';

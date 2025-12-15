@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /**
  * Global mock setup for Jest
  */
@@ -40,7 +41,6 @@ jest.mock('@/ui/shadcn/avatar', () => ({
             {children}
         </div>
     ),
-    // eslint-disable-next-line @next/next/no-img-element
     AvatarImage: ({ src }: { src: string }) => (
         <img src={src} alt="avatar" data-testid="avatar-image" />
     ),
@@ -150,13 +150,84 @@ jest.mock('@/ui/typography/typography', () => ({
     TypographyH1: ({ children }: { children: React.ReactNode }) => (
         <h1>{children}</h1>
     ),
+    TypographyH3: ({ children }: { children: React.ReactNode }) => (
+        <h3>{children}</h3>
+    ),
+    TypographyH4: ({ children }: { children: React.ReactNode }) => (
+        <h4>{children}</h4>
+    ),
 }));
 
-jest.mock('@/components/common/ui/typography/typography', () => ({
-    TypographyP: ({ children }: { children: React.ReactNode }) => (
-        <p>{children}</p>
+jest.mock('@/ui/shadcn/input', () => ({
+    Input: (props: React.ComponentProps<'input'>) => (
+        <input data-testid="input" {...props} />
     ),
-    TypographyH1: ({ children }: { children: React.ReactNode }) => (
-        <h1>{children}</h1>
+}));
+
+jest.mock('@/ui/shadcn/textarea', () => ({
+    Textarea: (props: React.ComponentProps<'textarea'>) => (
+        <textarea data-testid="textarea" {...props} />
+    ),
+}));
+
+jest.mock('@/ui/shadcn/label', () => ({
+    Label: ({
+        children,
+        ...props
+    }: { children: React.ReactNode } & React.ComponentProps<'label'>) => (
+        <label {...props}>{children}</label>
+    ),
+}));
+
+jest.mock('@/ui/shadcn/checkbox', () => ({
+    Checkbox: ({
+        onCheckedChange,
+        ...props
+    }: React.ComponentProps<'input'> & {
+        onCheckedChange?: (checked: boolean) => void;
+    }) => (
+        <input
+            type="checkbox"
+            data-testid="checkbox"
+            onChange={(e) =>
+                onCheckedChange && onCheckedChange(e.target.checked)
+            }
+            {...props}
+        />
+    ),
+}));
+
+jest.mock('@/ui/shadcn/tabs', () => ({
+    Tabs: ({
+        children,
+        ...props
+    }: { children: React.ReactNode } & React.ComponentProps<'div'>) => (
+        <div data-testid="tabs" {...props}>
+            {children}
+        </div>
+    ),
+    TabsList: ({
+        children,
+        ...props
+    }: { children: React.ReactNode } & React.ComponentProps<'div'>) => (
+        <div data-testid="tabs-list" {...props}>
+            {children}
+        </div>
+    ),
+    TabsTrigger: ({
+        children,
+        ...props
+    }: { children: React.ReactNode } & React.ComponentProps<'button'>) => (
+        <button data-testid="tabs-trigger" {...props}>
+            {children}
+        </button>
+    ),
+    TabsContent: ({
+        children,
+        ...props
+    }: { children: React.ReactNode } & React.ComponentProps<'div'>) => (
+        <div data-testid="tabs-content" {...props}>
+            {children}
+        </div>
     ),
 }));
