@@ -17,9 +17,10 @@ export function AboutHero() {
                 <TypographyP className="text-xl text-slate-400 max-w-2xl mx-auto">
                     <HighlightSpanTextP>SkillForge</HighlightSpanTextP> is the
                     ultimate tool for crafting dynamic, tailored CVs. Manage
-                    your skills, experience, and achievements as reusable{' '}
-                    <HighlightSpanTextP>Ingots</HighlightSpanTextP> and forge
-                    them into the perfect CV for every opportunity.
+                    your skills, experience, and achievements as reusable
+                    <HighlightSpanTextP> Ingots</HighlightSpanTextP> and then
+                    forge them into the perfect CV, tailored directly for every
+                    opportunity.
                 </TypographyP>
             </div>
 
