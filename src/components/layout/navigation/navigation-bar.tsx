@@ -10,6 +10,7 @@ import { NavigationLinkObject } from '@/lib/types/nav-types';
 import BurgerNav from './nav-menu-mobile';
 import NavItem from './nav-item';
 import { navigationBarLinks } from '@/lib/constants/routing';
+import { TypographyH1 } from '@/components/common/ui/typography/typography';
 
 export default function NavBar() {
     const { isAuthenticated, loading } = useClientAuth();
@@ -23,9 +24,9 @@ export default function NavBar() {
                     className="hidden lg:flex items-center space-x-2 justify-self-start"
                 >
                     <Logo size={40} color="white" />
-                    <span className="text-white text-3xl font-extrabold italic">
+                    <TypographyH1 className="text-white text-3xl font-bold italic">
                         SkillForge
-                    </span>
+                    </TypographyH1>
                 </Link>
                 <BurgerNav />
                 {/* Column 2 */}
@@ -43,6 +44,9 @@ export default function NavBar() {
                     className="flex items-center space-x-2 justify-self-center lg:hidden col-start-2"
                 >
                     <Logo size={40} color="white" />
+                    <TypographyH1 className="hidden sm:flex text-white text-3xl font-bold italic">
+                        SkillForge
+                    </TypographyH1>
                 </Link>
                 {/* Column 3 */}
                 <div className="justify-self-end col-start-3">
