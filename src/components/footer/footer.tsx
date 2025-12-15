@@ -71,17 +71,6 @@ export default function Footer() {
                         </h4>
                         <ul className="space-y-2">
                             <li>
-                                <a
-                                    href="https://github.com/0xKona/SkillForge"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 text-slate-400 hover:text-forge-orange transition-colors text-sm"
-                                >
-                                    <Github className="h-4 w-4" />
-                                    GitHub Repository
-                                </a>
-                            </li>
-                            <li>
                                 <PrivacyModal />
                             </li>
                         </ul>
