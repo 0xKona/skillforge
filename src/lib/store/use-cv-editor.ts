@@ -67,7 +67,6 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             if (cvId) {
                 // If a cvId is provided, attempt to fetch the existing CV data
                 const existingCv = await CvService.getCv(cvId);
-                console.log('Existing CV: ', existingCv);
                 // If the CV doesn't exist, throw an error to be caught below
                 if (!existingCv) throw new Error('CV not found');
                 // Assign the fetched CV to the local variable

@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/shadcn/card';
+import { TypographyP } from '@/ui/typography/typography';
 import { Input } from '@/ui/shadcn/input';
 import { Label } from '@/ui/shadcn/label';
 import DynamicForm from './dynamic-form';
@@ -39,10 +40,10 @@ export function IngotDetails({
                         className="bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange"
                         placeholder="e.g. My Degree, Company"
                     />
-                    <p className="text-xs text-slate-500">
+                    <TypographyP className="text-xs text-slate-500">
                         This name is used by you to identify this ingot in your
                         list. It will not show in your CV.
-                    </p>
+                    </TypographyP>
                 </div>
 
                 {/* Ingot Form */}

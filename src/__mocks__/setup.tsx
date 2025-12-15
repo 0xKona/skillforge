@@ -169,17 +169,45 @@ jest.mock('@/ui/shadcn/alert-dialog', () => ({
 }));
 
 jest.mock('@/ui/typography/typography', () => ({
-    TypographyP: ({ children }: { children: React.ReactNode }) => (
-        <p>{children}</p>
+    TypographyP: ({
+        children,
+        ...props
+    }: {
+        children: React.ReactNode;
+    } & React.HTMLAttributes<HTMLParagraphElement>) => (
+        <p {...props}>{children}</p>
     ),
-    TypographyH1: ({ children }: { children: React.ReactNode }) => (
-        <h1>{children}</h1>
+    TypographyH1: ({
+        children,
+        ...props
+    }: {
+        children: React.ReactNode;
+    } & React.HTMLAttributes<HTMLHeadingElement>) => (
+        <h1 {...props}>{children}</h1>
     ),
-    TypographyH3: ({ children }: { children: React.ReactNode }) => (
-        <h3>{children}</h3>
+    TypographyH2: ({
+        children,
+        ...props
+    }: {
+        children: React.ReactNode;
+    } & React.HTMLAttributes<HTMLHeadingElement>) => (
+        <h2 {...props}>{children}</h2>
     ),
-    TypographyH4: ({ children }: { children: React.ReactNode }) => (
-        <h4>{children}</h4>
+    TypographyH3: ({
+        children,
+        ...props
+    }: {
+        children: React.ReactNode;
+    } & React.HTMLAttributes<HTMLHeadingElement>) => (
+        <h3 {...props}>{children}</h3>
+    ),
+    TypographyH4: ({
+        children,
+        ...props
+    }: {
+        children: React.ReactNode;
+    } & React.HTMLAttributes<HTMLHeadingElement>) => (
+        <h4 {...props}>{children}</h4>
     ),
 }));
 

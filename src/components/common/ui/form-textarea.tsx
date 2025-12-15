@@ -4,6 +4,7 @@ import { Controller, UseFormReturn } from 'react-hook-form';
 import { Label } from '@/ui/shadcn/label';
 import { Textarea } from '@/ui/shadcn/textarea';
 import React from 'react';
+import { TypographyP } from './typography/typography';
 
 interface Props {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,9 +45,9 @@ export default function FormTextarea({
                             className={className}
                         />
                         {fieldState.error && (
-                            <p className="text-sm font-medium text-destructive">
+                            <TypographyP className="text-sm font-medium text-destructive">
                                 {fieldState.error.message}
-                            </p>
+                            </TypographyP>
                         )}
                     </>
                 )}

@@ -21,8 +21,6 @@ export class AvatarService {
                 },
             }).result;
 
-            console.log('Upload successful:', uploadResult);
-
             // 2. Update the Cognito User Attribute 'picture' with the S3 key (path)
             // We store the path so we can generate fresh signed URLs on demand
             const s3Key = uploadResult.path;

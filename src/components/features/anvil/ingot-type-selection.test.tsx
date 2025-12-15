@@ -47,6 +47,20 @@ jest.mock('@/ui/typography/typography', () => ({
         children: React.ReactNode;
         className: string;
     }) => <h2 className={className}>{children}</h2>,
+    TypographyH3: ({
+        children,
+        className,
+    }: {
+        children: React.ReactNode;
+        className: string;
+    }) => <h3 className={className}>{children}</h3>,
+    TypographyP: ({
+        children,
+        className,
+    }: {
+        children: React.ReactNode;
+        className: string;
+    }) => <p className={className}>{children}</p>,
 }));
 
 describe('IngotTypeSelection', () => {

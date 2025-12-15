@@ -1,9 +1,6 @@
 'use client';
 
-import {
-    Card,
-    CardContent,
-} from '@/ui/shadcn/card';
+import { Card, CardContent } from '@/ui/shadcn/card';
 import SubmitAuthForm from '../submit-form';
 import FormHeader from '../form-header';
 import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
@@ -12,13 +9,10 @@ import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
 import { useAuthFlowState } from '@/lib/store/use-auth-form';
 import { Label } from '@/ui/shadcn/label';
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSlot,
-} from '@/ui/shadcn/input-opt';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';
 import FormInput from '@/ui/form-input';
 import { Button } from '@/ui/shadcn/button';
+import { TypographyP } from '@/components/common/ui/typography/typography';
 
 interface Props {
     resetForm: UseFormReturn<ResetPasswordForm>;
@@ -143,9 +137,9 @@ export default function PasswordResetForm({ resetForm }: Props) {
                             </InputOTPGroup>
                         </InputOTP>
                         {resetForm.formState.errors.code && (
-                            <p className="text-sm text-red-500 mt-1">
+                            <TypographyP className="text-sm text-red-500 mt-1">
                                 {resetForm.formState.errors.code.message}
-                            </p>
+                            </TypographyP>
                         )}
                     </div>
                     <FormInput

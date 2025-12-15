@@ -30,8 +30,6 @@ export default function AvatarDisplayEditor() {
 
     async function submitImage() {
         if (selectedFile) {
-            console.log('Uploading file:', selectedFile);
-            // Add logic to upload the image here
             try {
                 const newUrl =
                     await AvatarService.updateUserAvatar(selectedFile);
@@ -43,9 +41,8 @@ export default function AvatarDisplayEditor() {
                     },
                 });
 
-                setAvatarUrl(newUrl);
                 // Set local avatar state with new url
-                console.log('Avatar updated successfully:', newUrl);
+                setAvatarUrl(newUrl);
             } catch (error) {
                 console.error('Error updating avatar:', error);
             }

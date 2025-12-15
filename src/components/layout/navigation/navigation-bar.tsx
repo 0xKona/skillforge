@@ -33,10 +33,7 @@ export default function NavBar() {
                 {/* Show logo on mobile / tablet and nav on desktop */}
                 <ul className="hidden lg:flex space-x-6 justify-center col-start-2">
                     {navigationBarLinks.map((navItem: NavigationLinkObject) => (
-                        <NavItem
-                            key={JSON.stringify(navItem)}
-                            navItem={navItem}
-                        />
+                        <NavItem key={navItem.route} navItem={navItem} />
                     ))}
                 </ul>
                 <Link

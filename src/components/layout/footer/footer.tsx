@@ -16,10 +16,6 @@ export default function Footer() {
                                 SkillForge
                             </span>
                         </div>
-                        <TypographyP className="text-slate-400 text-sm max-w-sm">
-                            Forging future careers. Modular, dynamic, and built
-                            for the modern professional.
-                        </TypographyP>
                     </div>
 
                     {/* Navigation Column */}

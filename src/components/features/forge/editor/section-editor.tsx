@@ -76,9 +76,9 @@ export function SectionEditor() {
 
                 {relevantIngots.length === 0 ? (
                     <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
-                        <p className="text-slate-400 mb-4">
+                        <TypographyP className="text-slate-400 mb-4">
                             {`You haven't created any ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} yet.`}
-                        </p>
+                        </TypographyP>
 
                         <Link
                             href={`/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as CV).id}`}

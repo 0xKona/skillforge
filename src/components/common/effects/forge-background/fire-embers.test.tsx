@@ -64,7 +64,7 @@ describe('FireEmbers Component', () => {
         });
     });
 
-    it('Should generate different random values on re-render', () => {
+    it('Should maintain stable values on re-render', () => {
         const { container, rerender } = render(<FireEmbers count={5} />);
 
         const firstRenderPositions: string[] = [];
@@ -83,10 +83,10 @@ describe('FireEmbers Component', () => {
             secondRenderPositions.push((ember as HTMLElement).style.left);
         });
 
-        // At least some positions should be different (statistically very likely)
+        // Positions should remain stable on re-render for performance
         const allSame = firstRenderPositions.every(
             (pos, idx) => pos === secondRenderPositions[idx]
         );
-        expect(allSame).toBe(false);
+        expect(allSame).toBe(true);
     });
 });

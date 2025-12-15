@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { TypographyP } from '@/ui/typography/typography';
 import { Button } from '@/ui/shadcn/button';
 import IngotCardSkeleton from './ingot-card-skeleton';
 import { Ingot } from '@/lib/types/ingot-types';
@@ -55,11 +56,11 @@ export default function AnvilInterface() {
                 </div>
             ) : filteredIngots.length === 0 ? (
                 <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
-                    <p className="text-slate-400 mb-4">
+                    <TypographyP className="text-slate-400 mb-4">
                         {anvilIngots.length === 0
                             ? "You haven't created any ingots yet."
                             : 'No ingots match your filters.'}
-                    </p>
+                    </TypographyP>
                     {anvilIngots.length === 0 && (
                         <Link href="/anvil/create">
                             <Button

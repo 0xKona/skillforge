@@ -2,6 +2,11 @@
 
 import { useState } from 'react';
 import { X, Square, CheckSquare } from 'lucide-react';
+import {
+    TypographyH2,
+    TypographyH3,
+    TypographyP,
+} from '@/ui/typography/typography';
 import { PDFViewer } from '@react-pdf/renderer';
 import { Button } from '@/ui/shadcn/button';
 import { IngotPDF } from './ingot-pdf';
@@ -75,9 +80,9 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
             <div className="bg-slate-900 w-full h-full max-w-7xl rounded-xl border border-slate-700 flex flex-col overflow-hidden shadow-2xl">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-800">
-                    <h2 className="text-xl font-semibold text-slate-100">
+                    <TypographyH2 className="text-xl font-semibold text-slate-100">
                         Ingot Preview
-                    </h2>
+                    </TypographyH2>
                     <Button
                         variant="ghost"
                         size="icon"
@@ -94,26 +99,26 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                     <div className="w-full md:w-1/3 lg:w-1/4 border-r border-slate-700 bg-slate-800/50 p-4 overflow-y-auto">
                         <div className="space-y-6">
                             <div>
-                                <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-2">
+                                <TypographyH3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-2">
                                     Ingot Details
-                                </h3>
+                                </TypographyH3>
                                 <Card className="p-3 bg-slate-800 border-slate-700">
-                                    <p className="text-slate-200 font-medium">
+                                    <TypographyP className="text-slate-200 font-medium">
                                         {ingotData.name}
-                                    </p>
-                                    <p className="text-xs text-slate-500 mt-1">
+                                    </TypographyP>
+                                    <TypographyP className="text-xs text-slate-500 mt-1">
                                         {ingotData.type
                                             .replace('ingot_', '')
                                             .replace(/_/g, ' ')}
-                                    </p>
+                                    </TypographyP>
                                 </Card>
                             </div>
 
                             {showSortOptions && billets.length > 1 && (
                                 <div>
-                                    <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-2">
+                                    <TypographyH3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-2">
                                         Sort Order
-                                    </h3>
+                                    </TypographyH3>
                                     <div className="space-y-2">
                                         <Label className="text-xs text-slate-500">
                                             Sort Billets By
@@ -145,9 +150,9 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                             {billets.length > 0 && (
                                 <div>
                                     <div className="flex items-center justify-between mb-2">
-                                        <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                                        <TypographyH3 className="text-sm font-medium text-slate-400 uppercase tracking-wider">
                                             Include Billets
-                                        </h3>
+                                        </TypographyH3>
                                         <span className="text-xs text-slate-500">
                                             {selectedBilletIds.size} /{' '}
                                             {billets.length}
@@ -185,7 +190,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                                                         )}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <p
+                                                        <TypographyP
                                                             className={`text-sm font-medium truncate ${
                                                                 isSelected
                                                                     ? 'text-slate-200'
@@ -195,7 +200,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                                                             {getBilletName(
                                                                 billet.fields
                                                             )}
-                                                        </p>
+                                                        </TypographyP>
                                                     </div>
                                                 </div>
                                             );

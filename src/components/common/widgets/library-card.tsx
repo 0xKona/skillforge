@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { TypographyH3, TypographyP } from '@/ui/typography/typography';
 import { Card } from '@/ui/shadcn/card';
 import { Button } from '@/ui/shadcn/button';
 import {
@@ -96,16 +97,16 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
 
                 {/* Title */}
                 <div className="space-y-1.5">
-                    <h3 className="font-semibold text-lg text-slate-100 leading-tight line-clamp-2 group-hover:text-forge-orange transition-colors">
+                    <TypographyH3 className="font-semibold text-lg text-slate-100 leading-tight line-clamp-2 group-hover:text-forge-orange transition-colors">
                         {title}
-                    </h3>
-                    <p className="text-xs text-slate-500">
+                    </TypographyH3>
+                    <TypographyP className="text-xs text-slate-500">
                         Updated {new Date(updatedAt).toLocaleDateString()}
-                    </p>
+                    </TypographyP>
                     {description && (
-                        <p className="text-sm text-slate-400 line-clamp-2 mt-2">
+                        <TypographyP className="text-sm text-slate-400 line-clamp-2 mt-2">
                             {description}
-                        </p>
+                        </TypographyP>
                     )}
                 </div>
             </div>
