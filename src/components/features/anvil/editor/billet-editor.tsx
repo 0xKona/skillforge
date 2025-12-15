@@ -4,12 +4,7 @@ import { useState } from 'react';
 import { Billet, BilletTemplate, IngotField } from '@/lib/types/ingot-types';
 import { BILLET_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { Button } from '@/ui/shadcn/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/ui/shadcn/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/ui/shadcn/card';
 import { Plus } from 'lucide-react';
 import { BilletList } from './editor-components/billet-list';
 import { BilletForm } from './editor-components/billet-form';
