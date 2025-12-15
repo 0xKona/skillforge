@@ -10,10 +10,7 @@ import {
 } from '@/ui/shadcn/dialog';
 import { Button } from '@/ui/shadcn/button';
 import { Shield, Lock, Server, EyeOff } from 'lucide-react';
-import {
-    TypographyH4,
-    TypographyP,
-} from '@/ui/typography/typography';
+import { TypographyH4, TypographyP } from '@/ui/typography/typography';
 
 export function PrivacyModal() {
     return (

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Logo from '@/components/common/icons/logo';
-import { TypographyP } from '@/ui/typography/typography';
+import { TypographyH4, TypographyP } from '@/ui/typography/typography';
 import { PrivacyModal } from './privacy-modal';
 
 export default function Footer() {
@@ -24,9 +24,9 @@ export default function Footer() {
 
                     {/* Navigation Column */}
                     <div className="space-y-4">
-                        <h4 className="text-sm font-semibold text-slate-100 uppercase tracking-wider">
+                        <TypographyH4 className="text-xs font-semibold text-slate-100 uppercase tracking-wider">
                             Navigation
-                        </h4>
+                        </TypographyH4>
                         <ul className="space-y-2">
                             <li>
                                 <Link
@@ -65,9 +65,9 @@ export default function Footer() {
 
                     {/* Project Info Column */}
                     <div className="space-y-4">
-                        <h4 className="text-sm font-semibold text-slate-100 uppercase tracking-wider">
+                        <TypographyH4 className="text-xs font-semibold text-slate-100 uppercase tracking-wider">
                             Project Info
-                        </h4>
+                        </TypographyH4>
                         <ul className="space-y-2">
                             <li>
                                 <PrivacyModal />
@@ -78,9 +78,9 @@ export default function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-slate-500 text-sm">
+                    <TypographyP className="text-slate-500 text-sm">
                         © {new Date().getFullYear()} SkillForge.
-                    </p>
+                    </TypographyP>
                 </div>
             </div>
         </footer>
