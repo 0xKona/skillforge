@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import CvEditorHeader from './cv-editor-header';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { Section } from '@/lib/types/cv-types';
 
 // Mock dependencies
 jest.mock('@/lib/store/use-cv-editor');
@@ -31,12 +32,12 @@ describe('CvEditorHeader', () => {
     });
 
     it('renders correctly', () => {
-        render(<CvEditorHeader section={mockSection as any} />);
+        render(<CvEditorHeader section={mockSection as Section} />);
         expect(screen.getByText('Edit Experience section')).toBeInTheDocument();
     });
 
     it('calls setActiveSection(null) when back button is clicked', () => {
-        render(<CvEditorHeader section={mockSection as any} />);
+        render(<CvEditorHeader section={mockSection as Section} />);
         const backButton = screen.getByRole('button');
         fireEvent.click(backButton);
         expect(mockSetActiveSection).toHaveBeenCalledWith(null);
