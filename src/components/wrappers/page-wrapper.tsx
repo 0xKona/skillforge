@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import NavBar from '../navigation-bar/navigation-bar';
-import Footer from '../footer/footer';
+import Footer from '../layout/footer/footer';
 import BluePrintForgeBg from '../ui/forge-background';
 
 interface Props extends PropsWithChildren {
