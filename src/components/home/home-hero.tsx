@@ -25,9 +25,7 @@ export function HomeHero({ isLoggedIn }: HomeHeroProps) {
                 </TypographyH1>
                 <TypographyP className="text-xl md:text-2xl text-slate-400 leading-relaxed">
                     Craft <HighlightSpanTextP>modular</HighlightSpanTextP>,
-                    dynamic resumes that adapt to every opportunity. Build your
-                    career story, one
-                    <HighlightSpanTextP> Ingot</HighlightSpanTextP> at a time.
+                    dynamic resumes that adapt to every opportunity.
                 </TypographyP>
             </div>
 

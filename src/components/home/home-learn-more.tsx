@@ -14,8 +14,7 @@ export function HomeLearnMore() {
                     Want to find out more?
                 </TypographyH2>
                 <TypographyP className="text-xl text-slate-400 leading-relaxed">
-                    Discover SkillForge and learn how our modular approach can
-                    revolutionize your CV creation process
+                    Learn how SkillForge works with it&apos;s modular approach
                 </TypographyP>
 
                 <div className="pt-4">
