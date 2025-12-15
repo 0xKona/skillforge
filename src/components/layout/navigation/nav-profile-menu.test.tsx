@@ -8,60 +8,6 @@ jest.mock('@/lib/store/use-client-auth', () => ({
     useClientAuth: jest.fn(),
 }));
 
-// Mock shadcn components
-jest.mock('@/ui/shadcn/avatar', () => ({
-    Avatar: ({
-        children,
-        ...props
-    }: {
-        children: React.ReactNode;
-    } & React.HTMLAttributes<HTMLDivElement>) => (
-        <div data-testid="avatar" {...props}>
-            {children}
-        </div>
-    ),
-    // eslint-disable-next-line @next/next/no-img-element
-    AvatarImage: ({ src }: { src: string }) => <img src={src} alt="avatar" />,
-    AvatarFallback: ({ children }: { children: React.ReactNode }) => (
-        <div>{children}</div>
-    ),
-}));
-
-jest.mock('@/ui/shadcn/skeleton', () => ({
-    Skeleton: () => <div data-testid="skeleton" />,
-}));
-
-// Mock DropdownMenu components
-jest.mock('@/ui/shadcn/dropdown-menu', () => ({
-    DropdownMenu: ({ children }: { children: React.ReactNode }) => (
-        <div>{children}</div>
-    ),
-    DropdownMenuTrigger: ({ children }: { children: React.ReactNode }) => (
-        <button data-testid="dropdown-trigger">{children}</button>
-    ),
-    DropdownMenuContent: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid="dropdown-content">{children}</div>
-    ),
-    DropdownMenuGroup: ({ children }: { children: React.ReactNode }) => (
-        <div>{children}</div>
-    ),
-    DropdownMenuItem: ({
-        children,
-        onClick,
-    }: {
-        children: React.ReactNode;
-        onClick?: () => void;
-    }) => (
-        <div role="menuitem" onClick={onClick}>
-            {children}
-        </div>
-    ),
-    DropdownMenuLabel: ({ children }: { children: React.ReactNode }) => (
-        <div>{children}</div>
-    ),
-    DropdownMenuSeparator: () => <hr />,
-}));
-
 describe('UserDropdown', () => {
     const mockSignOut = jest.fn();
 

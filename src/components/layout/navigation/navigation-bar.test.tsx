@@ -31,19 +31,6 @@ jest.mock('@/components/common/icons/logo', () => {
     Logo.displayName = 'Logo';
     return Logo;
 });
-jest.mock('@/ui/shadcn/button', () => ({
-    Button: ({ children }: { children: React.ReactNode }) => (
-        <button data-testid="login-button">{children}</button>
-    ),
-}));
-jest.mock('@/ui/shadcn/skeleton', () => ({
-    Skeleton: () => <div data-testid="skeleton" />,
-}));
-jest.mock('@/components/common/ui/typography/typography', () => ({
-    TypographyH1: ({ children }: { children: React.ReactNode }) => (
-        <h1>{children}</h1>
-    ),
-}));
 
 // Mock navigationBarLinks
 jest.mock('@/lib/constants/routing', () => ({
@@ -88,7 +75,7 @@ describe('NavBar', () => {
             loading: false,
         });
         render(<NavBar />);
-        expect(screen.getByTestId('login-button')).toBeInTheDocument();
+        expect(screen.getByTestId('button')).toBeInTheDocument();
         expect(screen.getByText('Login')).toBeInTheDocument();
     });
 
@@ -99,7 +86,7 @@ describe('NavBar', () => {
         });
         render(<NavBar />);
         expect(screen.getByTestId('user-dropdown')).toBeInTheDocument();
-        expect(screen.queryByTestId('login-button')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('button')).not.toBeInTheDocument();
     });
 
     it('renders skeleton when loading', () => {
@@ -110,6 +97,6 @@ describe('NavBar', () => {
         render(<NavBar />);
         expect(screen.getByTestId('skeleton')).toBeInTheDocument();
         expect(screen.queryByTestId('user-dropdown')).not.toBeInTheDocument();
-        expect(screen.queryByTestId('login-button')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('button')).not.toBeInTheDocument();
     });
 });
