@@ -1,5 +1,4 @@
 import AuthForm from '@/components/features/auth/auth-form';
-import LoginPageMessage from '@/components/features/auth/message';
 import Logo from '@/components/common/icons/logo';
 import PageWrapper from '@/components/layout/wrappers/page-wrapper';
 import { isAuthenticated } from '@/lib/amplify/server-utils';
@@ -18,10 +17,6 @@ export default async function LoginPage() {
         If not authenticated: Render the Auth UI.
         If user needs confirmation, the form will switch to verify code via zustand state
     */
-
-    const restricted = process.env.AVAILABILITY_MODE;
-    console.log(restricted);
-    const message = restricted === 'RESTRICTED' ? <LoginPageMessage /> : null;
 
     return (
         <PageWrapper className="min-h-screen flex items-start justify-center relative bg-gradient-to-br md:pt-20 from-slate-900 via-slate-800 to-slate-900">
@@ -45,7 +40,7 @@ export default async function LoginPage() {
                         Welcome! Please sign in to continue.
                     </p>
                 </div>
-                <AuthForm message={message} />
+                <AuthForm />
             </div>
         </PageWrapper>
     );
