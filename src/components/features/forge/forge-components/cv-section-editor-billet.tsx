@@ -16,7 +16,7 @@ interface Props {
 export default function CvSectionEditorBillets({ ingot, section }: Props) {
     const { activeSectionIndex, toggleBillet } = useCvEditorState();
 
-    if (!activeSectionIndex) {
+    if (activeSectionIndex === null) {
         return null;
     }
 
