@@ -13,6 +13,17 @@ jest.mock('aws-amplify/auth', () => ({
     fetchUserAttributes: jest.fn(),
 }));
 
+// Mock the amplify_outputs.json file
+jest.mock('../../../../amplify_outputs.json', () => ({
+    __esModule: true,
+    default: {
+        storage: {
+            bucket_name: 'test-bucket',
+            aws_region: 'test-region',
+        },
+    },
+}));
+
 describe('AvatarService', () => {
     // Reset mocks before each test
     beforeEach(() => {
@@ -26,13 +37,15 @@ describe('AvatarService', () => {
     });
 
     describe('updateUserAvatar', () => {
-        it('should upload file, update attributes, and return the new URL', async () => {
+        it('should upload file, update attributes with public URL, and return the new URL', async () => {
             // Arrange
             const mockFile = new File(['dummy content'], 'avatar.png', {
                 type: 'image/png',
             });
             const mockS3Key = 'avatars/user123/avatar.png';
-            const mockUrl = new URL('https://example.com/avatar.png');
+            // The expected public URL based on our mock outputs
+            const expectedPublicUrl =
+                'https://test-bucket.s3.test-region.amazonaws.com/avatars/user123/avatar.png';
 
             // Mock uploadData to return a successful result
             (uploadData as jest.Mock).mockReturnValue({
@@ -41,9 +54,6 @@ describe('AvatarService', () => {
 
             // Mock updateUserAttributes to resolve successfully
             (updateUserAttributes as jest.Mock).mockResolvedValue({});
-
-            // Mock getUrl to return the signed URL
-            (getUrl as jest.Mock).mockResolvedValue({ url: mockUrl });
 
             // Act
             const result = await AvatarService.updateUserAvatar(mockFile);
@@ -57,16 +67,16 @@ describe('AvatarService', () => {
                 })
             );
 
-            // 2. Verify updateUserAttributes was called with the correct key
+            // 2. Verify updateUserAttributes was called with the PUBLIC URL
             expect(updateUserAttributes).toHaveBeenCalledWith({
-                userAttributes: { picture: mockS3Key },
+                userAttributes: { picture: expectedPublicUrl },
             });
 
-            // 3. Verify getUrl was called with the correct key
-            expect(getUrl).toHaveBeenCalledWith({ path: mockS3Key });
+            // 3. Verify getUrl was NOT called (we don't use signed URLs anymore)
+            expect(getUrl).not.toHaveBeenCalled();
 
             // 4. Verify the returned URL matches
-            expect(result).toBe(mockUrl.toString());
+            expect(result).toBe(expectedPublicUrl);
         });
 
         it('should throw an error if upload fails', async () => {
@@ -111,42 +121,19 @@ describe('AvatarService', () => {
             expect(result).toBe(mockHttpUrl);
         });
 
-        it('should attempt to convert legacy public S3 URLs to signed URLs', async () => {
-            // Arrange
-            const legacyUrl =
-                'https://bucket.s3.amazonaws.com/avatars/user/pic.jpg';
-            const s3Key = 'avatars/user/pic.jpg';
-            const signedUrl = new URL('https://signed-url.com/pic.jpg');
-
-            (fetchUserAttributes as jest.Mock).mockResolvedValue({
-                picture: legacyUrl,
-            });
-            (getUrl as jest.Mock).mockResolvedValue({ url: signedUrl });
-
-            // Act
-            const result = await AvatarService.getCurrentAvatarUrl();
-
-            // Assert
-            expect(getUrl).toHaveBeenCalledWith({ path: s3Key });
-            expect(result).toBe(signedUrl.toString());
-        });
-
-        it('should generate a signed URL for S3 paths', async () => {
+        it('should return undefined if the picture attribute is not a full URL', async () => {
             // Arrange
             const s3Path = 'avatars/user123/pic.png';
-            const signedUrl = new URL('https://signed-url.com/pic.png');
 
             (fetchUserAttributes as jest.Mock).mockResolvedValue({
                 picture: s3Path,
             });
-            (getUrl as jest.Mock).mockResolvedValue({ url: signedUrl });
 
             // Act
             const result = await AvatarService.getCurrentAvatarUrl();
 
             // Assert
-            expect(getUrl).toHaveBeenCalledWith({ path: s3Path });
-            expect(result).toBe(signedUrl.toString());
+            expect(result).toBeUndefined();
         });
 
         it('should return undefined if fetching attributes fails', async () => {
