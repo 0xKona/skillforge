@@ -100,7 +100,7 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
                     <TypographyH3 className="font-semibold text-lg text-slate-100 leading-tight line-clamp-2 group-hover:text-forge-orange transition-colors">
                         {title}
                     </TypographyH3>
-                    <TypographyP className="text-xs text-slate-500">
+                    <TypographyP className="text-xs text-slate-400">
                         Updated {new Date(updatedAt).toLocaleDateString()}
                     </TypographyP>
                     {description && (

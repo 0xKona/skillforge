@@ -1,4 +1,4 @@
-export interface LogoProps {
+export interface LogoProps extends React.SVGProps<SVGSVGElement> {
     className?: string;
     color?: string;
     borderColor?: string;
@@ -7,25 +7,33 @@ export interface LogoProps {
 }
 
 // Imports and allows customizing color and size of SVG.
-export default function Logo(props: LogoProps) {
+export default function Logo({
+    className,
+    color,
+    borderColor,
+    borderWidth,
+    size,
+    ...props
+}: LogoProps) {
     return (
         <svg
-            className={props.className}
+            className={className}
             version="1.1"
             id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
             y="0px"
-            width={props.size || '100%'}
-            height={props.size || '100%'}
+            width={size || '100%'}
+            height={size || '100%'}
             viewBox="0 0 1024 1024"
             enableBackground="new 0 0 1024 1024"
+            {...props}
         >
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M357.638672,573.999878 
 	C357.625275,528.000427 357.602539,482.500946 357.606445,437.001465 
@@ -91,10 +99,10 @@ M636.910522,664.743347
 z"
             />
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M413.650330,327.236084 
 	C403.593689,297.716644 394.547516,268.221741 383.356842,239.564255 
@@ -142,10 +150,10 @@ M501.828247,134.328735
 z"
             />
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M352.223999,319.807343 
 	C355.684479,324.504395 359.723175,328.354767 362.131317,333.365173 
@@ -159,10 +167,10 @@ M352.223999,319.807343
 z"
             />
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M245.623413,362.996277 
 	C250.482697,355.780273 257.564911,353.152588 264.775909,355.828857 
@@ -174,10 +182,10 @@ M245.623413,362.996277
 z"
             />
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M500.579865,469.935333 
 	C507.652496,472.542358 511.023193,477.476837 511.377563,484.476379 
@@ -205,10 +213,10 @@ M444.646454,556.107971
 z"
             />
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M551.000122,607.680054 
 	C568.331482,607.678711 585.163086,607.616699 601.994019,607.702393 
@@ -223,10 +231,10 @@ M551.000122,607.680054
 z"
             />
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M592.993774,574.302612 
 	C578.364990,574.323120 564.234253,574.435242 550.105103,574.330505 
@@ -239,10 +247,10 @@ M592.993774,574.302612
 z"
             />
             <path
-                fill={props.color}
+                fill={color}
                 opacity="1.000000"
-                stroke={props.borderColor || 'none'}
-                strokeWidth={props.borderWidth || 0}
+                stroke={borderColor || 'none'}
+                strokeWidth={borderWidth || 0}
                 d="
 M586.357910,521.421875 
 	C574.060364,522.410095 562.249146,521.301697 550.448975,520.859924 

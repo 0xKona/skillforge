@@ -31,7 +31,7 @@ export default function FireEmbers({ count = 15 }: FireEmbersProps) {
     const emberStyle = cn(
         // Position at bottom, fixed size (3px), circle shape, apply float animation
         // Added will-change-transform to promote to own layer and prevent repaint on animation
-        'absolute bottom-0 w-[3px] h-[3px] rounded-full animate-float will-change-[transform,opacity]',
+        'absolute bottom-0 w-[3px] h-[3px] rounded-full motion-safe:animate-float will-change-[transform,opacity]',
         // Radial gradient: bright ember center -> lighter ring -> transparent edge
         '[background:radial-gradient(circle,var(--color-forge-ember)_0%,var(--color-forge-ember-light)_50%,transparent_100%)]',
         // Outer glow using box-shadow with ember color

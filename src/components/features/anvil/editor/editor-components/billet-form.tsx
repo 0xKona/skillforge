@@ -101,7 +101,7 @@ export function BilletForm({
                 <TypographyH4 className="text-sm font-medium text-slate-200">
                     {isAdding ? 'New Billet' : 'Edit Billet'}
                 </TypographyH4>
-                <span className="text-xs text-slate-500 uppercase font-mono">
+                <span className="text-xs text-slate-400 uppercase font-mono">
                     {type.replace('billet_', '').replace(/_/g, ' ')}
                 </span>
             </div>

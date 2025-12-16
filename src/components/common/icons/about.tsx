@@ -1,4 +1,4 @@
-export interface IconProps {
+export interface IconProps extends React.SVGProps<SVGSVGElement> {
     className?: string;
     color?: string;
     size?: number;
@@ -8,6 +8,7 @@ export default function AboutIcon({
     className,
     color = 'currentColor',
     size = 24,
+    ...props
 }: IconProps) {
     return (
         <svg
@@ -17,6 +18,7 @@ export default function AboutIcon({
             width={size}
             height={size}
             fill={color}
+            {...props}
         >
             <path d="M16.393 12.029l-4.461-1.196 3.018-3.018a1 1 0 1 0-1.414-1.414l-.897.897-1.195-4.462.677-.677a5 5 0 0 1 7.071 7.07l-2.799 2.8zm-1.633 1.633l-3.766 3.766-5.318-.339 4.623-4.623 4.461 1.196zM4.343 15.594l1.414 1.414-3.535 3.535A1 1 0 1 1 .808 19.13l3.45-3.45-.326-5.331 5.879-5.879 1.195 4.462-6.663 6.663z" />
         </svg>

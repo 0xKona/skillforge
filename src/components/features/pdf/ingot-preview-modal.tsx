@@ -106,7 +106,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                                     <TypographyP className="text-slate-200 font-medium">
                                         {ingotData.name}
                                     </TypographyP>
-                                    <TypographyP className="text-xs text-slate-500 mt-1">
+                                    <TypographyP className="text-xs text-slate-400 mt-1">
                                         {ingotData.type
                                             .replace('ingot_', '')
                                             .replace(/_/g, ' ')}
@@ -120,7 +120,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                                         Sort Order
                                     </TypographyH3>
                                     <div className="space-y-2">
-                                        <Label className="text-xs text-slate-500">
+                                        <Label className="text-xs text-slate-400">
                                             Sort Billets By
                                         </Label>
                                         <Select
@@ -153,7 +153,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                                         <TypographyH3 className="text-sm font-medium text-slate-400 uppercase tracking-wider">
                                             Include Billets
                                         </TypographyH3>
-                                        <span className="text-xs text-slate-500">
+                                        <span className="text-xs text-slate-400">
                                             {selectedBilletIds.size} /{' '}
                                             {billets.length}
                                         </span>
@@ -180,7 +180,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                                                         className={`flex-shrink-0 ${
                                                             isSelected
                                                                 ? 'text-forge-orange'
-                                                                : 'text-slate-500'
+                                                                : 'text-slate-400'
                                                         }`}
                                                     >
                                                         {isSelected ? (
