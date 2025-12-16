@@ -29,7 +29,7 @@ export default function CvSectionEditorBillets({ ingot, section }: Props) {
                 </TypographyP>
                 <Badge
                     variant="outline"
-                    className="text-[10px] px-1.5 py-0 h-5 text-slate-500 border-slate-700"
+                    className="text-[10px] px-1.5 py-0 h-5 text-slate-400 border-slate-700"
                 >
                     {ingot.content.billets.length} available
                 </Badge>
@@ -96,7 +96,7 @@ export default function CvSectionEditorBillets({ ingot, section }: Props) {
                                                 key={fieldKey}
                                                 className="flex items-center gap-2 truncate"
                                             >
-                                                <span className="text-slate-500 w-20 shrink-0">
+                                                <span className="text-slate-400 w-20 shrink-0">
                                                     {INGOT_FIELD_LABELS[
                                                         fieldKey
                                                     ] || fieldKey}

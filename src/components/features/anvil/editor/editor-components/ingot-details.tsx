@@ -40,7 +40,7 @@ export function IngotDetails({
                         className="bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange"
                         placeholder="e.g. My Degree, Company"
                     />
-                    <TypographyP className="text-xs text-slate-500">
+                    <TypographyP className="text-xs text-slate-400">
                         This name is used by you to identify this ingot in your
                         list. It will not show in your CV.
                     </TypographyP>

@@ -13,7 +13,7 @@ export default function CvLibrarySearch() {
                     placeholder="Search CVs..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-500 focus:ring-forge-orange/20 focus:border-forge-orange/50"
+                    className="bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-400 focus:ring-forge-orange/20 focus:border-forge-orange/50"
                 />
             </div>
             {searchQuery && (

@@ -56,7 +56,7 @@ function IngotTypeCard({ ingotType }: { ingotType: IngotType }) {
                         <TypographyH3 className="font-semibold text-lg text-slate-100 leading-tight group-hover:text-forge-orange transition-colors">
                             {ingotLabel}
                         </TypographyH3>
-                        <TypographyP className="text-xs text-slate-500">
+                        <TypographyP className="text-xs text-slate-400">
                             Create a new {ingotLabel.toLowerCase()} entry.
                         </TypographyP>
                     </div>

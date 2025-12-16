@@ -53,7 +53,7 @@ export function BilletItem({
                 <h5 className="text-slate-200 text-sm font-medium truncate">
                     {getDisplayName(billet)}
                 </h5>
-                <TypographyP className="text-slate-500 text-xs truncate mt-0.5">
+                <TypographyP className="text-slate-400 text-xs truncate mt-0.5">
                     {billet.type.replace('billet_', '').replace(/_/g, ' ')}
                 </TypographyP>
             </div>
@@ -72,7 +72,7 @@ export function BilletItem({
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-6 w-6 p-0 text-slate-500 hover:text-red-400"
+                            className="h-6 w-6 p-0 text-slate-400 hover:text-red-400"
                             disabled={isDisabled}
                         >
                             <Trash2 className="h-3 w-3" />

@@ -24,12 +24,12 @@ export default function AnvilInterfaceFilters() {
     return (
         <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500" />
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
                 <Input
                     placeholder="Search ingots..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-8 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500 focus-visible:ring-forge-orange"
+                    className="pl-8 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-400 focus-visible:ring-forge-orange"
                 />
             </div>
             <Select

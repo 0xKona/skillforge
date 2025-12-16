@@ -74,7 +74,7 @@ export default function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <TypographyP className="text-slate-500 text-sm">
+                    <TypographyP className="text-slate-400 text-sm">
                         © {new Date().getFullYear()} SkillForge.
                     </TypographyP>
                 </div>
