@@ -1,5 +1,6 @@
-import { uploadData, getUrl } from 'aws-amplify/storage';
+import { uploadData } from 'aws-amplify/storage';
 import { updateUserAttributes, fetchUserAttributes } from 'aws-amplify/auth';
+import outputs from '../../../../amplify_outputs.json';
 
 export class AvatarService {
     /**
@@ -21,22 +22,22 @@ export class AvatarService {
                 },
             }).result;
 
-            // 2. Update the Cognito User Attribute 'picture' with the S3 key (path)
-            // We store the path so we can generate fresh signed URLs on demand
-            const s3Key = uploadResult.path;
+            // 2. Construct the public URL
+            // Format: https://<bucket-name>.s3.<region>.amazonaws.com/<path>
+            const bucketName = outputs.storage.bucket_name;
+            const region = outputs.storage.aws_region;
+            const path = uploadResult.path;
 
+            const publicUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${path}`;
+
+            // 3. Update the Cognito User Attribute 'picture' with the public URL
             await updateUserAttributes({
                 userAttributes: {
-                    picture: s3Key,
+                    picture: publicUrl,
                 },
             });
 
-            // 3. Get the accessible URL for the uploaded image to return immediately
-            const urlResult = await getUrl({
-                path: s3Key,
-            });
-
-            return urlResult.url.toString();
+            return publicUrl;
         } catch (error) {
             console.error('Error updating avatar:', error);
             throw error;
@@ -45,7 +46,6 @@ export class AvatarService {
 
     /**
      * Fetches the current user's avatar URL from their attributes
-     * If the attribute is an S3 path, generates a fresh signed URL
      */
     static async getCurrentAvatarUrl(): Promise<string | undefined> {
         try {
@@ -55,35 +55,12 @@ export class AvatarService {
 
             if (!pictureAttribute) return undefined;
 
-            // Check if it's a full URL (e.g. from social provider or legacy implementation)
+            // If it's already a full URL, return it
             if (pictureAttribute.startsWith('http')) {
-                // Attempt to rescue broken public S3 URLs that return 403
-                // Pattern: ...amazonaws.com/avatars/...
-                if (pictureAttribute.includes('.amazonaws.com/avatars/')) {
-                    const keyMatch = pictureAttribute.match(/(avatars\/.*)/);
-                    if (keyMatch && keyMatch[1]) {
-                        try {
-                            const urlResult = await getUrl({
-                                path: keyMatch[1],
-                            });
-                            return urlResult.url.toString();
-                        } catch (e) {
-                            console.warn(
-                                'Failed to convert public URL to signed URL:',
-                                e
-                            );
-                        }
-                    }
-                }
                 return pictureAttribute;
             }
 
-            // Assume it's an S3 path and generate a signed URL
-            const urlResult = await getUrl({
-                path: pictureAttribute,
-            });
-
-            return urlResult.url.toString();
+            return undefined;
         } catch (error) {
             console.error('Error fetching avatar URL:', error);
             return undefined;
