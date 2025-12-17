@@ -108,9 +108,5 @@ describe('SectionEditor', () => {
         expect(
             screen.getByText(/You haven't created any/i)
         ).toBeInTheDocument();
-        expect(screen.getByRole('link')).toHaveAttribute(
-            'href',
-            expect.stringContaining('/anvil/create')
-        );
     });
 });

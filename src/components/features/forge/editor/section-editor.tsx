@@ -8,15 +8,20 @@ import CvSectionEditorSortDropdown from '../forge-components/cv-section-editor-b
 import CvEditorHeader from '../forge-components/cv-editor-header';
 import CvSectionEditorBillets from '../forge-components/cv-section-editor-billet';
 import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
-import Link from 'next/link';
 import { Button } from '@/ui/shadcn/button';
 import React from 'react';
 import { CV } from '@/lib/types/cv-types';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { redirect } from 'next/navigation';
 
 export function SectionEditor() {
-    const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
-        useCvEditorState();
+    const {
+        cv,
+        autoSaveCv,
+        activeSectionIndex,
+        availableIngots,
+        toggleIngotInSection,
+    } = useCvEditorState();
 
     if (!cv || activeSectionIndex === null) return null;
 
@@ -40,6 +45,13 @@ export function SectionEditor() {
     // Checks if any ingots have a date value, implying they can be sorted by date
     const canSortIngots =
         IngotHelpers.checkIngotsCanBeSortedByDate(relevantIngots);
+
+    async function handleCreateNewIngot() {
+        await autoSaveCv();
+        redirect(
+            `/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as CV).id}`
+        );
+    }
 
     return (
         <div className="space-y-6">
@@ -80,16 +92,14 @@ export function SectionEditor() {
                             {`You haven't created any ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} yet.`}
                         </TypographyP>
 
-                        <Link
-                            href={`/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as CV).id}`}
+                        {/* HERE! */}
+                        <Button
+                            variant="outline"
+                            className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"
+                            onClick={handleCreateNewIngot}
                         >
-                            <Button
-                                variant="outline"
-                                className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"
-                            >
-                                {`Create a ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} ingot`}
-                            </Button>
-                        </Link>
+                            {`Create a ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} ingot`}
+                        </Button>
                     </div>
                 ) : (
                     <div className="space-y-2">
