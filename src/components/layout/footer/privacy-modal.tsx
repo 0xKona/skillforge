@@ -48,7 +48,7 @@ export function PrivacyModal() {
                                 Your personal data, CVs, and Ingots are yours
                                 alone. We do not use your content for marketing
                                 campaigns, nor do we use it to train any AI
-                                models. Your career history remains private.
+                                models.
                             </TypographyP>
                         </div>
                     </div>
@@ -65,10 +65,9 @@ export function PrivacyModal() {
                             <TypographyP className="text-slate-400 text-sm leading-relaxed">
                                 We utilize strict{' '}
                                 <strong>Owner-Based Authorization</strong>. This
-                                means your data is cryptographically tied to
-                                your user identity. Only you can read, update,
-                                or delete your information. Even other logged-in
-                                users cannot access your data.
+                                means your data is tied to your user identity.
+                                Only you can read, update, or delete your
+                                information.
                             </TypographyP>
                         </div>
                     </div>
@@ -85,9 +84,8 @@ export function PrivacyModal() {
                             <TypographyP className="text-slate-400 text-sm leading-relaxed">
                                 SkillForge is built on secure{' '}
                                 <strong>AWS</strong> infrastructure. Your data
-                                is stored in a secure database and leverages
-                                industry-standard encryption at rest and in
-                                transit.
+                                securely and leverages industry-standard
+                                encryption at rest and in transit.
                             </TypographyP>
                         </div>
                     </div>
