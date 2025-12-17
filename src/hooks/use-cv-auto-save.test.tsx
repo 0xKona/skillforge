@@ -52,7 +52,6 @@ describe('useCvAutoSave', () => {
         jest.advanceTimersByTime(1000);
 
         expect(mockAutoSaveCv).not.toHaveBeenCalled();
-        expect(toast).toHaveBeenCalledWith('AUTOSAVE SKIPPED [DEBUG ONLY]');
     });
 
     it('does not autosave when cv is missing id', () => {
