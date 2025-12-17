@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runWithAmplifyServerContext } from '@/lib/amplify/server-utils';
 import { fetchAuthSession } from 'aws-amplify/auth/server';
-import { AUTH_ROUTES, PROTECTED_ROUTES } from './lib/constants/routing';
+import { AUTH_ROUTES, PROTECTED_ROUTES } from '@/lib/constants/routing';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -12,56 +12,43 @@ export async function middleware(request: NextRequest) {
     );
     const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
 
-    try {
-        // Use runWithAmplifyServerContext to verify the session
-        const response = NextResponse.next();
+    // OPTIMIZATION: Only run the Amplify Server Context if the route actually requires it.
+    // This prevents the "Cold Start" / Token Refresh lag on public routes.
+    if (isProtectedRoute || isAuthRoute) {
+        try {
+            // Use runWithAmplifyServerContext to verify the session
+            const response = NextResponse.next();
 
-        const authenticated = await runWithAmplifyServerContext({
-            nextServerContext: { request, response },
-            operation: async (contextSpec) => {
-                try {
-                    const session = await fetchAuthSession(contextSpec);
-                    return !!session.tokens;
-                } catch (error) {
-                    console.error('Auth session error:', error);
-                    return false;
-                }
-            },
-        });
+            const authenticated = await runWithAmplifyServerContext({
+                nextServerContext: { request, response },
+                operation: async (contextSpec) => {
+                    try {
+                        const session = await fetchAuthSession(contextSpec);
+                        return !!session.tokens;
+                    } catch (error) {
+                        console.error('Auth session error:', error);
+                        return false;
+                    }
+                },
+            });
 
-        // console.log(
-        //     '[Middleware]: User authenticated?: ',
-        //     { pathname },
-        //     { authenticated },
-        //     { isProtectedRoute },
-        //     { request }
-        // );
+            if (isProtectedRoute && !authenticated) {
+                return NextResponse.redirect(new URL('/login', request.url));
+            }
 
-        // If user is not authenticated and trying to access protected route
-        if (isProtectedRoute && !authenticated) {
-            // console.log('[Middleware]: Protected Route Triggered: ', pathname);
-            const url = request.nextUrl.clone();
-            url.pathname = '/login';
-            // Store the original URL to redirect back after login
-            url.searchParams.set('redirectTo', pathname);
-            return NextResponse.redirect(url);
+            if (isAuthRoute && authenticated) {
+                return NextResponse.redirect(new URL('/forge', request.url));
+            }
+
+            return response;
+        } catch (error) {
+            console.error('Middleware error:', error);
+            return NextResponse.next();
         }
-
-        // If user is authenticated and trying to access auth routes (login/signup)
-        if (isAuthRoute && authenticated) {
-            const redirectTo = request.nextUrl.searchParams.get('redirectTo');
-            const url = request.nextUrl.clone();
-            url.pathname = redirectTo || '/forge';
-            url.search = ''; // Clear query params
-            return NextResponse.redirect(url);
-        }
-
-        return response;
-    } catch (error) {
-        console.error('Middleware error:', error);
-        // On error, allow the request to continue
-        return NextResponse.next();
     }
+
+    // For public routes, proceed without blocking on Auth
+    return NextResponse.next();
 }
 
 export const config = {

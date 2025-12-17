@@ -11,10 +11,7 @@ import {
     editPasswordFormSchema,
     EditPasswordFormValues,
 } from '@/lib/zod-form-schemas/edit-password-schema';
-import {
-    TypographyH3,
-    TypographyP,
-} from '@/ui/typography/typography';
+import { TypographyH3, TypographyP } from '@/ui/typography/typography';
 
 export default function EditPasswordPage() {
     const [isSaving, setIsSaving] = useState(false);

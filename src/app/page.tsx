@@ -1,19 +1,13 @@
 import PageWrapper from '@/components/layout/wrappers/page-wrapper';
-import { isAuthenticated } from '@/lib/amplify/server-utils';
 import { HomeHero } from '@/components/sections/home/home-hero';
 import { AboutFeatures } from '@/components/sections/about/about-features';
 import { HomeLearnMore } from '@/components/sections/home/home-learn-more';
-import {
-    TypographyH2,
-    TypographyP,
-} from '@/ui/typography/typography';
+import { TypographyH2, TypographyP } from '@/ui/typography/typography';
 
-export default async function Home() {
-    const isLoggedIn = await isAuthenticated();
-
+export default function Home() {
     return (
         <PageWrapper className="flex flex-col min-h-screen bg-slate-950">
-            <HomeHero isLoggedIn={isLoggedIn} />
+            <HomeHero />
 
             <div className="py-24 border-y border-slate-800/50 bg-slate-900/20">
                 <div className="text-center mb-12 px-6">

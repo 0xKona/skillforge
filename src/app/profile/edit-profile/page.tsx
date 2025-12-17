@@ -13,10 +13,7 @@ import {
     editProfileFormSchema,
     EditProfileFormValues,
 } from '@/lib/zod-form-schemas/edit-profile-schema';
-import {
-    TypographyH3,
-    TypographyP,
-} from '@/ui/typography/typography';
+import { TypographyH3, TypographyP } from '@/ui/typography/typography';
 
 export default function EditProfilePage() {
     const [isLoading, setIsLoading] = useState(true);

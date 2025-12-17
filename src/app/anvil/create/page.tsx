@@ -6,6 +6,7 @@ import IngotTypeSelection from '@/components/features/anvil/ingot-type-selection
 import { Suspense } from 'react';
 import { NewIngot } from '@/lib/types/ingot-types';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import IngotEditorSkeleton from '@/components/features/anvil/editor/ingot-editor-skeleton';
 
 function CreateIngotContent() {
     const searchParams = useSearchParams();
@@ -26,7 +27,7 @@ function CreateIngotContent() {
 
 export default function CreateIngotPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<IngotEditorSkeleton />}>
             <CreateIngotContent />
         </Suspense>
     );
