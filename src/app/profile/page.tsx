@@ -1,5 +1,8 @@
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useRouter } from 'next/navigation';
 
 export default function UserManagementPage() {
-    redirect('/profile/edit-profile');
+    const router = useRouter();
+    router.push('/profile/edit-profile');
 }
