@@ -21,7 +21,7 @@ export const useCvAutoSave = (intervalMs: number = 30000) => {
             // If cv has not changed, don't autosave
             if (JSON.stringify(cv) === JSON.stringify(originalCv)) {
                 // DEBUG ONLY
-                toast('AUTOSAVE SKIPPED [DEBUG ONLY]');
+                // toast('AUTOSAVE SKIPPED [DEBUG ONLY]');
                 return;
             }
 
