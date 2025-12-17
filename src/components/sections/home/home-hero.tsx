@@ -1,3 +1,5 @@
+'use client';
+
 import Logo from '@/components/common/icons/logo';
 import { Button } from '@/ui/shadcn/button';
 import {
@@ -7,12 +9,11 @@ import {
 } from '@/ui/typography/typography';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { useClientAuth } from '@/lib/store/use-client-auth';
 
-interface HomeHeroProps {
-    isLoggedIn: boolean;
-}
+export function HomeHero() {
+    const { isAuthenticated } = useClientAuth();
 
-export function HomeHero({ isLoggedIn }: HomeHeroProps) {
     return (
         <div className="flex flex-col items-center text-center space-y-8 py-16 md:py-32 max-w-5xl mx-auto px-6 relative z-10">
             <div className="animate-in fade-in zoom-in duration-800">
@@ -30,12 +31,14 @@ export function HomeHero({ isLoggedIn }: HomeHeroProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-8 animate-in slide-in-from-bottom-4 duration-1000 delay-300 fill-mode-backwards">
-                <Link href={isLoggedIn ? '/forge' : '/login'}>
+                <Link href={isAuthenticated ? '/forge' : '/login'}>
                     <Button
                         size="lg"
                         className="bg-forge-orange hover:bg-orange-600 text-white font-bold text-lg px-8 py-4 h-auto shadow-lg shadow-orange-900/20 cursor-pointer"
                     >
-                        {isLoggedIn ? 'Enter the Forge' : 'Start Forging Now'}
+                        {isAuthenticated
+                            ? 'Enter the Forge'
+                            : 'Start Forging Now'}
                         <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                 </Link>
