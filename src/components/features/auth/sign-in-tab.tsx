@@ -101,6 +101,7 @@ export default function SignInTab() {
 
                 // Redirect to desired page or dashboard by default
                 const redirectTo = searchParams?.get('redirectTo') || '/forge';
+                router.refresh();
                 router.push(redirectTo);
             }
         } catch (err) {

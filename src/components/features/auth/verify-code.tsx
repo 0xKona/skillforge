@@ -65,6 +65,7 @@ export default function VerifyCodeCard() {
                             resetAuthFlow();
 
                             // Redirect to dashboard
+                            router.refresh();
                             router.push('/forge');
                         }
                     } catch (signInErr) {

@@ -14,9 +14,16 @@ import Link from 'next/link';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 import React from 'react';
 import { Skeleton } from '@/ui/shadcn/skeleton';
+import { useRouter } from 'next/navigation';
 
 export default function UserDropdown() {
     const { signOut, avatarUrl } = useClientAuth();
+    const router = useRouter();
+
+    const handleSignOut = async () => {
+        await signOut();
+        router.refresh();
+    };
 
     return (
         <DropdownMenu>
@@ -35,7 +42,7 @@ export default function UserDropdown() {
                         <DropdownMenuItem>Profile</DropdownMenuItem>
                     </Link>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={signOut}>
+                    <DropdownMenuItem onClick={handleSignOut}>
                         Log out
                     </DropdownMenuItem>
                 </DropdownMenuGroup>

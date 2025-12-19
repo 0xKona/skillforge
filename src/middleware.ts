@@ -35,11 +35,33 @@ export async function middleware(request: NextRequest) {
             });
 
             if (isProtectedRoute && !authenticated) {
-                return NextResponse.redirect(new URL('/login', request.url));
+                const redirectResponse = NextResponse.redirect(
+                    new URL('/login', request.url)
+                );
+                // Copy cookies from the response to the redirect response
+                response.cookies.getAll().forEach((cookie) => {
+                    redirectResponse.cookies.set(
+                        cookie.name,
+                        cookie.value,
+                        cookie
+                    );
+                });
+                return redirectResponse;
             }
 
             if (isAuthRoute && authenticated) {
-                return NextResponse.redirect(new URL('/forge', request.url));
+                const redirectResponse = NextResponse.redirect(
+                    new URL('/forge', request.url)
+                );
+                // Copy cookies from the response to the redirect response
+                response.cookies.getAll().forEach((cookie) => {
+                    redirectResponse.cookies.set(
+                        cookie.name,
+                        cookie.value,
+                        cookie
+                    );
+                });
+                return redirectResponse;
             }
 
             return response;
