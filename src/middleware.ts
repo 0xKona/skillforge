@@ -18,6 +18,8 @@ export async function middleware(request: NextRequest) {
         try {
             // Use runWithAmplifyServerContext to verify the session
             const response = NextResponse.next();
+            // Prevent CDN/middleware caching of auth state
+            response.headers.set('Cache-Control', 'no-store, must-revalidate');
 
             const authenticated = await runWithAmplifyServerContext({
                 nextServerContext: { request, response },
@@ -42,7 +44,8 @@ export async function middleware(request: NextRequest) {
 
             return response;
         } catch (error) {
-            console.error('Middleware error:', error);
+            // Log error with more detail
+            console.error('Middleware error:', error, { url: request.url });
             return NextResponse.next();
         }
     }
