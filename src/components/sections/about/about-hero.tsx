@@ -11,8 +11,8 @@ export function AboutHero() {
     return (
         <div className="flex flex-col items-center text-center space-y-6 py-12 md:py-24 max-w-4xl mx-auto px-6">
             <div className="space-y-4">
-                <TypographyH1 className="text-5xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400">
-                    Forge Your Professional Future
+                <TypographyH1 className="text-5xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400 pb-2">
+                    What is SkillForge?
                 </TypographyH1>
                 <TypographyP className="text-xl text-slate-400 max-w-2xl mx-auto">
                     <HighlightSpanTextP>SkillForge</HighlightSpanTextP> is the
