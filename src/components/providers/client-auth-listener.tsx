@@ -53,21 +53,52 @@ export function ClientAuthListener() {
 
         // If auth state changed, refresh router to sync with server middleware
         if (authStateChanged) {
+            console.log('[ClientAuthListener] Auth state changed:', {
+                wasAuthenticated: prevAuthRef.current,
+                nowAuthenticated: isAuthenticated,
+                pathname,
+            });
             router.refresh();
+
+            // If user just authenticated and is on login page, wait a moment
+            // for server sync before redirecting to avoid race condition
+            if (isAuthenticated && isAuthRoute) {
+                console.log(
+                    '[ClientAuthListener] Just authenticated on auth route, scheduling redirect to /forge'
+                );
+                // Use setTimeout to allow server state to sync
+                setTimeout(() => {
+                    if (typeof window !== 'undefined') {
+                        console.log(
+                            '[ClientAuthListener] Executing hard navigation to /forge'
+                        );
+                        window.location.href = '/forge';
+                    }
+                }, 100);
+                return; // Exit early to prevent immediate redirect
+            }
         }
 
         // Handle redirects
         if (!isAuthenticated) {
             // User is NOT authenticated
             if (isProtectedRoute) {
+                console.log(
+                    '[ClientAuthListener] Unauthenticated user on protected route, redirecting to /login'
+                );
                 // Redirect from protected routes to login
                 router.replace('/login');
             }
         } else {
             // User IS authenticated
-            if (isAuthRoute) {
-                // Redirect from auth routes (like /login) to forge
-                router.replace('/forge');
+            if (isAuthRoute && !authStateChanged) {
+                console.log(
+                    '[ClientAuthListener] Authenticated user on auth route (no state change), redirecting to /forge'
+                );
+                // Only redirect if NOT just authenticated (to avoid double redirect)
+                if (typeof window !== 'undefined') {
+                    window.location.href = '/forge';
+                }
             }
         }
     }, [isAuthenticated, loading, pathname, router]);

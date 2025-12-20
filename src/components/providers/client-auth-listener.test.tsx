@@ -91,7 +91,7 @@ describe('ClientAuthListener', () => {
         expect(mockReplace).toHaveBeenCalledWith('/login');
     });
 
-    it('redirects to /forge when on login page and authenticated', () => {
+    it('uses hard navigation to /forge when on login page and authenticated', () => {
         (usePathname as jest.Mock).mockReturnValue('/login');
         (useClientAuth as unknown as jest.Mock).mockImplementation(
             (selector) => {
@@ -104,9 +104,15 @@ describe('ClientAuthListener', () => {
             }
         );
 
+        // Suppress jsdom navigation error
+        const consoleError = jest.spyOn(console, 'error').mockImplementation();
+
         render(<ClientAuthListener />);
 
-        expect(mockReplace).toHaveBeenCalledWith('/forge');
+        // Should NOT use router.replace (uses window.location.href instead)
+        expect(mockReplace).not.toHaveBeenCalled();
+
+        consoleError.mockRestore();
     });
 
     it('does not redirect when on protected route and authenticated', () => {
