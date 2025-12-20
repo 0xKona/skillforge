@@ -8,6 +8,7 @@ import {
 import type { FetchUserAttributesOutput } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
 import { AvatarService } from '@/lib/classes/services/avatar-service';
+import { redirect } from 'next/navigation';
 
 interface ClientAuthState {
     userAttributes: FetchUserAttributesOutput | null;
@@ -103,10 +104,12 @@ export const useClientAuth = create<ClientAuthState>((set, get) => ({
         const unsubscribe = Hub.listen('auth', ({ payload }) => {
             switch (payload.event) {
                 case 'signedIn':
+                    redirect('/forge');
                 case 'tokenRefresh':
                     checkAuthStatus();
                     break;
                 case 'signedOut':
+                    redirect('/home');
                 case 'tokenRefresh_failure':
                     set({
                         isAuthenticated: false,
