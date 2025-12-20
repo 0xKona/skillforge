@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useClientAuth } from '@/lib/store/use-client-auth';
 import { usePathname, useRouter } from 'next/navigation';
 import { PROTECTED_ROUTES, AUTH_ROUTES } from '@/lib/constants/routing';
@@ -8,10 +8,12 @@ import { PROTECTED_ROUTES, AUTH_ROUTES } from '@/lib/constants/routing';
 /**
  * ClientAuthListener
  *
- * 1. Initializes the client-side auth store listener to keep UI in sync with auth state.
- * 2. Watches for auth state changes and automatically redirects:
- *    - Unauthenticated users to /login if they are on a protected route.
- *    - Authenticated users to /forge if they are on an auth route (e.g., /login).
+ * Centralized client-side authentication listener that:
+ * 1. Initializes the auth store and Hub listeners
+ * 2. Handles ALL client-side redirects based on auth state
+ * 3. Syncs client state with server by refreshing router after auth changes
+ *
+ * This is the SINGLE SOURCE OF TRUTH for client-side auth redirects.
  */
 export function ClientAuthListener() {
     const initialize = useClientAuth((state) => state.initialize);
@@ -20,12 +22,18 @@ export function ClientAuthListener() {
     const router = useRouter();
     const pathname = usePathname();
 
+    // Track previous auth state to detect changes
+    const prevAuthRef = useRef<boolean | null>(null);
+
+    // Initialize auth store and Hub listeners once
     useEffect(() => {
         const unsubscribe = initialize();
         return () => unsubscribe();
     }, [initialize]);
 
+    // Handle redirects based on auth state changes
     useEffect(() => {
+        // Don't redirect while still loading initial auth state
         if (loading) return;
 
         const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
@@ -35,10 +43,32 @@ export function ClientAuthListener() {
             pathname.startsWith(route)
         );
 
-        if (isProtectedRoute && !isAuthenticated) {
-            router.replace('/login');
-        } else if (isAuthRoute && isAuthenticated) {
-            router.replace('/forge');
+        // Detect if auth state just changed
+        const authStateChanged =
+            prevAuthRef.current !== null &&
+            prevAuthRef.current !== isAuthenticated;
+
+        // Update ref for next check
+        prevAuthRef.current = isAuthenticated;
+
+        // If auth state changed, refresh router to sync with server middleware
+        if (authStateChanged) {
+            router.refresh();
+        }
+
+        // Handle redirects
+        if (!isAuthenticated) {
+            // User is NOT authenticated
+            if (isProtectedRoute) {
+                // Redirect from protected routes to login
+                router.replace('/login');
+            }
+        } else {
+            // User IS authenticated
+            if (isAuthRoute) {
+                // Redirect from auth routes (like /login) to forge
+                router.replace('/forge');
+            }
         }
     }, [isAuthenticated, loading, pathname, router]);
 

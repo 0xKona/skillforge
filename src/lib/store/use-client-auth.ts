@@ -8,7 +8,6 @@ import {
 import type { FetchUserAttributesOutput } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
 import { AvatarService } from '@/lib/classes/services/avatar-service';
-import { redirect } from 'next/navigation';
 
 interface ClientAuthState {
     userAttributes: FetchUserAttributesOutput | null;
@@ -81,12 +80,16 @@ export const useClientAuth = create<ClientAuthState>((set, get) => ({
 
     signOut: async () => {
         try {
+            // Sign out from Amplify
             await amplifySignOut();
+
+            // Immediately clear all auth state
             set({
                 userAttributes: null,
                 isAuthenticated: false,
                 userId: null,
                 avatarUrl: undefined,
+                loading: false,
             });
         } catch (err) {
             console.error('Error signing out:', err);
@@ -100,22 +103,32 @@ export const useClientAuth = create<ClientAuthState>((set, get) => ({
         // Initial check
         checkAuthStatus();
 
-        // Listen for auth events
+        // Listen for auth events - ONLY update state, let ClientAuthListener handle redirects
         const unsubscribe = Hub.listen('auth', ({ payload }) => {
             switch (payload.event) {
                 case 'signedIn':
-                    redirect('/forge');
                 case 'tokenRefresh':
+                    // Refresh auth state to sync with Amplify
                     checkAuthStatus();
                     break;
                 case 'signedOut':
-                    redirect('/home');
-                case 'tokenRefresh_failure':
+                    // Immediately clear auth state
                     set({
                         isAuthenticated: false,
                         userAttributes: null,
                         userId: null,
                         avatarUrl: undefined,
+                        loading: false,
+                    });
+                    break;
+                case 'tokenRefresh_failure':
+                    // Token refresh failed - clear auth state
+                    set({
+                        isAuthenticated: false,
+                        userAttributes: null,
+                        userId: null,
+                        avatarUrl: undefined,
+                        loading: false,
                     });
                     break;
             }

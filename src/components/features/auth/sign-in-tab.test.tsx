@@ -223,7 +223,7 @@ describe('SignInTab Component', () => {
             });
         });
 
-        it('Should redirect to dashboard on successful sign in', async () => {
+        it('Should show success message on successful sign in', async () => {
             const user = userEvent.setup();
             mockSignIn.mockResolvedValueOnce({
                 isSignedIn: true,
@@ -241,12 +241,19 @@ describe('SignInTab Component', () => {
             await user.type(passwordInput, 'TestPassword123!');
             await user.click(submitButton);
 
+            // ClientAuthListener handles redirect, check that form doesn't show error
             await waitFor(() => {
-                expect(mockPush).toHaveBeenCalledWith('/forge');
+                expect(
+                    screen.queryByText(/failed to sign in/i)
+                ).not.toBeInTheDocument();
+                expect(mockSignIn).toHaveBeenCalledWith({
+                    username: 'test@example.com',
+                    password: 'TestPassword123!',
+                });
             });
         });
 
-        it('Should redirect to custom route if redirectTo param exists', async () => {
+        it('Should handle successful sign in (redirectTo param no longer used)', async () => {
             const user = userEvent.setup();
             mockSignIn.mockResolvedValueOnce({
                 isSignedIn: true,
@@ -264,8 +271,15 @@ describe('SignInTab Component', () => {
             await user.type(passwordInput, 'TestPassword123!');
             await user.click(submitButton);
 
+            // Note: redirectTo param is no longer used, ClientAuthListener always redirects to /forge
             await waitFor(() => {
-                expect(mockPush).toHaveBeenCalledWith('/custom-page');
+                expect(
+                    screen.queryByText(/failed to sign in/i)
+                ).not.toBeInTheDocument();
+                expect(mockSignIn).toHaveBeenCalledWith({
+                    username: 'test@example.com',
+                    password: 'TestPassword123!',
+                });
             });
         });
 
