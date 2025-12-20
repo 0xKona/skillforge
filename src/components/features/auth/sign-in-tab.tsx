@@ -10,7 +10,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import SubmitAuthForm from './submit-form';
 import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
-import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import FormInput from '@/ui/form-input';
 
@@ -43,9 +42,6 @@ export default function SignInTab() {
         setVerificationEmail,
         setShowForgotPassword,
     } = useAuthFlowState();
-
-    const router = useRouter();
-    const searchParams = useSearchParams();
 
     const signInForm = useForm<SignInForm>({
         resolver: zodResolver(signInFormSchema),
@@ -99,9 +95,11 @@ export default function SignInTab() {
                 // Clear any stored data
                 passwordStorage.clear();
 
-                // Redirect to desired page or dashboard by default
-                const redirectTo = searchParams?.get('redirectTo') || '/forge';
-                router.push(redirectTo);
+                // Success message - ClientAuthListener will handle redirect to /forge
+                setSuccessMessage('Successfully signed in! Redirecting...');
+
+                // Note: No manual redirect needed. The Hub 'signedIn' event will trigger
+                // ClientAuthListener which will handle the redirect to /forge
             }
         } catch (err) {
             console.error('Sign in error: ', err);
