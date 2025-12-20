@@ -10,7 +10,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import SubmitAuthForm from './submit-form';
 import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
-import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import FormInput from '@/ui/form-input';
 
@@ -43,8 +42,6 @@ export default function SignInTab() {
         setVerificationEmail,
         setShowForgotPassword,
     } = useAuthFlowState();
-
-    const searchParams = useSearchParams();
 
     const signInForm = useForm<SignInForm>({
         resolver: zodResolver(signInFormSchema),
