@@ -10,7 +10,7 @@ jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
 jest.mock('@/lib/constants/routing', () => ({
-    PROTECTED_ROUTES: ['/forge', '/anvil', '/profile'],
+    PROTECTED_ROUTES: ['/protected'],
     AUTH_ROUTES: ['/login'],
 }));
 
