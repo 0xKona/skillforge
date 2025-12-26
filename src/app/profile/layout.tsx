@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/common/widgets/back-button';
 import AvatarDisplayEditor from '@/components/features/profile/avatar-editor';
 import { Card } from '@/ui/shadcn/card';
 import PageWrapper from '@/components/layout/wrappers/page-wrapper';
@@ -40,9 +39,7 @@ export default function ProfileLayout({
         <PageWrapper className="min-h-screen flex flex-col px-4 md:px-10">
             <ConfigureAmplifyClientSide />
             <div className="flex-1 flex flex-col w-full max-w-screen-2xl mx-auto">
-                <div className="my-5">
-                    <BackButton />
-                </div>
+                <div className="my-5" />
                 <Card className="flex-1 w-full h-full z-10 rounded-bl-none rounded-br-none flex flex-col md:flex-row overflow-hidden">
                     {/* Sidebar */}
                     <aside className="w-full md:w-64 flex flex-col border-b md:border-b-0 md:border-r bg-muted/10">
