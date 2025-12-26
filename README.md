@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SkillForge
 
-## Getting Started
+A modern CV/Resume builder application that allows users to create, manage, and customize professional CVs using a modular "ingot" system. Built with Next.js, AWS Amplify, and TypeScript.
 
-First, run the development server:
+## Features
+
+- **Authentication** - Secure user authentication with AWS Cognito
+- **Modular CV Building** - Create CVs using reusable "ingots" (education, experience, skills, etc.)
+- **Cloud Storage** - All data securely stored in AWS DynamoDB
+- **Customizable Templates** - Flexible CV sections with various display options
+- **Responsive Design** - Works seamlessly across desktop and mobile devices
+- **Auto-save** - Never lose your work with automatic saving
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- AWS Amplify CLI (for backend deployment)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/skillforge.git
+cd skillforge
+
+# Install dependencies
+npm install
+
+# Start the AWS Amplify sandbox (required for backend services)
+npm run sandbox:start
+
+# In a new terminal, start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm test` - Run tests
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+- `npm run sandbox:start` - Start AWS Amplify sandbox
+- `npm run type-check` - Run TypeScript type checking
 
-## Learn More
+## Documentation
 
-To learn more about Next.js, take a look at the following resources:
+For more detailed information, check out these guides in the `docs/` folder:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **[Amplify Setup](docs/AMPLIFY.md)** - AWS Amplify backend configuration and deployment
+- **[Authentication Reference](docs/AUTH_REFERENCE.md)** - User authentication flows and implementation
+- **[Components Guide](docs/COMPONENTS_FOLDER.md)** - Component structure and organization
+- **[Color Scheme](docs/COLOR_SCHEME.md)** - Design system and color palette
+- **[Accessibility](docs/ACCESSIBILITY.md)** - Accessibility features and guidelines
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+skillforge/
+├── src/
+│   ├── app/              # Next.js app routes
+│   ├── components/       # React components
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utilities and services
+│   └── test-utils/      # Testing utilities
+├── amplify/             # AWS Amplify backend configuration
+├── diagrams/            # Architecture and flow diagrams
+├── docs/                # Documentation
+└── public/              # Static assets
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Backend**: AWS Amplify (DynamoDB, Cognito, S3)
+- **Styling**: Tailwind CSS, shadcn/ui
+- **State Management**: Zustand
+- **Forms**: React Hook Form + Zod
+- **Testing**: Jest, React Testing Library
