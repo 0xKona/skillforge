@@ -11,6 +11,17 @@ A modern CV/Resume builder application that allows users to create, manage, and 
 - **Responsive Design** - Works seamlessly across desktop and mobile devices
 - **Auto-save** - Never lose your work with automatic saving
 
+## Screenshots
+
+### Home Page
+![SkillForge Home](docs/screenshots/skillforge_home.png)
+
+### Forge Builder
+![SkillForge Forge](docs/screenshots/skillforge_forge.png)
+
+### Anvil Interface
+![SkillForge Anvil](docs/screenshots/skillforge_anvil.png)
+
 ## Quick Start
 
 ### Prerequisites
