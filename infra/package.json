@@ -6,12 +6,9 @@
         "dev": "cdk deploy skillforge-dev --require-approval never && npx ts-node scripts/generate-frontend-env.ts dev",
         "synth": "cdk synth",
         "synth:pipeline": "cdk synth --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",
-        "deploy:test": "cdk deploy skillforge-test",
-        "deploy:prod": "cdk deploy skillforge-prod --require-approval broadening",
         "deploy:pipeline": "cdk deploy SkillForge-Pipeline --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",
         "diff": "cdk diff",
-        "diff:test": "cdk diff skillforge-test",
-        "diff:prod": "cdk diff skillforge-prod",
+        "config:dev": "npx ts-node scripts/generate-frontend-env.ts dev",
         "config:test": "npx ts-node scripts/generate-frontend-env.ts test",
         "config:prod": "npx ts-node scripts/generate-frontend-env.ts prod"
     },
