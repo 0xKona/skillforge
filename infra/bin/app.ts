@@ -7,7 +7,7 @@ import { stageConfigs } from '../lib/config/stage-config';
 const app = new App();
 
 // Test stack — resources can be freely destroyed
-new SkillForgeStack(app, 'SkillForge-test', {
+new SkillForgeStack(app, 'skillforge-test', {
     stageConfig: stageConfigs.test,
     env: {
         account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -16,7 +16,7 @@ new SkillForgeStack(app, 'SkillForge-test', {
 });
 
 // Prod stack — resources are protected from deletion
-new SkillForgeStack(app, 'SkillForge-prod', {
+new SkillForgeStack(app, 'skillforge-prod', {
     stageConfig: stageConfigs.prod,
     env: {
         account: process.env.CDK_DEFAULT_ACCOUNT,

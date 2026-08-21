@@ -4,11 +4,11 @@
     "private": true,
     "scripts": {
         "synth": "cdk synth",
-        "deploy:test": "cdk deploy SkillForge-test",
-        "deploy:prod": "cdk deploy SkillForge-prod --require-approval broadening",
+        "deploy:test": "cdk deploy skillforge-test",
+        "deploy:prod": "cdk deploy skillforge-prod --require-approval broadening",
         "diff": "cdk diff",
-        "diff:test": "cdk diff SkillForge-test",
-        "diff:prod": "cdk diff SkillForge-prod"
+        "diff:test": "cdk diff skillforge-test",
+        "diff:prod": "cdk diff skillforge-prod"
     },
     "dependencies": {
         "aws-cdk-lib": "^2.216.0",
