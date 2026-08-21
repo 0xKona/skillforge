@@ -11,7 +11,7 @@ describe('PipelineStack', () => {
         repoName: 'skillforge',
         triggerBranch: 'main',
         githubTokenSecretName: 'skillforge/github-token',
-        env: { account: '123456789', region: 'eu-west-2' },
+        env: { account: '123456789012', region: 'eu-west-2' },
     });
     const template = Template.fromStack(stack);
 

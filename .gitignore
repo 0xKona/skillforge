@@ -54,5 +54,7 @@ infra/lambda/*/ingot-handler
 .idea/
 .vscode/
 
-# kiro
+# AI Assistants
 .kiro/
+skills-lock.json
+.agents
