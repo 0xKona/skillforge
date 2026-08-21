@@ -1,216 +1,182 @@
 import { CvService } from './service-cv';
-import { generateClient } from 'aws-amplify/data';
-import CvHelpers from '../helpers/cv-helpers';
-import { NewCV, CvContent } from '@/lib/types/cv-types';
+import { CvContent } from '@/lib/types/cv-types';
 
-// Mock dependencies
-jest.mock('../helpers/cv-helpers');
-
-// Mock AWS Amplify Data with a factory
-jest.mock('aws-amplify/data', () => ({
-    generateClient: jest.fn(() => ({
-        models: {
-            CV: {
-                create: jest.fn(),
-                get: jest.fn(),
-                list: jest.fn(),
-                update: jest.fn(),
-                delete: jest.fn(),
-            },
-        },
-    })),
+// Mock the API client module
+jest.mock('@/lib/api/client', () => ({
+    apiGet: jest.fn(),
+    apiPost: jest.fn(),
+    apiPut: jest.fn(),
+    apiDelete: jest.fn(),
 }));
 
+import { apiGet, apiPost, apiPut, apiDelete } from '@/lib/api/client';
+
+const mockApiGet = apiGet as jest.Mock;
+const mockApiPost = apiPost as jest.Mock;
+const mockApiPut = apiPut as jest.Mock;
+const mockApiDelete = apiDelete as jest.Mock;
+
 describe('CvService', () => {
-    let mockCreate: jest.Mock;
-    let mockGet: jest.Mock;
-    let mockList: jest.Mock;
-    let mockUpdate: jest.Mock;
-    let mockDelete: jest.Mock;
-
-    beforeAll(() => {
-        // Get the mock functions from the client instance created at module level
-        const client = (generateClient as jest.Mock).mock.results[0].value;
-        mockCreate = client.models.CV.create;
-        mockGet = client.models.CV.get;
-        mockList = client.models.CV.list;
-        mockUpdate = client.models.CV.update;
-        mockDelete = client.models.CV.delete;
-    });
-
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    const mockCvContent: CvContent = {
-        sections: [],
-    };
+    const mockCvContent: CvContent = { sections: [] };
 
-    const mockNewCv: NewCV = {
-        title: 'Test CV',
-        version: 1,
-        description: 'Test Description',
-        cvContent: mockCvContent,
-    };
-
-    const mockDbCv = {
+    const mockApiCv = {
         id: 'cv-123',
-        title: 'Test CV',
+        title: 'My CV',
+        description: 'A test CV',
         version: 1,
-        description: 'Test Description',
         cvContent: JSON.stringify(mockCvContent),
+        owner: 'user-123',
         createdAt: '2023-01-01',
         updatedAt: '2023-01-01',
     };
-
-    const mockMappedCv = {
-        ...mockNewCv,
-        id: 'cv-123',
-        createdAt: '2023-01-01',
-        updatedAt: '2023-01-01',
-    };
-
-    beforeEach(() => {
-        (CvHelpers.mapDbDataToCv as jest.Mock).mockReturnValue(mockMappedCv);
-    });
 
     describe('createCv', () => {
-        it('should create a CV and return the mapped object', async () => {
-            // Arrange
-            mockCreate.mockResolvedValue({ data: mockDbCv, errors: undefined });
+        it('should POST to /cv and return the mapped CV', async () => {
+            mockApiPost.mockResolvedValue(mockApiCv);
 
-            // Act
-            const result = await CvService.createCv(mockNewCv);
+            const result = await CvService.createCv({
+                title: 'My CV',
+                description: 'A test CV',
+                version: 1,
+                cvContent: mockCvContent,
+            });
 
-            // Assert
-            expect(mockCreate).toHaveBeenCalledWith({
-                title: 'Test CV',
-                description: 'Test Description',
+            expect(mockApiPost).toHaveBeenCalledWith('/cv', {
+                title: 'My CV',
+                description: 'A test CV',
                 version: 1,
                 cvContent: JSON.stringify(mockCvContent),
             });
-            expect(result).toEqual(mockMappedCv);
+            expect(result).toEqual({
+                id: 'cv-123',
+                title: 'My CV',
+                description: 'A test CV',
+                version: 1,
+                cvContent: mockCvContent,
+                createdAt: '2023-01-01',
+                updatedAt: '2023-01-01',
+            });
         });
 
-        it('should throw an error if creation fails', async () => {
-            // Arrange
-            mockCreate.mockResolvedValue({
-                data: null,
-                errors: [{ message: 'Creation failed' }],
-            });
+        it('should propagate API errors', async () => {
+            mockApiPost.mockRejectedValue(new Error('Request failed'));
 
-            // Act & Assert
-            await expect(CvService.createCv(mockNewCv)).rejects.toThrow(
-                'Failed to create CV: Creation failed'
-            );
+            await expect(
+                CvService.createCv({
+                    title: 'Test',
+                    version: 1,
+                    cvContent: mockCvContent,
+                })
+            ).rejects.toThrow('Request failed');
         });
     });
 
     describe('getCv', () => {
-        it('should retrieve a CV by ID', async () => {
-            // Arrange
-            mockGet.mockResolvedValue({ data: mockDbCv, errors: undefined });
+        it('should GET /cv/:id and return the mapped CV', async () => {
+            mockApiGet.mockResolvedValue(mockApiCv);
 
-            // Act
             const result = await CvService.getCv('cv-123');
 
-            // Assert
-            expect(mockGet).toHaveBeenCalledWith({ id: 'cv-123' });
-            expect(result).toEqual(mockMappedCv);
+            expect(mockApiGet).toHaveBeenCalledWith('/cv/cv-123');
+            expect(result).toEqual(
+                expect.objectContaining({ id: 'cv-123', title: 'My CV' })
+            );
         });
 
-        it('should return null if CV is not found', async () => {
-            // Arrange
-            mockGet.mockResolvedValue({ data: null, errors: undefined });
+        it('should return null on 404', async () => {
+            const error = new Error('Not found');
+            (error as unknown as { status: number }).status = 404;
+            mockApiGet.mockRejectedValue(error);
 
-            // Act
             const result = await CvService.getCv('cv-999');
 
-            // Assert
             expect(result).toBeNull();
+        });
+
+        it('should rethrow non-404 errors', async () => {
+            mockApiGet.mockRejectedValue(new Error('Server error'));
+
+            await expect(CvService.getCv('cv-123')).rejects.toThrow(
+                'Server error'
+            );
         });
     });
 
     describe('listCvs', () => {
-        it('should list all CVs', async () => {
-            // Arrange
-            mockList.mockResolvedValue({
-                data: [mockDbCv],
-                errors: undefined,
-            });
+        it('should GET /cv and return mapped items', async () => {
+            mockApiGet.mockResolvedValue({ items: [mockApiCv] });
 
-            // Act
             const result = await CvService.listCvs();
 
-            // Assert
-            expect(mockList).toHaveBeenCalled();
+            expect(mockApiGet).toHaveBeenCalledWith('/cv');
             expect(result).toHaveLength(1);
-            expect(result[0]).toEqual(mockMappedCv);
+            expect(result[0].id).toBe('cv-123');
+        });
+
+        it('should return empty array when no CVs exist', async () => {
+            mockApiGet.mockResolvedValue({ items: [] });
+
+            const result = await CvService.listCvs();
+
+            expect(result).toEqual([]);
         });
     });
 
     describe('updateCv', () => {
-        it('should update a CV', async () => {
-            // Arrange
-            mockUpdate.mockResolvedValue({
-                data: mockDbCv,
-                errors: undefined,
+        it('should PUT /cv/:id with updated fields', async () => {
+            const updatedCv = { ...mockApiCv, title: 'Updated CV' };
+            mockApiPut.mockResolvedValue(updatedCv);
+
+            const result = await CvService.updateCv({
+                id: 'cv-123',
+                title: 'Updated CV',
+                description: 'A test CV',
+                version: 2,
+                cvContent: mockCvContent,
+                createdAt: '2023-01-01',
+                updatedAt: '2023-01-01',
             });
 
-            // Act
-            const result = await CvService.updateCv(mockMappedCv);
-
-            // Assert
-            expect(mockUpdate).toHaveBeenCalledWith({
-                id: 'cv-123',
-                title: 'Test CV',
-                description: 'Test Description',
-                version: 1,
+            expect(mockApiPut).toHaveBeenCalledWith('/cv/cv-123', {
+                title: 'Updated CV',
+                description: 'A test CV',
+                version: 2,
                 cvContent: JSON.stringify(mockCvContent),
             });
-            expect(result).toEqual(mockMappedCv);
+            expect(result.title).toBe('Updated CV');
         });
     });
 
     describe('deleteCv', () => {
-        it('should delete a CV', async () => {
-            // Arrange
-            mockDelete.mockResolvedValue({ errors: undefined });
+        it('should DELETE /cv/:id', async () => {
+            mockApiDelete.mockResolvedValue({});
 
-            // Act
             await CvService.deleteCv('cv-123');
 
-            // Assert
-            expect(mockDelete).toHaveBeenCalledWith({ id: 'cv-123' });
+            expect(mockApiDelete).toHaveBeenCalledWith('/cv/cv-123');
         });
     });
 
     describe('deleteAllCvs', () => {
-        it('should delete all CVs returned by list', async () => {
-            // Arrange
-            mockList.mockResolvedValue({
-                data: [
-                    { ...mockDbCv, id: 'cv-1' },
-                    { ...mockDbCv, id: 'cv-2' },
+        it('should list all then delete each', async () => {
+            mockApiGet.mockResolvedValue({
+                items: [
+                    { ...mockApiCv, id: 'cv-1' },
+                    { ...mockApiCv, id: 'cv-2' },
                 ],
-                errors: undefined,
             });
-            mockDelete.mockResolvedValue({ errors: undefined });
-            (CvHelpers.mapDbDataToCv as jest.Mock).mockImplementation(
-                (data) => ({
-                    ...mockMappedCv,
-                    id: data.id,
-                })
-            );
+            mockApiDelete.mockResolvedValue({});
 
-            // Act
             await CvService.deleteAllCvs();
 
-            // Assert
-            expect(mockList).toHaveBeenCalled();
-            expect(mockDelete).toHaveBeenCalledTimes(2);
-            expect(mockDelete).toHaveBeenCalledWith({ id: 'cv-1' });
-            expect(mockDelete).toHaveBeenCalledWith({ id: 'cv-2' });
+            expect(mockApiGet).toHaveBeenCalledWith('/cv');
+            expect(mockApiDelete).toHaveBeenCalledTimes(2);
+            expect(mockApiDelete).toHaveBeenCalledWith('/cv/cv-1');
+            expect(mockApiDelete).toHaveBeenCalledWith('/cv/cv-2');
         });
     });
 });
