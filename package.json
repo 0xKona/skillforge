@@ -14,11 +14,14 @@
         "frontend:dev": "bun run --cwd frontend dev",
         "frontend:build": "bun run --cwd frontend build",
         "frontend:test": "bun run --cwd frontend test",
+        "infra:dev": "bun run --cwd infra dev",
         "infra:synth": "bun run --cwd infra synth",
         "infra:deploy:test": "bun run --cwd infra deploy:test",
         "infra:deploy:prod": "bun run --cwd infra deploy:prod",
         "infra:diff": "bun run --cwd infra diff",
         "infra:config:test": "bun run --cwd infra config:test",
-        "infra:config:prod": "bun run --cwd infra config:prod"
+        "infra:config:prod": "bun run --cwd infra config:prod",
+        "infra:deploy:pipeline": "bun run --cwd infra deploy:pipeline",
+        "infra:synth:pipeline": "bun run --cwd infra synth:pipeline"
     }
 }

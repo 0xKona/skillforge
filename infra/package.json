@@ -3,9 +3,12 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
+        "dev": "cdk deploy skillforge-dev --require-approval never && npx ts-node scripts/generate-frontend-env.ts dev",
         "synth": "cdk synth",
+        "synth:pipeline": "cdk synth --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",
         "deploy:test": "cdk deploy skillforge-test",
         "deploy:prod": "cdk deploy skillforge-prod --require-approval broadening",
+        "deploy:pipeline": "cdk deploy SkillForge-Pipeline --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",
         "diff": "cdk diff",
         "diff:test": "cdk diff skillforge-test",
         "diff:prod": "cdk diff skillforge-prod",
@@ -13,6 +16,7 @@
         "config:prod": "npx ts-node scripts/generate-frontend-env.ts prod"
     },
     "dependencies": {
+        "@aws-cdk/aws-amplify-alpha": "^2.266.0-alpha.0",
         "@aws-sdk/client-cloudformation": "^3.1115.0",
         "aws-cdk-lib": "^2.216.0",
         "constructs": "^10.4.3"

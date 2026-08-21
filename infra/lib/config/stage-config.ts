@@ -1,6 +1,6 @@
 import { RemovalPolicy } from 'aws-cdk-lib';
 
-export type Stage = 'test' | 'prod';
+export type Stage = 'dev' | 'test' | 'prod';
 
 export interface StageConfig {
     stage: Stage;
@@ -9,6 +9,11 @@ export interface StageConfig {
 }
 
 export const stageConfigs: Record<Stage, StageConfig> = {
+    dev: {
+        stage: 'dev',
+        removalPolicy: RemovalPolicy.DESTROY,
+        deletionProtection: false,
+    },
     test: {
         stage: 'test',
         removalPolicy: RemovalPolicy.DESTROY,

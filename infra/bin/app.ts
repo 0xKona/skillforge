@@ -6,7 +6,16 @@ import { stageConfigs } from '../lib/config/stage-config';
 
 const app = new App();
 
-// Test stack — resources can be freely destroyed
+// Dev stack — local development sandbox, deployed manually
+new SkillForgeStack(app, 'skillforge-dev', {
+    stageConfig: stageConfigs.dev,
+    env: {
+        account: process.env.CDK_DEFAULT_ACCOUNT,
+        region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-2',
+    },
+});
+
+// Test stack — pipeline deploys here automatically
 new SkillForgeStack(app, 'skillforge-test', {
     stageConfig: stageConfigs.test,
     env: {
@@ -15,7 +24,7 @@ new SkillForgeStack(app, 'skillforge-test', {
     },
 });
 
-// Prod stack — resources are protected from deletion
+// Prod stack — pipeline deploys here after approval
 new SkillForgeStack(app, 'skillforge-prod', {
     stageConfig: stageConfigs.prod,
     env: {

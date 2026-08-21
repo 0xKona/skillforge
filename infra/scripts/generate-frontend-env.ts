@@ -16,7 +16,7 @@ import {
 import * as fs from 'fs';
 import * as path from 'path';
 
-type Stage = 'test' | 'prod';
+type Stage = 'dev' | 'test' | 'prod';
 
 const STACK_PREFIX = 'skillforge';
 
@@ -71,7 +71,7 @@ function generateEnvContent(
         if (value) {
             lines.push(`${envVar}=${value}`);
         } else {
-            console.warn(`⚠️  Output "${outputKey}" not found in stack outputs`);
+            console.warn(`[WARN] Output "${outputKey}" not found in stack outputs`);
         }
     }
 
@@ -84,14 +84,14 @@ function generateEnvContent(
 async function main() {
     const stage = process.argv[2] as Stage;
 
-    if (!stage || !['test', 'prod'].includes(stage)) {
-        console.error('Usage: npx ts-node scripts/generate-frontend-env.ts <test|prod>');
+    if (!stage || !['dev', 'test', 'prod'].includes(stage)) {
+        console.error('Usage: npx ts-node scripts/generate-frontend-env.ts <dev|test|prod>');
         process.exit(1);
     }
 
     const region = process.env.AWS_REGION ?? 'eu-west-2';
 
-    console.log(`📡 Fetching outputs from stack: ${STACK_PREFIX}-${stage}...`);
+    console.log(`Fetching outputs from stack: ${STACK_PREFIX}-${stage}...`);
 
     const outputs = await getStackOutputs(stage);
 
@@ -103,12 +103,12 @@ async function main() {
 
     fs.writeFileSync(outputPath, envContent, 'utf-8');
 
-    console.log(`✅ Written to: ${outputPath}`);
+    console.log(`Written to: ${outputPath}`);
     console.log('');
     console.log(envContent);
 }
 
 main().catch((err) => {
-    console.error('❌ Error:', err.message);
+    console.error('Error:', err.message);
     process.exit(1);
 });
