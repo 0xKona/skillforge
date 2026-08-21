@@ -1,15 +1,20 @@
 'use client';
 
 import { Amplify } from 'aws-amplify';
+import { backendConfig } from '@/lib/config/backend-config';
 
-// Temporary stub: will be properly configured with env vars in Task 3.
-// This allows the static export build to succeed without amplify_outputs.json.
 Amplify.configure({
     Auth: {
         Cognito: {
-            userPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID ?? '',
-            userPoolClientId: process.env.NEXT_PUBLIC_USER_POOL_CLIENT_ID ?? '',
-            identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID ?? '',
+            userPoolId: backendConfig.auth.userPoolId,
+            userPoolClientId: backendConfig.auth.userPoolClientId,
+            identityPoolId: backendConfig.auth.identityPoolId,
+        },
+    },
+    Storage: {
+        S3: {
+            bucket: backendConfig.storage.bucket,
+            region: backendConfig.storage.region,
         },
     },
 });

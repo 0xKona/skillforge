@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { CvEditor } from '@/components/features/forge/editor/cv-editor';
-import { generateClient } from 'aws-amplify/data';
 import { CV_TEMPLATE } from '@/lib/templates/cv-template';
 import { Skeleton } from '@/ui/shadcn/skeleton';
 import { toast } from 'sonner';
-import { Schema } from '@amplify/data/resource';
-
-const client = generateClient<Schema>();
+import { CvService } from '@/lib/classes/services/service-cv';
 
 export default function CvEditorWrapper({ cvId }: { cvId: string }) {
     const [finalCvId, setFinalCvId] = useState<string | null>(null);
@@ -18,21 +15,13 @@ export default function CvEditorWrapper({ cvId }: { cvId: string }) {
         const initializeCv = async () => {
             try {
                 if (cvId === 'new') {
-                    // Create new draft CV in DynamoDB on the client side
-                    const { data: newCv, errors } =
-                        await client.models.CV.create({
-                            ...CV_TEMPLATE,
-                            title: `Draft ${crypto.randomUUID()}`,
-                            cvContent: JSON.stringify(CV_TEMPLATE.cvContent),
-                        });
+                    // Create new draft CV via the REST API
+                    const newCv = await CvService.createCv({
+                        ...CV_TEMPLATE,
+                        title: `Draft ${crypto.randomUUID()}`,
+                    });
 
-                    if (errors) {
-                        throw new Error(errors[0].message);
-                    }
-
-                    if (newCv) {
-                        setFinalCvId(newCv.id);
-                    }
+                    setFinalCvId(newCv.id);
                 } else {
                     setFinalCvId(cvId);
                 }

@@ -1,6 +1,5 @@
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@amplify/data/resource';
 import { Ingot, IngotContent, IngotType } from '@/lib/types/ingot-types';
+import { apiGet, apiPost, apiPut, apiDelete } from '@/lib/api/client';
 import {
     Award,
     Briefcase,
@@ -15,27 +14,35 @@ import {
 } from 'lucide-react';
 import MappingHelpers from '../helpers/mapping-helpers';
 
-const client = generateClient<Schema>();
+interface IngotApiResponse {
+    id: string;
+    name: string;
+    type: string;
+    content?: string;
+    owner: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface ListIngotApiResponse {
+    items: IngotApiResponse[];
+    nextToken?: string;
+}
 
 /**
- * Maps a database item to an Ingot object.
- * Handles the content field by parsing it if it's a JSON string, or using it directly if it's an object.
- * If parsing fails, defaults to an empty IngotContent object.
- * @param item - The database item to map.
- * @returns An Ingot object with mapped fields including parsed content.
+ * Maps a REST API response item to an Ingot object.
+ * Handles the content field by parsing it if it's a JSON string.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mapToIngot = (item: any): Ingot => {
+const mapToIngot = (item: IngotApiResponse): Ingot => {
     let content: IngotContent;
-    // Handle content if it's a string (JSON stringified) or object
-    if (typeof item.content === 'string') {
+    if (typeof item.content === 'string' && item.content) {
         try {
             content = JSON.parse(item.content);
         } catch {
             content = {} as IngotContent;
         }
     } else {
-        content = item.content as IngotContent;
+        content = {} as IngotContent;
     }
 
     return {
@@ -49,129 +56,95 @@ const mapToIngot = (item: any): Ingot => {
 };
 
 /**
- * Service class for managing Ingot objects via AWS Amplify client.
- * Provides methods for creating, reading, updating, and deleting ingots, as well as utility methods for display details.
+ * Service class for managing Ingot objects via the SkillForge REST API.
+ * Provides methods for creating, reading, updating, and deleting ingots.
  */
 export class IngotService {
     /**
-     * Creates a new Ingot in the database.
-     * @param type - The type of the ingot.
-     * @param name - The name of the ingot.
-     * @param content - The content of the ingot.
-     * @returns A Promise that resolves to the created Ingot object.
+     * Creates a new Ingot.
      */
     static async createIngot(
         type: string,
         name: string,
         content: IngotContent
     ): Promise<Ingot> {
-        const { data: newIngot, errors } = await client.models.Ingot.create({
+        const response = await apiPost<IngotApiResponse>('/ingot', {
             name,
             type,
             content: JSON.stringify(content),
         });
 
-        if (errors) {
-            throw new Error(`Failed to create Ingot: ${errors[0].message}`);
-        }
-
-        return mapToIngot(newIngot);
+        return mapToIngot(response);
     }
 
     /**
      * Retrieves a single Ingot by its ID.
-     * @param id - The ID of the ingot to retrieve.
-     * @returns A Promise that resolves to the Ingot object or null if not found.
      */
     static async getIngot(id: string): Promise<Ingot | null> {
-        const { data: ingot, errors } = await client.models.Ingot.get({ id });
-
-        if (errors) {
-            throw new Error(`Failed to get Ingot: ${errors[0].message}`);
+        try {
+            const response = await apiGet<IngotApiResponse>(`/ingot/${id}`);
+            return mapToIngot(response);
+        } catch (error) {
+            if (
+                error instanceof Error &&
+                'status' in error &&
+                (error as { status: number }).status === 404
+            ) {
+                return null;
+            }
+            throw error;
         }
-
-        if (!ingot) return null;
-
-        return mapToIngot(ingot);
     }
 
     /**
      * Lists all Ingots, optionally filtered by type.
-     * @param type - Optional type to filter the ingots.
-     * @returns A Promise that resolves to an array of Ingot objects.
      */
     static async listIngots(type?: string): Promise<Ingot[]> {
-        const { data: ingots, errors } = await client.models.Ingot.list({
-            filter: type ? { type: { eq: type } } : undefined,
-        });
-
-        if (errors) {
-            throw new Error(`Failed to list Ingots: ${errors[0].message}`);
+        const params: Record<string, string> = {};
+        if (type) {
+            params.type = type;
         }
 
-        return ingots.map(mapToIngot);
+        const response = await apiGet<ListIngotApiResponse>('/ingot', params);
+        return response.items.map(mapToIngot);
     }
 
     /**
-     * Lists Ingots with a limited selection set for anvil display.
-     * @returns A Promise that resolves to an array of Ingot objects with selected fields.
+     * Lists Ingots with only lightweight fields for the Anvil display.
      */
     static async listAnvilIngotData(): Promise<Ingot[]> {
-        const { data: ingots, errors } = await client.models.Ingot.list({
-            selectionSet: ['id', 'name', 'type', 'updatedAt'],
+        const response = await apiGet<ListIngotApiResponse>('/ingot', {
+            fields: 'id,name,type,updatedAt',
         });
 
-        if (errors) {
-            throw new Error(`Failed to list Ingots: ${errors[0].message}`);
-        }
-
-        return ingots.map(mapToIngot);
+        return response.items.map(mapToIngot);
     }
 
     /**
-     * Updates an existing Ingot in the database.
-     * @param id - The ID of the ingot to update.
-     * @param name - The new name of the ingot.
-     * @param content - The new content of the ingot.
-     * @returns A Promise that resolves to the updated Ingot object.
+     * Updates an existing Ingot.
      */
     static async updateIngot(
         id: string,
         name: string,
         content: IngotContent
     ): Promise<Ingot> {
-        const updates = {
-            id,
+        const response = await apiPut<IngotApiResponse>(`/ingot/${id}`, {
             name,
             content: JSON.stringify(content),
-        };
+        });
 
-        const { data: updatedIngot, errors } =
-            await client.models.Ingot.update(updates);
-
-        if (errors) {
-            throw new Error(`Failed to update Ingot: ${errors[0].message}`);
-        }
-
-        return mapToIngot(updatedIngot);
+        return mapToIngot(response);
     }
 
     /**
-     * Deletes an Ingot from the database.
-     * @param id - The ID of the ingot to delete.
-     * @returns A Promise that resolves when the deletion is complete.
+     * Deletes an Ingot.
      */
-    static async deleteIngot(id: string) {
-        const { errors } = await client.models.Ingot.delete({ id });
-
-        if (errors) {
-            throw new Error(`Failed to delete Ingot: ${errors[0].message}`);
-        }
+    static async deleteIngot(id: string): Promise<void> {
+        await apiDelete(`/ingot/${id}`);
     }
 
     /**
      * Deletes all Ingots for the current user.
-     * @returns A Promise that resolves when all Ingots are deleted.
      */
     static async deleteAllIngots(): Promise<void> {
         const ingots = await this.listIngots();
@@ -183,8 +156,6 @@ export class IngotService {
 
     /**
      * Gets display details for an anvil card based on the ingot type.
-     * @param type - The type of the ingot.
-     * @returns An object containing the label, color, and icon for the card.
      */
     static getAnvilCardDisplayDetails(type: string) {
         const label = MappingHelpers.getIngotLabelByType(type as IngotType);

@@ -16,6 +16,7 @@
         "infra:dev": "bun run --cwd infra dev",
         "infra:synth": "bun run --cwd infra synth",
         "infra:diff": "bun run --cwd infra diff",
-        "infra:pipeline": "bun run --cwd infra deploy:pipeline"
+        "infra:pipeline": "bun run --cwd infra deploy:pipeline",
+        "infra:config:dev": "cd infra && npx ts-node scripts/generate-frontend-env.ts dev"
     }
 }

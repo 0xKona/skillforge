@@ -20,7 +20,9 @@ type Stage = 'dev' | 'test' | 'prod';
 
 const STACK_PREFIX = 'skillforge';
 
-// Map CDK output keys to frontend env var names
+// Map CDK output key prefixes to frontend env var names.
+// CDK appends a hash suffix to output logical IDs (e.g., AuthUserPoolIdC0605E59),
+// so we match by prefix.
 const OUTPUT_MAP: Record<string, string> = {
     ApiApiUrl: 'NEXT_PUBLIC_API_URL',
     AuthUserPoolId: 'NEXT_PUBLIC_USER_POOL_ID',
@@ -66,12 +68,16 @@ function generateEnvContent(
         '',
     ];
 
-    for (const [outputKey, envVar] of Object.entries(OUTPUT_MAP)) {
-        const value = outputs[outputKey];
+    for (const [prefix, envVar] of Object.entries(OUTPUT_MAP)) {
+        // CDK appends a hash suffix to output keys, so match by prefix
+        const outputKey = Object.keys(outputs).find((key) =>
+            key.startsWith(prefix)
+        );
+        const value = outputKey ? outputs[outputKey] : undefined;
         if (value) {
             lines.push(`${envVar}=${value}`);
         } else {
-            console.warn(`[WARN] Output "${outputKey}" not found in stack outputs`);
+            console.warn(`[WARN] No output matching prefix "${prefix}" found in stack outputs`);
         }
     }
 
