@@ -25,6 +25,7 @@ coverage/
 .DS_Store
 *.pem
 designs/
+.swc
 
 # debug
 npm-debug.log*
