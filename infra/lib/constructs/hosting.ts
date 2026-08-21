@@ -20,6 +20,25 @@ export interface HostingConstructProps {
     branchName: string;
     /** Backend environment variables to inject into the build */
     environmentVariables: Record<string, string>;
+    /**
+     * Custom domain configuration (optional).
+     * When provided, maps a subdomain to the Amplify branch.
+     */
+    customDomain?: {
+        /** Root domain name (e.g., 'konarobinson.com') */
+        domainName: string;
+        /** Subdomain prefix (e.g., 'skillforge' or 'test-skillforge') */
+        subDomain: string;
+    };
+    /**
+     * Basic auth credentials (optional).
+     * When provided, enables HTTP Basic Auth on the branch.
+     * Useful for protecting test environments.
+     */
+    basicAuth?: {
+        username: string;
+        password: string;
+    };
 }
 
 /**
@@ -27,9 +46,11 @@ export interface HostingConstructProps {
  * static export frontend.
  *
  * - Builds from the frontend/ subfolder in the monorepo
- * - Static export (output: 'export') → artifact dir: out/
+ * - Static export (output: 'export') -> artifact dir: out/
  * - Auto-build disabled (pipeline triggers builds)
  * - SPA rewrite rules for client-side routing
+ * - Optional custom domain (Route 53 managed)
+ * - Optional basic auth for non-prod environments
  */
 export class HostingConstruct extends Construct {
     public readonly app: amplify.App;
@@ -45,6 +66,8 @@ export class HostingConstruct extends Construct {
             repoName,
             branchName,
             environmentVariables,
+            customDomain,
+            basicAuth,
         } = props;
 
         // --- Amplify App ---
@@ -96,11 +119,28 @@ export class HostingConstruct extends Construct {
             ],
         });
 
-        // --- Branch (auto-build disabled — pipeline triggers) ---
+        // --- Branch ---
         this.branch = this.app.addBranch(branchName, {
             autoBuild: false,
             stage: stageConfig.stage === 'prod' ? 'PRODUCTION' : 'DEVELOPMENT',
+            basicAuth: basicAuth
+                ? amplify.BasicAuth.fromCredentials(
+                      basicAuth.username,
+                      SecretValue.unsafePlainText(basicAuth.password)
+                  )
+                : undefined,
         });
+
+        // --- Custom Domain ---
+        if (customDomain) {
+            const domain = this.app.addDomain(customDomain.domainName);
+            domain.mapSubDomain(this.branch, customDomain.subDomain);
+
+            new CfnOutput(this, 'CustomDomainUrl', {
+                value: `https://${customDomain.subDomain}.${customDomain.domainName}`,
+                description: 'Custom domain URL',
+            });
+        }
 
         // --- Outputs ---
         new CfnOutput(this, 'AmplifyAppId', {
@@ -110,7 +150,7 @@ export class HostingConstruct extends Construct {
 
         new CfnOutput(this, 'AmplifyAppUrl', {
             value: `https://${branchName}.${this.app.defaultDomain}`,
-            description: 'Amplify App URL',
+            description: 'Amplify App URL (default domain)',
         });
     }
 }

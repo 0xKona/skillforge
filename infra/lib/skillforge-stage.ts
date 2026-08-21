@@ -10,6 +10,16 @@ export interface SkillForgeStageProps extends StageProps {
     repoOwner: string;
     repoName: string;
     branchName: string;
+    /** Custom domain config (optional) */
+    customDomain?: {
+        domainName: string;
+        subDomain: string;
+    };
+    /** Basic auth for the hosting branch (optional, e.g., test env) */
+    basicAuth?: {
+        username: string;
+        password: string;
+    };
 }
 
 /**
@@ -31,6 +41,8 @@ export class SkillForgeStage extends Stage {
             repoOwner,
             repoName,
             branchName,
+            customDomain,
+            basicAuth,
         } = props;
 
         // --- Backend Stack ---
@@ -55,6 +67,8 @@ export class SkillForgeStage extends Stage {
                 NEXT_PUBLIC_S3_BUCKET: this.backendStack.storage.bucket.bucketName,
                 NEXT_PUBLIC_AWS_REGION: this.backendStack.region,
             },
+            customDomain,
+            basicAuth,
         });
     }
 }

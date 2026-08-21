@@ -69,6 +69,14 @@ export class PipelineStack extends Stack {
                 repoOwner,
                 repoName,
                 branchName: triggerBranch,
+                customDomain: {
+                    domainName: 'konarobinson.com',
+                    subDomain: 'test-skillforge',
+                },
+                basicAuth: {
+                    username: 'skilltester',
+                    password: 'skilltester',
+                },
                 env: {
                     account: process.env.CDK_DEFAULT_ACCOUNT,
                     region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-2',
@@ -84,6 +92,10 @@ export class PipelineStack extends Stack {
                 repoOwner,
                 repoName,
                 branchName: triggerBranch,
+                customDomain: {
+                    domainName: 'konarobinson.com',
+                    subDomain: 'skillforge',
+                },
                 env: {
                     account: process.env.CDK_DEFAULT_ACCOUNT,
                     region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-2',
