@@ -6,6 +6,20 @@
         "synth": "cdk synth",
         "deploy:test": "cdk deploy SkillForge-test",
         "deploy:prod": "cdk deploy SkillForge-prod --require-approval broadening",
-        "diff": "cdk diff"
+        "diff": "cdk diff",
+        "diff:test": "cdk diff SkillForge-test",
+        "diff:prod": "cdk diff SkillForge-prod"
+    },
+    "dependencies": {
+        "aws-cdk-lib": "^2.216.0",
+        "constructs": "^10.4.3"
+    },
+    "devDependencies": {
+        "@types/node": "^26.2.0",
+        "@types/source-map-support": "^0.5.10",
+        "aws-cdk": "^2.216.0",
+        "source-map-support": "^0.5.21",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.3"
     }
 }
