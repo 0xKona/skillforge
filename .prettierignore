@@ -3,3 +3,7 @@ build/
 dist/
 *.min.js
 .next
+out/
+coverage/
+bun.lockb
+bun.lock

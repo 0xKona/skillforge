@@ -1,0 +1,33 @@
+{
+    "name": "skillforge-infra",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "cdk deploy skillforge-dev --require-approval never && npx ts-node scripts/generate-frontend-env.ts dev",
+        "test": "jest && cd lambda/shared && go test ./... && cd ../cv-handler && go test ./... && cd ../ingot-handler && go test ./...",
+        "synth": "cdk synth",
+        "synth:pipeline": "cdk synth --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",
+        "deploy:pipeline": "cdk deploy SkillForge-Pipeline --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",
+        "diff": "cdk diff",
+        "config:dev": "npx ts-node scripts/generate-frontend-env.ts dev",
+        "config:test": "npx ts-node scripts/generate-frontend-env.ts test",
+        "config:prod": "npx ts-node scripts/generate-frontend-env.ts prod"
+    },
+    "dependencies": {
+        "@aws-cdk/aws-amplify-alpha": "^2.266.0-alpha.0",
+        "@aws-sdk/client-cloudformation": "^3.1115.0",
+        "aws-cdk-lib": "^2.216.0",
+        "constructs": "^10.4.3"
+    },
+    "devDependencies": {
+        "@types/jest": "^30.0.0",
+        "@types/node": "^26.2.0",
+        "@types/source-map-support": "^0.5.10",
+        "aws-cdk": "^2.216.0",
+        "jest": "^30.4.2",
+        "source-map-support": "^0.5.21",
+        "ts-jest": "^29.4.12",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.3"
+    }
+}

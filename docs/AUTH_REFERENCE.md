@@ -1,107 +1,77 @@
-# Quick Reference: Authentication Patterns
+# Authentication Reference
 
-## Client Components
+## Overview
 
-### Using the Client Auth Store
+SkillForge uses AWS Cognito for authentication. The frontend is a static export so all auth is client-side via the `aws-amplify/auth` library. Route protection is handled by a client-side `AuthGuard` component.
+
+## Client Auth Store
 
 ```typescript
-"use client";
-import { useClientAuth } from "@/lib/store/use-client-auth";
+'use client';
+import { useClientAuth } from '@/lib/store/use-client-auth';
 
 export default function MyComponent() {
-  const {
-    userId,           // User ID
-    userAttributes,   // { email, email_verified, sub, etc. }
-    loading,          // true while checking auth
-    error,            // Error message if any
-    isAuthenticated,  // Boolean
-    avatarUrl,        // User's avatar URL
-    signOut,          // () => Promise<void>
-    checkAuthStatus   // () => Promise<void>
-  } = useClientAuth();
+    const {
+        userId,           // Cognito sub
+        userAttributes,   // { email, preferred_username, custom:bio, picture }
+        loading,          // true while checking auth
+        isAuthenticated,  // boolean
+        avatarUrl,        // User's avatar URL
+        signOut,          // () => Promise<void>
+        checkAuthStatus,  // () => Promise<void>
+    } = useClientAuth();
 
-  if (loading) return <div>Loading...</div>;
-  if (!isAuthenticated) return <div>Please sign in</div>;
+    if (loading) return <div>Loading...</div>;
+    if (!isAuthenticated) return <div>Please sign in</div>;
 
-  return <div>Welcome {userAttributes?.email}</div>;
+    return <div>Welcome {userAttributes?.email}</div>;
 }
 ```
 
-## Server Components
+## Route Protection (AuthGuard)
 
-### Check Authentication
+Protected routes are wrapped with `<AuthGuard>` in their layout files. This replaces the old server-side middleware approach.
 
 ```typescript
-import { isAuthenticated } from "@/utlils/amplify/server-utils";
-import { redirect } from "next/navigation";
+// src/app/forge/layout.tsx
+import { AuthGuard } from '@/components/providers/auth-guard';
 
-export default async function ProtectedPage() {
-  if (!await isAuthenticated()) {
-    redirect("/login");
-  }
-  return <div>Protected Content</div>;
+export default function ForgeLayout({ children }) {
+    return (
+        <AuthGuard>
+            {children}
+        </AuthGuard>
+    );
 }
 ```
 
-### Get User Data
+**Behaviour:**
+- Shows a loading spinner while auth state resolves
+- Redirects to `/login` if the user is not authenticated
+- Renders children once authenticated
 
-```typescript
-import { getUserAttributes } from "@/utlils/amplify/server-utils";
+**Protected routes:** `/forge`, `/anvil`, `/profile`
 
-export default async function ProfilePage() {
-  const attributes = await getUserAttributes();
-  return <div>{attributes?.email}</div>;
-}
-```
-
-## API Routes
-
-### Verify Authentication
-
-```typescript
-import { runWithAmplifyServerContext } from '@/utlils/amplify/server-utils';
-import { fetchAuthSession } from 'aws-amplify/auth/server';
-import { NextRequest, NextResponse } from 'next/server';
-
-export async function GET(request: NextRequest) {
-    const session = await runWithAmplifyServerContext({
-        nextServerContext: { request },
-        operation: (ctx) => fetchAuthSession(ctx),
-    });
-
-    if (!session?.tokens) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    return NextResponse.json({ data: 'Protected data' });
-}
-```
-
-## Authentication Actions
+## Auth Actions
 
 ### Sign Up
 
 ```typescript
 import { signUp } from 'aws-amplify/auth';
 
-const { isSignUpComplete, userId } = await signUp({
+await signUp({
     username: email,
-    password: password,
-    options: {
-        userAttributes: { email },
-    },
+    password,
+    options: { userAttributes: { email } },
 });
 ```
 
-### Confirm Sign Up
+### Confirm Sign Up (OTP)
 
 ```typescript
 import { confirmSignUp } from 'aws-amplify/auth';
 
-await confirmSignUp({
-    username: email,
-    confirmationCode: code,
-});
+await confirmSignUp({ username: email, confirmationCode: code });
 ```
 
 ### Sign In
@@ -109,21 +79,18 @@ await confirmSignUp({
 ```typescript
 import { signIn } from 'aws-amplify/auth';
 
-const { isSignedIn } = await signIn({
-    username: email,
-    password: password,
-});
+const { isSignedIn } = await signIn({ username: email, password });
 ```
 
 ### Sign Out
 
 ```typescript
 import { signOut } from 'aws-amplify/auth';
-
 await signOut();
-// or use the hook:
-const { signOut } = useAuth();
-await signOut(); // Automatically redirects to /login
+
+// Or via the store (clears local state too):
+const { signOut } = useClientAuth();
+await signOut();
 ```
 
 ### Reset Password
@@ -131,49 +98,33 @@ await signOut(); // Automatically redirects to /login
 ```typescript
 import { resetPassword, confirmResetPassword } from 'aws-amplify/auth';
 
-// Step 1: Request reset code
 await resetPassword({ username: email });
-
-// Step 2: Confirm with code
-await confirmResetPassword({
-    username: email,
-    confirmationCode: code,
-    newPassword: newPassword,
-});
+await confirmResetPassword({ username: email, confirmationCode: code, newPassword });
 ```
 
-## Route Protection (Middleware)
+## API Authentication
 
-### Add Protected Routes
-
-Edit `/src/middleware.ts`:
+The REST API client (`src/lib/api/client.ts`) automatically attaches the Cognito ID token to every request:
 
 ```typescript
-const protectedRoutes = [
-    '/forge',
-    '/profile',
-    '/settings', // Add your routes here
-];
+import { apiGet } from '@/lib/api/client';
+
+// Token is injected automatically via fetchAuthSession()
+const cvs = await apiGet('/cv');
 ```
 
-### Add Auth Routes
+If the token is missing or expired, the client throws an `ApiError` with status 401.
 
-```typescript
-const authRoutes = [
-    '/login',
-    '/signup', // Add your auth routes here
-];
-```
+## User Attributes
 
-## User Attributes Available
+| Attribute | Description |
+|-----------|-------------|
+| `sub` | Unique user ID (used as owner in DynamoDB) |
+| `email` | User's email address |
+| `preferred_username` | Display name |
+| `picture` | Avatar URL (S3 public URL) |
+| `custom:bio` | User biography (max 256 chars) |
 
-```typescript
-userAttributes = {
-    sub: 'user-id-uuid',
-    email: 'user@example.com',
-    email_verified: true,
-    name: 'John Doe', // If configured
-    phone_number: '+1234567', // If configured
-    // ... other custom attributes
-};
-```
+## Amplify Configuration
+
+Amplify is configured client-side in `src/components/providers/configure-amplify-client.tsx` with Auth and Storage only (no GraphQL). Config values come from `NEXT_PUBLIC_*` environment variables.

@@ -1,4 +1,4 @@
-src/components/
+frontend/src/components/
 ├── common/                 # Shared, domain-agnostic components
 │   ├── icons/              # SVG icons
 │   ├── ui/                 # Shadcn & Base UI primitives (Button, Input, Typography)
