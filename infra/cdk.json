@@ -16,6 +16,15 @@
     "context": {
         "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
         "@aws-cdk/core:checkSecretUsage": true,
-        "@aws-cdk/core:target-partitions": ["aws", "aws-cn"]
+        "@aws-cdk/core:target-partitions": ["aws", "aws-cn"],
+        "pipeline": {
+            "connectionArn": "arn:aws:codestar-connections:eu-west-2:202533526081:connection/7fac3750-c901-41a5-a73c-3a228bd95e12",
+            "account": "202533526081",
+            "region": "eu-west-2",
+            "repoOwner": "0xKona",
+            "repoName": "skillforge",
+            "triggerBranch": "main",
+            "githubTokenSecretName": "skillforge/github-token"
+        }
     }
 }

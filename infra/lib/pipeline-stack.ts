@@ -48,14 +48,20 @@ export class PipelineStack extends Stack {
                     { connectionArn }
                 ),
                 commands: [
+                    // Install bun (not available in standard CodeBuild image)
+                    'npm install -g bun',
+                    // Install Go 1.22 (CodeBuild default is 1.20, our deps need 1.21+)
+                    'curl -sL https://go.dev/dl/go1.22.5.linux-amd64.tar.gz | tar -C /usr/local -xzf -',
+                    'export PATH=/usr/local/go/bin:$PATH',
+                    'go version',
                     // Install infra dependencies
                     'cd infra',
-                    'npm ci',
+                    'bun install',
                     // Build Go Lambda binaries
                     'cd lambda/cv-handler && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o bootstrap . && cd ../..',
                     'cd lambda/ingot-handler && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o bootstrap . && cd ../..',
-                    // Synth
-                    'npx cdk synth',
+                    // Synth (must use pipeline entry point, not default app.ts)
+                    'npx cdk synth --app "npx ts-node --prefer-ts-exts bin/pipeline.ts"',
                 ],
                 primaryOutputDirectory: 'infra/cdk.out',
             }),
@@ -110,5 +116,26 @@ export class PipelineStack extends Stack {
                 ],
             }
         );
+
+        // Build the pipeline to materialise all constructs
+        pipeline.buildPipeline();
+
+        // Fix IAM policy: CDK generates codestar-connections:UseConnection but IAM
+        // now requires codeconnections:UseConnection for policy writes.
+        // Override the source action role policy to use the correct action prefix.
+        const sourcePolicy = this.node.tryFindChild('Pipeline')
+            ?.node.tryFindChild('Pipeline')
+            ?.node.tryFindChild('Source')
+            ?.node.tryFindChild('0xKona_skillforge')
+            ?.node.tryFindChild('CodePipelineActionRole')
+            ?.node.tryFindChild('DefaultPolicy')
+            ?.node.tryFindChild('Resource') as import('aws-cdk-lib').CfnResource | undefined;
+
+        if (sourcePolicy) {
+            sourcePolicy.addOverride(
+                'Properties.PolicyDocument.Statement.0.Action',
+                'codeconnections:UseConnection'
+            );
+        }
     }
 }
