@@ -74,7 +74,7 @@ describe('SignInTab Component', () => {
             back: jest.fn(),
             forward: jest.fn(),
             prefetch: jest.fn(),
-        } as ReturnType<typeof useRouter>);
+        } as unknown as ReturnType<typeof useRouter>);
 
         mockUseSearchParams.mockReturnValue({
             get: mockGet,

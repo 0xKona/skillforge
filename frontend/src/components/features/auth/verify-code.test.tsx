@@ -65,7 +65,7 @@ describe('VerifyCodeCard Component', () => {
             refresh: jest.fn(),
             replace: jest.fn(),
             prefetch: jest.fn(),
-        } as ReturnType<typeof useRouter>);
+        } as unknown as ReturnType<typeof useRouter>);
 
         // Mock auth flow state
         mockUseAuthFlowState.mockReturnValue({
