@@ -55,6 +55,7 @@ export interface HostingConstructProps {
 export class HostingConstruct extends Construct {
     public readonly app: amplify.App;
     public readonly branch: amplify.Branch;
+    public readonly appId: CfnOutput;
 
     constructor(scope: Construct, id: string, props: HostingConstructProps) {
         super(scope, id);
@@ -91,10 +92,13 @@ export class HostingConstruct extends Construct {
                         frontend: {
                             phases: {
                                 preBuild: {
-                                    commands: ['npm ci'],
+                                    commands: [
+                                        'npm install -g bun',
+                                        'bun install',
+                                    ],
                                 },
                                 build: {
-                                    commands: ['npm run build'],
+                                    commands: ['bun run build'],
                                 },
                             },
                             artifacts: {
@@ -143,7 +147,7 @@ export class HostingConstruct extends Construct {
         }
 
         // --- Outputs ---
-        new CfnOutput(this, 'AmplifyAppId', {
+        this.appId = new CfnOutput(this, 'AmplifyAppId', {
             value: this.app.appId,
             description: 'Amplify App ID',
         });

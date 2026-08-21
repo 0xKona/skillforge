@@ -31,6 +31,7 @@ export interface SkillForgeStageProps extends StageProps {
  */
 export class SkillForgeStage extends Stage {
     public readonly backendStack: SkillForgeStack;
+    public readonly hosting: HostingConstruct;
 
     constructor(scope: Construct, id: string, props: SkillForgeStageProps) {
         super(scope, id, props);
@@ -51,7 +52,7 @@ export class SkillForgeStage extends Stage {
         });
 
         // --- Frontend Hosting (within the same stack) ---
-        new HostingConstruct(this.backendStack, 'Hosting', {
+        const hosting = new HostingConstruct(this.backendStack, 'Hosting', {
             stageConfig,
             githubTokenSecretName,
             repoOwner,
@@ -70,5 +71,6 @@ export class SkillForgeStage extends Stage {
             customDomain,
             basicAuth,
         });
+        this.hosting = hosting;
     }
 }

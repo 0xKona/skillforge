@@ -1,5 +1,6 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as pipelines from 'aws-cdk-lib/pipelines';
 import { SkillForgeStage } from './skillforge-stage';
 import { stageConfigs } from './config/stage-config';
@@ -68,54 +69,86 @@ export class PipelineStack extends Stack {
         });
 
         // --- Test Stage (automatic deployment) ---
-        pipeline.addStage(
-            new SkillForgeStage(this, 'Test', {
-                stageConfig: stageConfigs.test,
-                githubTokenSecretName,
-                repoOwner,
-                repoName,
-                branchName: triggerBranch,
-                customDomain: {
-                    domainName: 'konarobinson.com',
-                    subDomain: 'test-skillforge',
-                },
-                basicAuth: {
-                    username: 'skilltester',
-                    password: 'skilltester',
-                },
-                env: {
-                    account: process.env.CDK_DEFAULT_ACCOUNT,
-                    region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-2',
-                },
-            })
-        );
+        const testStage = new SkillForgeStage(this, 'Test', {
+            stageConfig: stageConfigs.test,
+            githubTokenSecretName,
+            repoOwner,
+            repoName,
+            branchName: triggerBranch,
+            customDomain: {
+                domainName: 'konarobinson.com',
+                subDomain: 'test-skillforge',
+            },
+            basicAuth: {
+                username: 'skilltester',
+                password: 'skilltester',
+            },
+            env: {
+                account: process.env.CDK_DEFAULT_ACCOUNT,
+                region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-2',
+            },
+        });
+
+        pipeline.addStage(testStage, {
+            post: [
+                new pipelines.CodeBuildStep('TriggerAmplifyBuild-Test', {
+                    envFromCfnOutputs: {
+                        APP_ID: testStage.hosting.appId,
+                    },
+                    commands: [
+                        `aws amplify start-job --app-id $APP_ID --branch-name ${triggerBranch} --job-type RELEASE --region eu-west-2`,
+                    ],
+                    rolePolicyStatements: [
+                        new iam.PolicyStatement({
+                            actions: ['amplify:StartJob'],
+                            resources: ['*'],
+                        }),
+                    ],
+                }),
+            ],
+        });
 
         // --- Prod Stage (manual approval required) ---
-        pipeline.addStage(
-            new SkillForgeStage(this, 'Prod', {
-                stageConfig: stageConfigs.prod,
-                githubTokenSecretName,
-                repoOwner,
-                repoName,
-                branchName: triggerBranch,
-                customDomain: {
-                    domainName: 'konarobinson.com',
-                    subDomain: 'skillforge',
-                },
-                env: {
-                    account: process.env.CDK_DEFAULT_ACCOUNT,
-                    region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-2',
-                },
-            }),
-            {
-                pre: [
-                    new pipelines.ManualApprovalStep('PromoteToProd', {
-                        comment:
-                            'Review test environment before deploying to production.',
-                    }),
-                ],
-            }
-        );
+        const prodStage = new SkillForgeStage(this, 'Prod', {
+            stageConfig: stageConfigs.prod,
+            githubTokenSecretName,
+            repoOwner,
+            repoName,
+            branchName: triggerBranch,
+            customDomain: {
+                domainName: 'konarobinson.com',
+                subDomain: 'skillforge',
+            },
+            env: {
+                account: process.env.CDK_DEFAULT_ACCOUNT,
+                region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-2',
+            },
+        });
+
+        pipeline.addStage(prodStage, {
+            pre: [
+                new pipelines.ManualApprovalStep('PromoteToProd', {
+                    comment:
+                        'Review test environment before deploying to production.',
+                }),
+            ],
+            post: [
+                new pipelines.CodeBuildStep('TriggerAmplifyBuild-Prod', {
+                    envFromCfnOutputs: {
+                        APP_ID: prodStage.hosting.appId,
+                    },
+                    commands: [
+                        `aws amplify start-job --app-id $APP_ID --branch-name ${triggerBranch} --job-type RELEASE --region eu-west-2`,
+                    ],
+                    rolePolicyStatements: [
+                        new iam.PolicyStatement({
+                            actions: ['amplify:StartJob'],
+                            resources: ['*'],
+                        }),
+                    ],
+                }),
+            ],
+        });
 
         // Build the pipeline to materialise all constructs
         pipeline.buildPipeline();
