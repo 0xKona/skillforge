@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as pipelines from 'aws-cdk-lib/pipelines';
@@ -96,11 +96,29 @@ export class PipelineStack extends Stack {
                         APP_ID: testStage.hosting.appId,
                     },
                     commands: [
-                        `aws amplify start-job --app-id $APP_ID --branch-name ${triggerBranch} --job-type RELEASE --region eu-west-2`,
+                        // Start the Amplify build and capture the job ID
+                        `JOB_ID=$(aws amplify start-job --app-id $APP_ID --branch-name ${triggerBranch} --job-type RELEASE --region eu-west-2 --query 'jobSummary.jobId' --output text)`,
+                        'echo "Started Amplify job: $JOB_ID"',
+                        // Poll until terminal state or timeout (10 min)
+                        [
+                            'SECONDS=0;',
+                            'while true; do',
+                            '  sleep 30;',
+                            `  STATUS=$(aws amplify get-job --app-id $APP_ID --branch-name ${triggerBranch} --job-id $JOB_ID --region eu-west-2 --query 'job.summary.status' --output text);`,
+                            '  echo "Job status: $STATUS (${SECONDS}s elapsed)";',
+                            '  if [ "$STATUS" = "SUCCEED" ]; then echo "Amplify build succeeded"; exit 0; fi;',
+                            '  if [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then echo "Amplify build failed with status: $STATUS"; exit 1; fi;',
+                            '  if [ $SECONDS -ge 600 ]; then echo "Timed out waiting for Amplify build"; exit 1; fi;',
+                            'done',
+                        ].join(' '),
                     ],
+                    timeout: Duration.minutes(10),
                     rolePolicyStatements: [
                         new iam.PolicyStatement({
-                            actions: ['amplify:StartJob'],
+                            actions: [
+                                'amplify:StartJob',
+                                'amplify:GetJob',
+                            ],
                             resources: ['*'],
                         }),
                     ],
@@ -138,11 +156,29 @@ export class PipelineStack extends Stack {
                         APP_ID: prodStage.hosting.appId,
                     },
                     commands: [
-                        `aws amplify start-job --app-id $APP_ID --branch-name ${triggerBranch} --job-type RELEASE --region eu-west-2`,
+                        // Start the Amplify build and capture the job ID
+                        `JOB_ID=$(aws amplify start-job --app-id $APP_ID --branch-name ${triggerBranch} --job-type RELEASE --region eu-west-2 --query 'jobSummary.jobId' --output text)`,
+                        'echo "Started Amplify job: $JOB_ID"',
+                        // Poll until terminal state or timeout (10 min)
+                        [
+                            'SECONDS=0;',
+                            'while true; do',
+                            '  sleep 30;',
+                            `  STATUS=$(aws amplify get-job --app-id $APP_ID --branch-name ${triggerBranch} --job-id $JOB_ID --region eu-west-2 --query 'job.summary.status' --output text);`,
+                            '  echo "Job status: $STATUS (${SECONDS}s elapsed)";',
+                            '  if [ "$STATUS" = "SUCCEED" ]; then echo "Amplify build succeeded"; exit 0; fi;',
+                            '  if [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then echo "Amplify build failed with status: $STATUS"; exit 1; fi;',
+                            '  if [ $SECONDS -ge 600 ]; then echo "Timed out waiting for Amplify build"; exit 1; fi;',
+                            'done',
+                        ].join(' '),
                     ],
+                    timeout: Duration.minutes(10),
                     rolePolicyStatements: [
                         new iam.PolicyStatement({
-                            actions: ['amplify:StartJob'],
+                            actions: [
+                                'amplify:StartJob',
+                                'amplify:GetJob',
+                            ],
                             resources: ['*'],
                         }),
                     ],
