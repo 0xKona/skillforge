@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "cdk deploy skillforge-dev --require-approval never && npx ts-node scripts/generate-frontend-env.ts dev",
-        "test": "jest",
+        "test": "jest && cd lambda/shared && go test ./... && cd ../cv-handler && go test ./... && cd ../ingot-handler && go test ./...",
         "synth": "cdk synth",
         "synth:pipeline": "cdk synth --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",
         "deploy:pipeline": "cdk deploy SkillForge-Pipeline --app 'npx ts-node --prefer-ts-exts bin/pipeline.ts'",

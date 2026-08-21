@@ -29,5 +29,6 @@ func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 }
 
 func main() {
+	db = shared.DynamoClient()
 	lambda.Start(handler)
 }

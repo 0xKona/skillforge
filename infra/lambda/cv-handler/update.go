@@ -29,9 +29,8 @@ func update(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIG
 		return shared.BadRequest("invalid request body")
 	}
 
-	// Build update expression dynamically
 	expr := "SET #updatedAt = :updatedAt"
-	names := map[string]string{"#updatedAt": "updatedAt"}
+	names := map[string]string{"#updatedAt": "updatedAt", "#owner": "owner"}
 	values := map[string]types.AttributeValue{
 		":updatedAt": &types.AttributeValueMemberS{Value: shared.NowISO()},
 		":owner":     &types.AttributeValueMemberS{Value: owner},
@@ -58,7 +57,7 @@ func update(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIG
 		values[":cvContent"] = &types.AttributeValueMemberS{Value: *input.CvContent}
 	}
 
-	result, err := shared.DynamoClient().UpdateItem(ctx, &dynamodb.UpdateItemInput{
+	result, err := db.UpdateItem(ctx, &dynamodb.UpdateItemInput{
 		TableName: shared.StringPtr(tableName()),
 		Key: map[string]types.AttributeValue{
 			"id": &types.AttributeValueMemberS{Value: id},

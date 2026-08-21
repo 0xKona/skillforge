@@ -36,14 +36,7 @@ func list(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGat
 		Limit:            aws.Int32(50),
 	}
 
-	// Handle pagination token
-	if token := req.QueryStringParameters["nextToken"]; token != "" {
-		input.ExclusiveStartKey = map[string]types.AttributeValue{
-			"nextToken": &types.AttributeValueMemberS{Value: token},
-		}
-	}
-
-	result, err := shared.DynamoClient().Query(ctx, input)
+	result, err := db.Query(ctx, input)
 	if err != nil {
 		return shared.InternalError("failed to list CVs")
 	}
@@ -55,7 +48,6 @@ func list(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGat
 
 	resp := listResponse{Items: cvs}
 	if result.LastEvaluatedKey != nil {
-		// Simplified: in production, encode the full key as a token
 		if v, ok := result.LastEvaluatedKey["id"].(*types.AttributeValueMemberS); ok {
 			resp.NextToken = &v.Value
 		}

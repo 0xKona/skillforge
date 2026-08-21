@@ -22,7 +22,7 @@ func remove(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIG
 		return shared.BadRequest("id is required")
 	}
 
-	result, err := shared.DynamoClient().DeleteItem(ctx, &dynamodb.DeleteItemInput{
+	result, err := db.DeleteItem(ctx, &dynamodb.DeleteItemInput{
 		TableName: shared.StringPtr(tableName()),
 		Key: map[string]types.AttributeValue{
 			"id": &types.AttributeValueMemberS{Value: id},

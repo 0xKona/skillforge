@@ -44,6 +44,12 @@ amplifyconfiguration*
 # CDK
 cdk.out/
 
+# Go binaries
+bootstrap
+*.exe
+infra/lambda/*/cv-handler
+infra/lambda/*/ingot-handler
+
 # IDE
 .idea/
 .vscode/

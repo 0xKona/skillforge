@@ -22,20 +22,19 @@ func remove(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIG
 		return shared.BadRequest("id is required")
 	}
 
-	names := map[string]string{"#owner": "owner"}
-	values := map[string]types.AttributeValue{
-		":owner": &types.AttributeValueMemberS{Value: owner},
-	}
-
-	result, err := shared.DynamoClient().DeleteItem(ctx, &dynamodb.DeleteItemInput{
+	result, err := db.DeleteItem(ctx, &dynamodb.DeleteItemInput{
 		TableName: shared.StringPtr(tableName()),
 		Key: map[string]types.AttributeValue{
 			"id": &types.AttributeValueMemberS{Value: id},
 		},
-		ConditionExpression:       aws.String("#owner = :owner"),
-		ExpressionAttributeNames:  names,
-		ExpressionAttributeValues: values,
-		ReturnValues:              types.ReturnValueAllOld,
+		ConditionExpression: aws.String("#owner = :owner"),
+		ExpressionAttributeNames: map[string]string{
+			"#owner": "owner",
+		},
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":owner": &types.AttributeValueMemberS{Value: owner},
+		},
+		ReturnValues: types.ReturnValueAllOld,
 	})
 	if err != nil {
 		return shared.Forbidden("CV not found or access denied")

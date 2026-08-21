@@ -59,7 +59,7 @@ func list(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGat
 		}
 	}
 
-	result, err := shared.DynamoClient().Query(ctx, input)
+	result, err := db.Query(ctx, input)
 	if err != nil {
 		return shared.InternalError("failed to list ingots")
 	}

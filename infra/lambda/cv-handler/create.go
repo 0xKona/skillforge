@@ -43,7 +43,7 @@ func create(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIG
 		return shared.InternalError("failed to marshal item")
 	}
 
-	_, err = shared.DynamoClient().PutItem(ctx, &dynamodb.PutItemInput{
+	_, err = db.PutItem(ctx, &dynamodb.PutItemInput{
 		TableName: shared.StringPtr(tableName()),
 		Item:      item,
 	})

@@ -21,7 +21,7 @@ func get(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGate
 		return shared.BadRequest("id is required")
 	}
 
-	result, err := shared.DynamoClient().GetItem(ctx, &dynamodb.GetItemInput{
+	result, err := db.GetItem(ctx, &dynamodb.GetItemInput{
 		TableName: shared.StringPtr(tableName()),
 		Key: map[string]types.AttributeValue{
 			"id": &types.AttributeValueMemberS{Value: id},
