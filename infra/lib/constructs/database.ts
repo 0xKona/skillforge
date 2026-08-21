@@ -1,6 +1,7 @@
 import { Construct } from 'constructs';
 import { CfnOutput } from 'aws-cdk-lib';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as kms from 'aws-cdk-lib/aws-kms';
 import { StageConfig } from '../config/stage-config';
 import { resourceName } from '../utils/naming';
 
@@ -14,15 +15,32 @@ export interface DatabaseConstructProps {
  * Both tables use owner-based access patterns with GSIs for:
  * - Listing all items for a user (by owner)
  * - Filtering ingots by owner + type
+ *
+ * Prod tables are encrypted with a Customer Managed Key (CMK) for:
+ * - CloudTrail audit of all data access
+ * - Ability to revoke access by disabling the key
+ * - Key rotation control
  */
 export class DatabaseConstruct extends Construct {
     public readonly cvTable: dynamodb.Table;
     public readonly ingotTable: dynamodb.Table;
+    public readonly encryptionKey?: kms.Key;
 
     constructor(scope: Construct, id: string, props: DatabaseConstructProps) {
         super(scope, id);
 
         const { stageConfig } = props;
+
+        // --- CMK for prod encryption ---
+        if (stageConfig.stage === 'prod') {
+            this.encryptionKey = new kms.Key(this, 'DataEncryptionKey', {
+                alias: resourceName(stageConfig.stage, 'data-key'),
+                description:
+                    'Customer managed key for SkillForge DynamoDB encryption',
+                enableKeyRotation: true,
+                removalPolicy: stageConfig.removalPolicy,
+            });
+        }
 
         // --- CV Table ---
         this.cvTable = new dynamodb.Table(this, 'CvTable', {
@@ -36,6 +54,10 @@ export class DatabaseConstruct extends Construct {
             pointInTimeRecoverySpecification: {
                 pointInTimeRecoveryEnabled: stageConfig.stage === 'prod',
             },
+            encryption: this.encryptionKey
+                ? dynamodb.TableEncryption.CUSTOMER_MANAGED
+                : dynamodb.TableEncryption.AWS_MANAGED,
+            encryptionKey: this.encryptionKey,
         });
 
         // GSI: Query CVs by owner
@@ -64,6 +86,10 @@ export class DatabaseConstruct extends Construct {
             pointInTimeRecoverySpecification: {
                 pointInTimeRecoveryEnabled: stageConfig.stage === 'prod',
             },
+            encryption: this.encryptionKey
+                ? dynamodb.TableEncryption.CUSTOMER_MANAGED
+                : dynamodb.TableEncryption.AWS_MANAGED,
+            encryptionKey: this.encryptionKey,
         });
 
         // GSI: Query Ingots by owner

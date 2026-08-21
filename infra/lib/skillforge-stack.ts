@@ -5,6 +5,7 @@ import { applyStandardTags } from './utils/tagging';
 import { AuthConstruct } from './constructs/auth';
 import { DatabaseConstruct } from './constructs/database';
 import { StorageConstruct } from './constructs/storage';
+import { ApiConstruct } from './constructs/api';
 
 export interface SkillForgeStackProps extends StackProps {
     stageConfig: StageConfig;
@@ -12,13 +13,14 @@ export interface SkillForgeStackProps extends StackProps {
 
 /**
  * Main stack for the SkillForge application.
- * Composes Auth, Database, and Storage constructs with stage-aware configuration.
+ * Composes Auth, Database, Storage, and API constructs with stage-aware configuration.
  */
 export class SkillForgeStack extends Stack {
     public readonly stageConfig: StageConfig;
     public readonly auth: AuthConstruct;
     public readonly database: DatabaseConstruct;
     public readonly storage: StorageConstruct;
+    public readonly api: ApiConstruct;
 
     constructor(scope: Construct, id: string, props: SkillForgeStackProps) {
         super(scope, id, props);
@@ -42,6 +44,14 @@ export class SkillForgeStack extends Stack {
         this.storage = new StorageConstruct(this, 'Storage', {
             stageConfig: this.stageConfig,
             authenticatedRole: this.auth.authenticatedRole,
+        });
+
+        // --- API (API Gateway + Go Lambda handlers) ---
+        this.api = new ApiConstruct(this, 'Api', {
+            stageConfig: this.stageConfig,
+            userPool: this.auth.userPool,
+            cvTable: this.database.cvTable,
+            ingotTable: this.database.ingotTable,
         });
     }
 }
