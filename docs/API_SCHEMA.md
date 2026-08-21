@@ -273,6 +273,7 @@ List all Ingots for the authenticated user. Supports optional type filtering.
 |-----------|------|---------|-------------|
 | `type` | string | — | Filter by ingot type (e.g., `ingot_education`) |
 | `nextToken` | string | — | Pagination token from a previous response |
+| `fields` | string | — | Comma-separated list of fields to return (e.g., `id,name,type,updatedAt`). Omit for all fields. |
 
 **Response:** `200 OK`
 
@@ -296,6 +297,7 @@ List all Ingots for the authenticated user. Supports optional type filtering.
 **Notes:**
 - Without `type` parameter: returns all ingots, ordered by most recently updated (uses `by-owner` GSI)
 - With `type` parameter: returns only ingots of that type (uses `by-owner-type` GSI)
+- With `fields` parameter: each item in the response only contains the specified fields (useful for lightweight list views like the Anvil interface)
 
 ---
 

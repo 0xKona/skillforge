@@ -36,6 +36,15 @@ func list(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGat
 		Limit:            aws.Int32(50),
 	}
 
+	// Pagination: accept nextToken to resume from a previous page
+	if token := req.QueryStringParameters["nextToken"]; token != "" {
+		input.ExclusiveStartKey = map[string]types.AttributeValue{
+			"id":        &types.AttributeValueMemberS{Value: token},
+			"owner":     &types.AttributeValueMemberS{Value: owner},
+			"updatedAt": &types.AttributeValueMemberS{Value: "0"}, // GSI sort key required but value doesn't matter for start key
+		}
+	}
+
 	result, err := db.Query(ctx, input)
 	if err != nil {
 		return shared.InternalError("failed to list CVs")
