@@ -8,7 +8,7 @@ import { Lock, Trash2, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import ConfigureAmplifyClientSide from '@/components/providers/configure-amplify-client';
+import { AuthGuard } from '@/components/providers/auth-guard';
 
 const sidebarItems = [
     {
@@ -36,9 +36,9 @@ export default function ProfileLayout({
     const pathname = usePathname();
 
     return (
-        <PageWrapper className="min-h-screen flex flex-col px-4 md:px-10">
-            <ConfigureAmplifyClientSide />
-            <div className="flex-1 flex flex-col w-full max-w-screen-2xl mx-auto">
+        <AuthGuard>
+            <PageWrapper className="min-h-screen flex flex-col px-4 md:px-10">
+                <div className="flex-1 flex flex-col w-full max-w-screen-2xl mx-auto">
                 <div className="my-5" />
                 <Card className="flex-1 w-full h-full z-10 rounded-bl-none rounded-br-none flex flex-col md:flex-row overflow-hidden">
                     {/* Sidebar */}
@@ -74,6 +74,7 @@ export default function ProfileLayout({
                     </main>
                 </Card>
             </div>
-        </PageWrapper>
+            </PageWrapper>
+        </AuthGuard>
     );
 }

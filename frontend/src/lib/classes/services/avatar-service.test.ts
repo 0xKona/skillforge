@@ -14,15 +14,11 @@ jest.mock('aws-amplify/auth', () => ({
 }));
 
 // Mock the amplify_outputs.json file
-jest.mock('../../../../amplify_outputs.json', () => ({
-    __esModule: true,
-    default: {
-        storage: {
-            bucket_name: 'test-bucket',
-            aws_region: 'test-region',
-        },
-    },
-}));
+// Now uses env vars instead
+beforeAll(() => {
+    process.env.NEXT_PUBLIC_S3_BUCKET = 'test-bucket';
+    process.env.NEXT_PUBLIC_AWS_REGION = 'test-region';
+});
 
 describe('AvatarService', () => {
     // Reset mocks before each test

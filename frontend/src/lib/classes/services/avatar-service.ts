@@ -1,6 +1,5 @@
 import { uploadData } from 'aws-amplify/storage';
 import { updateUserAttributes, fetchUserAttributes } from 'aws-amplify/auth';
-import outputs from '../../../../amplify_outputs.json';
 
 export class AvatarService {
     /**
@@ -23,9 +22,8 @@ export class AvatarService {
             }).result;
 
             // 2. Construct the public URL
-            // Format: https://<bucket-name>.s3.<region>.amazonaws.com/<path>
-            const bucketName = outputs.storage.bucket_name;
-            const region = outputs.storage.aws_region;
+            const bucketName = process.env.NEXT_PUBLIC_S3_BUCKET;
+            const region = process.env.NEXT_PUBLIC_AWS_REGION;
             const path = uploadResult.path;
 
             const publicUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${path}`;

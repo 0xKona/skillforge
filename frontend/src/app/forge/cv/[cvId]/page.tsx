@@ -1,4 +1,11 @@
-import CvEditorWrapper from '@/components/layout/wrappers/cv-editor-wrapper';
+import CvEditorClient from './client';
+
+// Generate a placeholder path for static export.
+// Actual routing happens client-side — the Amplify Hosting SPA rewrite
+// serves this page for any /forge/cv/* path.
+export function generateStaticParams() {
+    return [{ cvId: 'placeholder' }];
+}
 
 interface PageProps {
     params: Promise<{ cvId: string }>;
@@ -7,5 +14,5 @@ interface PageProps {
 export default async function CvEditorPage({ params }: PageProps) {
     const { cvId } = await params;
 
-    return <CvEditorWrapper cvId={cvId} />;
+    return <CvEditorClient cvId={cvId} />;
 }
