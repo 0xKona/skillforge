@@ -1,27 +1,30 @@
 # dependencies
-/node_modules
-/.pnp
+node_modules/
+.pnp
 .pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-.kiro
 
-# testing
-/coverage
+# bun
+bun.lockb
+bun.lock
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
-/build
+build/
+dist/
+
+# testing
+coverage/
+
+# env files
+.env*
 
 # misc
 .DS_Store
 *.pem
+designs/
 
 # debug
 npm-debug.log*
@@ -29,19 +32,21 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-designs
-
-# amplify
-.amplify
+# amplify (until fully removed)
+.amplify/
 amplify_outputs*
 amplifyconfiguration*
+
+# CDK
+cdk.out/
+
+# IDE
+.idea/
+.vscode/
+
+# kiro
+.kiro/

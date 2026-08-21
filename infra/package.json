@@ -1,0 +1,11 @@
+{
+    "name": "skillforge-infra",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "synth": "cdk synth",
+        "deploy:test": "cdk deploy SkillForge-test",
+        "deploy:prod": "cdk deploy SkillForge-prod --require-approval broadening",
+        "diff": "cdk diff"
+    }
+}
