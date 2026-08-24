@@ -59,3 +59,4 @@ infra/lambda/*/ingot-handler
 .kiro/
 skills-lock.json
 .agents
+.playwright-mcp

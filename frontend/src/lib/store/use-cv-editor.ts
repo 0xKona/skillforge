@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { CV, NewCV, Section } from '../types/cv-types';
 import { Ingot, IngotType } from '../types/ingot-types';
-import { CvFormValues, validateCv } from '../zod-form-schemas/cv-schema';
+import { CvFormValues, validateCv } from '../schemas/cv-schema';
 
 interface CvEditorState {
     loading: boolean;

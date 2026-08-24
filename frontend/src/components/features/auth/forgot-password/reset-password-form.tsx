@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/ui/shadcn/card';
 import SubmitAuthForm from '../submit-form';
 import FormHeader from '../form-header';
 import { UseFormReturn } from 'react-hook-form';
-import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
+import { ResetPasswordForm } from '@/lib/schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
 import { Label } from '@/ui/shadcn/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';

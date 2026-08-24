@@ -7,7 +7,7 @@ import {
     forgotPasswordRequestSchema,
     ResetPasswordForm,
     resetPasswordFormSchema,
-} from '@/lib/zod-form-schemas/auth-schema';
+} from '@/lib/schemas/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import RequestPasswordResetForm from './request-code';
 import PasswordResetForm from './reset-password-form';

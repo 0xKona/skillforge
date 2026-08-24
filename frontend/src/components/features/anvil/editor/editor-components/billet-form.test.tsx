@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BilletForm } from './billet-form';
-import { generateSchemaFromIngotFields } from '@/lib/zod-form-schemas/ingot-form-generator';
+import { generateSchemaFromIngotFields } from '@/lib/schemas/ingot-form-generator';
 import { toast } from 'sonner';
 import { BilletTemplate } from '@/lib/types/ingot-types';
 

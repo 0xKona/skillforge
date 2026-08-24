@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import {
     editProfileFormSchema,
     EditProfileFormValues,
-} from '@/lib/zod-form-schemas/edit-profile-schema';
+} from '@/lib/schemas/edit-profile-schema';
 import { TypographyH3, TypographyP } from '@/ui/typography/typography';
 import { userApi } from '@/lib/api/user';
 import { UserProfile } from '@/lib/types/user-types';

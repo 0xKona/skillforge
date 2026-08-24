@@ -19,7 +19,6 @@ import { TypographyH3 } from '@/ui/typography/typography';
 import CvValidationError from '../forge-components/cv-validation-error';
 import CvEditorSkeleton from '../forge-components/cv-editor-skeleton';
 import { CV, NewCV } from '@/lib/types/cv-types';
-import { CvFormValues, validateCv } from '@/lib/zod-form-schemas/cv-schema';
 
 interface CvEditorProps {
     cvId?: string;

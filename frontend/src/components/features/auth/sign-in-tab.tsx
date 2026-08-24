@@ -2,10 +2,7 @@
 
 import { CardContent } from '@/ui/shadcn/card';
 import { useForm } from 'react-hook-form';
-import {
-    SignInForm,
-    signInFormSchema,
-} from '@/lib/zod-form-schemas/auth-schema';
+import { SignInForm, signInFormSchema } from '@/lib/schemas/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import SubmitAuthForm from './submit-form';

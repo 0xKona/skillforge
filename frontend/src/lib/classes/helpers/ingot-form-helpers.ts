@@ -1,6 +1,6 @@
 import { IngotField } from '../../types/ingot-types';
 import { INGOT_FIELD_LABELS } from '../../constants/ingot-constants';
-import { generateSchemaFromIngotFields } from '../../zod-form-schemas/ingot-form-generator';
+import { generateSchemaFromIngotFields } from '../../schemas/ingot-form-generator';
 
 interface ValidationResult {
     valid: boolean;
