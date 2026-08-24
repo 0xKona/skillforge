@@ -2,10 +2,10 @@ import { create } from 'zustand';
 import { CV, NewCV, Section } from '../types/cv-types';
 import { Ingot, IngotType } from '../types/ingot-types';
 import { CvService } from '../classes/services/service-cv';
-import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
 import { CvFormValues, validateCv } from '../zod-form-schemas/cv-schema';
 import { redirect } from 'next/navigation';
+import { ingotApi } from '../api/ingot';
 
 interface CvEditorState {
     loading: boolean;
@@ -61,7 +61,7 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
     initializeEditor: async (cvId?: string) => {
         set({ loading: true });
         try {
-            const ingots = await IngotService.listIngots();
+            const ingots = await ingotApi.getAllIngots();
 
             let cv: CV | NewCV;
             if (cvId) {

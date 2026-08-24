@@ -3,6 +3,7 @@ import { Ingot } from '../types/ingot-types';
 import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
+import { ingotApi } from '../api/ingot';
 
 interface AnvilInterfaceState {
     loading: boolean;
@@ -35,7 +36,7 @@ export const useAnvilInterfaceState = create<UseAnvilInterfaceStore>((set) => ({
     loadAnvilIngots: async () => {
         set({ loading: true });
         try {
-            const data = await IngotService.listAnvilIngotData();
+            const data = await ingotApi.getAllIngots();
             set({ anvilIngots: data });
         } catch (error) {
             console.error('Failed to list ingots', error);

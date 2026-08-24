@@ -13,13 +13,13 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/ui/shadcn/alert-dialog';
-import { Ingot } from '@/lib/types/ingot-types';
+import { Ingot, IngotType } from '@/lib/types/ingot-types';
 import { CV } from '@/lib/types/cv-types';
 import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
 import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import { cn } from '@/lib/utils';
-import { IngotService } from '@/lib/classes/services/ingot-service';
 import { Edit, Trash2, FileText, LucideIcon } from 'lucide-react';
+import { getIngotCardType } from '@/lib/helpers/ingot-helpers';
 
 interface LibraryCardProps {
     cardData: Ingot | CV;
@@ -41,9 +41,7 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
 
     if (isIngot) {
         const ingot = cardData as Ingot;
-        const details = IngotService.getAnvilCardDisplayDetails(
-            ingot.type || ''
-        );
+        const details = getIngotCardType(ingot.type || ('' as IngotType));
         color = details.color;
         Icon = details.icon;
         label = details.label;
@@ -63,7 +61,7 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
         deleteFn = cvState.deleteCv;
     }
 
-    const updatedAt = cardData.updatedAt || Date.now();
+    const updatedAt = cardData.updatedAt;
 
     return (
         <Card
@@ -100,9 +98,11 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
                     <TypographyH3 className="font-semibold text-lg text-slate-100 leading-tight line-clamp-2 group-hover:text-forge-orange transition-colors">
                         {title}
                     </TypographyH3>
-                    <TypographyP className="text-xs text-slate-400">
-                        Updated {new Date(updatedAt).toLocaleDateString()}
-                    </TypographyP>
+                    {updatedAt && (
+                        <TypographyP className="text-xs text-slate-400">
+                            Updated {new Date(updatedAt).toLocaleDateString()}
+                        </TypographyP>
+                    )}
                     {description && (
                         <TypographyP className="text-sm text-slate-400 line-clamp-2 mt-2">
                             {description}

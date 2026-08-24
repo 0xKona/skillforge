@@ -4,7 +4,6 @@ import {
     updatePassword,
     deleteUser,
 } from 'aws-amplify/auth';
-import { IngotService } from './ingot-service';
 import { CvService } from './service-cv';
 
 export interface UserProfile {
@@ -82,7 +81,9 @@ export class ProfileService {
     static async deleteUserAccount(): Promise<void> {
         try {
             // 1. Delete all Ingots
-            await IngotService.deleteAllIngots();
+            // THIS SERVICE NO LONGER EXISTS
+            // TODO: BACKEND DELETE PROFILE FUNCTION TO HANDLE THIS NEEDS IMPLEMENTING
+            // await IngotService.deleteAllIngots();
 
             // 2. Delete all CVs
             await CvService.deleteAllCvs();

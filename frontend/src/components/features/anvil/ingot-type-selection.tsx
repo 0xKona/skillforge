@@ -5,19 +5,15 @@ import {
 } from '@/ui/typography/typography';
 import { Card } from '@/ui/shadcn/card';
 import Link from 'next/link';
-import { IngotService } from '@/lib/classes/services/ingot-service';
 import { cn } from '@/lib/utils';
 import { IngotType } from '@/lib/types/ingot-types';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { getIngotCardType } from '@/lib/helpers/ingot-helpers';
 
 function IngotTypeCard({ ingotType }: { ingotType: IngotType }) {
     const ingotLabel = MappingHelpers.getIngotLabelByType(ingotType);
 
-    const {
-        color,
-        icon: Icon,
-        label,
-    } = IngotService.getAnvilCardDisplayDetails(ingotType);
+    const { color, icon: Icon, label } = getIngotCardType(ingotType);
 
     return (
         <Link

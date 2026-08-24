@@ -2,15 +2,24 @@ export interface IngotField {
     mandatory: boolean;
     value: string;
     inputType:
-        | 'text'
-        | 'date'
-        | 'textarea'
-        | 'select'
-        | 'email'
-        | 'tel'
-        | 'url';
+        'text' | 'date' | 'textarea' | 'select' | 'email' | 'tel' | 'url';
     label?: string;
     options?: string[];
+}
+
+export interface IngotApiResponse {
+    id: string;
+    name: string;
+    type: string;
+    content?: string;
+    owner: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface ListIngotApiResponse {
+    items: IngotApiResponse[];
+    nextToken?: string;
 }
 
 export interface Billet {

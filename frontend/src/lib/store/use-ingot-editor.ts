@@ -6,9 +6,9 @@ import {
     IngotType,
     IngotEditorData,
 } from '../types/ingot-types';
-import { IngotService } from '../classes/services/ingot-service';
 import { toast } from 'sonner';
 import { generateSchemaFromIngotFields } from '../zod-form-schemas/ingot-form-generator';
+import { ingotApi } from '../api/ingot';
 
 interface UseIngotEditorState {
     isLoading: boolean;
@@ -156,14 +156,10 @@ export const useIngotEditorState = create<UseIngotEditorStore>((set, get) => ({
 
         try {
             if (ingotId) {
-                await IngotService.updateIngot(
-                    ingotId,
-                    ingotName,
-                    ingotContent
-                );
+                await ingotApi.updateIngot(ingotId, ingotName, ingotContent);
                 toast.success('Ingot updated successfully');
             } else {
-                await IngotService.createIngot(
+                await ingotApi.createIngot(
                     ingotType as IngotType,
                     ingotName || 'Untitled Ingot',
                     ingotContent
