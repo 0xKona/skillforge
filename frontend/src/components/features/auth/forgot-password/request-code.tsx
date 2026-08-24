@@ -12,24 +12,23 @@ import FormInput from '@/ui/form-input';
 import SubmitAuthForm from '../submit-form';
 import { Button } from '@/ui/shadcn/button';
 import { UseFormReturn } from 'react-hook-form';
-import { useAuthFlowState } from '@/lib/store/use-auth-form';
 
 interface Props {
     requestForm: UseFormReturn<ForgotPasswordRequest>;
     resetForm: UseFormReturn<ResetPasswordForm>;
     onCodeSent: (email: string) => void;
+    onBack: () => void;
 }
 
 export default function RequestPasswordResetForm({
     requestForm,
     resetForm,
     onCodeSent,
+    onBack,
 }: Props) {
     const [isLoading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
-
-    const { setShowForgotPassword } = useAuthFlowState();
 
     const handleRequestReset = async (data: ForgotPasswordRequest) => {
         setLoading(true);
@@ -94,7 +93,7 @@ export default function RequestPasswordResetForm({
                         type="button"
                         variant="ghost"
                         className="w-full"
-                        onClick={() => setShowForgotPassword(false)}
+                        onClick={onBack}
                     >
                         Back to Sign In
                     </Button>

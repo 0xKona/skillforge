@@ -12,7 +12,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import RequestPasswordResetForm from './request-code';
 import PasswordResetForm from './reset-password-form';
 
-export default function ForgotPassword() {
+interface Props {
+    onBack: () => void;
+}
+
+export default function ForgotPassword({ onBack }: Props) {
     const [codeSent, setCodeSent] = useState(false);
     const [providedEmail, setProvidedEmail] = useState('');
 
@@ -42,6 +46,7 @@ export default function ForgotPassword() {
                     setProvidedEmail(email);
                     setCodeSent(true);
                 }}
+                onBack={onBack}
             />
         );
     }
@@ -50,7 +55,7 @@ export default function ForgotPassword() {
         <PasswordResetForm
             resetForm={resetForm}
             providedEmail={providedEmail}
-            onBack={() => setCodeSent(false)}
+            onBack={onBack}
         />
     );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
     Tabs,
     TabsContent,
@@ -11,28 +12,31 @@ import VerifyCodeCard from './verify-code';
 import SignInTab from './sign-in-tab';
 import SignUpTab from './sign-up-tab';
 import ForgotPassword from './forgot-password/forgot-password';
-import { useAuthFlowState } from '@/lib/store/use-auth-form';
-import { useEffect } from 'react';
 import { Card } from '@/ui/shadcn/card';
 
 export default function AuthForm() {
-    const { needsConfirmation, showForgotPassword, resetAuthFlow } =
-        useAuthFlowState();
+    const [needsConfirmation, setNeedsConfirmation] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [verificationEmail, setVerificationEmail] = useState('');
 
-    useEffect(() => {
-        return () => {
-            // Reset when component is unmounted from DOM
-            resetAuthFlow();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const resetAuthFlow = () => {
+        setNeedsConfirmation(false);
+        setShowForgotPassword(false);
+        setVerificationEmail('');
+    };
 
     if (needsConfirmation) {
-        return <VerifyCodeCard />;
+        return (
+            <VerifyCodeCard
+                verificationEmail={verificationEmail}
+                onBack={() => setNeedsConfirmation(false)}
+                onComplete={resetAuthFlow}
+            />
+        );
     }
 
     if (showForgotPassword) {
-        return <ForgotPassword />;
+        return <ForgotPassword onBack={() => setShowForgotPassword(false)} />;
     }
 
     return (
@@ -45,11 +49,22 @@ export default function AuthForm() {
             <Card>
                 <TabsContents>
                     <TabsContent value="signin">
-                        <SignInTab />
+                        <SignInTab
+                            onNeedsConfirmation={(email) => {
+                                setVerificationEmail(email);
+                                setNeedsConfirmation(true);
+                            }}
+                            onForgotPassword={() => setShowForgotPassword(true)}
+                        />
                     </TabsContent>
 
                     <TabsContent value="signup">
-                        <SignUpTab />
+                        <SignUpTab
+                            onNeedsConfirmation={(email) => {
+                                setVerificationEmail(email);
+                                setNeedsConfirmation(true);
+                            }}
+                        />
                     </TabsContent>
                 </TabsContents>
             </Card>

@@ -7,7 +7,6 @@ import FormHeader from '../form-header';
 import { UseFormReturn } from 'react-hook-form';
 import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
-import { useAuthFlowState } from '@/lib/store/use-auth-form';
 import { Label } from '@/ui/shadcn/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';
 import FormInput from '@/ui/form-input';
@@ -32,8 +31,6 @@ export default function PasswordResetForm({
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
 
-    const { setShowForgotPassword } = useAuthFlowState();
-
     const handleResetPassword = async (data: ResetPasswordForm) => {
         setLoading(true);
         setErrorMsg('');
@@ -49,7 +46,7 @@ export default function PasswordResetForm({
                 'Password reset successfully! You can now sign in with your new password.'
             );
             setTimeout(() => {
-                setShowForgotPassword(false);
+                onBack();
             }, 2000);
         } catch (err) {
             setErrorMsg(
@@ -177,10 +174,7 @@ export default function PasswordResetForm({
                             type="button"
                             variant="ghost"
                             className="flex-1"
-                            onClick={() => {
-                                onBack();
-                                setShowForgotPassword(false);
-                            }}
+                            onClick={onBack}
                         >
                             Cancel
                         </Button>
