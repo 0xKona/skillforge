@@ -25,13 +25,13 @@ const geistMono = Geist_Mono({
     preload: true,
 });
 
-export const metadata: Metadata = {
-    icons: {
-        icon: [{ url: '/logo_favicon.svg', type: 'image/svg+xml' }],
-    },
-    title: 'SkillForge',
-    description: 'Create and manage modular CVs!',
-};
+// export const metadata: Metadata = {
+//     icons: {
+//         icon: [{ url: '/logo_favicon.svg', type: 'image/svg+xml' }],
+//     },
+//     title: 'SkillForge',
+//     description: 'Create and manage modular CVs!',
+// };
 
 export default function RootLayout({
     children,

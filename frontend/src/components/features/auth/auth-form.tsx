@@ -1,13 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-    Tabs,
-    TabsContent,
-    TabsContents,
-    TabsList,
-    TabsTrigger,
-} from '@/ui/animate-ui/animate/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/shadcn/tabs';
 import VerifyCodeCard from './verify-code';
 import SignInTab from './sign-in-tab';
 import SignUpTab from './sign-up-tab';
@@ -47,26 +41,24 @@ export default function AuthForm() {
             </TabsList>
 
             <Card>
-                <TabsContents>
-                    <TabsContent value="signin">
-                        <SignInTab
-                            onNeedsConfirmation={(email) => {
-                                setVerificationEmail(email);
-                                setNeedsConfirmation(true);
-                            }}
-                            onForgotPassword={() => setShowForgotPassword(true)}
-                        />
-                    </TabsContent>
+                <TabsContent value="signin">
+                    <SignInTab
+                        onNeedsConfirmation={(email) => {
+                            setVerificationEmail(email);
+                            setNeedsConfirmation(true);
+                        }}
+                        onForgotPassword={() => setShowForgotPassword(true)}
+                    />
+                </TabsContent>
 
-                    <TabsContent value="signup">
-                        <SignUpTab
-                            onNeedsConfirmation={(email) => {
-                                setVerificationEmail(email);
-                                setNeedsConfirmation(true);
-                            }}
-                        />
-                    </TabsContent>
-                </TabsContents>
+                <TabsContent value="signup">
+                    <SignUpTab
+                        onNeedsConfirmation={(email) => {
+                            setVerificationEmail(email);
+                            setNeedsConfirmation(true);
+                        }}
+                    />
+                </TabsContent>
             </Card>
         </Tabs>
     );

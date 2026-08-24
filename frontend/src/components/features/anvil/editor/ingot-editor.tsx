@@ -6,13 +6,7 @@ import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './editor-components/editor-header';
 import { IngotDetails } from './editor-components/ingot-details';
 import { BilletSection } from './editor-components/billet-section';
-import {
-    Tabs,
-    TabsContent,
-    TabsContents,
-    TabsList,
-} from '@/ui/animate-ui/animate/tabs';
-import { TabsTrigger } from '@/ui/animate-ui/components/animate/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/shadcn/tabs';
 import { redirect } from 'next/navigation';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
@@ -148,15 +142,11 @@ export default function IngotEditor({ initialIngotData }: Props) {
                         <TabsTrigger value="details">Ingot Details</TabsTrigger>
                         <TabsTrigger value="billets">Billets</TabsTrigger>
                     </TabsList>
-                    <TabsContents>
-                        <TabsContent value="details">
-                            {IngotDetailsColumn}
-                        </TabsContent>
+                    <TabsContent value="details">
+                        {IngotDetailsColumn}
+                    </TabsContent>
 
-                        <TabsContent value="billets">
-                            {BilletColumn}
-                        </TabsContent>
-                    </TabsContents>
+                    <TabsContent value="billets">{BilletColumn}</TabsContent>
                 </Tabs>
             </div>
 
