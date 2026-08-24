@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './editor-components/editor-header';
@@ -16,7 +16,6 @@ import { TabsTrigger } from '@/ui/animate-ui/components/animate/tabs';
 import { redirect } from 'next/navigation';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
-import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
 import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
 import IngotPreviewModal from '@/components/features/pdf/ingot-preview-modal';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
@@ -38,7 +37,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
         saveIngot,
     } = useIngotEditorState();
 
-    const { showPreviewModal, openPreviewModal } = useIngotPreviewState();
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
 
     const ingotId = 'id' in ingotData ? ingotData.id : null;
     const ingotType = ingotData.type as IngotType;
@@ -128,12 +127,13 @@ export default function IngotEditor({ initialIngotData }: Props) {
                 title={ingotId ? 'Edit Ingot' : 'Create Ingot'}
                 typeLabel={MappingHelpers.getIngotLabelByType(ingotType)}
                 loading={isLoading}
-                onPreview={openPreviewModal}
+                onPreview={() => setShowPreviewModal(true)}
                 onSave={handleSave}
             />
             {currentTemplate && showPreviewModal && (
                 <IngotPreviewModal
                     isOpen={showPreviewModal}
+                    onClose={() => setShowPreviewModal(false)}
                     ingotData={ingotData}
                 />
             )}
@@ -171,7 +171,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
 
             <EditorFooter
                 loading={isLoading}
-                onPreview={openPreviewModal}
+                onPreview={() => setShowPreviewModal(true)}
                 onSave={handleSave}
             />
         </div>
