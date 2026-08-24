@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Logo from '@/components/common/icons/logo';
 import { Button } from '@/ui/shadcn/button';
 import UserDropdown from './nav-profile-menu';
-import { useClientAuth } from '@/lib/store/use-auth';
+import { useAuth } from '@/lib/store/use-auth';
 import { Skeleton } from '@/ui/shadcn/skeleton';
 import { NavigationLinkObject } from '@/lib/types/nav-types';
 import BurgerNav from './nav-menu-mobile';
@@ -13,7 +13,7 @@ import { navigationBarLinks } from '@/lib/constants/routing';
 import { TypographyH1 } from '@/components/common/ui/typography/typography';
 
 export default function NavBar() {
-    const { isAuthenticated, loading } = useClientAuth();
+    const { isAuthenticated, loading } = useAuth();
 
     return (
         <nav className="w-full bg-slate-950 text-white">

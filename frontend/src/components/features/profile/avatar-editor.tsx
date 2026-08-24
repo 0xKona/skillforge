@@ -13,14 +13,16 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/ui/shadcn/alert-dialog';
-import { useClientAuth } from '@/lib/store/use-auth';
 import { userApi } from '@/lib/api/user';
 
 export default function AvatarDisplayEditor() {
     const [confirmIsOpen, setConfirmIsOpen] = React.useState(false); // State to control dialog visibility
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null); // State to store the selected file
 
-    const { avatarUrl, setAvatarUrl } = useClientAuth();
+    // TODO: Replace with useAvatarUrl() React Query hook
+    const [avatarUrl, setAvatarUrl] = React.useState<string | undefined>(
+        undefined
+    );
 
     function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];

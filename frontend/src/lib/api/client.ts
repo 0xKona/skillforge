@@ -1,5 +1,6 @@
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { backendConfig } from '@/lib/config/backend-config';
+import { useAuth } from '@/lib/store/use-auth';
 
 /*
 Errors in this API 'package' are not caught or handled, all API's are thrown and
@@ -22,9 +23,15 @@ async function getAuthToken(): Promise<string> {
     const session = await fetchAuthSession();
     const token = session.tokens?.idToken?.toString();
     if (!token) {
+        handleUnauthorized();
         throw new ApiError(401, 'Not authenticated');
     }
     return token;
+}
+
+// Clears auth state on 401 - AuthGuard/ClientAuthListener handles the redirect
+function handleUnauthorized() {
+    useAuth.getState().signOut();
 }
 
 // Request Helper Function, build api url and request.
@@ -62,6 +69,11 @@ async function request<T>(
         const message =
             (errorBody as { error?: string }).error ||
             `Request failed with status ${response.status}`;
+
+        if (response.status === 401) {
+            handleUnauthorized();
+        }
+
         throw new ApiError(response.status, message);
     }
 
