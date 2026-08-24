@@ -1,4 +1,3 @@
-import { AvatarService } from '@/lib/classes/services/avatar-service';
 import React from 'react';
 import { toast } from 'sonner';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/shadcn/avatar';
@@ -15,6 +14,7 @@ import {
     AlertDialogTitle,
 } from '@/ui/shadcn/alert-dialog';
 import { useClientAuth } from '@/lib/store/use-client-auth';
+import { userApi } from '@/lib/api/user';
 
 export default function AvatarDisplayEditor() {
     const [confirmIsOpen, setConfirmIsOpen] = React.useState(false); // State to control dialog visibility
@@ -31,8 +31,7 @@ export default function AvatarDisplayEditor() {
     async function submitImage() {
         if (selectedFile) {
             try {
-                const newUrl =
-                    await AvatarService.updateUserAvatar(selectedFile);
+                const newUrl = await userApi.updateUserAvatar(selectedFile);
                 toast('Avatar updated successfully!', {
                     description: 'Your avatar has been updated.',
                     action: {
