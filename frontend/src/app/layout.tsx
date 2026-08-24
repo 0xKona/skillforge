@@ -5,6 +5,10 @@ import ConfigureAmplifyClientSide from '@/components/providers/configure-amplify
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ClientAuthListener } from '@/components/providers/client-auth-listener';
 import { Toaster } from '@/ui/shadcn/sonner';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 const inter = Inter({
     variable: '--font-inter',
@@ -35,11 +39,15 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+
+  const queryClient = new QueryClient;
+
     return (
         <html lang="en" className="dark" suppressHydrationWarning>
             <body
                 className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
-            >
+        >
+          <QueryClientProvider client={queryClient}>
                 <ConfigureAmplifyClientSide />
                 <ClientAuthListener />
                 <ThemeProvider
@@ -51,6 +59,8 @@ export default function RootLayout({
                     <Toaster />
                     {children}
                 </ThemeProvider>
+
+              </QueryClientProvider>
             </body>
         </html>
     );

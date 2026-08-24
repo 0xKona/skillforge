@@ -18,5 +18,8 @@
         "infra:diff": "bun run --cwd infra diff",
         "infra:pipeline": "bun run --cwd infra deploy:pipeline",
         "infra:config:dev": "cd infra && npx ts-node scripts/generate-frontend-env.ts dev"
+    },
+    "dependencies": {
+        "@tanstack/react-query": "^5.102.2"
     }
 }
