@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { CV } from '../types/cv-types';
-import { CvService } from '../classes/services/service-cv';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
+import { cvApi } from '../api/cv';
 
 interface CvInterfaceState {
     loading: boolean;
@@ -31,7 +31,7 @@ export const useCvInterfaceState = create<UseCvInterfaceStore>((set) => ({
     loadCvs: async () => {
         set({ loading: true });
         try {
-            const data = await CvService.listCvs();
+            const data = await cvApi.getAllCvsForUser();
             set({ cvs: data });
         } catch (error) {
             console.error('Failed to list CVs', error);
@@ -43,7 +43,7 @@ export const useCvInterfaceState = create<UseCvInterfaceStore>((set) => ({
 
     deleteCv: async (id: string) => {
         try {
-            await CvService.deleteCv(id);
+            await cvApi.deleteCvById(id);
             set((state) => ({
                 cvs: state.cvs.filter((c) => c.id !== id),
             }));

@@ -4,7 +4,6 @@ import {
     updatePassword,
     deleteUser,
 } from 'aws-amplify/auth';
-import { CvService } from './service-cv';
 
 export interface UserProfile {
     username?: string;
@@ -86,7 +85,9 @@ export class ProfileService {
             // await IngotService.deleteAllIngots();
 
             // 2. Delete all CVs
-            await CvService.deleteAllCvs();
+            // THIS SERVICE NO LONGER EXISTS
+            // TODO: BACKEND DELETE PROFILE FUNCTION TO HANDLE THIS NEEDS IMPLEMENTING
+            // await CvService.deleteAllCvs();
 
             // 3. Delete the user account
             await deleteUser();

@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { CV, NewCV, Section } from '../types/cv-types';
 import { Ingot, IngotType } from '../types/ingot-types';
-import { CvService } from '../classes/services/service-cv';
 import { toast } from 'sonner';
 import { CvFormValues, validateCv } from '../zod-form-schemas/cv-schema';
 import { redirect } from 'next/navigation';
 import { ingotApi } from '../api/ingot';
+import { cvApi } from '../api/cv';
 
 interface CvEditorState {
     loading: boolean;
@@ -66,7 +66,7 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             let cv: CV | NewCV;
             if (cvId) {
                 // If a cvId is provided, attempt to fetch the existing CV data
-                const existingCv = await CvService.getCv(cvId);
+                const existingCv = await cvApi.getCvById(cvId);
                 // If the CV doesn't exist, throw an error to be caught below
                 if (!existingCv) throw new Error('CV not found');
                 // Assign the fetched CV to the local variable
@@ -104,7 +104,7 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
                     };
                     // Save the cleaned CV immediately
                     // We cast to CV because we know it has an ID at this point
-                    cv = await CvService.updateCv(cv as CV);
+                    cv = await cvApi.updateCv(cv as CV);
                     toast.warning(
                         'Some ingots in this CV were missing and have been removed.'
                     );
@@ -358,13 +358,13 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
             // (Should always be the case at this point)
             if ('id' in state.cv) {
                 // Update existing CV
-                const updated = await CvService.updateCv(state.cv as CV);
+                const updated = await cvApi.updateCv(state.cv as CV);
                 // Update local state with the response from the server
                 set({ cv: updated });
                 toast.success('CV saved successfully');
             } else {
                 // Create new CV - ( Shouldn't be required at this stage but kept as a backup )
-                const created = await CvService.createCv(state.cv as NewCV);
+                const created = await cvApi.createCv(state.cv as NewCV);
                 // Update local state with the newly created CV (which now has an ID)
                 set({ cv: created });
                 toast.success('CV created successfully');
@@ -398,7 +398,7 @@ export const useCvEditorState = create<UseCvEditorStore>((set, get) => ({
 
             // Update existing CV
             // We ignore the return value to avoid re-rendering the UI with a new object reference
-            await CvService.updateCv(state.cv as CV);
+            await cvApi.updateCv(state.cv as CV);
         } catch (error) {
             console.error('Failed to auto-save CV', error);
             // We might want to show a toast here if autosave fails repeatedly,
