@@ -1,6 +1,11 @@
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { backendConfig } from '@/lib/config/backend-config';
 
+/*
+Errors in this API 'package' are not caught or handled, all API's are thrown and
+should be dealt with at the data integrity layer by useQuery.
+*/
+
 // Error Class for API Errors
 export class ApiError extends Error {
     constructor(

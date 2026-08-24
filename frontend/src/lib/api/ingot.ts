@@ -33,7 +33,6 @@ function mapToIngot(item: IngotApiResponse): Ingot {
     };
 }
 
-// Create a new Ingot
 async function createIngot(
     type: string,
     name: string,
@@ -44,25 +43,15 @@ async function createIngot(
         type,
         content: JSON.stringify(content),
     });
-    const ingot = mapToIngot(response);
-    return ingot;
+    return mapToIngot(response);
 }
 
-// Get a single ingot by ID.
-async function getingot(id: string): Promise<Ingot | null> {
-    try {
-        const response = await apiGet<IngotApiResponse>(`/ingot/${id}`);
-        const ingot = mapToIngot(response);
-        return ingot;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
+async function getIngot(id: string): Promise<Ingot> {
+    const response = await apiGet<IngotApiResponse>(`/ingot/${id}`);
+    return mapToIngot(response);
 }
 
-// Get all Ingots, optionally filtered by type, returned as array
 async function getAllIngots(ingotType?: IngotType): Promise<Ingot[]> {
-    // Set optional ingotType as parameter filter
     const apiParams: Record<string, string> = {};
     if (ingotType) {
         apiParams.type = ingotType;
@@ -72,7 +61,6 @@ async function getAllIngots(ingotType?: IngotType): Promise<Ingot[]> {
     return response.items.map(mapToIngot);
 }
 
-// Update and existing ingot
 async function updateIngot(
     id: string,
     name: string,
@@ -82,19 +70,16 @@ async function updateIngot(
         name,
         content: JSON.stringify(content),
     });
-
-    const ingot = mapToIngot(response);
-    return ingot;
+    return mapToIngot(response);
 }
 
-// Delete a single ingot by ID
 async function deleteIngot(id: string): Promise<void> {
     await apiDelete(`/ingot/${id}`);
 }
 
 export const ingotApi = {
     createIngot,
-    getIngot: getingot,
+    getIngot,
     getAllIngots,
     updateIngot,
     deleteIngot,

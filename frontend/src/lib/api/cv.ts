@@ -30,7 +30,6 @@ function mapDbResponseToCv(item: CvApiResponse): CV {
     };
 }
 
-// Create CV
 async function createCv(cvData: NewCV): Promise<CV> {
     const response = await apiPost<CvApiResponse>('/cv', {
         title: cvData.title,
@@ -38,36 +37,19 @@ async function createCv(cvData: NewCV): Promise<CV> {
         version: cvData.version,
         cvContent: JSON.stringify(cvData.cvContent),
     });
-
-    const cv = mapDbResponseToCv(response);
-    return cv;
+    return mapDbResponseToCv(response);
 }
 
-// Get CV by ID
-async function getCvById(id: string): Promise<CV | null> {
-    try {
-        const response = await apiGet<CvApiResponse>(`/cv/${id}`);
-        return mapDbResponseToCv(response);
-    } catch (error) {
-        if (
-            error instanceof Error &&
-            'status' in error &&
-            (error as { status: number }).status === 404
-        ) {
-            return null;
-        }
-        throw error;
-    }
+async function getCvById(id: string): Promise<CV> {
+    const response = await apiGet<CvApiResponse>(`/cv/${id}`);
+    return mapDbResponseToCv(response);
 }
 
-// Get all CVs for user
 async function getAllCvsForUser(): Promise<CV[]> {
     const response = await apiGet<ListCvApiResponse>('/cv');
-    const cvList = response.items.map(mapDbResponseToCv);
-    return cvList;
+    return response.items.map(mapDbResponseToCv);
 }
 
-// Update existing CV
 async function updateCv(cv: CV): Promise<CV> {
     const response = await apiPut<CvApiResponse>(`/cv/${cv.id}`, {
         title: cv.title,
@@ -75,12 +57,9 @@ async function updateCv(cv: CV): Promise<CV> {
         version: cv.version,
         cvContent: JSON.stringify(cv.cvContent),
     });
-
-    const updatedCv = mapDbResponseToCv(response);
-    return updatedCv;
+    return mapDbResponseToCv(response);
 }
 
-// Delete a CV by ID
 async function deleteCvById(id: string): Promise<void> {
     await apiDelete(`/cv/${id}`);
 }
