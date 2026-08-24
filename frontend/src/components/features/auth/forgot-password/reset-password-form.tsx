@@ -1,9 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, CardContent } from '@/ui/shadcn/card';
 import SubmitAuthForm from '../submit-form';
 import FormHeader from '../form-header';
-import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { UseFormReturn } from 'react-hook-form';
 import { ResetPasswordForm } from '@/lib/zod-form-schemas/auth-schema';
 import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
@@ -16,23 +16,21 @@ import { TypographyP } from '@/components/common/ui/typography/typography';
 
 interface Props {
     resetForm: UseFormReturn<ResetPasswordForm>;
+    providedEmail: string;
+    onBack: () => void;
 }
 
-export default function PasswordResetForm({ resetForm }: Props) {
-    // Create an array so we don't have to manually update slots.
+export default function PasswordResetForm({
+    resetForm,
+    providedEmail,
+    onBack,
+}: Props) {
     const SLOT_NUM = 6;
     const SLOT_ARRAY = Array.from({ length: SLOT_NUM });
 
-    const {
-        isLoading,
-        providedEmail,
-        errorMsg,
-        successMsg,
-        setLoading,
-        setErrorMsg,
-        setSuccessMsg,
-        setCodeSent,
-    } = useRequestPasswordResetStore();
+    const [isLoading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
 
     const { setShowForgotPassword } = useAuthFlowState();
 
@@ -180,7 +178,7 @@ export default function PasswordResetForm({ resetForm }: Props) {
                             variant="ghost"
                             className="flex-1"
                             onClick={() => {
-                                setCodeSent(false);
+                                onBack();
                                 setShowForgotPassword(false);
                             }}
                         >

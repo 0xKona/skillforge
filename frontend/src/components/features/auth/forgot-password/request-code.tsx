@@ -1,9 +1,7 @@
 'use client';
 
-import {
-    Card,
-    CardContent,
-} from '@/ui/shadcn/card';
+import { useState } from 'react';
+import { Card, CardContent } from '@/ui/shadcn/card';
 import FormHeader from '../form-header';
 import {
     ForgotPasswordRequest,
@@ -13,29 +11,23 @@ import { resetPassword } from 'aws-amplify/auth';
 import FormInput from '@/ui/form-input';
 import SubmitAuthForm from '../submit-form';
 import { Button } from '@/ui/shadcn/button';
-import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import { UseFormReturn } from 'react-hook-form';
 import { useAuthFlowState } from '@/lib/store/use-auth-form';
 
 interface Props {
     requestForm: UseFormReturn<ForgotPasswordRequest>;
     resetForm: UseFormReturn<ResetPasswordForm>;
+    onCodeSent: (email: string) => void;
 }
 
 export default function RequestPasswordResetForm({
     requestForm,
     resetForm,
+    onCodeSent,
 }: Props) {
-    const {
-        isLoading,
-        errorMsg,
-        successMsg,
-        setLoading,
-        setErrorMsg,
-        setSuccessMsg,
-        setCodeSent,
-        setProvidedEmail,
-    } = useRequestPasswordResetStore();
+    const [isLoading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
 
     const { setShowForgotPassword } = useAuthFlowState();
 
@@ -46,10 +38,9 @@ export default function RequestPasswordResetForm({
 
         try {
             await resetPassword({ username: data.email });
-            setProvidedEmail(data.email);
             resetForm.setValue('email', data.email);
-            setCodeSent(true);
             setSuccessMsg('Verification code sent! Please check your email.');
+            onCodeSent(data.email);
         } catch (err) {
             setErrorMsg(
                 err instanceof Error ? err.message : 'Failed to send reset code'

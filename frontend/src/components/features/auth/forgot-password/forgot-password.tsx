@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
     ForgotPasswordRequest,
@@ -9,11 +10,11 @@ import {
 } from '@/lib/zod-form-schemas/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import RequestPasswordResetForm from './request-code';
-import { useRequestPasswordResetStore } from '@/lib/store/use-password-reset';
 import PasswordResetForm from './reset-password-form';
 
 export default function ForgotPassword() {
-    const { providedEmail, codeSent } = useRequestPasswordResetStore();
+    const [codeSent, setCodeSent] = useState(false);
+    const [providedEmail, setProvidedEmail] = useState('');
 
     const resetForm = useForm<ResetPasswordForm>({
         resolver: zodResolver(resetPasswordFormSchema),
@@ -37,9 +38,19 @@ export default function ForgotPassword() {
             <RequestPasswordResetForm
                 requestForm={requestForm}
                 resetForm={resetForm}
+                onCodeSent={(email) => {
+                    setProvidedEmail(email);
+                    setCodeSent(true);
+                }}
             />
         );
     }
 
-    return <PasswordResetForm resetForm={resetForm} />;
+    return (
+        <PasswordResetForm
+            resetForm={resetForm}
+            providedEmail={providedEmail}
+            onBack={() => setCodeSent(false)}
+        />
+    );
 }
