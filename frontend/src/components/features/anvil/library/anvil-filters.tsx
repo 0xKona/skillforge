@@ -1,4 +1,3 @@
-import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import { Input } from '@/ui/shadcn/input';
 import {
     Select,
@@ -12,15 +11,21 @@ import { Button } from '@/ui/shadcn/button';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 import { IngotType } from '@/lib/types/ingot-types';
 
-export default function AnvilInterfaceFilters() {
-    const {
-        searchQuery,
-        typeFilter,
-        setSearchQuery,
-        setTypeFilter,
-        resetFilters,
-    } = useAnvilInterfaceState();
+interface AnvilInterfaceFiltersProps {
+    searchQuery: string;
+    typeFilter: string;
+    onSearchChange: (query: string) => void;
+    onTypeChange: (type: string) => void;
+    onReset: () => void;
+}
 
+export default function AnvilInterfaceFilters({
+    searchQuery,
+    typeFilter,
+    onSearchChange,
+    onTypeChange,
+    onReset,
+}: AnvilInterfaceFiltersProps) {
     return (
         <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
@@ -28,13 +33,13 @@ export default function AnvilInterfaceFilters() {
                 <Input
                     placeholder="Search ingots..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => onSearchChange(e.target.value)}
                     className="pl-8 bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-400 focus-visible:ring-forge-orange"
                 />
             </div>
             <Select
                 value={typeFilter}
-                onValueChange={(value) => setTypeFilter(value)}
+                onValueChange={(value) => onTypeChange(value)}
             >
                 <SelectTrigger className="w-full sm:w-[200px] bg-slate-800 border-slate-700 text-slate-100 focus:ring-forge-orange">
                     <SelectValue placeholder="Filter by type" />
@@ -53,7 +58,7 @@ export default function AnvilInterfaceFilters() {
             {(searchQuery || typeFilter !== 'ALL') && (
                 <Button
                     variant="ghost"
-                    onClick={resetFilters}
+                    onClick={onReset}
                     className="text-slate-400 hover:text-white hover:bg-slate-800"
                 >
                     <X className="mr-2 h-4 w-4" />

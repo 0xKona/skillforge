@@ -11,7 +11,8 @@ import LibraryCard from '@/widgets/library-card';
 import { TypographyP } from '@/ui/typography/typography';
 
 export default function CvLibraryInterface() {
-    const { loading, cvs, loadCvs, searchQuery } = useCvInterfaceState();
+    const { loading, cvs, loadCvs, searchQuery, openCv, deleteCv } =
+        useCvInterfaceState();
 
     useEffect(() => {
         loadCvs();
@@ -65,7 +66,12 @@ export default function CvLibraryInterface() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredCvs.map((cv) => (
-                        <LibraryCard key={cv.id} cardData={cv} />
+                        <LibraryCard
+                            key={cv.id}
+                            cardData={cv}
+                            onOpen={openCv}
+                            onDelete={deleteCv}
+                        />
                     ))}
                 </div>
             )}
