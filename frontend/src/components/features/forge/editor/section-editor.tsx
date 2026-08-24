@@ -1,6 +1,7 @@
 'use client';
 
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
+import { useUpdateCv } from '@/hooks/use-cvs';
 import { Checkbox } from '@/ui/shadcn/checkbox';
 import { Label } from '@/ui/shadcn/label';
 import { TypographyP } from '@/ui/typography/typography';
@@ -15,13 +16,10 @@ import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
 import { redirect } from 'next/navigation';
 
 export function SectionEditor() {
-    const {
-        cv,
-        autoSaveCv,
-        activeSectionIndex,
-        availableIngots,
-        toggleIngotInSection,
-    } = useCvEditorState();
+    const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
+        useCvEditorState();
+
+    const updateCv = useUpdateCv();
 
     if (!cv || activeSectionIndex === null) return null;
 
@@ -47,7 +45,10 @@ export function SectionEditor() {
         IngotHelpers.checkIngotsCanBeSortedByDate(relevantIngots);
 
     async function handleCreateNewIngot() {
-        await autoSaveCv();
+        // Save current state before navigating away
+        if (cv && 'id' in cv) {
+            updateCv.mutate(cv as CV);
+        }
         redirect(
             `/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as CV).id}`
         );
