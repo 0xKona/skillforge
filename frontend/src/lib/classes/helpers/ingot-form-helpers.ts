@@ -1,5 +1,11 @@
 import { IngotField } from '../../types/ingot-types';
 import { INGOT_FIELD_LABELS } from '../../constants/ingot-constants';
+import { generateSchemaFromIngotFields } from '../../zod-form-schemas/ingot-form-generator';
+
+interface ValidationResult {
+    valid: boolean;
+    errors: Record<string, string>;
+}
 
 export class IngotFormHelper {
     /**
@@ -77,5 +83,30 @@ export class IngotFormHelper {
             }
         });
         return values;
+    }
+
+    /**
+     * Validates ingot fields against their generated Zod schema.
+     * @param fields - The record of IngotFields to validate
+     * @returns An object with `valid` boolean and `errors` record of field-key to message
+     */
+    static validateIngotFields(
+        fields: Record<string, IngotField>
+    ): ValidationResult {
+        const schema = generateSchemaFromIngotFields(fields);
+        const values = IngotFormHelper.getIngotFieldValues(fields);
+        const result = schema.safeParse(values);
+
+        if (result.success) {
+            return { valid: true, errors: {} };
+        }
+
+        const errors: Record<string, string> = {};
+        result.error.issues.forEach((err) => {
+            if (err.path[0]) {
+                errors[err.path[0] as string] = err.message;
+            }
+        });
+        return { valid: false, errors };
     }
 }

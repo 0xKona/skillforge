@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'sonner';
 import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './editor-components/editor-header';
 import { IngotDetails } from './editor-components/ingot-details';
 import { BilletSection } from './editor-components/billet-section';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/shadcn/tabs';
-import { redirect } from 'next/navigation';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
+import { useCreateIngot, useUpdateIngot } from '@/hooks/use-ingots';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
 import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
 import IngotPreviewModal from '@/components/features/pdf/ingot-preview-modal';
@@ -19,6 +21,9 @@ interface Props {
 }
 
 export default function IngotEditor({ initialIngotData }: Props) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
     const {
         isLoading,
         ingotData,
@@ -28,8 +33,10 @@ export default function IngotEditor({ initialIngotData }: Props) {
         setIngotName,
         handleContentChange,
         handleBilletsChange,
-        saveIngot,
     } = useIngotEditorState();
+
+    const createIngot = useCreateIngot();
+    const updateIngot = useUpdateIngot();
 
     const [showPreviewModal, setShowPreviewModal] = useState(false);
 
@@ -39,6 +46,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
     const ingotContent = ingotData.content;
 
     const currentTemplate = ingotType ? INGOT_TEMPLATES[ingotType] : null;
+    const isSaving = createIngot.isPending || updateIngot.isPending;
 
     // On component mount, load props into state
     useEffect(() => {
@@ -61,9 +69,62 @@ export default function IngotEditor({ initialIngotData }: Props) {
 
     // Handle Saving Ingot Data
     async function handleSave() {
-        const success = await saveIngot();
-        if (success) {
-            redirect('/anvil');
+        if (!ingotType) return;
+
+        // Validate name
+        if (!ingotName.trim()) {
+            toast.error('Display Name is required');
+            return;
+        }
+
+        // Validate fields
+        const { valid, errors: fieldErrors } =
+            IngotFormHelper.validateIngotFields(ingotContent.fields);
+
+        if (!valid) {
+            useIngotEditorState.setState({ errors: fieldErrors });
+            toast.error('Please fix the errors in the form');
+            return;
+        }
+
+        useIngotEditorState.setState({ errors: {} });
+
+        const redirectToCv = searchParams.get('redirectToCv');
+
+        if (ingotId) {
+            updateIngot.mutate(
+                { id: ingotId, name: ingotName, content: ingotContent },
+                {
+                    onSuccess: () => {
+                        toast.success('Ingot updated successfully');
+                        if (redirectToCv) {
+                            router.push(`/forge/cv/${redirectToCv}`);
+                        } else {
+                            router.push('/anvil');
+                        }
+                    },
+                    onError: () => toast.error('Failed to save ingot'),
+                }
+            );
+        } else {
+            createIngot.mutate(
+                {
+                    type: ingotType,
+                    name: ingotName || 'Untitled Ingot',
+                    content: ingotContent,
+                },
+                {
+                    onSuccess: () => {
+                        toast.success('Ingot created successfully');
+                        if (redirectToCv) {
+                            router.push(`/forge/cv/${redirectToCv}`);
+                        } else {
+                            router.push('/anvil');
+                        }
+                    },
+                    onError: () => toast.error('Failed to save ingot'),
+                }
+            );
         }
     }
 
@@ -120,7 +181,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
             <EditorHeader
                 title={ingotId ? 'Edit Ingot' : 'Create Ingot'}
                 typeLabel={MappingHelpers.getIngotLabelByType(ingotType)}
-                loading={isLoading}
+                loading={isSaving}
                 onPreview={() => setShowPreviewModal(true)}
                 onSave={handleSave}
             />
@@ -160,7 +221,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
             </div>
 
             <EditorFooter
-                loading={isLoading}
+                loading={isSaving}
                 onPreview={() => setShowPreviewModal(true)}
                 onSave={handleSave}
             />

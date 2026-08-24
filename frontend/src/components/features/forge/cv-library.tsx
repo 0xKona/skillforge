@@ -1,23 +1,34 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { Button } from '@/ui/shadcn/button';
 import CvCardSkeleton from './forge-components/cv-card-skeleton';
-import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
+import { useCvs, useDeleteCv } from '@/hooks/use-cvs';
 import LibraryHeader from '@/widgets/library-header';
 import CvLibrarySearch from './forge-components/cv-library-search';
 import LibraryCard from '@/widgets/library-card';
 import { TypographyP } from '@/ui/typography/typography';
 
 export default function CvLibraryInterface() {
-    const { loading, cvs, loadCvs, searchQuery, openCv, deleteCv } =
-        useCvInterfaceState();
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
 
-    useEffect(() => {
-        loadCvs();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const { data: cvs = [], isLoading, refetch } = useCvs();
+    const deleteCv = useDeleteCv();
+
+    function handleDelete(id: string) {
+        deleteCv.mutate(id, {
+            onSuccess: () => toast.success('CV deleted'),
+            onError: () => toast.error('Failed to delete CV, please try again'),
+        });
+    }
+
+    function handleOpen(id: string) {
+        router.push(`/forge/cv/${id}`);
+    }
 
     const filteredCvs = cvs.filter((cv) =>
         cv.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -27,19 +38,22 @@ export default function CvLibraryInterface() {
         <div className="w-full mx-auto p-6 space-y-6">
             {/* Header */}
             <LibraryHeader
-                isLoading={loading}
-                onRefresh={loadCvs}
+                isLoading={isLoading}
+                onRefresh={() => refetch()}
                 mainButtonText="Create New CV"
                 mainButtonLink="/forge/cv/new"
                 headerTitleText="CV Library"
                 headerDescriptionText="Manage and organize your Curriculum Vitae"
             />
 
-            {/* Filters */}
-            <CvLibrarySearch />
+            {/* Search */}
+            <CvLibrarySearch
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+            />
 
             {/* Content */}
-            {loading ? (
+            {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <CvCardSkeleton key={i} />
@@ -69,8 +83,8 @@ export default function CvLibraryInterface() {
                         <LibraryCard
                             key={cv.id}
                             cardData={cv}
-                            onOpen={openCv}
-                            onDelete={deleteCv}
+                            onOpen={handleOpen}
+                            onDelete={handleDelete}
                         />
                     ))}
                 </div>
