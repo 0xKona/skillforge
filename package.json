@@ -1,7 +1,10 @@
 {
     "name": "skillforge",
     "private": true,
-    "workspaces": ["frontend", "infra"],
+    "workspaces": [
+        "frontend",
+        "infra"
+    ],
     "scripts": {
         "dev": "bun run --cwd frontend dev",
         "build": "bun run --cwd frontend build",
@@ -17,9 +20,28 @@
         "infra:synth": "bun run --cwd infra synth",
         "infra:diff": "bun run --cwd infra diff",
         "infra:pipeline": "bun run --cwd infra deploy:pipeline",
-        "infra:config:dev": "cd infra && npx ts-node scripts/generate-frontend-env.ts dev"
+        "infra:config:dev": "cd infra && npx ts-node scripts/generate-frontend-env.ts dev",
+        "prepare": "husky"
     },
     "dependencies": {
         "@tanstack/react-query": "^5.102.2"
+    },
+    "lint-staged": {
+        "frontend/src/**/*.{ts,tsx}": [
+            "prettier --write",
+            "eslint --fix --no-warn-ignored"
+        ],
+        "infra/**/*.ts": [
+            "prettier --write"
+        ],
+        "*.{json,md,css}": [
+            "prettier --write"
+        ]
+    },
+    "devDependencies": {
+        "eslint": "^10.9.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^17.3.0",
+        "prettier": "^3.9.6"
     }
 }
