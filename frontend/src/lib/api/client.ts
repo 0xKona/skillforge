@@ -1,11 +1,7 @@
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { backendConfig } from '@/lib/config/backend-config';
 
-/**
- * Lightweight REST API client for the SkillForge backend.
- * Automatically attaches the Cognito ID token to requests.
- */
-
+// Error Class for API Errors
 export class ApiError extends Error {
     constructor(
         public status: number,
@@ -16,6 +12,7 @@ export class ApiError extends Error {
     }
 }
 
+// Fetches the Cognito token from Auth Session
 async function getAuthToken(): Promise<string> {
     const session = await fetchAuthSession();
     const token = session.tokens?.idToken?.toString();
@@ -25,6 +22,7 @@ async function getAuthToken(): Promise<string> {
     return token;
 }
 
+// Request Helper Function, build api url and request.
 async function request<T>(
     method: string,
     path: string,
@@ -36,7 +34,9 @@ async function request<T>(
     let url = `${backendConfig.apiUrl}${path}`;
     if (params) {
         const searchParams = new URLSearchParams(
-            Object.entries(params).filter(([, v]) => v !== undefined && v !== '')
+            Object.entries(params).filter(
+                ([, v]) => v !== undefined && v !== ''
+            )
         );
         if (searchParams.toString()) {
             url += `?${searchParams.toString()}`;
@@ -62,6 +62,8 @@ async function request<T>(
 
     return response.json() as Promise<T>;
 }
+
+// --- Abstracted API Functions for each method ---
 
 export async function apiGet<T>(
     path: string,
