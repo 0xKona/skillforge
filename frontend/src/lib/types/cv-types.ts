@@ -1,22 +1,6 @@
 import { IngotType } from './ingot-types';
 import { SortOrder } from './sorting-types';
 
-export interface CvApiResponse {
-    id: string;
-    title: string;
-    description?: string | null;
-    version: number;
-    cvContent?: string;
-    owner: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
-export interface ListCvApiResponse {
-    items: CvApiResponse[];
-    nextToken?: string;
-}
-
 export interface NewCV {
     version: number;
     title: string;

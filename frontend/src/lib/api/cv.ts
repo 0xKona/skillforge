@@ -1,11 +1,22 @@
-import {
-    CV,
-    CvApiResponse,
-    CvContent,
-    ListCvApiResponse,
-    NewCV,
-} from '../types/cv-types';
+import { CV, CvContent, NewCV } from '../types/cv-types';
 import { apiDelete, apiGet, apiPost, apiPut } from './client';
+
+// API response types - internal to this module
+interface CvApiResponse {
+    id: string;
+    title: string;
+    description?: string | null;
+    version: number;
+    cvContent?: string;
+    owner: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface ListCvApiResponse {
+    items: CvApiResponse[];
+    nextToken?: string;
+}
 
 function mapDbResponseToCv(item: CvApiResponse): CV {
     let cvContent: CvContent;
