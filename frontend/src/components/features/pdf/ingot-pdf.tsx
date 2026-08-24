@@ -5,7 +5,7 @@ import { Document, Page, View } from '@react-pdf/renderer';
 import { Ingot, IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { SectionHeader } from '@/components/features/pdf/pdf-sections/section-header';
 import { SortOrder } from '@/lib/types/sorting-types';
-import { pdfStyles } from '@/lib/pdf-styles/pdf-styles';
+import { pdfStyles } from '@/lib/pdf/styles';
 import SectionRenderer from './section-renderer';
 
 interface IngotPDFProps {
