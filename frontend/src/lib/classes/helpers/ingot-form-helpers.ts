@@ -1,4 +1,5 @@
-import { IngotField, INGOT_FIELD_LABELS } from '../../types/ingot-types';
+import { IngotField } from '../../types/ingot-types';
+import { INGOT_FIELD_LABELS } from '../../constants/ingot-constants';
 
 export class IngotFormHelper {
     /**

@@ -4,7 +4,8 @@ import { Badge } from '@/ui/shadcn/badge';
 import { BilletHelper } from '@/lib/classes/helpers/billet-helpers';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { Section } from '@/lib/types/cv-types';
-import { Ingot, INGOT_FIELD_LABELS } from '@/lib/types/ingot-types';
+import { Ingot } from '@/lib/types/ingot-types';
+import { INGOT_FIELD_LABELS } from '@/lib/constants/ingot-constants';
 import { cn } from '@/lib/utils';
 import { TypographyP } from '@/ui/typography/typography';
 

@@ -1,11 +1,21 @@
-import {
-    Ingot,
-    IngotApiResponse,
-    IngotContent,
-    IngotType,
-    ListIngotApiResponse,
-} from '../types/ingot-types';
+import { Ingot, IngotContent, IngotType } from '../types/ingot-types';
 import { apiDelete, apiGet, apiPost, apiPut } from './client';
+
+// API response types - internal to this module
+interface IngotApiResponse {
+    id: string;
+    name: string;
+    type: string;
+    content?: string;
+    owner: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface ListIngotApiResponse {
+    items: IngotApiResponse[];
+    nextToken?: string;
+}
 
 /**
  * Maps a REST API response item to an Ingot object.

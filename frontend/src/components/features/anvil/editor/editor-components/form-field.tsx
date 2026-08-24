@@ -10,11 +10,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/ui/shadcn/select';
+import { IngotField } from '@/lib/types/ingot-types';
 import {
-    IngotField,
     QUALIFICATION_LEVELS,
     SKILL_PROFICIENCY_LEVELS,
-} from '@/lib/types/ingot-types';
+} from '@/lib/constants/ingot-constants';
 import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
 
 interface FormFieldProps {
@@ -47,10 +47,10 @@ export function FormField({
         if (field.options) {
             options = field.options;
         } else if (isQualification) {
-            options = QUALIFICATION_LEVELS;
+            options = [...QUALIFICATION_LEVELS];
             placeholder = 'Select level...';
         } else if (isProficiency) {
-            options = SKILL_PROFICIENCY_LEVELS;
+            options = [...SKILL_PROFICIENCY_LEVELS];
             placeholder = 'Select proficiency...';
         }
 
