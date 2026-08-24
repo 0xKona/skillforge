@@ -11,7 +11,7 @@ import {
     DropdownMenuTrigger,
 } from '@/ui/shadcn/dropdown-menu';
 import Link from 'next/link';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useClientAuth } from '@/lib/store/use-auth';
 import React from 'react';
 import { Skeleton } from '@/ui/shadcn/skeleton';
 

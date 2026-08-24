@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useClientAuth } from '@/lib/store/use-auth';
 import { usePathname, useRouter } from 'next/navigation';
 import { PROTECTED_ROUTES, AUTH_ROUTES } from '@/lib/constants/routing';
 

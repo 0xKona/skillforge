@@ -9,7 +9,7 @@ import {
 } from '@/ui/typography/typography';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useClientAuth } from '@/lib/store/use-auth';
 
 export function HomeHero() {
     const { isAuthenticated } = useClientAuth();

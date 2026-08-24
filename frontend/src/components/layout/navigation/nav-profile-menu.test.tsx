@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import UserDropdown from './nav-profile-menu';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useClientAuth } from '@/lib/store/use-auth';
 import React from 'react';
 
 // Mock useClientAuth

@@ -13,7 +13,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/ui/shadcn/alert-dialog';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useClientAuth } from '@/lib/store/use-auth';
 import { userApi } from '@/lib/api/user';
 
 export default function AvatarDisplayEditor() {
