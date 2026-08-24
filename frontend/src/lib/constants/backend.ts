@@ -1,7 +1,5 @@
 /**
- * Centralised backend configuration loaded from environment variables.
- * Values are populated by `infra/scripts/generate-frontend-env.ts` which
- * reads CloudFormation stack outputs and writes them to .env.local.
+  BackendConfig object from .env
  */
 export const backendConfig = {
     apiUrl: process.env.NEXT_PUBLIC_API_URL ?? '',

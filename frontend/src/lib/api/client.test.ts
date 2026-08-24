@@ -13,7 +13,7 @@ jest.mock('@/lib/store/use-auth', () => ({
     },
 }));
 
-jest.mock('@/lib/config/backend-config', () => ({
+jest.mock('@/lib/constants/backend', () => ({
     backendConfig: {
         apiUrl: 'https://api.test.com',
     },

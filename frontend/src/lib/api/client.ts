@@ -1,5 +1,5 @@
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { backendConfig } from '@/lib/config/backend-config';
+import { backendConfig } from '@/lib/constants/backend';
 import { useAuth } from '@/lib/store/use-auth';
 
 /*

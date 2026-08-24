@@ -1,7 +1,7 @@
 'use client';
 
 import { Amplify } from 'aws-amplify';
-import { backendConfig } from '@/lib/config/backend-config';
+import { backendConfig } from '@/lib/constants/backend';
 
 Amplify.configure({
     Auth: {
