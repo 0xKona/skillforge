@@ -4,7 +4,6 @@ import { Skeleton } from '@/ui/shadcn/skeleton';
 import { Button } from '@/ui/shadcn/button';
 import FormInput from '@/ui/form-input';
 import FormTextarea from '@/ui/form-textarea';
-import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -14,6 +13,8 @@ import {
     EditProfileFormValues,
 } from '@/lib/zod-form-schemas/edit-profile-schema';
 import { TypographyH3, TypographyP } from '@/ui/typography/typography';
+import { userApi } from '@/lib/api/user';
+import { UserProfile } from '@/lib/types/user-types';
 
 export default function EditProfilePage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +31,7 @@ export default function EditProfilePage() {
     useEffect(() => {
         async function loadProfile() {
             try {
-                const profile = await ProfileService.getProfile();
+                const profile = await userApi.getUserProfile();
                 form.reset({
                     username: profile.username || '',
                     bio: profile.bio || '',
@@ -48,7 +49,7 @@ export default function EditProfilePage() {
     async function onSubmit(data: EditProfileFormValues) {
         setIsSaving(true);
         try {
-            await ProfileService.updateProfile(data);
+            await userApi.updateUserProfile(data as UserProfile);
             toast.success('Profile updated successfully');
         } catch (error) {
             console.error(error);

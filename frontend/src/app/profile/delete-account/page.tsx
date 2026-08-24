@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ProfileService } from '@/lib/classes/services/profile-service';
 import { Button } from '@/ui/shadcn/button';
 import { Input } from '@/ui/shadcn/input';
 import {
@@ -20,6 +19,7 @@ import {
 } from '@/ui/typography/typography';
 import { AlertTriangle, Loader2, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { userApi } from '@/lib/api/user';
 
 export default function DeleteAccount() {
     const [confirmString, setConfirmString] = useState('');
@@ -37,7 +37,7 @@ export default function DeleteAccount() {
         setIsDeleting(true);
 
         try {
-            await ProfileService.deleteUserAccount();
+            await userApi.deleteUserAccount();
 
             toast.success('Account Deleted', {
                 description:

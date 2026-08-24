@@ -2,7 +2,6 @@
 
 import { Button } from '@/ui/shadcn/button';
 import FormInput, { FormInputType } from '@/ui/form-input';
-import { ProfileService } from '@/lib/classes/services/profile-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,6 +11,7 @@ import {
     EditPasswordFormValues,
 } from '@/lib/zod-form-schemas/edit-password-schema';
 import { TypographyH3, TypographyP } from '@/ui/typography/typography';
+import { userApi } from '@/lib/api/user';
 
 export default function EditPasswordPage() {
     const [isSaving, setIsSaving] = useState(false);
@@ -28,7 +28,7 @@ export default function EditPasswordPage() {
     async function onSubmit(data: EditPasswordFormValues) {
         setIsSaving(true);
         try {
-            await ProfileService.updateUserPassword(
+            await userApi.updateUserPassword(
                 data.currentPassword,
                 data.newPassword
             );
