@@ -1,3 +1,5 @@
+'use client';
+
 import type { Metadata } from 'next';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -5,10 +7,7 @@ import ConfigureAmplifyClientSide from '@/components/providers/configure-amplify
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ClientAuthListener } from '@/components/providers/client-auth-listener';
 import { Toaster } from '@/ui/shadcn/sonner';
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
+import QueryClientLayoutProvider from '@/components/providers/QueryClientProvider';
 
 const inter = Inter({
     variable: '--font-inter',
@@ -39,28 +38,24 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-
-  const queryClient = new QueryClient;
-
     return (
         <html lang="en" className="dark" suppressHydrationWarning>
             <body
                 className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
-        >
-          <QueryClientProvider client={queryClient}>
-                <ConfigureAmplifyClientSide />
-                <ClientAuthListener />
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <Toaster />
-                    {children}
-                </ThemeProvider>
-
-              </QueryClientProvider>
+            >
+                <QueryClientLayoutProvider>
+                    <ConfigureAmplifyClientSide />
+                    <ClientAuthListener />
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="dark"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <Toaster />
+                        {children}
+                    </ThemeProvider>
+                </QueryClientLayoutProvider>
             </body>
         </html>
     );

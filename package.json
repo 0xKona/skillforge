@@ -29,7 +29,7 @@
     "lint-staged": {
         "frontend/src/**/*.{ts,tsx}": [
             "prettier --write",
-            "eslint --fix --no-warn-ignored"
+            "bun run --cwd frontend eslint --fix --no-warn-ignored"
         ],
         "infra/**/*.ts": [
             "prettier --write"
@@ -39,7 +39,6 @@
         ]
     },
     "devDependencies": {
-        "eslint": "^10.9.0",
         "husky": "^9.1.7",
         "lint-staged": "^17.3.0",
         "prettier": "^3.9.6"
