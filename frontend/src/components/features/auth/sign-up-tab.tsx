@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SignUpForm, signUpFormSchema } from '@/lib/schemas/auth-schema';
 import FormInput from '@/ui/form-input';
 import SubmitAuthForm from './submit-form';
-import { passwordStorage } from '@/lib/utils/password-storage';
+import { passwordStorage } from '@/lib/helpers/password-storage';
 
 interface Props {
     onNeedsConfirmation: (email: string) => void;

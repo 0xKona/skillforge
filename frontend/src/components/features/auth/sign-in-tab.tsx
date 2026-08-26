@@ -6,7 +6,7 @@ import { SignInForm, signInFormSchema } from '@/lib/schemas/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import SubmitAuthForm from './submit-form';
-import { passwordStorage } from '@/lib/utils/password-storage';
+import { passwordStorage } from '@/lib/helpers/password-storage';
 import React, { useState } from 'react';
 import FormInput from '@/ui/form-input';
 

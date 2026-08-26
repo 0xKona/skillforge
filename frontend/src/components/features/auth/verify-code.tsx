@@ -10,7 +10,7 @@ import {
 } from '@/ui/shadcn/card';
 import { Label } from '@/ui/shadcn/label';
 import { Button } from '@/ui/shadcn/button';
-import { passwordStorage } from '@/lib/utils/password-storage';
+import { passwordStorage } from '@/lib/helpers/password-storage';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
