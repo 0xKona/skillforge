@@ -8,12 +8,12 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { IngotType } from '@/lib/types/ingot-types';
 import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
-import { getIngotCardType } from '@/lib/helpers/ingot-helpers';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 
 function IngotTypeCard({ ingotType }: { ingotType: IngotType }) {
     const ingotLabel = MappingHelpers.getIngotLabelByType(ingotType);
 
-    const { color, icon: Icon, label } = getIngotCardType(ingotType);
+    const { color, icon: Icon, label } = ingotHelpers.getCardDetails(ingotType);
 
     return (
         <Link

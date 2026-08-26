@@ -21,7 +21,7 @@ import {
 } from '@/ui/shadcn/select';
 import { Label } from '@/ui/shadcn/label';
 import { SortOrder } from '@/lib/types/sorting-types';
-import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface Props {
     isOpen: boolean;
@@ -74,7 +74,7 @@ export default function IngotPreviewModal({
     };
 
     // HERE
-    const showSortOptions = IngotHelpers.checkBilletsCanBeSortedByDate(
+    const showSortOptions = ingotHelpers.canSortBilletsByDate(
         ingotData as Ingot
     );
 

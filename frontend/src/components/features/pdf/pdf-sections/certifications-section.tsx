@@ -5,7 +5,7 @@ import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../../../lib/pdf/styles';
 import { Ingot } from '@/lib/types/ingot-types';
 import { SortOrder } from '@/lib/types/sorting-types';
-import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface Props {
     ingots: Ingot[];
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const CertificationSection = ({ ingots, ingotSortBy }: Props) => {
-    const orderedIngots = IngotHelpers.sortIngots(ingots, ingotSortBy);
+    const orderedIngots = ingotHelpers.sortIngots(ingots, ingotSortBy);
 
     return (
         <View>

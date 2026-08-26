@@ -5,7 +5,7 @@ import { Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../../../../lib/pdf/styles';
 import { Ingot } from '@/lib/types/ingot-types';
 import { SortOrder } from '@/lib/types/sorting-types';
-import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 import { billetHelpers } from '@/lib/helpers/billet';
 
 interface Props {
@@ -21,7 +21,7 @@ export const ExperienceSection = ({
     billetSortBy,
     ingotSortBy,
 }: Props) => {
-    const sortedIngots = IngotHelpers.sortIngots(ingots, ingotSortBy);
+    const sortedIngots = ingotHelpers.sortIngots(ingots, ingotSortBy);
 
     return (
         <View>

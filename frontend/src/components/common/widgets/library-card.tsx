@@ -17,7 +17,7 @@ import { Ingot, IngotType } from '@/lib/types/ingot-types';
 import { CV } from '@/lib/types/cv-types';
 import { cn } from '@/lib/utils';
 import { Edit, Trash2, FileText, LucideIcon } from 'lucide-react';
-import { getIngotCardType } from '@/lib/helpers/ingot-helpers';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface LibraryCardProps {
     cardData: Ingot | CV;
@@ -41,7 +41,9 @@ export default function LibraryCard({
 
     if (isIngot) {
         const ingot = cardData as Ingot;
-        const details = getIngotCardType(ingot.type || ('' as IngotType));
+        const details = ingotHelpers.getCardDetails(
+            ingot.type || ('' as IngotType)
+        );
         color = details.color;
         Icon = details.icon;
         label = details.label;

@@ -8,7 +8,7 @@ import { TypographyP } from '@/ui/typography/typography';
 import CvSectionEditorSortDropdown from '../forge-components/cv-section-editor-billet-sort-dropdown';
 import CvEditorHeader from '../forge-components/cv-editor-header';
 import CvSectionEditorBillets from '../forge-components/cv-section-editor-billet';
-import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 import { Button } from '@/ui/shadcn/button';
 import React from 'react';
 import { CV } from '@/lib/types/cv-types';
@@ -37,12 +37,10 @@ export function SectionEditor() {
     );
 
     // Check is there are billets that can be sorted by date
-    const canSortBillets =
-        IngotHelpers.checkBilletsCanBeSortedByDate(relevantIngots);
+    const canSortBillets = ingotHelpers.canSortBilletsByDate(relevantIngots);
 
     // Checks if any ingots have a date value, implying they can be sorted by date
-    const canSortIngots =
-        IngotHelpers.checkIngotsCanBeSortedByDate(relevantIngots);
+    const canSortIngots = ingotHelpers.canSortIngotsByDate(relevantIngots);
 
     async function handleCreateNewIngot() {
         // Save current state before navigating away
