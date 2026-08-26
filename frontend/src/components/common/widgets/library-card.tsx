@@ -14,13 +14,13 @@ import {
     AlertDialogTrigger,
 } from '@/ui/shadcn/alert-dialog';
 import { Ingot, IngotType } from '@/lib/types/ingot-types';
-import { CV } from '@/lib/types/cv-types';
+import type { CvDocument } from '@/lib/types/cv-document-types';
 import { cn } from '@/lib/utils';
 import { Edit, Trash2, FileText, LucideIcon } from 'lucide-react';
 import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface LibraryCardProps {
-    cardData: Ingot | CV;
+    cardData: Ingot | CvDocument;
     onOpen: (id: string) => void;
     onDelete: (id: string) => void;
 }
@@ -50,12 +50,12 @@ export default function LibraryCard({
         title = ingot.name || 'Untitled Ingot';
         editHref = `/anvil/edit/${ingot.id}`;
     } else {
-        const cv = cardData as CV;
+        const cv = cardData as CvDocument;
         color = 'bg-blue-600';
         Icon = FileText;
         label = 'CV';
         title = cv.title || 'Untitled CV';
-        description = cv.description as string;
+        description = cv.description;
         editHref = `/forge/cv/${cv.id}`;
     }
 

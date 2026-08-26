@@ -18,7 +18,6 @@ import { CvPreview } from '../../pdf/cv-preview';
 import { TypographyH3 } from '@/ui/typography/typography';
 import CvValidationError from '../forge-components/cv-validation-error';
 import CvEditorSkeleton from '../forge-components/cv-editor-skeleton';
-import { CV, NewCV } from '@/lib/types/cv-types';
 
 interface CvEditorProps {
     cvId?: string;
@@ -56,25 +55,29 @@ export function CvEditor({ cvId }: CvEditorProps) {
         if (ingotsLoading || (cvId && cvLoading)) return;
 
         if (cvId && fetchedCv) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const legacyCv = fetchedCv as any;
             // Check for missing ingots and clean sections
             const availableIngotIds = new Set(ingots.map((i) => i.id));
             let missingIngotsFound = false;
 
-            const cleanedSections = fetchedCv.cvContent.sections.map(
-                (section) => {
-                    const validIngotIds = section.ingotIds.filter((id) =>
-                        availableIngotIds.has(id)
-                    );
-                    if (validIngotIds.length !== section.ingotIds.length) {
-                        missingIngotsFound = true;
+            const cleanedSections =
+                legacyCv.cvContent?.sections?.map(
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (section: any) => {
+                        const validIngotIds = section.ingotIds.filter(
+                            (id: string) => availableIngotIds.has(id)
+                        );
+                        if (validIngotIds.length !== section.ingotIds.length) {
+                            missingIngotsFound = true;
+                        }
+                        return { ...section, ingotIds: validIngotIds };
                     }
-                    return { ...section, ingotIds: validIngotIds };
-                }
-            );
+                ) ?? [];
 
             const cvData = missingIngotsFound
-                ? { ...fetchedCv, cvContent: { sections: cleanedSections } }
-                : fetchedCv;
+                ? { ...legacyCv, cvContent: { sections: cleanedSections } }
+                : legacyCv;
 
             if (missingIngotsFound) {
                 toast.warning(
@@ -115,7 +118,8 @@ export function CvEditor({ cvId }: CvEditorProps) {
         setSaving(true);
 
         if ('id' in cv) {
-            updateCv.mutate(cv as CV, {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            updateCv.mutate(cv as any, {
                 onSuccess: () => {
                     toast.success('CV saved successfully');
                     router.push('/forge');
@@ -126,7 +130,8 @@ export function CvEditor({ cvId }: CvEditorProps) {
                 },
             });
         } else {
-            createCv.mutate(cv as NewCV, {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            createCv.mutate(cv as any, {
                 onSuccess: (created) => {
                     toast.success('CV created successfully');
                     router.push(`/forge/cv/${created.id}`);

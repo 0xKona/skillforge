@@ -1,4 +1,8 @@
-import { CV, CvContent, NewCV } from '../types/cv-types';
+import type {
+    CvDocument,
+    DocumentContent,
+    NewCvDocument,
+} from '../types/cv-document-types';
 import { apiDelete, apiGet, apiPost, apiPut } from './client';
 
 // API response types - internal to this module
@@ -7,7 +11,7 @@ interface CvApiResponse {
     title: string;
     description?: string | null;
     version: number;
-    cvContent?: string;
+    content?: string;
     owner: string;
     createdAt: string;
     updatedAt: string;
@@ -18,57 +22,57 @@ interface ListCvApiResponse {
     nextToken?: string;
 }
 
-function mapDbResponseToCv(item: CvApiResponse): CV {
-    let cvContent: CvContent;
-    if (typeof item.cvContent === 'string' && item.cvContent) {
+function mapDbResponseToDocument(item: CvApiResponse): CvDocument {
+    let content: DocumentContent;
+    if (typeof item.content === 'string' && item.content) {
         try {
-            cvContent = JSON.parse(item.cvContent);
+            content = JSON.parse(item.content) as DocumentContent;
         } catch {
-            cvContent = { sections: [] };
+            content = { sections: [] };
         }
     } else {
-        cvContent = { sections: [] };
+        content = { sections: [] };
     }
 
     return {
         id: item.id,
         title: item.title,
-        description: item.description,
+        description: item.description ?? undefined,
         version: item.version,
-        cvContent,
+        content,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt,
     };
 }
 
-async function createCv(cvData: NewCV): Promise<CV> {
+async function createCv(cvData: NewCvDocument): Promise<CvDocument> {
     const response = await apiPost<CvApiResponse>('/cv', {
         title: cvData.title,
         description: cvData.description,
         version: cvData.version,
-        cvContent: JSON.stringify(cvData.cvContent),
+        content: JSON.stringify(cvData.content),
     });
-    return mapDbResponseToCv(response);
+    return mapDbResponseToDocument(response);
 }
 
-async function getCvById(id: string): Promise<CV> {
+async function getCvById(id: string): Promise<CvDocument> {
     const response = await apiGet<CvApiResponse>(`/cv/${id}`);
-    return mapDbResponseToCv(response);
+    return mapDbResponseToDocument(response);
 }
 
-async function getAllCvsForUser(): Promise<CV[]> {
+async function getAllCvsForUser(): Promise<CvDocument[]> {
     const response = await apiGet<ListCvApiResponse>('/cv');
-    return response.items.map(mapDbResponseToCv);
+    return response.items.map(mapDbResponseToDocument);
 }
 
-async function updateCv(cv: CV): Promise<CV> {
+async function updateCv(cv: CvDocument): Promise<CvDocument> {
     const response = await apiPut<CvApiResponse>(`/cv/${cv.id}`, {
         title: cv.title,
         description: cv.description,
         version: cv.version,
-        cvContent: JSON.stringify(cv.cvContent),
+        content: JSON.stringify(cv.content),
     });
-    return mapDbResponseToCv(response);
+    return mapDbResponseToDocument(response);
 }
 
 async function deleteCvById(id: string): Promise<void> {

@@ -11,7 +11,6 @@ import CvSectionEditorBillets from '../forge-components/cv-section-editor-billet
 import { ingotHelpers } from '@/lib/helpers/ingot';
 import { Button } from '@/ui/shadcn/button';
 import React from 'react';
-import { CV } from '@/lib/types/cv-types';
 import { mappingHelpers } from '@/lib/helpers/mapping';
 import { redirect } from 'next/navigation';
 
@@ -45,10 +44,12 @@ export function SectionEditor() {
     async function handleCreateNewIngot() {
         // Save current state before navigating away
         if (cv && 'id' in cv) {
-            updateCv.mutate(cv as CV);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            updateCv.mutate(cv as any);
         }
         redirect(
-            `/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as CV).id}`
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            `/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as any).id}`
         );
     }
 

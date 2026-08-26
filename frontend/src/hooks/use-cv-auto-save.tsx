@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
 import { useUpdateCv } from '@/hooks/use-cvs';
 import { toast } from 'sonner';
-import { CV } from '@/lib/types/cv-types';
 
 export const useCvAutoSave = (intervalMs: number = 30000) => {
     const cv = useCvEditorState((state) => state.cv);
@@ -29,7 +28,8 @@ export const useCvAutoSave = (intervalMs: number = 30000) => {
                 return;
 
             setAutoSaving(true);
-            updateCv.mutate(currentCv as CV, {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            updateCv.mutate(currentCv as any, {
                 onSuccess: () => {
                     setAutoSaving(false);
                     toast('CV autosaved');

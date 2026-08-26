@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { CvEditor } from '@/components/features/forge/editor/cv-editor';
-import { CV_TEMPLATE } from '@/lib/templates/cv-template';
 import { Skeleton } from '@/ui/shadcn/skeleton';
 import { toast } from 'sonner';
 import { cvApi } from '@/lib/api/cv';
@@ -17,8 +16,9 @@ export default function CvEditorWrapper({ cvId }: { cvId: string }) {
                 if (cvId === 'new') {
                     // Create new draft CV via the REST API
                     const newCv = await cvApi.createCv({
-                        ...CV_TEMPLATE,
+                        version: 1,
                         title: `Draft ${crypto.randomUUID()}`,
+                        content: { sections: [] },
                     });
 
                     setFinalCvId(newCv.id);
