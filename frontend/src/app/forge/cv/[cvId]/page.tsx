@@ -4,7 +4,7 @@ import CvEditorClient from './client';
 // Actual routing happens client-side — the Amplify Hosting SPA rewrite
 // serves this page for any /forge/cv/* path.
 export function generateStaticParams() {
-    return [{ cvId: 'placeholder' }];
+    return [{ cvId: 'placeholder' }, { cvId: 'new' }];
 }
 
 interface PageProps {

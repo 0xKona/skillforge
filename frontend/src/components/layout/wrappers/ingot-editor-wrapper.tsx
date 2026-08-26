@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import IngotEditor from '@/components/features/anvil/editor/ingot-editor';
 import { Ingot } from '@/lib/types/ingot-types';
-import { IngotService } from '@/lib/classes/services/ingot-service';
 import { toast } from 'sonner';
 import IngotEditorSkeleton from '@/components/features/anvil/editor/ingot-editor-skeleton';
+import { ingotApi } from '@/lib/api/ingot';
 
 export default function IngotEditorWrapper({ ingotId }: { ingotId: string }) {
     const [ingotData, setIngotData] = useState<Ingot | null>(null);
@@ -14,7 +14,7 @@ export default function IngotEditorWrapper({ ingotId }: { ingotId: string }) {
     useEffect(() => {
         const fetchIngot = async () => {
             try {
-                const ingot = await IngotService.getIngot(ingotId);
+                const ingot = await ingotApi.getIngot(ingotId);
                 if (ingot) {
                     setIngotData(ingot);
                 } else {

@@ -4,7 +4,7 @@ import { BilletTemplate, IngotField } from '@/lib/types/ingot-types';
 import DynamicForm from './dynamic-form';
 import { Button } from '@/ui/shadcn/button';
 import { X, Check } from 'lucide-react';
-import { generateSchemaFromIngotFields } from '@/lib/zod-form-schemas/ingot-form-generator';
+import { generateSchemaFromIngotFields } from '@/lib/schemas/ingot-form-generator';
 import { toast } from 'sonner';
 
 interface BilletFormProps {
@@ -29,10 +29,12 @@ export function BilletForm({
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     // Reset fields when initialFields changes (e.g. switching between add/edit)
+    /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
         setFields(initialFields);
         setErrors({});
     }, [initialFields]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     const handleContentChange = (key: string, value: string) => {
         setFields((prev) => ({

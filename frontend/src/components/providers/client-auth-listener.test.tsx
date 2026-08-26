@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 import { ClientAuthListener } from './client-auth-listener';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useClientAuth } from '@/lib/store/use-auth';
 import { usePathname, useRouter } from 'next/navigation';
 
 // Mock dependencies

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import NavBar from './navigation-bar';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useClientAuth } from '@/lib/store/use-auth';
 import React from 'react';
 
 // Mock useClientAuth

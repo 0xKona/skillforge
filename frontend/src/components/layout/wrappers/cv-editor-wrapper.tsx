@@ -5,7 +5,7 @@ import { CvEditor } from '@/components/features/forge/editor/cv-editor';
 import { CV_TEMPLATE } from '@/lib/templates/cv-template';
 import { Skeleton } from '@/ui/shadcn/skeleton';
 import { toast } from 'sonner';
-import { CvService } from '@/lib/classes/services/service-cv';
+import { cvApi } from '@/lib/api/cv';
 
 export default function CvEditorWrapper({ cvId }: { cvId: string }) {
     const [finalCvId, setFinalCvId] = useState<string | null>(null);
@@ -16,7 +16,7 @@ export default function CvEditorWrapper({ cvId }: { cvId: string }) {
             try {
                 if (cvId === 'new') {
                     // Create new draft CV via the REST API
-                    const newCv = await CvService.createCv({
+                    const newCv = await cvApi.createCv({
                         ...CV_TEMPLATE,
                         title: `Draft ${crypto.randomUUID()}`,
                     });

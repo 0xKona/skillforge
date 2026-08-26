@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, View } from '@react-pdf/renderer';
-import { pdfStyles } from '@/lib/pdf-styles/pdf-styles';
+import { pdfStyles } from '@/lib/pdf/styles';
 import { CV, Section } from '@/lib/types/cv-types';
 import { Ingot, IngotType } from '@/lib/types/ingot-types';
 import { SectionHeader } from '@/components/features/pdf/pdf-sections/section-header';

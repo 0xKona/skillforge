@@ -10,27 +10,31 @@ import {
 } from '@/ui/shadcn/card';
 import { Label } from '@/ui/shadcn/label';
 import { Button } from '@/ui/shadcn/button';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
+import { passwordStorage } from '@/lib/helpers/password-storage';
 import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';
 
-export default function VerifyCodeCard() {
-    // Array is created to loop over when generating OTP slots
+interface Props {
+    verificationEmail: string;
+    onBack: () => void;
+    onComplete: () => void;
+}
+
+export default function VerifyCodeCard({
+    verificationEmail,
+    onBack,
+    onComplete,
+}: Props) {
     const SLOT_NUM = 6;
     const SLOT_ARRAY = Array.from({ length: SLOT_NUM });
 
-    // Local component state
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [confirmationCode, setConfirmationCode] = useState('');
     const [isResending, setIsResending] = useState(false);
-
-    // Global state
-    const { verificationEmail, setNeedsConfirmation, resetAuthFlow } =
-        useAuthFlowState();
 
     const router = useRouter();
 
@@ -49,7 +53,6 @@ export default function VerifyCodeCard() {
             if (isSignUpComplete) {
                 setSuccessMessage('Email confirmed! Signing you in...');
 
-                // Automatically sign in the user if we have their password
                 const storedPassword = passwordStorage.get();
 
                 if (storedPassword) {
@@ -60,31 +63,26 @@ export default function VerifyCodeCard() {
                         });
 
                         if (isSignedIn) {
-                            // Clear all auth flow state and stored password
                             passwordStorage.clear();
-                            resetAuthFlow();
-
-                            // Redirect to dashboard
+                            onComplete();
                             router.push('/forge');
                         }
                     } catch (signInErr) {
                         console.error('Auto sign-in failed:', signInErr);
-                        // If auto sign-in fails, clear state and let them sign in manually
                         passwordStorage.clear();
                         setSuccessMessage(
                             'Email confirmed! You can now sign in.'
                         );
                         setTimeout(() => {
-                            resetAuthFlow();
+                            onComplete();
                         }, 2000);
                     }
                 } else {
-                    // No password stored, redirect to login
                     setSuccessMessage(
                         'Email confirmed! Redirecting to sign in...'
                     );
                     setTimeout(() => {
-                        resetAuthFlow();
+                        onComplete();
                     }, 1500);
                 }
             }
@@ -180,7 +178,7 @@ export default function VerifyCodeCard() {
                             className="flex-1"
                             onClick={() => {
                                 passwordStorage.clear();
-                                setNeedsConfirmation(false);
+                                onBack();
                             }}
                         >
                             Back to Sign In

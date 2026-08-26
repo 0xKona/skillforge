@@ -13,44 +13,42 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/ui/shadcn/alert-dialog';
-import { Ingot } from '@/lib/types/ingot-types';
+import { Ingot, IngotType } from '@/lib/types/ingot-types';
 import { CV } from '@/lib/types/cv-types';
-import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
-import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
 import { cn } from '@/lib/utils';
-import { IngotService } from '@/lib/classes/services/ingot-service';
 import { Edit, Trash2, FileText, LucideIcon } from 'lucide-react';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface LibraryCardProps {
     cardData: Ingot | CV;
+    onOpen: (id: string) => void;
+    onDelete: (id: string) => void;
 }
 
-export default function LibraryCard({ cardData }: LibraryCardProps) {
+export default function LibraryCard({
+    cardData,
+    onOpen,
+    onDelete,
+}: LibraryCardProps) {
     const isIngot = 'type' in cardData;
-    const cvState = useCvInterfaceState();
-    const anvilState = useAnvilInterfaceState();
 
     let color: string,
         Icon: LucideIcon,
         label: string,
         title: string,
         description: string | undefined,
-        editHref: string,
-        openFn: (id: string) => void,
-        deleteFn: (id: string) => void;
+        editHref: string;
 
     if (isIngot) {
         const ingot = cardData as Ingot;
-        const details = IngotService.getAnvilCardDisplayDetails(
-            ingot.type || ''
+        const details = ingotHelpers.getCardDetails(
+            ingot.type || ('' as IngotType)
         );
         color = details.color;
         Icon = details.icon;
         label = details.label;
         title = ingot.name || 'Untitled Ingot';
         editHref = `/anvil/edit/${ingot.id}`;
-        openFn = anvilState.openAnvilIngot;
-        deleteFn = anvilState.deleteAnvilIngot;
     } else {
         const cv = cardData as CV;
         color = 'bg-blue-600';
@@ -59,17 +57,15 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
         title = cv.title || 'Untitled CV';
         description = cv.description as string;
         editHref = `/forge/cv/${cv.id}`;
-        openFn = cvState.openCv;
-        deleteFn = cvState.deleteCv;
     }
 
-    const updatedAt = cardData.updatedAt || Date.now();
+    const updatedAt = cardData.updatedAt;
 
     return (
         <Card
             key={cardData.id}
             className="group relative overflow-hidden bg-slate-900 border-slate-800 hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer flex flex-col h-full p-0 gap-0"
-            onClick={() => openFn(cardData.id)}
+            onClick={() => onOpen(cardData.id)}
         >
             {/* Banner / Type Indicator */}
             <div className={cn('h-1.5 w-full absolute top-0 left-0', color)} />
@@ -100,9 +96,11 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
                     <TypographyH3 className="font-semibold text-lg text-slate-100 leading-tight line-clamp-2 group-hover:text-forge-orange transition-colors">
                         {title}
                     </TypographyH3>
-                    <TypographyP className="text-xs text-slate-400">
-                        Updated {new Date(updatedAt).toLocaleDateString()}
-                    </TypographyP>
+                    {updatedAt && (
+                        <TypographyP className="text-xs text-slate-400">
+                            Updated {new Date(updatedAt).toLocaleDateString()}
+                        </TypographyP>
+                    )}
                     {description && (
                         <TypographyP className="text-sm text-slate-400 line-clamp-2 mt-2">
                             {description}
@@ -151,7 +149,7 @@ export default function LibraryCard({ cardData }: LibraryCardProps) {
                             <AlertDialogAction
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    deleteFn(cardData.id);
+                                    onDelete(cardData.id);
                                 }}
                                 className="bg-red-600 text-white hover:bg-red-700 border-none"
                             >

@@ -1,27 +1,25 @@
 'use client';
 
 import { useCvEditorState } from '@/lib/store/use-cv-editor';
+import { useUpdateCv } from '@/hooks/use-cvs';
 import { Checkbox } from '@/ui/shadcn/checkbox';
 import { Label } from '@/ui/shadcn/label';
 import { TypographyP } from '@/ui/typography/typography';
 import CvSectionEditorSortDropdown from '../forge-components/cv-section-editor-billet-sort-dropdown';
 import CvEditorHeader from '../forge-components/cv-editor-header';
 import CvSectionEditorBillets from '../forge-components/cv-section-editor-billet';
-import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 import { Button } from '@/ui/shadcn/button';
 import React from 'react';
 import { CV } from '@/lib/types/cv-types';
-import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { mappingHelpers } from '@/lib/helpers/mapping';
 import { redirect } from 'next/navigation';
 
 export function SectionEditor() {
-    const {
-        cv,
-        autoSaveCv,
-        activeSectionIndex,
-        availableIngots,
-        toggleIngotInSection,
-    } = useCvEditorState();
+    const { cv, activeSectionIndex, availableIngots, toggleIngotInSection } =
+        useCvEditorState();
+
+    const updateCv = useUpdateCv();
 
     if (!cv || activeSectionIndex === null) return null;
 
@@ -39,15 +37,16 @@ export function SectionEditor() {
     );
 
     // Check is there are billets that can be sorted by date
-    const canSortBillets =
-        IngotHelpers.checkBilletsCanBeSortedByDate(relevantIngots);
+    const canSortBillets = ingotHelpers.canSortBilletsByDate(relevantIngots);
 
     // Checks if any ingots have a date value, implying they can be sorted by date
-    const canSortIngots =
-        IngotHelpers.checkIngotsCanBeSortedByDate(relevantIngots);
+    const canSortIngots = ingotHelpers.canSortIngotsByDate(relevantIngots);
 
     async function handleCreateNewIngot() {
-        await autoSaveCv();
+        // Save current state before navigating away
+        if (cv && 'id' in cv) {
+            updateCv.mutate(cv as CV);
+        }
         redirect(
             `/anvil/create?ingotType=${section.sectionType}&redirectToCv=${(cv as CV).id}`
         );
@@ -89,7 +88,7 @@ export function SectionEditor() {
                 {relevantIngots.length === 0 ? (
                     <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
                         <TypographyP className="text-slate-400 mb-4">
-                            {`You haven't created any ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} yet.`}
+                            {`You haven't created any ${mappingHelpers.getCvSectionLabel(section.sectionType).toLowerCase()} yet.`}
                         </TypographyP>
 
                         {/* HERE! */}
@@ -98,7 +97,7 @@ export function SectionEditor() {
                             className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"
                             onClick={handleCreateNewIngot}
                         >
-                            {`Create a ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} ingot`}
+                            {`Create a ${mappingHelpers.getCvSectionLabel(section.sectionType).toLowerCase()} ingot`}
                         </Button>
                     </div>
                 ) : (

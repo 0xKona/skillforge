@@ -9,10 +9,10 @@ import {
 } from '@/ui/typography/typography';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useAuth } from '@/lib/store/use-auth';
 
 export function HomeHero() {
-    const { isAuthenticated } = useClientAuth();
+    const { isAuthenticated } = useAuth();
 
     return (
         <div className="flex flex-col items-center text-center space-y-8 py-16 md:py-32 max-w-5xl mx-auto px-6 relative z-10">

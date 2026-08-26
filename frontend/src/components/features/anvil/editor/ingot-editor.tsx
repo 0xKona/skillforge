@@ -1,31 +1,29 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'sonner';
 import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './editor-components/editor-header';
 import { IngotDetails } from './editor-components/ingot-details';
 import { BilletSection } from './editor-components/billet-section';
-import {
-    Tabs,
-    TabsContent,
-    TabsContents,
-    TabsList,
-} from '@/ui/animate-ui/animate/tabs';
-import { TabsTrigger } from '@/ui/animate-ui/components/animate/tabs';
-import { redirect } from 'next/navigation';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/shadcn/tabs';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
+import { useCreateIngot, useUpdateIngot } from '@/hooks/use-ingots';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
-import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
-import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
+import { ingotFormHelpers } from '@/lib/helpers/ingot-form';
 import IngotPreviewModal from '@/components/features/pdf/ingot-preview-modal';
-import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { mappingHelpers } from '@/lib/helpers/mapping';
 
 interface Props {
     initialIngotData: IngotEditorData;
 }
 
 export default function IngotEditor({ initialIngotData }: Props) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
     const {
         isLoading,
         ingotData,
@@ -35,10 +33,12 @@ export default function IngotEditor({ initialIngotData }: Props) {
         setIngotName,
         handleContentChange,
         handleBilletsChange,
-        saveIngot,
     } = useIngotEditorState();
 
-    const { showPreviewModal, openPreviewModal } = useIngotPreviewState();
+    const createIngot = useCreateIngot();
+    const updateIngot = useUpdateIngot();
+
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
 
     const ingotId = 'id' in ingotData ? ingotData.id : null;
     const ingotType = ingotData.type as IngotType;
@@ -46,6 +46,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
     const ingotContent = ingotData.content;
 
     const currentTemplate = ingotType ? INGOT_TEMPLATES[ingotType] : null;
+    const isSaving = createIngot.isPending || updateIngot.isPending;
 
     // On component mount, load props into state
     useEffect(() => {
@@ -68,9 +69,62 @@ export default function IngotEditor({ initialIngotData }: Props) {
 
     // Handle Saving Ingot Data
     async function handleSave() {
-        const success = await saveIngot();
-        if (success) {
-            redirect('/anvil');
+        if (!ingotType) return;
+
+        // Validate name
+        if (!ingotName.trim()) {
+            toast.error('Display Name is required');
+            return;
+        }
+
+        // Validate fields
+        const { valid, errors: fieldErrors } =
+            ingotFormHelpers.validateIngotFields(ingotContent.fields);
+
+        if (!valid) {
+            useIngotEditorState.setState({ errors: fieldErrors });
+            toast.error('Please fix the errors in the form');
+            return;
+        }
+
+        useIngotEditorState.setState({ errors: {} });
+
+        const redirectToCv = searchParams.get('redirectToCv');
+
+        if (ingotId) {
+            updateIngot.mutate(
+                { id: ingotId, name: ingotName, content: ingotContent },
+                {
+                    onSuccess: () => {
+                        toast.success('Ingot updated successfully');
+                        if (redirectToCv) {
+                            router.push(`/forge/cv/${redirectToCv}`);
+                        } else {
+                            router.push('/anvil');
+                        }
+                    },
+                    onError: () => toast.error('Failed to save ingot'),
+                }
+            );
+        } else {
+            createIngot.mutate(
+                {
+                    type: ingotType,
+                    name: ingotName || 'Untitled Ingot',
+                    content: ingotContent,
+                },
+                {
+                    onSuccess: () => {
+                        toast.success('Ingot created successfully');
+                        if (redirectToCv) {
+                            router.push(`/forge/cv/${redirectToCv}`);
+                        } else {
+                            router.push('/anvil');
+                        }
+                    },
+                    onError: () => toast.error('Failed to save ingot'),
+                }
+            );
         }
     }
 
@@ -103,7 +157,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
                 ingotName={ingotName}
                 onNameChange={setIngotName}
                 fields={ingotContent.fields}
-                values={IngotFormHelper.getIngotFieldValues(
+                values={ingotFormHelpers.getIngotFieldValues(
                     ingotContent.fields
                 )}
                 onFieldChange={handleContentChange}
@@ -126,14 +180,15 @@ export default function IngotEditor({ initialIngotData }: Props) {
         <div className="w-full mx-auto p-6 space-y-6">
             <EditorHeader
                 title={ingotId ? 'Edit Ingot' : 'Create Ingot'}
-                typeLabel={MappingHelpers.getIngotLabelByType(ingotType)}
-                loading={isLoading}
-                onPreview={openPreviewModal}
+                typeLabel={mappingHelpers.getIngotLabel(ingotType)}
+                loading={isSaving}
+                onPreview={() => setShowPreviewModal(true)}
                 onSave={handleSave}
             />
             {currentTemplate && showPreviewModal && (
                 <IngotPreviewModal
                     isOpen={showPreviewModal}
+                    onClose={() => setShowPreviewModal(false)}
                     ingotData={ingotData}
                 />
             )}
@@ -148,15 +203,11 @@ export default function IngotEditor({ initialIngotData }: Props) {
                         <TabsTrigger value="details">Ingot Details</TabsTrigger>
                         <TabsTrigger value="billets">Billets</TabsTrigger>
                     </TabsList>
-                    <TabsContents>
-                        <TabsContent value="details">
-                            {IngotDetailsColumn}
-                        </TabsContent>
+                    <TabsContent value="details">
+                        {IngotDetailsColumn}
+                    </TabsContent>
 
-                        <TabsContent value="billets">
-                            {BilletColumn}
-                        </TabsContent>
-                    </TabsContents>
+                    <TabsContent value="billets">{BilletColumn}</TabsContent>
                 </Tabs>
             </div>
 
@@ -170,8 +221,8 @@ export default function IngotEditor({ initialIngotData }: Props) {
             </div>
 
             <EditorFooter
-                loading={isLoading}
-                onPreview={openPreviewModal}
+                loading={isSaving}
+                onPreview={() => setShowPreviewModal(true)}
                 onSave={handleSave}
             />
         </div>

@@ -2,14 +2,11 @@
 
 import { CardContent } from '@/ui/shadcn/card';
 import { useForm } from 'react-hook-form';
-import {
-    SignInForm,
-    signInFormSchema,
-} from '@/lib/zod-form-schemas/auth-schema';
+import { SignInForm, signInFormSchema } from '@/lib/schemas/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { resendSignUpCode, signIn } from 'aws-amplify/auth';
 import SubmitAuthForm from './submit-form';
-import { useAuthFlowState, passwordStorage } from '@/lib/store/use-auth-form';
+import { passwordStorage } from '@/lib/helpers/password-storage';
 import React, { useState } from 'react';
 import FormInput from '@/ui/form-input';
 
@@ -28,20 +25,20 @@ const activeLoginDisabled: LoginDisabled = {
     buttonLabel: 'Try again in 15 seconds',
 };
 
-export default function SignInTab() {
-    // Local component
+interface Props {
+    onNeedsConfirmation: (email: string) => void;
+    onForgotPassword: () => void;
+}
+
+export default function SignInTab({
+    onNeedsConfirmation,
+    onForgotPassword,
+}: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [loginDisabled, setLoginDisabled] =
         useState<LoginDisabled>(defaultLoginDisabled);
-
-    // Global state
-    const {
-        setNeedsConfirmation,
-        setVerificationEmail,
-        setShowForgotPassword,
-    } = useAuthFlowState();
 
     const signInForm = useForm<SignInForm>({
         resolver: zodResolver(signInFormSchema),
@@ -54,20 +51,14 @@ export default function SignInTab() {
     // Clear messages when form values change
     const formValues = signInForm.watch();
     React.useEffect(() => {
-        // setError('');
         setSuccessMessage('');
     }, [formValues]);
 
     async function handleNeedsConfirmation(email: string, password: string) {
         try {
             await resendSignUpCode({ username: email });
-
-            // Store email in global state and password in session storage
-            setVerificationEmail(email);
             passwordStorage.set(password);
-
-            // Switch to verification view
-            setNeedsConfirmation(true);
+            onNeedsConfirmation(email);
         } catch (err) {
             console.error('Error resending code:', err);
             setError('Failed to resend verification code. Please try again.');
@@ -86,41 +77,30 @@ export default function SignInTab() {
             });
 
             if (nextStep.signInStep === 'CONFIRM_SIGN_UP') {
-                // User needs to confirm account
                 await handleNeedsConfirmation(data.email, data.password);
-                return; // Exit early, component will switch to verification view
+                return;
             }
 
             if (isSignedIn) {
-                // Clear any stored data
                 passwordStorage.clear();
-
-                // Success message - ClientAuthListener will handle redirect to /forge
                 setSuccessMessage('Successfully signed in! Redirecting...');
-
-                // Note: No manual redirect needed. The Hub 'signedIn' event will trigger
-                // ClientAuthListener which will handle the redirect to /forge
             }
         } catch (err) {
             console.error('Sign in error: ', err);
 
-            // Type guard to check if error is an Error object
             if (err instanceof Error) {
                 if (err.message == 'Password attempts exceeded') {
                     setLoginDisabled(activeLoginDisabled);
-                    // Wait 15 seconds then allow another attempt, expand later to work on server side
                     setTimeout(() => {
                         setLoginDisabled(defaultLoginDisabled);
                     }, 15000);
                 }
-                // Check for specific Cognito errors
                 if ('name' in err && err.name === 'UserNotConfirmedException') {
                     await handleNeedsConfirmation(data.email, data.password);
                 }
 
                 setError(err.message);
             } else {
-                // Fallback for unknown error types
                 setError('Failed to sign in. Please check your credentials.');
             }
         } finally {
@@ -141,7 +121,6 @@ export default function SignInTab() {
                         {successMessage}
                     </div>
                 )}
-                {/* Email input */}
                 <FormInput
                     form={signInForm}
                     id="sign-in-email"
@@ -149,7 +128,6 @@ export default function SignInTab() {
                     placeholder="blacksmith@skillforge.com"
                     label="Email"
                 />
-                {/* Password input */}
                 <FormInput
                     form={signInForm}
                     id="sign-in-password"
@@ -158,17 +136,15 @@ export default function SignInTab() {
                     label="Password"
                     type="password"
                 />
-                {/* Forgot Password Link */}
                 <div className="text-right">
                     <button
                         type="button"
-                        onClick={() => setShowForgotPassword(true)}
+                        onClick={onForgotPassword}
                         className="cursor-pointer text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
                     >
                         Forgot password?
                     </button>
                 </div>
-                {/* Submit buttons */}
                 <SubmitAuthForm
                     id="submit-signin"
                     buttonText={

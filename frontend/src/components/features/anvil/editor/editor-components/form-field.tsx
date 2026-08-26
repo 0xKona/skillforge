@@ -10,12 +10,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/ui/shadcn/select';
+import { IngotField } from '@/lib/types/ingot-types';
 import {
-    IngotField,
     QUALIFICATION_LEVELS,
     SKILL_PROFICIENCY_LEVELS,
-} from '@/lib/types/ingot-types';
-import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
+} from '@/lib/constants/ingot-constants';
+import { ingotFormHelpers } from '@/lib/helpers/ingot-form';
 
 interface FormFieldProps {
     fieldKey: string;
@@ -32,7 +32,7 @@ export function FormField({
     error,
     onChange,
 }: FormFieldProps) {
-    const label = field.label || IngotFormHelper.getInputLabel(fieldKey);
+    const label = field.label || ingotFormHelpers.getInputLabel(fieldKey);
     const isTextArea = field.inputType === 'textarea';
 
     const isQualification = fieldKey === 'qualificationLevel';
@@ -47,10 +47,10 @@ export function FormField({
         if (field.options) {
             options = field.options;
         } else if (isQualification) {
-            options = QUALIFICATION_LEVELS;
+            options = [...QUALIFICATION_LEVELS];
             placeholder = 'Select level...';
         } else if (isProficiency) {
-            options = SKILL_PROFICIENCY_LEVELS;
+            options = [...SKILL_PROFICIENCY_LEVELS];
             placeholder = 'Select proficiency...';
         }
 

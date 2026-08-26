@@ -1,3 +1,5 @@
+'use client';
+
 import type { Metadata } from 'next';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -5,6 +7,7 @@ import ConfigureAmplifyClientSide from '@/components/providers/configure-amplify
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ClientAuthListener } from '@/components/providers/client-auth-listener';
 import { Toaster } from '@/ui/shadcn/sonner';
+import QueryClientLayoutProvider from '@/components/providers/QueryClientProvider';
 
 const inter = Inter({
     variable: '--font-inter',
@@ -22,13 +25,13 @@ const geistMono = Geist_Mono({
     preload: true,
 });
 
-export const metadata: Metadata = {
-    icons: {
-        icon: [{ url: '/logo_favicon.svg', type: 'image/svg+xml' }],
-    },
-    title: 'SkillForge',
-    description: 'Create and manage modular CVs!',
-};
+// export const metadata: Metadata = {
+//     icons: {
+//         icon: [{ url: '/logo_favicon.svg', type: 'image/svg+xml' }],
+//     },
+//     title: 'SkillForge',
+//     description: 'Create and manage modular CVs!',
+// };
 
 export default function RootLayout({
     children,
@@ -40,17 +43,19 @@ export default function RootLayout({
             <body
                 className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
             >
-                <ConfigureAmplifyClientSide />
-                <ClientAuthListener />
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <Toaster />
-                    {children}
-                </ThemeProvider>
+                <QueryClientLayoutProvider>
+                    <ConfigureAmplifyClientSide />
+                    <ClientAuthListener />
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="dark"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <Toaster />
+                        {children}
+                    </ThemeProvider>
+                </QueryClientLayoutProvider>
             </body>
         </html>
     );

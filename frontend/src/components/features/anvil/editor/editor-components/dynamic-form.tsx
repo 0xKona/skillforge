@@ -2,7 +2,7 @@
 
 import { IngotField } from '@/lib/types/ingot-types';
 import { FormField } from './form-field';
-import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
+import { ingotFormHelpers } from '@/lib/helpers/ingot-form';
 
 interface Props {
     fields: Record<string, IngotField>;
@@ -17,7 +17,7 @@ export default function DynamicForm({
     onChange,
     errors = {},
 }: Props) {
-    const groupedFields = IngotFormHelper.getGroupedFields(fields);
+    const groupedFields = ingotFormHelpers.getGroupedFields(fields);
 
     return (
         <div className="space-y-4">

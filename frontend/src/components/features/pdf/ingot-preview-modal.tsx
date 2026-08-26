@@ -11,7 +11,6 @@ import { PDFViewer } from '@react-pdf/renderer';
 import { Button } from '@/ui/shadcn/button';
 import { IngotPDF } from './ingot-pdf';
 import { Card } from '@/ui/shadcn/card';
-import { useIngotPreviewState } from '@/lib/store/use-ingot-preview';
 import { Ingot, IngotEditorData, IngotField } from '@/lib/types/ingot-types';
 import {
     Select,
@@ -21,18 +20,22 @@ import {
     SelectValue,
 } from '@/ui/shadcn/select';
 import { Label } from '@/ui/shadcn/label';
-import { SortOrder } from '@/lib/types/sorting-types';
-import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
+import { SortOrder } from '@/lib/helpers/sorting';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface Props {
     isOpen: boolean;
+    onClose: () => void;
     ingotData: IngotEditorData;
 }
 
 // TODO - REFACTOR WITH HELPERS
 
-export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
-    const { closePreviewModal } = useIngotPreviewState();
+export default function IngotPreviewModal({
+    isOpen,
+    onClose,
+    ingotData,
+}: Props) {
     const billets = ingotData.content.billets;
 
     const [selectedBilletIds, setSelectedBilletIds] = useState<Set<string>>(
@@ -71,7 +74,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
     };
 
     // HERE
-    const showSortOptions = IngotHelpers.checkBilletsCanBeSortedByDate(
+    const showSortOptions = ingotHelpers.canSortBilletsByDate(
         ingotData as Ingot
     );
 
@@ -86,7 +89,7 @@ export default function IngotPreviewModal({ isOpen, ingotData }: Props) {
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={closePreviewModal}
+                        onClick={onClose}
                         className="text-slate-400 hover:text-white hover:bg-slate-700"
                     >
                         <X className="h-5 w-5" />

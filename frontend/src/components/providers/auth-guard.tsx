@@ -2,22 +2,18 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useClientAuth } from '@/lib/store/use-client-auth';
+import { useAuth } from '@/lib/store/use-auth';
 
 interface AuthGuardProps {
     children: React.ReactNode;
 }
 
 /**
- * Client-side auth guard for protected routes.
- * Replaces the old server-side middleware approach.
- *
- * - Shows a loading skeleton while auth state resolves
- * - Redirects to /login if user is not authenticated
- * - Renders children when authenticated
+ * Client-side auth guard for protected route layouts.
+ * Shows a loading state while auth resolves, redirects if not authenticated.
  */
 export function AuthGuard({ children }: AuthGuardProps) {
-    const { isAuthenticated, loading } = useClientAuth();
+    const { isAuthenticated, loading } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -38,7 +34,6 @@ export function AuthGuard({ children }: AuthGuardProps) {
     }
 
     if (!isAuthenticated) {
-        // Render nothing while redirect is in progress
         return null;
     }
 

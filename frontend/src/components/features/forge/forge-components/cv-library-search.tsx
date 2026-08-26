@@ -1,25 +1,30 @@
 import { Button } from '@/ui/shadcn/button';
 import { Input } from '@/ui/shadcn/input';
-import { useCvInterfaceState } from '@/lib/store/use-cv-interface';
 import { X } from 'lucide-react';
 
-export default function CvLibrarySearch() {
-    const { searchQuery, setSearchQuery } = useCvInterfaceState();
+interface CvLibrarySearchProps {
+    searchQuery: string;
+    onSearchChange: (query: string) => void;
+}
 
+export default function CvLibrarySearch({
+    searchQuery,
+    onSearchChange,
+}: CvLibrarySearchProps) {
     return (
         <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative w-full">
                 <Input
                     placeholder="Search CVs..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => onSearchChange(e.target.value)}
                     className="bg-slate-950 border-slate-800 text-slate-200 placeholder:text-slate-400 focus:ring-forge-orange/20 focus:border-forge-orange/50"
                 />
             </div>
             {searchQuery && (
                 <Button
                     variant="ghost"
-                    onClick={() => setSearchQuery('')}
+                    onClick={() => onSearchChange('')}
                     className="text-slate-400 hover:text-white hover:bg-slate-800"
                 >
                     <X className="mr-2 h-4 w-4" />

@@ -1,32 +1,44 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { TypographyP } from '@/ui/typography/typography';
 import { Button } from '@/ui/shadcn/button';
 import IngotCardSkeleton from './ingot-card-skeleton';
 import { Ingot } from '@/lib/types/ingot-types';
-import { useAnvilInterfaceState } from '@/lib/store/use-anvil-interface';
+import { useIngots, useDeleteIngot } from '@/hooks/use-ingots';
 import AnvilInterfaceFilters from './anvil-filters';
 import LibraryHeader from '@/widgets/library-header';
 import LibraryCard from '@/widgets/library-card';
 
 export default function AnvilInterface() {
-    const {
-        loading,
-        anvilIngots,
-        loadAnvilIngots,
-        searchQuery,
-        typeFilter,
-        resetFilters,
-    } = useAnvilInterfaceState();
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [typeFilter, setTypeFilter] = useState<string>('ALL');
 
-    useEffect(() => {
-        loadAnvilIngots();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const { data: ingots = [], isLoading, refetch } = useIngots();
+    const deleteIngot = useDeleteIngot();
 
-    const filteredIngots = anvilIngots.filter((ingot) => {
+    function handleDelete(id: string) {
+        deleteIngot.mutate(id, {
+            onSuccess: () => toast.success('Ingot deleted'),
+            onError: () =>
+                toast.error('Failed to delete ingot, please try again'),
+        });
+    }
+
+    function handleOpen(id: string) {
+        router.push(`/anvil/edit/${id}`);
+    }
+
+    function resetFilters() {
+        setSearchQuery('');
+        setTypeFilter('ALL');
+    }
+
+    const filteredIngots = ingots.filter((ingot) => {
         const matchesSearch = ingot.name
             .toLowerCase()
             .includes(searchQuery.toLowerCase());
@@ -36,19 +48,24 @@ export default function AnvilInterface() {
 
     return (
         <div className="w-full mx-auto p-6 space-y-6">
-            {/* <AnvilHeader /> */}
             <LibraryHeader
-                isLoading={loading}
-                onRefresh={loadAnvilIngots}
+                isLoading={isLoading}
+                onRefresh={() => refetch()}
                 mainButtonText="Create New Ingot"
                 mainButtonLink="/anvil/create"
                 headerTitleText="Ingot Library"
                 headerDescriptionText="Manage and organize your knowledge Ingots"
             />
-            <AnvilInterfaceFilters />
+            <AnvilInterfaceFilters
+                searchQuery={searchQuery}
+                typeFilter={typeFilter}
+                onSearchChange={setSearchQuery}
+                onTypeChange={setTypeFilter}
+                onReset={resetFilters}
+            />
 
             {/* Loading */}
-            {loading ? (
+            {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <IngotCardSkeleton key={i} />
@@ -57,11 +74,11 @@ export default function AnvilInterface() {
             ) : filteredIngots.length === 0 ? (
                 <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
                     <TypographyP className="text-slate-400 mb-4">
-                        {anvilIngots.length === 0
+                        {ingots.length === 0
                             ? "You haven't created any ingots yet."
                             : 'No ingots match your filters.'}
                     </TypographyP>
-                    {anvilIngots.length === 0 && (
+                    {ingots.length === 0 && (
                         <Link href="/anvil/create">
                             <Button
                                 variant="outline"
@@ -71,7 +88,7 @@ export default function AnvilInterface() {
                             </Button>
                         </Link>
                     )}
-                    {anvilIngots.length > 0 && (
+                    {ingots.length > 0 && (
                         <Button
                             variant="outline"
                             onClick={resetFilters}
@@ -85,7 +102,12 @@ export default function AnvilInterface() {
                 // Ingot Grid
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredIngots.map((ingot: Ingot) => (
-                        <LibraryCard key={ingot.id} cardData={ingot} />
+                        <LibraryCard
+                            key={ingot.id}
+                            cardData={ingot}
+                            onOpen={handleOpen}
+                            onDelete={handleDelete}
+                        />
                     ))}
                 </div>
             )}

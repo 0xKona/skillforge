@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import { pdfStyles } from '../../../../lib/pdf-styles/pdf-styles';
+import { pdfStyles } from '../../../../lib/pdf/styles';
 import { Ingot } from '@/lib/types/ingot-types';
-import { SortOrder } from '@/lib/types/sorting-types';
-import IngotHelpers from '@/lib/classes/helpers/ingot-helpers';
+import { SortOrder } from '@/lib/helpers/sorting';
+import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface Props {
     ingots: Ingot[];
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const EducationSection = ({ ingots, billetIds, ingotSortBy }: Props) => {
-    const sortedIngots = IngotHelpers.sortIngots(ingots, ingotSortBy);
+    const sortedIngots = ingotHelpers.sortIngots(ingots, ingotSortBy);
 
     return (
         <View>

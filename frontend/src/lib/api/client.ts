@@ -1,11 +1,13 @@
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { backendConfig } from '@/lib/config/backend-config';
+import { backendConfig } from '@/lib/constants/backend';
+import { useAuth } from '@/lib/store/use-auth';
 
-/**
- * Lightweight REST API client for the SkillForge backend.
- * Automatically attaches the Cognito ID token to requests.
- */
+/*
+Errors in this API 'package' are not caught or handled, all API's are thrown and
+should be dealt with at the data integrity layer by useQuery.
+*/
 
+// Error Class for API Errors
 export class ApiError extends Error {
     constructor(
         public status: number,
@@ -16,15 +18,23 @@ export class ApiError extends Error {
     }
 }
 
+// Fetches the Cognito token from Auth Session
 async function getAuthToken(): Promise<string> {
     const session = await fetchAuthSession();
     const token = session.tokens?.idToken?.toString();
     if (!token) {
+        handleUnauthorized();
         throw new ApiError(401, 'Not authenticated');
     }
     return token;
 }
 
+// Clears auth state on 401 - AuthGuard/ClientAuthListener handles the redirect
+function handleUnauthorized() {
+    useAuth.getState().signOut();
+}
+
+// Request Helper Function, build api url and request.
 async function request<T>(
     method: string,
     path: string,
@@ -36,7 +46,9 @@ async function request<T>(
     let url = `${backendConfig.apiUrl}${path}`;
     if (params) {
         const searchParams = new URLSearchParams(
-            Object.entries(params).filter(([, v]) => v !== undefined && v !== '')
+            Object.entries(params).filter(
+                ([, v]) => v !== undefined && v !== ''
+            )
         );
         if (searchParams.toString()) {
             url += `?${searchParams.toString()}`;
@@ -57,11 +69,18 @@ async function request<T>(
         const message =
             (errorBody as { error?: string }).error ||
             `Request failed with status ${response.status}`;
+
+        if (response.status === 401) {
+            handleUnauthorized();
+        }
+
         throw new ApiError(response.status, message);
     }
 
     return response.json() as Promise<T>;
 }
+
+// --- Abstracted API Functions for each method ---
 
 export async function apiGet<T>(
     path: string,
