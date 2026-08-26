@@ -11,7 +11,7 @@ import {
     Volleyball,
 } from 'lucide-react';
 import { Ingot, IngotType } from '../types/ingot-types';
-import { SortOrder } from '../types/sorting-types';
+import { SortOrder } from './sorting';
 import { mappingHelpers } from './mapping';
 
 // -- Card UI mapping --

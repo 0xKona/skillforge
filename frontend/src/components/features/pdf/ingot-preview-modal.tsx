@@ -20,7 +20,7 @@ import {
     SelectValue,
 } from '@/ui/shadcn/select';
 import { Label } from '@/ui/shadcn/label';
-import { SortOrder } from '@/lib/types/sorting-types';
+import { SortOrder } from '@/lib/helpers/sorting';
 import { ingotHelpers } from '@/lib/helpers/ingot';
 
 interface Props {

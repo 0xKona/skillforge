@@ -1,6 +1,6 @@
 import React from 'react';
 import { Ingot, IngotType } from '@/lib/types/ingot-types';
-import { SortOrder } from '@/lib/types/sorting-types';
+import { SortOrder } from '@/lib/helpers/sorting';
 import { PersonalInfoSection } from '@/components/features/pdf/pdf-sections/personal-info-section';
 import { ExperienceSection } from '@/components/features/pdf/pdf-sections/experience-section';
 import { EducationSection } from '@/components/features/pdf/pdf-sections/education-section';

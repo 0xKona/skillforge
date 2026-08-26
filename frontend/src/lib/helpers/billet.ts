@@ -1,6 +1,6 @@
 import { BILLET_TEMPLATES } from '../templates/ingot-templates';
 import { Billet } from '../types/ingot-types';
-import { SortOrder } from '../types/sorting-types';
+import { SortOrder } from './sorting';
 
 /**
  * Returns the field names defined by the template for a billet's type.
