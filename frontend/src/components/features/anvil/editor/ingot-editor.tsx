@@ -14,7 +14,7 @@ import { useCreateIngot, useUpdateIngot } from '@/hooks/use-ingots';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
 import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
 import IngotPreviewModal from '@/components/features/pdf/ingot-preview-modal';
-import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { mappingHelpers } from '@/lib/helpers/mapping';
 
 interface Props {
     initialIngotData: IngotEditorData;
@@ -180,7 +180,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
         <div className="w-full mx-auto p-6 space-y-6">
             <EditorHeader
                 title={ingotId ? 'Edit Ingot' : 'Create Ingot'}
-                typeLabel={MappingHelpers.getIngotLabelByType(ingotType)}
+                typeLabel={mappingHelpers.getIngotLabel(ingotType)}
                 loading={isSaving}
                 onPreview={() => setShowPreviewModal(true)}
                 onSave={handleSave}

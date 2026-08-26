@@ -8,7 +8,7 @@ import {
 } from '@/ui/shadcn/select';
 import { Search, X } from 'lucide-react';
 import { Button } from '@/ui/shadcn/button';
-import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { mappingHelpers } from '@/lib/helpers/mapping';
 import { IngotType } from '@/lib/types/ingot-types';
 
 interface AnvilInterfaceFiltersProps {
@@ -46,13 +46,13 @@ export default function AnvilInterfaceFilters({
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700 text-slate-100">
                     <SelectItem value="ALL">All Types</SelectItem>
-                    {MappingHelpers.getIngotTypeList().map(
-                        (type: IngotType) => (
+                    {mappingHelpers
+                        .getIngotTypeList()
+                        .map((type: IngotType) => (
                             <SelectItem key={type} value={type}>
-                                {MappingHelpers.getIngotLabelByType(type)}
+                                {mappingHelpers.getIngotLabel(type)}
                             </SelectItem>
-                        )
-                    )}
+                        ))}
                 </SelectContent>
             </Select>
             {(searchQuery || typeFilter !== 'ALL') && (

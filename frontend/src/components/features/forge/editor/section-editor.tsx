@@ -12,7 +12,7 @@ import { ingotHelpers } from '@/lib/helpers/ingot';
 import { Button } from '@/ui/shadcn/button';
 import React from 'react';
 import { CV } from '@/lib/types/cv-types';
-import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { mappingHelpers } from '@/lib/helpers/mapping';
 import { redirect } from 'next/navigation';
 
 export function SectionEditor() {
@@ -88,7 +88,7 @@ export function SectionEditor() {
                 {relevantIngots.length === 0 ? (
                     <div className="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/50">
                         <TypographyP className="text-slate-400 mb-4">
-                            {`You haven't created any ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} yet.`}
+                            {`You haven't created any ${mappingHelpers.getCvSectionLabel(section.sectionType).toLowerCase()} yet.`}
                         </TypographyP>
 
                         {/* HERE! */}
@@ -97,7 +97,7 @@ export function SectionEditor() {
                             className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700"
                             onClick={handleCreateNewIngot}
                         >
-                            {`Create a ${MappingHelpers.getCvSectionLabelBySectionType(section.sectionType).toLowerCase()} ingot`}
+                            {`Create a ${mappingHelpers.getCvSectionLabel(section.sectionType).toLowerCase()} ingot`}
                         </Button>
                     </div>
                 ) : (

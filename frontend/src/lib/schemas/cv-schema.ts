@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import MappingHelpers from '../classes/helpers/mapping-helpers';
+import { mappingHelpers } from '../helpers/mapping';
 import { IngotType } from '../types/ingot-types';
 
 export const cvSectionSchema = z.object({
@@ -48,7 +48,7 @@ export const validateCv = (cv: CvFormValues) => {
     // Check for empty sections
     cv.cvContent.sections.forEach((section) => {
         if (section.isVisible !== false && section.ingotIds.length === 0) {
-            const label = MappingHelpers.getCvSectionLabelBySectionType(
+            const label = mappingHelpers.getCvSectionLabel(
                 section.sectionType as IngotType
             );
             warnings.push(`The ${label} section is empty.`);

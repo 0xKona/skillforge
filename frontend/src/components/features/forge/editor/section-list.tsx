@@ -13,7 +13,7 @@ import {
 import { TypographyH4 } from '@/ui/typography/typography';
 import { toast } from 'sonner';
 import CvSectionEditorCard from '../forge-components/cv-section-editor-card';
-import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { mappingHelpers } from '@/lib/helpers/mapping';
 
 export function SectionList() {
     const { cv, addSection } = useCvEditorState();
@@ -32,7 +32,7 @@ export function SectionList() {
     const handleAddSection = (type: IngotType) => {
         if (checkSectionAlreadyExists(type)) {
             toast.warning(
-                `You already have an ${MappingHelpers.getCvSectionLabelBySectionType(type)} section!`
+                `You already have an ${mappingHelpers.getCvSectionLabel(type)} section!`
             );
         } else {
             addSection(type as IngotType);
@@ -53,18 +53,18 @@ export function SectionList() {
                         <SelectValue placeholder="Add Section" />
                     </SelectTrigger>
                     <SelectContent>
-                        {MappingHelpers.getCvSectionsList().map(
-                            (sectionType: IngotType) => (
+                        {mappingHelpers
+                            .getCvSectionsList()
+                            .map((sectionType: IngotType) => (
                                 <SelectItem
                                     key={sectionType}
                                     value={sectionType}
                                 >
-                                    {MappingHelpers.getCvSectionLabelBySectionType(
+                                    {mappingHelpers.getCvSectionLabel(
                                         sectionType
                                     )}
                                 </SelectItem>
-                            )
-                        )}
+                            ))}
                     </SelectContent>
                 </Select>
             </div>

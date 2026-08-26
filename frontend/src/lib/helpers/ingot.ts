@@ -12,20 +12,9 @@ import {
 } from 'lucide-react';
 import { Ingot, IngotType } from '../types/ingot-types';
 import { SortOrder } from '../types/sorting-types';
+import { mappingHelpers } from './mapping';
 
 // -- Card UI mapping --
-
-const INGOT_TYPE_LABELS: Record<IngotType, string> = {
-    ingot_personal_info: 'Personal Info',
-    ingot_personal_statement: 'Personal Statement',
-    ingot_education: 'Education',
-    ingot_experience: 'Experience',
-    ingot_project: 'Project',
-    ingot_skill: 'Skill',
-    ingot_certification: 'Certification',
-    ingot_hobby: 'Hobby',
-    ingot_reference: 'Reference',
-};
 
 const INGOT_CARD_DETAILS: Record<string, { color: string; icon: LucideIcon }> =
     {
@@ -48,7 +37,7 @@ function getCardDetails(type: IngotType) {
         color: 'bg-slate-500',
         icon: FileText,
     };
-    return { ...details, label: INGOT_TYPE_LABELS[type] };
+    return { ...details, label: mappingHelpers.getIngotLabel(type) };
 }
 
 // -- Date checks --

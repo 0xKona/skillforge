@@ -7,11 +7,11 @@ import { Card } from '@/ui/shadcn/card';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { IngotType } from '@/lib/types/ingot-types';
-import MappingHelpers from '@/lib/classes/helpers/mapping-helpers';
+import { mappingHelpers } from '@/lib/helpers/mapping';
 import { ingotHelpers } from '@/lib/helpers/ingot';
 
 function IngotTypeCard({ ingotType }: { ingotType: IngotType }) {
-    const ingotLabel = MappingHelpers.getIngotLabelByType(ingotType);
+    const ingotLabel = mappingHelpers.getIngotLabel(ingotType);
 
     const { color, icon: Icon, label } = ingotHelpers.getCardDetails(ingotType);
 
@@ -72,11 +72,11 @@ export default function IngotTypeSelection() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {MappingHelpers.getIngotTypeList().map(
-                    (ingotType: IngotType) => (
+                {mappingHelpers
+                    .getIngotTypeList()
+                    .map((ingotType: IngotType) => (
                         <IngotTypeCard key={ingotType} ingotType={ingotType} />
-                    )
-                )}
+                    ))}
             </div>
         </div>
     );
