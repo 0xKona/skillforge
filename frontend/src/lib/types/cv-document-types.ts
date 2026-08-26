@@ -35,6 +35,7 @@ export interface DocumentItem {
  * Contains items in display order.
  */
 export interface DocumentSection {
+    id: string;
     type: SectionType;
     title: string;
     visible: boolean;

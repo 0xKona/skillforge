@@ -14,6 +14,7 @@ function makeDocument(overrides?: Partial<CvDocument>): CvDocument {
         content: {
             sections: [
                 {
+                    id: 'section-exp',
                     type: 'experience',
                     title: 'Experience',
                     visible: true,
@@ -37,6 +38,7 @@ function makeDocument(overrides?: Partial<CvDocument>): CvDocument {
                     ],
                 },
                 {
+                    id: 'section-edu',
                     type: 'education',
                     title: 'Education',
                     visible: true,
@@ -337,6 +339,7 @@ describe('use-cv-document: sortItemsByDate', () => {
     it('does nothing for sections without date fields', () => {
         const doc = makeDocument();
         doc.content.sections.push({
+            id: 'section-hobby',
             type: 'hobby',
             title: 'Hobbies',
             visible: true,

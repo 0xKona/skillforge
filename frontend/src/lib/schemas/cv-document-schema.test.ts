@@ -12,6 +12,7 @@ describe('cvDocumentSchema', () => {
         content: {
             sections: [
                 {
+                    id: 'section-1',
                     type: 'experience',
                     title: 'Experience',
                     visible: true,
@@ -55,6 +56,7 @@ describe('cvDocumentSchema', () => {
             content: {
                 sections: [
                     {
+                        id: 'section-bad',
                         type: 'invalid_type',
                         title: 'Bad',
                         visible: true,
@@ -81,6 +83,7 @@ describe('cvDocumentSchema', () => {
             content: {
                 sections: [
                     {
+                        id: 'section-edu',
                         type: 'education',
                         title: 'Education',
                         visible: true,
@@ -110,6 +113,7 @@ describe('cvDocumentSchema', () => {
             content: {
                 sections: [
                     {
+                        id: 'section-exp',
                         type: 'experience',
                         title: 'Experience',
                         visible: true,

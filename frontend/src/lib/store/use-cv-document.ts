@@ -174,6 +174,7 @@ export const useCvDocumentStore = create<CvDocumentStore>((set, get) => ({
         pushHistory(set, get);
 
         const newSection: DocumentSection = {
+            id: crypto.randomUUID(),
             type,
             title: SECTION_META[type].defaultTitle,
             visible: true,

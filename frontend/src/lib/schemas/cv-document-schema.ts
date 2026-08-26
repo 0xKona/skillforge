@@ -24,6 +24,7 @@ const documentItemSchema: z.ZodType = z.object({
 });
 
 const documentSectionSchema = z.object({
+    id: z.string().min(1),
     type: sectionTypeSchema,
     title: z.string().min(1),
     visible: z.boolean(),
