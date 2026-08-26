@@ -15,7 +15,7 @@ import {
     QUALIFICATION_LEVELS,
     SKILL_PROFICIENCY_LEVELS,
 } from '@/lib/constants/ingot-constants';
-import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
+import { ingotFormHelpers } from '@/lib/helpers/ingot-form';
 
 interface FormFieldProps {
     fieldKey: string;
@@ -32,7 +32,7 @@ export function FormField({
     error,
     onChange,
 }: FormFieldProps) {
-    const label = field.label || IngotFormHelper.getInputLabel(fieldKey);
+    const label = field.label || ingotFormHelpers.getInputLabel(fieldKey);
     const isTextArea = field.inputType === 'textarea';
 
     const isQualification = fieldKey === 'qualificationLevel';

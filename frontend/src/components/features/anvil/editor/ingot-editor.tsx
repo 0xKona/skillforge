@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/shadcn/tabs';
 import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import { useCreateIngot, useUpdateIngot } from '@/hooks/use-ingots';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
-import { IngotFormHelper } from '@/lib/classes/helpers/ingot-form-helpers';
+import { ingotFormHelpers } from '@/lib/helpers/ingot-form';
 import IngotPreviewModal from '@/components/features/pdf/ingot-preview-modal';
 import { mappingHelpers } from '@/lib/helpers/mapping';
 
@@ -79,7 +79,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
 
         // Validate fields
         const { valid, errors: fieldErrors } =
-            IngotFormHelper.validateIngotFields(ingotContent.fields);
+            ingotFormHelpers.validateIngotFields(ingotContent.fields);
 
         if (!valid) {
             useIngotEditorState.setState({ errors: fieldErrors });
@@ -157,7 +157,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
                 ingotName={ingotName}
                 onNameChange={setIngotName}
                 fields={ingotContent.fields}
-                values={IngotFormHelper.getIngotFieldValues(
+                values={ingotFormHelpers.getIngotFieldValues(
                     ingotContent.fields
                 )}
                 onFieldChange={handleContentChange}
