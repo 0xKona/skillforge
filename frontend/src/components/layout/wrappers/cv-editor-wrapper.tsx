@@ -1,53 +1,80 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { CvEditor } from '@/components/features/forge/editor/cv-editor';
-import { Skeleton } from '@/ui/shadcn/skeleton';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { cvApi } from '@/lib/api/cv';
+
+import { Skeleton } from '@/ui/shadcn/skeleton';
+import { useCv, useCreateCv } from '@/hooks/use-cvs';
+import { useCvDocumentStore } from '@/lib/store/use-cv-document';
+import { CvEditor } from '@/components/features/forge/cv-editor';
+import { useCvAutoSave } from '@/hooks/use-cv-auto-save-v2';
 
 export default function CvEditorWrapper({ cvId }: { cvId: string }) {
-    const [finalCvId, setFinalCvId] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const router = useRouter();
+    const isNew = cvId === 'new';
 
+    // Fetch existing CV
+    const { data: fetchedCv, isLoading } = useCv(isNew ? '' : cvId);
+
+    // Create mutation for new CVs
+    const createCv = useCreateCv();
+
+    // Store actions
+    const setDocument = useCvDocumentStore((s) => s.setDocument);
+    const reset = useCvDocumentStore((s) => s.reset);
+
+    // Auto-save (3s debounce)
+    useCvAutoSave(3000);
+
+    // Handle "new" case — create CV then redirect
     useEffect(() => {
-        const initializeCv = async () => {
-            try {
-                if (cvId === 'new') {
-                    // Create new draft CV via the REST API
-                    const newCv = await cvApi.createCv({
-                        version: 1,
-                        title: `Draft ${crypto.randomUUID()}`,
-                        content: { sections: [] },
-                    });
+        if (!isNew) return;
 
-                    setFinalCvId(newCv.id);
-                } else {
-                    setFinalCvId(cvId);
-                }
-            } catch (error) {
-                console.error('Failed to initialize CV', error);
-                toast.error('Failed to initialize CV');
-            } finally {
-                setLoading(false);
+        createCv.mutate(
+            { version: 1, title: 'Untitled CV', content: { sections: [] } },
+            {
+                onSuccess: (created) => {
+                    router.replace(`/forge/cv/${created.id}`);
+                },
+                onError: () => {
+                    toast.error('Failed to create CV');
+                    router.push('/forge');
+                },
             }
-        };
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-        initializeCv();
-    }, [cvId]);
+    // Load fetched CV into store
+    useEffect(() => {
+        if (fetchedCv) {
+            setDocument(fetchedCv);
+        }
+    }, [fetchedCv, setDocument]);
 
-    if (loading) {
+    // Reset store on unmount
+    useEffect(() => {
+        return () => reset();
+    }, [reset]);
+
+    // Loading state
+    if (isNew || isLoading) {
         return (
-            <div className="w-full h-full p-6 space-y-4">
+            <div className="min-h-screen bg-forge-surface p-6 space-y-4">
                 <Skeleton className="h-12 w-1/3" />
                 <Skeleton className="h-[600px] w-full" />
             </div>
         );
     }
 
-    if (!finalCvId) {
-        return <div className="p-6">Failed to load CV</div>;
+    if (!fetchedCv) {
+        return (
+            <div className="min-h-screen bg-forge-surface flex items-center justify-center">
+                <p className="text-forge-text-muted">CV not found</p>
+            </div>
+        );
     }
 
-    return <CvEditor cvId={finalCvId} />;
+    return <CvEditor />;
 }

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Ingot, IngotType } from '@/lib/types/ingot-types';
 import { SortOrder } from '@/lib/helpers/sorting';
-import { PersonalInfoSection } from '@/components/features/pdf/pdf-sections/personal-info-section';
-import { ExperienceSection } from '@/components/features/pdf/pdf-sections/experience-section';
-import { EducationSection } from '@/components/features/pdf/pdf-sections/education-section';
-import { SkillsSection } from '@/components/features/pdf/pdf-sections/skills-section';
-import { CertificationSection } from '@/components/features/pdf/pdf-sections/certifications-section';
-import { ProjectsSection } from '@/components/features/pdf/pdf-sections/projects-section';
-import { PersonalStatementSection } from '@/components/features/pdf/pdf-sections/personal-statement-section';
-import { GenericSection } from '@/components/features/pdf/pdf-sections/generic-section';
-import { ReferenceSection } from '@/components/features/pdf/pdf-sections/reference-section';
+import { PersonalInfoSection } from '@/components/features/pdf/ingot-sections/personal-info-section';
+import { ExperienceSection } from '@/components/features/pdf/ingot-sections/experience-section';
+import { EducationSection } from '@/components/features/pdf/ingot-sections/education-section';
+import { SkillsSection } from '@/components/features/pdf/ingot-sections/skills-section';
+import { CertificationSection } from '@/components/features/pdf/ingot-sections/certifications-section';
+import { ProjectsSection } from '@/components/features/pdf/ingot-sections/projects-section';
+import { PersonalStatementSection } from '@/components/features/pdf/ingot-sections/personal-statement-section';
+import { GenericSection } from '@/components/features/pdf/ingot-sections/generic-section';
+import { ReferenceSection } from '@/components/features/pdf/ingot-sections/reference-section';
 
 interface SectionRendererProps {
     sectionType: IngotType;

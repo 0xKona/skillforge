@@ -20,20 +20,20 @@ jest.mock('@react-pdf/renderer', () => ({
 }));
 
 // Mock child components
-jest.mock('@/components/features/pdf/pdf-sections/section-header', () => ({
+jest.mock('@/components/features/pdf/ingot-sections/section-header', () => ({
     SectionHeader: ({ customTitle }: { customTitle?: string }) => (
         <div data-testid="section-header">{customTitle || 'Default Title'}</div>
     ),
 }));
 
-jest.mock('./section-renderer', () => {
+jest.mock('./ingot-section-renderer', () => {
     const MockSectionRenderer = () => <div data-testid="section-renderer" />;
     MockSectionRenderer.displayName = 'SectionRenderer';
     return MockSectionRenderer;
 });
 
 // Mock pdfStyles
-jest.mock('@/lib/pdf-styles/pdf-styles', () => ({
+jest.mock('@/lib/pdf/styles', () => ({
     pdfStyles: {
         page: {},
     },

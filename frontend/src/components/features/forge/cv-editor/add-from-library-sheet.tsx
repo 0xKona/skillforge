@@ -11,10 +11,12 @@ import {
 } from '@/ui/shadcn/sheet';
 import { Input } from '@/ui/shadcn/input';
 import { ScrollArea } from '@/ui/shadcn/scroll-area';
+import { Skeleton } from '@/ui/shadcn/skeleton';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
+import { useIngots } from '@/hooks/use-ingots';
 import { cvImport } from '@/lib/helpers/cv-import';
 import { SECTION_META } from '@/lib/constants/cv-constants';
-import type { Ingot } from '@/lib/types/ingot-types';
+import type { Ingot, IngotType } from '@/lib/types/ingot-types';
 import type { SectionType } from '@/lib/types/cv-document-types';
 
 interface AddFromLibrarySheetProps {
@@ -24,15 +26,9 @@ interface AddFromLibrarySheetProps {
     sectionType: SectionType;
 }
 
-// TODO: Replace with actual data fetching via React Query (useIngots hook)
-const PLACEHOLDER_INGOTS: Ingot[] = [];
-
 /**
- * Sheet component for selecting ingots from the user's library.
- *
- * NOTE: This component expects a `useIngots` hook to be available for data fetching.
- * For now it uses an empty placeholder — the actual data fetching
- * will be wired in when the page-level component is built.
+ * Sheet component for selecting ingots from the user's Anvil library.
+ * Fetches ingots matching the section type and allows selection.
  */
 export function AddFromLibrarySheet({
     open,
@@ -44,15 +40,18 @@ export function AddFromLibrarySheet({
     const addItem = useCvDocumentStore((s) => s.addItem);
     const meta = SECTION_META[sectionType];
 
-    const ingotType = `ingot_${sectionType}` as const;
+    // Fetch ingots matching this section type
+    const ingotType = `ingot_${sectionType}` as IngotType;
+    const { data: ingots = [], isLoading } = useIngots(ingotType);
+
     const filtered = useMemo(
         () =>
-            PLACEHOLDER_INGOTS.filter((i) => i.type === ingotType).filter(
+            ingots.filter(
                 (i) =>
                     !search ||
                     i.name.toLowerCase().includes(search.toLowerCase())
             ),
-        [ingotType, search]
+        [ingots, search]
     );
 
     function handleSelect(ingot: Ingot) {
@@ -88,9 +87,15 @@ export function AddFromLibrarySheet({
 
                     {/* Results */}
                     <ScrollArea className="h-[calc(100vh-180px)]">
-                        {filtered.length === 0 ? (
+                        {isLoading ? (
+                            <div className="space-y-2 p-2">
+                                <Skeleton className="h-16 w-full" />
+                                <Skeleton className="h-16 w-full" />
+                                <Skeleton className="h-16 w-full" />
+                            </div>
+                        ) : filtered.length === 0 ? (
                             <p className="py-8 text-center text-sm text-forge-text-muted">
-                                {PLACEHOLDER_INGOTS.length === 0
+                                {ingots.length === 0
                                     ? `No ${meta.defaultTitle.toLowerCase()} in your library yet.`
                                     : 'No results match your search.'}
                             </p>

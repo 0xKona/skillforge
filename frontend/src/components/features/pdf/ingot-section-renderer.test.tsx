@@ -1,44 +1,47 @@
 import { render, screen } from '@testing-library/react';
-import SectionRenderer from './section-renderer';
+import SectionRenderer from './ingot-section-renderer';
 import { Ingot, IngotType } from '@/lib/types/ingot-types';
 
 // Mock child components
 jest.mock(
-    '@/components/features/pdf/pdf-sections/personal-info-section',
+    '@/components/features/pdf/ingot-sections/personal-info-section',
     () => ({
         PersonalInfoSection: () => <div data-testid="personal-info-section" />,
     })
 );
-jest.mock('@/components/features/pdf/pdf-sections/experience-section', () => ({
-    ExperienceSection: () => <div data-testid="experience-section" />,
-}));
-jest.mock('@/components/features/pdf/pdf-sections/education-section', () => ({
+jest.mock(
+    '@/components/features/pdf/ingot-sections/experience-section',
+    () => ({
+        ExperienceSection: () => <div data-testid="experience-section" />,
+    })
+);
+jest.mock('@/components/features/pdf/ingot-sections/education-section', () => ({
     EducationSection: () => <div data-testid="education-section" />,
 }));
-jest.mock('@/components/features/pdf/pdf-sections/skills-section', () => ({
+jest.mock('@/components/features/pdf/ingot-sections/skills-section', () => ({
     SkillsSection: () => <div data-testid="skills-section" />,
 }));
 jest.mock(
-    '@/components/features/pdf/pdf-sections/certifications-section',
+    '@/components/features/pdf/ingot-sections/certifications-section',
     () => ({
         CertificationSection: () => <div data-testid="certification-section" />,
     })
 );
-jest.mock('@/components/features/pdf/pdf-sections/projects-section', () => ({
+jest.mock('@/components/features/pdf/ingot-sections/projects-section', () => ({
     ProjectsSection: () => <div data-testid="projects-section" />,
 }));
 jest.mock(
-    '@/components/features/pdf/pdf-sections/personal-statement-section',
+    '@/components/features/pdf/ingot-sections/personal-statement-section',
     () => ({
         PersonalStatementSection: () => (
             <div data-testid="personal-statement-section" />
         ),
     })
 );
-jest.mock('@/components/features/pdf/pdf-sections/reference-section', () => ({
+jest.mock('@/components/features/pdf/ingot-sections/reference-section', () => ({
     ReferenceSection: () => <div data-testid="reference-section" />,
 }));
-jest.mock('@/components/features/pdf/pdf-sections/generic-section', () => ({
+jest.mock('@/components/features/pdf/ingot-sections/generic-section', () => ({
     GenericSection: () => <div data-testid="generic-section" />,
 }));
 

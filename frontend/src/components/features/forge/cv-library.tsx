@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 import CvCardSkeleton from './forge-components/cv-card-skeleton';
 import { useCvs, useDeleteCv } from '@/hooks/use-cvs';
 import LibraryHeader from '@/widgets/library-header';
-import CvLibrarySearch from './forge-components/cv-library-search';
 import LibraryCard from '@/widgets/library-card';
 import { TypographyP } from '@/ui/typography/typography';
 
@@ -47,9 +47,11 @@ export default function CvLibraryInterface() {
             />
 
             {/* Search */}
-            <CvLibrarySearch
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
+            <Input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search CVs..."
+                className="max-w-sm"
             />
 
             {/* Content */}

@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Redo2, Save, Undo2 } from 'lucide-react';
+import { ArrowLeft, Eye, Redo2, Save, Undo2 } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/ui/shadcn/button';
@@ -14,11 +14,14 @@ import {
     TooltipTrigger,
 } from '@/ui/shadcn/tooltip';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
+import { useUpdateCv } from '@/hooks/use-cvs';
 import { springs, fadeIn } from '@/lib/constants/cv-editor-animations';
 import { cn } from '@/lib/utils';
+import type { CvDocument } from '@/lib/types/cv-document-types';
 
 import { SectionList } from './section-list';
 import { AddSectionPicker } from './add-section-picker';
+import { PreviewPanel } from '@/components/features/pdf/cv-document/preview-panel';
 
 export function CvEditor() {
     const document = useCvDocumentStore((s) => s.document);
@@ -28,6 +31,10 @@ export function CvEditor() {
     const redo = useCvDocumentStore((s) => s.redo);
     const canUndo = useCvDocumentStore((s) => s.history.length > 0);
     const canRedo = useCvDocumentStore((s) => s.future.length > 0);
+    const markSaved = useCvDocumentStore((s) => s.markSaved);
+
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const updateCv = useUpdateCv();
 
     // Keyboard shortcuts
     useEffect(() => {
@@ -41,10 +48,28 @@ export function CvEditor() {
                 e.preventDefault();
                 redo();
             }
+            if (mod && e.key === 's') {
+                e.preventDefault();
+                // Save immediately
+                const doc = useCvDocumentStore.getState().document;
+                if (doc && 'id' in doc && doc.id) {
+                    updateCv.mutate(doc as CvDocument, {
+                        onSuccess: () => markSaved(),
+                    });
+                }
+            }
         }
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [undo, redo]);
+    }, [undo, redo, updateCv, markSaved]);
+
+    function handleSave() {
+        const doc = useCvDocumentStore.getState().document;
+        if (!doc || !('id' in doc) || !doc.id) return;
+        updateCv.mutate(doc as CvDocument, {
+            onSuccess: () => markSaved(),
+        });
+    }
 
     const handleTitleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,6 +163,21 @@ export function CvEditor() {
                                         variant="ghost"
                                         size="icon"
                                         className="h-8 w-8"
+                                        onClick={() => setPreviewOpen(true)}
+                                    >
+                                        <Eye className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>Preview</TooltipContent>
+                            </Tooltip>
+
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8"
+                                        onClick={handleSave}
                                         disabled={!isDirty}
                                     >
                                         <Save className="h-4 w-4" />
@@ -161,6 +201,8 @@ export function CvEditor() {
                     <AddSectionPicker />
                 </motion.main>
             </div>
+
+            <PreviewPanel open={previewOpen} onOpenChange={setPreviewOpen} />
         </TooltipProvider>
     );
 }
