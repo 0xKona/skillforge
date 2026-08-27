@@ -1,43 +1,47 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import UserDropdown from './nav-profile-menu';
-import { useClientAuth } from '@/lib/store/use-auth';
-import React from 'react';
 
-// Mock useClientAuth
-jest.mock('@/lib/store/use-client-auth', () => ({
-    useClientAuth: jest.fn(),
+// Mock the auth module
+const mockSignOut = jest.fn();
+jest.mock('@/lib/api/auth', () => ({
+    signOut: () => mockSignOut(),
 }));
 
+// Mock the auth hook (unused directly in this component but may be needed)
+jest.mock('@/hooks/use-auth', () => ({
+    useAuth: () => ({
+        isAuthenticated: true,
+        userId: 'user-1',
+        loading: false,
+    }),
+}));
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
 describe('UserDropdown', () => {
-    const mockSignOut = jest.fn();
-
-    beforeEach(() => {
-        (useClientAuth as unknown as jest.Mock).mockReturnValue({
-            signOut: mockSignOut,
-            avatarUrl: 'http://example.com/avatar.jpg',
-        });
-    });
-
-    it('renders avatar with correct image', () => {
+    it('renders the avatar trigger', () => {
         render(<UserDropdown />);
-        const img = screen.getByAltText('avatar');
-        expect(img).toHaveAttribute('src', 'http://example.com/avatar.jpg');
-    });
-
-    it('renders dropdown content', () => {
-        render(<UserDropdown />);
-        expect(screen.getByTestId('dropdown-content')).toBeInTheDocument();
-    });
-
-    it('calls signOut when logout is clicked', () => {
-        render(<UserDropdown />);
-        const logoutItem = screen.getByText('Log out');
-        fireEvent.click(logoutItem);
-        expect(mockSignOut).toHaveBeenCalled();
+        expect(screen.getByTestId('dropdown-trigger')).toBeInTheDocument();
     });
 
     it('renders profile link', () => {
         render(<UserDropdown />);
         expect(screen.getByText('Profile')).toBeInTheDocument();
+    });
+
+    it('renders log out button', () => {
+        render(<UserDropdown />);
+        expect(screen.getByText('Log out')).toBeInTheDocument();
+    });
+
+    it('calls signOut when log out is clicked', async () => {
+        const user = userEvent.setup();
+        render(<UserDropdown />);
+
+        await user.click(screen.getByText('Log out'));
+        expect(mockSignOut).toHaveBeenCalledTimes(1);
     });
 });

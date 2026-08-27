@@ -2,7 +2,7 @@
 
 import { CardContent } from '@/ui/shadcn/card';
 import React, { useState } from 'react';
-import { signUp } from 'aws-amplify/auth';
+import { signUp } from '@/lib/api/auth';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

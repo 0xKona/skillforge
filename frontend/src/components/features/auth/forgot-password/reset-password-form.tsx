@@ -6,7 +6,7 @@ import SubmitAuthForm from '../submit-form';
 import FormHeader from '../form-header';
 import { UseFormReturn } from 'react-hook-form';
 import { ResetPasswordForm } from '@/lib/schemas/auth-schema';
-import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
+import { confirmResetPassword, resetPassword } from '@/lib/api/auth';
 import { Label } from '@/ui/shadcn/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';
 import FormInput from '@/ui/form-input';

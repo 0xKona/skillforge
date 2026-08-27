@@ -11,13 +11,11 @@ import {
     DropdownMenuTrigger,
 } from '@/ui/shadcn/dropdown-menu';
 import Link from 'next/link';
-import { useAuth } from '@/lib/store/use-auth';
+import { signOut } from '@/lib/api/auth';
 import React from 'react';
 import { Skeleton } from '@/ui/shadcn/skeleton';
 
 export default function UserDropdown() {
-    const { signOut } = useAuth();
-
     // TODO: Replace with useAvatarUrl() React Query hook
     const avatarUrl = undefined;
 

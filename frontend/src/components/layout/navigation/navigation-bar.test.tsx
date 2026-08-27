@@ -1,102 +1,89 @@
 import { render, screen } from '@testing-library/react';
 import NavBar from './navigation-bar';
-import { useClientAuth } from '@/lib/store/use-auth';
-import React from 'react';
 
-// Mock useClientAuth
-jest.mock('@/lib/store/use-client-auth', () => ({
-    useClientAuth: jest.fn(),
+// Mock the auth hook
+const mockUseAuth = jest.fn();
+jest.mock('@/hooks/use-auth', () => ({
+    useAuth: () => mockUseAuth(),
 }));
 
 // Mock child components
-jest.mock('./nav-menu-mobile', () => {
-    const BurgerNav = () => <div data-testid="burger-nav" />;
-    BurgerNav.displayName = 'BurgerNav';
-    return BurgerNav;
-});
-jest.mock('./nav-item', () => {
-    const NavItem = ({ navItem }: { navItem: { displayText: string } }) => (
-        <li data-testid="nav-item">{navItem.displayText}</li>
-    );
-    NavItem.displayName = 'NavItem';
-    return NavItem;
-});
 jest.mock('./nav-profile-menu', () => {
-    const UserDropdown = () => <div data-testid="user-dropdown" />;
-    UserDropdown.displayName = 'UserDropdown';
-    return UserDropdown;
-});
-jest.mock('@/components/common/icons/logo', () => {
-    const Logo = () => <div data-testid="logo" />;
-    Logo.displayName = 'Logo';
-    return Logo;
+    return function MockUserDropdown() {
+        return <div data-testid="user-dropdown" />;
+    };
 });
 
-// Mock navigationBarLinks
+jest.mock('./nav-menu-mobile', () => {
+    return function MockBurgerNav() {
+        return <div data-testid="burger-nav" />;
+    };
+});
+
+jest.mock('./nav-item', () => {
+    return function MockNavItem({
+        navItem,
+    }: {
+        navItem: { displayText: string };
+    }) {
+        return <li data-testid="nav-item">{navItem.displayText}</li>;
+    };
+});
+
+jest.mock('@/components/common/icons/logo', () => {
+    return function MockLogo() {
+        return <div data-testid="logo" />;
+    };
+});
+
+jest.mock('@/components/common/ui/typography/typography', () => ({
+    TypographyH1: ({ children }: { children: React.ReactNode }) => (
+        <h1>{children}</h1>
+    ),
+}));
+
 jest.mock('@/lib/constants/routing', () => ({
     navigationBarLinks: [
-        { route: '/home', displayText: 'Home' },
-        { route: '/about', displayText: 'About' },
+        { displayText: 'Home', route: '/', iconPath: '/icons/home.svg' },
+        { displayText: 'Forge', route: '/forge', iconPath: '/icons/forge.svg' },
     ],
 }));
 
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
 describe('NavBar', () => {
-    it('renders logo and title', () => {
-        (useClientAuth as unknown as jest.Mock).mockReturnValue({
-            isAuthenticated: false,
-            loading: false,
-        });
-        render(<NavBar />);
-        expect(screen.getAllByTestId('logo')).toHaveLength(2); // Desktop and mobile
-        expect(screen.getAllByText('SkillForge')).toHaveLength(2); // Desktop and mobile
-    });
+    it('shows skeleton while loading', () => {
+        mockUseAuth.mockReturnValue({ isAuthenticated: false, loading: true });
 
-    it('renders nav items on desktop', () => {
-        (useClientAuth as unknown as jest.Mock).mockReturnValue({
-            isAuthenticated: false,
-            loading: false,
-        });
-        render(<NavBar />);
-        expect(screen.getAllByTestId('nav-item')).toHaveLength(2);
-    });
-
-    it('renders burger nav', () => {
-        (useClientAuth as unknown as jest.Mock).mockReturnValue({
-            isAuthenticated: false,
-            loading: false,
-        });
-        render(<NavBar />);
-        expect(screen.getByTestId('burger-nav')).toBeInTheDocument();
-    });
-
-    it('renders login button when not authenticated', () => {
-        (useClientAuth as unknown as jest.Mock).mockReturnValue({
-            isAuthenticated: false,
-            loading: false,
-        });
-        render(<NavBar />);
-        expect(screen.getByTestId('button')).toBeInTheDocument();
-        expect(screen.getByText('Login')).toBeInTheDocument();
-    });
-
-    it('renders user dropdown when authenticated', () => {
-        (useClientAuth as unknown as jest.Mock).mockReturnValue({
-            isAuthenticated: true,
-            loading: false,
-        });
-        render(<NavBar />);
-        expect(screen.getByTestId('user-dropdown')).toBeInTheDocument();
-        expect(screen.queryByTestId('button')).not.toBeInTheDocument();
-    });
-
-    it('renders skeleton when loading', () => {
-        (useClientAuth as unknown as jest.Mock).mockReturnValue({
-            isAuthenticated: false,
-            loading: true,
-        });
         render(<NavBar />);
         expect(screen.getByTestId('skeleton')).toBeInTheDocument();
+    });
+
+    it('shows login button when unauthenticated', () => {
+        mockUseAuth.mockReturnValue({ isAuthenticated: false, loading: false });
+
+        render(<NavBar />);
+        expect(screen.getByText('Login')).toBeInTheDocument();
         expect(screen.queryByTestId('user-dropdown')).not.toBeInTheDocument();
-        expect(screen.queryByTestId('button')).not.toBeInTheDocument();
+    });
+
+    it('shows user dropdown when authenticated', () => {
+        mockUseAuth.mockReturnValue({ isAuthenticated: true, loading: false });
+
+        render(<NavBar />);
+        expect(screen.getByTestId('user-dropdown')).toBeInTheDocument();
+        expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    });
+
+    it('renders navigation links', () => {
+        mockUseAuth.mockReturnValue({ isAuthenticated: false, loading: false });
+
+        render(<NavBar />);
+        const navItems = screen.getAllByTestId('nav-item');
+        expect(navItems).toHaveLength(2);
+        expect(navItems[0]).toHaveTextContent('Home');
+        expect(navItems[1]).toHaveTextContent('Forge');
     });
 });

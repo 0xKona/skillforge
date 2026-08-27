@@ -1,18 +1,51 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/store/use-auth';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
+import { initialize } from '@/lib/api/auth';
+import { PROTECTED_ROUTES, AUTH_ROUTES } from '@/lib/constants/routing';
 
-interface AuthGuardProps {
-    children: React.ReactNode;
+/**
+ * Global auth orchestrator. Place once in the root layout.
+ * - Initializes auth on mount
+ * - Redirects unauthenticated users from protected routes to /login
+ * - Redirects authenticated users from /login to /forge
+ */
+export function AuthListener() {
+    const { isAuthenticated, loading } = useAuth();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    // Initialize auth once on mount
+    useEffect(() => {
+        initialize();
+    }, []);
+
+    // Handle redirects based on auth state
+    useEffect(() => {
+        if (loading) return;
+
+        const isProtectedRoute = PROTECTED_ROUTES.some((r) =>
+            pathname.startsWith(r)
+        );
+        const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
+
+        if (!isAuthenticated && isProtectedRoute) {
+            router.replace('/login');
+        } else if (isAuthenticated && isAuthRoute) {
+            router.replace('/forge');
+        }
+    }, [isAuthenticated, loading, pathname, router]);
+
+    return null;
 }
 
 /**
- * Client-side auth guard for protected route layouts.
- * Shows a loading state while auth resolves, redirects if not authenticated.
+ * Layout-level guard for protected routes.
+ * Blocks rendering until auth resolves. Redirects if unauthenticated.
  */
-export function AuthGuard({ children }: AuthGuardProps) {
+export function AuthGuard({ children }: { children: React.ReactNode }) {
     const { isAuthenticated, loading } = useAuth();
     const router = useRouter();
 
@@ -33,9 +66,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
         );
     }
 
-    if (!isAuthenticated) {
-        return null;
-    }
+    if (!isAuthenticated) return null;
 
     return <>{children}</>;
 }

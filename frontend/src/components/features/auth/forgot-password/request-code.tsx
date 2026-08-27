@@ -7,7 +7,7 @@ import {
     ForgotPasswordRequest,
     ResetPasswordForm,
 } from '@/lib/schemas/auth-schema';
-import { resetPassword } from 'aws-amplify/auth';
+import { resetPassword } from '@/lib/api/auth';
 import FormInput from '@/ui/form-input';
 import SubmitAuthForm from '../submit-form';
 import { Button } from '@/ui/shadcn/button';

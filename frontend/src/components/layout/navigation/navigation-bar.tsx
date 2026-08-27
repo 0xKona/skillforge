@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Logo from '@/components/common/icons/logo';
 import { Button } from '@/ui/shadcn/button';
 import UserDropdown from './nav-profile-menu';
-import { useAuth } from '@/lib/store/use-auth';
+import { useAuth } from '@/hooks/use-auth';
 import { Skeleton } from '@/ui/shadcn/skeleton';
 import { NavigationLinkObject } from '@/lib/types/nav-types';
 import BurgerNav from './nav-menu-mobile';

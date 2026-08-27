@@ -11,7 +11,7 @@ import {
 import { Label } from '@/ui/shadcn/label';
 import { Button } from '@/ui/shadcn/button';
 import { passwordStorage } from '@/lib/helpers/password-storage';
-import { confirmSignUp, resendSignUpCode, signIn } from 'aws-amplify/auth';
+import { confirmSignUp, resendSignUpCode, signIn } from '@/lib/api/auth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';

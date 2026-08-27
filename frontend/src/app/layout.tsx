@@ -1,11 +1,9 @@
 'use client';
 
-import type { Metadata } from 'next';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import ConfigureAmplifyClientSide from '@/components/providers/configure-amplify-client';
+import { AuthListener } from '@/components/providers/auth-guard';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { ClientAuthListener } from '@/components/providers/client-auth-listener';
 import { Toaster } from '@/ui/shadcn/sonner';
 import QueryClientLayoutProvider from '@/components/providers/QueryClientProvider';
 
@@ -44,8 +42,7 @@ export default function RootLayout({
                 className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
             >
                 <QueryClientLayoutProvider>
-                    <ConfigureAmplifyClientSide />
-                    <ClientAuthListener />
+                    <AuthListener />
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="dark"
