@@ -114,15 +114,13 @@ function FieldInput({ fieldKey, def, value, onCommit }: FieldInputProps) {
     };
 
     const inputClasses =
-        'h-8 text-sm bg-forge-card border-forge-border focus-visible:ring-1 focus-visible:ring-forge-border-hot focus-visible:border-forge-border-hot';
+        'h-8 text-sm bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot focus-visible:border-border-hot';
 
     return (
         <div className="flex flex-col gap-1">
-            <Label className="text-xs text-forge-text-muted">
+            <Label className="text-xs text-ash">
                 {def.label}
-                {def.required && (
-                    <span className="text-forge-accent ml-0.5">*</span>
-                )}
+                {def.required && <span className="text-flux ml-0.5">*</span>}
             </Label>
 
             {def.type === 'textarea' ? (
@@ -131,7 +129,7 @@ function FieldInput({ fieldKey, def, value, onCommit }: FieldInputProps) {
                     onChange={(e) => setLocalValue(e.target.value)}
                     onBlur={handleBlur}
                     placeholder={def.placeholder}
-                    className="min-h-[60px] resize-y text-sm bg-forge-card border-forge-border focus-visible:ring-1 focus-visible:ring-forge-border-hot"
+                    className="min-h-[60px] resize-y text-sm bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
                 />
             ) : def.type === 'select' && def.options ? (
                 <Select

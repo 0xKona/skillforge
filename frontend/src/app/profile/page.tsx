@@ -1,13 +1,14 @@
-import { PageContainer } from '@/components/layout/wrappers/page-container';
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
-    return (
-        <main className="bg-graphite min-h-[calc(100vh-56px)]">
-            <PageContainer className="py-8">
-                <h1 className="font-display text-3xl font-medium text-text-primary">
-                    Profile
-                </h1>
-            </PageContainer>
-        </main>
-    );
+    const router = useRouter();
+
+    useEffect(() => {
+        router.replace('/profile/edit-profile');
+    }, [router]);
+
+    return null;
 }

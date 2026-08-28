@@ -61,10 +61,10 @@ export function SectionBlock({ section, index }: SectionBlockProps) {
             ref={setNodeRef}
             style={style}
             className={cn(
-                'rounded-lg border bg-forge-card transition-colors duration-150',
+                'rounded-lg border bg-gunmetal transition-colors duration-150',
                 isDragging
-                    ? 'border-forge-border-hot opacity-90 shadow-lg scale-[1.02]'
-                    : 'border-forge-border hover:border-forge-border-warm'
+                    ? 'border-border-hot opacity-90 shadow-lg scale-[1.02]'
+                    : 'border-border-default hover:border-border-warm'
             )}
         >
             {/* Section header */}
@@ -73,14 +73,14 @@ export function SectionBlock({ section, index }: SectionBlockProps) {
                 <button
                     {...attributes}
                     {...listeners}
-                    className="cursor-grab touch-none text-forge-text-muted opacity-50 transition-opacity hover:opacity-100 active:cursor-grabbing"
+                    className="cursor-grab touch-none text-ash opacity-50 transition-opacity hover:opacity-100 active:cursor-grabbing"
                     aria-label="Drag to reorder"
                 >
                     <GripVertical className="h-4 w-4" />
                 </button>
 
                 {/* Icon */}
-                <Icon className="h-4 w-4 text-forge-text-muted" />
+                <Icon className="h-4 w-4 text-ash" />
 
                 {/* Title */}
                 {isEditingTitle ? (
@@ -94,19 +94,19 @@ export function SectionBlock({ section, index }: SectionBlockProps) {
                         onKeyDown={(e) =>
                             e.key === 'Enter' && setIsEditingTitle(false)
                         }
-                        className="h-7 border-none bg-transparent px-1 text-sm font-medium shadow-none focus-visible:ring-1 focus-visible:ring-forge-border-hot"
+                        className="h-7 border-none bg-transparent px-1 text-sm font-medium shadow-none focus-visible:ring-1 focus-visible:ring-border-hot"
                     />
                 ) : (
                     <button
                         onClick={() => setIsEditingTitle(true)}
-                        className="text-sm font-medium text-forge-text hover:text-forge-accent transition-colors"
+                        className="text-sm font-medium text-text-primary hover:text-flux transition-colors"
                     >
                         {section.title}
                     </button>
                 )}
 
                 {/* Item count */}
-                <span className="text-xs text-forge-text-muted">
+                <span className="text-xs text-ash">
                     {section.items.length}{' '}
                     {section.items.length === 1 ? 'item' : 'items'}
                 </span>
@@ -123,9 +123,9 @@ export function SectionBlock({ section, index }: SectionBlockProps) {
                         }
                     >
                         {section.visible ? (
-                            <Eye className="h-3.5 w-3.5 text-forge-text-muted" />
+                            <Eye className="h-3.5 w-3.5 text-ash" />
                         ) : (
-                            <EyeOff className="h-3.5 w-3.5 text-forge-text-muted" />
+                            <EyeOff className="h-3.5 w-3.5 text-ash" />
                         )}
                     </Button>
 
@@ -168,7 +168,7 @@ export function SectionBlock({ section, index }: SectionBlockProps) {
 
             {/* Content (hidden when section not visible) */}
             {section.visible && (
-                <div className="border-t border-forge-border px-3 pb-3 pt-2">
+                <div className="border-t border-border-default px-3 pb-3 pt-2">
                     <ItemList sectionIndex={index} section={section} />
                     <SectionActions
                         sectionIndex={index}

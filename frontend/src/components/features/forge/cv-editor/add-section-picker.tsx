@@ -37,7 +37,7 @@ export function AddSectionPicker() {
             {!open ? (
                 <button
                     onClick={() => setOpen(true)}
-                    className="w-full rounded-lg border-2 border-dashed border-forge-border p-4 text-center text-sm text-forge-text-muted transition-colors hover:border-forge-border-warm hover:text-forge-text"
+                    className="w-full rounded-lg border-2 border-dashed border-border-default p-4 text-center text-sm text-ash transition-colors hover:border-border-warm hover:text-text-primary"
                 >
                     <Plus className="mx-auto mb-1 h-4 w-4" />
                     Add section
@@ -47,10 +47,10 @@ export function AddSectionPicker() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={springs.smooth}
-                    className="rounded-lg border border-forge-border bg-forge-card p-4"
+                    className="rounded-lg border border-border-default bg-gunmetal p-4"
                 >
                     <div className="mb-3 flex items-center justify-between">
-                        <p className="text-sm font-medium text-forge-text">
+                        <p className="text-sm font-medium text-text-primary">
                             Choose section type
                         </p>
                         <Button
@@ -87,12 +87,12 @@ export function AddSectionPicker() {
                                     className={cn(
                                         'flex flex-col items-center gap-1.5 rounded-md border p-3 text-center transition-colors',
                                         isUsed
-                                            ? 'cursor-not-allowed border-forge-border opacity-40'
-                                            : 'border-forge-border hover:border-forge-border-warm hover:bg-forge-accent-soft'
+                                            ? 'cursor-not-allowed border-border-default opacity-40'
+                                            : 'border-border-default hover:border-border-warm hover:bg-flux/10'
                                     )}
                                 >
-                                    <Icon className="h-5 w-5 text-forge-text-muted" />
-                                    <span className="text-xs text-forge-text">
+                                    <Icon className="h-5 w-5 text-ash" />
+                                    <span className="text-xs text-text-primary">
                                         {meta.defaultTitle}
                                     </span>
                                 </motion.button>

@@ -45,18 +45,18 @@ export function PreviewPanel({ open, onOpenChange }: PreviewPanelProps) {
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
                 side="right"
-                className="w-[500px] bg-forge-panel border-forge-border sm:max-w-[500px] p-0"
+                className="w-[500px] bg-gunmetal border-border-default sm:max-w-[500px] p-0"
             >
                 <div className="flex h-full flex-col">
-                    <SheetHeader className="border-b border-forge-border px-4 py-3">
+                    <SheetHeader className="border-b border-border-default px-4 py-3">
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="text-forge-text text-sm">
+                            <SheetTitle className="text-text-primary text-sm">
                                 Preview
                             </SheetTitle>
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-7 text-xs text-forge-text-muted hover:text-forge-accent"
+                                className="h-7 text-xs text-ash hover:text-flux"
                             >
                                 <Download className="mr-1 h-3 w-3" />
                                 Download PDF
@@ -64,7 +64,7 @@ export function PreviewPanel({ open, onOpenChange }: PreviewPanelProps) {
                         </div>
                     </SheetHeader>
 
-                    <div className="flex-1 overflow-hidden bg-forge-surface p-4">
+                    <div className="flex-1 overflow-hidden bg-graphite p-4">
                         <PDFViewer
                             style={{
                                 width: '100%',

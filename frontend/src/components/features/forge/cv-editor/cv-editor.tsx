@@ -82,9 +82,9 @@ export function CvEditor() {
 
     return (
         <TooltipProvider delayDuration={300}>
-            <div className="min-h-screen bg-forge-surface">
+            <div className="min-h-screen bg-graphite">
                 {/* Toolbar */}
-                <header className="sticky top-0 z-40 border-b border-forge-border bg-forge-surface/95 backdrop-blur-sm">
+                <header className="sticky top-0 z-40 border-b border-border-default bg-graphite/95 backdrop-blur-sm">
                     <div className="mx-auto flex h-12 max-w-3xl items-center gap-3 px-4">
                         {/* Back */}
                         <Tooltip>
@@ -107,7 +107,7 @@ export function CvEditor() {
                         <Input
                             value={document.title}
                             onChange={handleTitleChange}
-                            className="h-8 border-none bg-transparent px-2 text-sm font-semibold shadow-none focus-visible:ring-1 focus-visible:ring-forge-border-hot"
+                            className="h-8 border-none bg-transparent px-2 text-sm font-semibold shadow-none focus-visible:ring-1 focus-visible:ring-border-hot"
                             placeholder="Untitled CV"
                         />
 
@@ -115,9 +115,7 @@ export function CvEditor() {
                         <span
                             className={cn(
                                 'text-xs whitespace-nowrap transition-colors duration-150',
-                                isDirty
-                                    ? 'text-forge-accent'
-                                    : 'text-forge-text-muted'
+                                isDirty ? 'text-flux' : 'text-ash'
                             )}
                         >
                             {isDirty ? 'Unsaved changes' : 'Saved'}

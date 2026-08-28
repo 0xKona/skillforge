@@ -127,7 +127,7 @@ export function BilletForm({
                 <Button
                     size="sm"
                     onClick={handleSave}
-                    className="h-8 bg-forge-orange hover:bg-forge-ember"
+                    className="h-8 bg-flux hover:bg-flux-hover"
                 >
                     <Check className="h-4 w-4 mr-1" />{' '}
                     {isAdding ? 'Add' : 'Update'}

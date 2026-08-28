@@ -65,10 +65,10 @@ export function AddFromLibrarySheet({
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
                 side="right"
-                className="w-[400px] bg-forge-panel border-forge-border sm:max-w-[400px]"
+                className="w-[400px] bg-gunmetal border-border-default sm:max-w-[400px]"
             >
                 <SheetHeader>
-                    <SheetTitle className="text-forge-text">
+                    <SheetTitle className="text-text-primary">
                         Add from library
                     </SheetTitle>
                 </SheetHeader>
@@ -76,12 +76,12 @@ export function AddFromLibrarySheet({
                 <div className="mt-4 space-y-3">
                     {/* Search */}
                     <div className="relative">
-                        <Search className="absolute left-2.5 top-2 h-4 w-4 text-forge-text-muted" />
+                        <Search className="absolute left-2.5 top-2 h-4 w-4 text-ash" />
                         <Input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder={`Search ${meta.defaultTitle.toLowerCase()}...`}
-                            className="h-8 pl-8 text-sm bg-forge-card border-forge-border focus-visible:ring-1 focus-visible:ring-forge-border-hot"
+                            className="h-8 pl-8 text-sm bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
                         />
                     </div>
 
@@ -94,7 +94,7 @@ export function AddFromLibrarySheet({
                                 <Skeleton className="h-16 w-full" />
                             </div>
                         ) : filtered.length === 0 ? (
-                            <p className="py-8 text-center text-sm text-forge-text-muted">
+                            <p className="py-8 text-center text-sm text-ash">
                                 {ingots.length === 0
                                     ? `No ${meta.defaultTitle.toLowerCase()} in your library yet.`
                                     : 'No results match your search.'}
@@ -105,12 +105,12 @@ export function AddFromLibrarySheet({
                                     <button
                                         key={ingot.id}
                                         onClick={() => handleSelect(ingot)}
-                                        className="rounded-md border border-forge-border bg-forge-card p-3 text-left transition-colors hover:border-forge-border-warm"
+                                        className="rounded-md border border-border-default bg-gunmetal p-3 text-left transition-colors hover:border-border-warm"
                                     >
-                                        <p className="text-sm font-medium text-forge-text">
+                                        <p className="text-sm font-medium text-text-primary">
                                             {ingot.name}
                                         </p>
-                                        <p className="mt-0.5 text-xs text-forge-text-muted">
+                                        <p className="mt-0.5 text-xs text-ash">
                                             {ingot.content.billets.length}{' '}
                                             entries
                                         </p>

@@ -46,7 +46,7 @@ export function BilletItem({
     return (
         <div
             className={`group p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-500 transition-colors flex gap-3 items-start ${
-                isEditing ? 'ring-1 ring-forge-orange border-forge-orange' : ''
+                isEditing ? 'ring-1 ring-flux border-flux' : ''
             }`}
         >
             <div className="flex-1 min-w-0">

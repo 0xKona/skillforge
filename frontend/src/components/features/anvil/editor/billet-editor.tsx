@@ -84,7 +84,7 @@ export default function BilletEditor({ billets, activeType, onChange }: Props) {
                 {!isAdding && !editingId && (
                     <Button
                         size="sm"
-                        className="bg-forge-orange hover:bg-forge-ember text-white"
+                        className="bg-flux hover:bg-flux-hover text-white"
                         onClick={handleStartAdd}
                         disabled={!activeType}
                     >

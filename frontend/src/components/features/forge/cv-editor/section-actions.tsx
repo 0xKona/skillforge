@@ -32,7 +32,7 @@ export function SectionActions({
             <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 text-xs text-forge-text-muted hover:text-forge-accent"
+                className="h-7 text-xs text-ash hover:text-flux"
                 onClick={handleAddNew}
             >
                 <Plus className="mr-1 h-3 w-3" />
@@ -42,7 +42,7 @@ export function SectionActions({
             <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 text-xs text-forge-text-muted hover:text-forge-accent"
+                className="h-7 text-xs text-ash hover:text-flux"
                 onClick={() => setLibraryOpen(true)}
             >
                 <Library className="mr-1 h-3 w-3" />

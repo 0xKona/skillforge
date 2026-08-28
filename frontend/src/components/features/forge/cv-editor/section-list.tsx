@@ -52,10 +52,10 @@ export function SectionList() {
     if (sections.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-                <p className="text-forge-text font-medium">
+                <p className="text-text-primary font-medium">
                     Start building your CV
                 </p>
-                <p className="mt-1 text-sm text-forge-text-muted">
+                <p className="mt-1 text-sm text-ash">
                     Add your first section to get started.
                 </p>
             </div>

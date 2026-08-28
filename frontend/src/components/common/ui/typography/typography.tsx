@@ -77,5 +77,5 @@ export function TypographyP({
 }
 
 export function HighlightSpanTextP({ children }: { children: string }) {
-    return <span className="text-forge-orange font-semibold">{children}</span>;
+    return <span className="text-flux font-semibold">{children}</span>;
 }

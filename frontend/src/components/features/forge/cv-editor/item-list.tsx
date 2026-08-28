@@ -53,9 +53,7 @@ export function ItemList({ sectionIndex, section }: ItemListProps) {
 
     if (section.items.length === 0) {
         return (
-            <p className="py-3 text-center text-xs text-forge-text-muted">
-                No entries yet
-            </p>
+            <p className="py-3 text-center text-xs text-ash">No entries yet</p>
         );
     }
 

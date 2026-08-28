@@ -131,7 +131,7 @@ export function FormField({
                     id={fieldKey}
                     value={value || ''}
                     onChange={(e) => onChange(fieldKey, e.target.value)}
-                    className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange min-h-[100px] ${error ? 'border-red-500' : ''}`}
+                    className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-flux min-h-[100px] ${error ? 'border-red-500' : ''}`}
                     placeholder={`Enter ${label.toLowerCase()}...`}
                 />
             ) : (
@@ -141,7 +141,7 @@ export function FormField({
                     value={value === 'Current' ? '' : value || ''}
                     onChange={(e) => onChange(fieldKey, e.target.value)}
                     disabled={value === 'Current'}
-                    className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange disabled:opacity-50 disabled:cursor-not-allowed ${error ? 'border-red-500' : ''}`}
+                    className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-flux disabled:opacity-50 disabled:cursor-not-allowed ${error ? 'border-red-500' : ''}`}
                     placeholder={
                         value === 'Current'
                             ? 'Current'

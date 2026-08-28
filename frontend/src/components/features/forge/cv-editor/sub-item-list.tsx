@@ -72,10 +72,8 @@ export function SubItemList({
                   : 'Entries';
 
     return (
-        <div className="mt-3 border-t border-forge-border pt-3">
-            <p className="mb-2 text-xs font-medium text-forge-text-muted">
-                {sectionLabel}
-            </p>
+        <div className="mt-3 border-t border-border-default pt-3">
+            <p className="mb-2 text-xs font-medium text-ash">{sectionLabel}</p>
 
             <div className="flex flex-col gap-2">
                 <AnimatePresence mode="popLayout">
@@ -88,7 +86,7 @@ export function SubItemList({
                             animate="animate"
                             exit="exit"
                             transition={springs.snappy}
-                            className="flex items-start gap-2 rounded-md border border-forge-border bg-forge-card p-2"
+                            className="flex items-start gap-2 rounded-md border border-border-default bg-gunmetal p-2"
                         >
                             <div className="flex flex-1 flex-wrap gap-2">
                                 {subFieldEntries.map(([key, def]) => (
@@ -125,7 +123,7 @@ export function SubItemList({
             <Button
                 variant="ghost"
                 size="sm"
-                className="mt-2 h-7 text-xs text-forge-text-muted hover:text-forge-accent"
+                className="mt-2 h-7 text-xs text-ash hover:text-flux"
                 onClick={handleAdd}
             >
                 <Plus className="mr-1 h-3 w-3" />
@@ -168,7 +166,7 @@ function SubItemField({
                     onChange={(e) => setLocalValue(e.target.value)}
                     onBlur={handleBlur}
                     placeholder={def.placeholder ?? def.label}
-                    className="min-h-[40px] resize-y text-xs bg-forge-panel border-forge-border focus-visible:ring-1 focus-visible:ring-forge-border-hot"
+                    className="min-h-[40px] resize-y text-xs bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
                 />
             ) : (
                 <Input
@@ -176,7 +174,7 @@ function SubItemField({
                     onChange={(e) => setLocalValue(e.target.value)}
                     onBlur={handleBlur}
                     placeholder={def.placeholder ?? def.label}
-                    className="h-7 text-xs bg-forge-panel border-forge-border focus-visible:ring-1 focus-visible:ring-forge-border-hot"
+                    className="h-7 text-xs bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
                 />
             )}
         </div>

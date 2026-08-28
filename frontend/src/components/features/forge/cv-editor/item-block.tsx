@@ -73,12 +73,12 @@ export function ItemBlock({
             ref={setNodeRef}
             style={style}
             className={cn(
-                'rounded-md border bg-forge-panel transition-colors duration-150',
+                'rounded-md border bg-gunmetal transition-colors duration-150',
                 isDragging
-                    ? 'border-forge-border-hot opacity-90 shadow-md'
+                    ? 'border-border-hot opacity-90 shadow-md'
                     : expanded
-                      ? 'border-forge-border-hot bg-forge-accent-soft'
-                      : 'border-forge-border hover:border-forge-border-warm'
+                      ? 'border-border-hot bg-flux/10'
+                      : 'border-border-default hover:border-border-warm'
             )}
         >
             {/* Collapsed header row */}
@@ -86,7 +86,7 @@ export function ItemBlock({
                 <button
                     {...attributes}
                     {...listeners}
-                    className="cursor-grab touch-none text-forge-text-muted opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing"
+                    className="cursor-grab touch-none text-ash opacity-40 transition-opacity hover:opacity-100 active:cursor-grabbing"
                     aria-label="Drag to reorder"
                 >
                     <GripVertical className="h-3.5 w-3.5" />
@@ -97,12 +97,12 @@ export function ItemBlock({
                     onClick={() => setExpanded(!expanded)}
                     aria-expanded={expanded}
                 >
-                    <span className="text-sm text-forge-text truncate">
+                    <span className="text-sm text-text-primary truncate">
                         {getItemHeadline(item, sectionType)}
                     </span>
                     <ChevronDown
                         className={cn(
-                            'h-3.5 w-3.5 text-forge-text-muted transition-transform duration-150',
+                            'h-3.5 w-3.5 text-ash transition-transform duration-150',
                             expanded && 'rotate-180'
                         )}
                     />
@@ -129,7 +129,7 @@ export function ItemBlock({
                         transition={springs.snappy}
                         className="overflow-hidden"
                     >
-                        <div className="border-t border-forge-border px-2.5 pb-3 pt-2.5">
+                        <div className="border-t border-border-default px-2.5 pb-3 pt-2.5">
                             <ItemFields
                                 item={item}
                                 sectionIndex={sectionIndex}

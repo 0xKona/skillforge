@@ -175,14 +175,14 @@ export default function IngotPreviewModal({
                                                     }
                                                     className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                                                         isSelected
-                                                            ? 'bg-forge-orange/10 border-forge-orange/50'
+                                                            ? 'bg-flux/10 border-flux/50'
                                                             : 'bg-slate-800 border-slate-700 hover:border-slate-600'
                                                     }`}
                                                 >
                                                     <div
                                                         className={`flex-shrink-0 ${
                                                             isSelected
-                                                                ? 'text-forge-orange'
+                                                                ? 'text-flux'
                                                                 : 'text-slate-400'
                                                         }`}
                                                     >
