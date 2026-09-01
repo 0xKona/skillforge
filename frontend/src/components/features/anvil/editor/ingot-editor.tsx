@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
+import { PageContainer } from '@/components/layout/wrappers/page-container';
 import { INGOT_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { IngotEditorData, IngotType } from '@/lib/types/ingot-types';
 import { EditorFooter, EditorHeader } from './editor-components/editor-header';
@@ -13,7 +14,7 @@ import { useIngotEditorState } from '@/lib/store/use-ingot-editor';
 import { useCreateIngot, useUpdateIngot } from '@/hooks/use-ingots';
 import IngotEditorSkeleton from './ingot-editor-skeleton';
 import { ingotFormHelpers } from '@/lib/helpers/ingot-form';
-import IngotPreviewModal from '@/components/features/pdf/ingot-preview-modal';
+import IngotCvPreviewPanel from '@/components/features/anvil/editor/preview/ingot-cv-preview-panel';
 import { mappingHelpers } from '@/lib/helpers/mapping';
 
 interface Props {
@@ -38,12 +39,13 @@ export default function IngotEditor({ initialIngotData }: Props) {
     const createIngot = useCreateIngot();
     const updateIngot = useUpdateIngot();
 
-    const [showPreviewModal, setShowPreviewModal] = useState(false);
+    const [showPreview, setShowPreview] = useState(false);
 
     const ingotId = 'id' in ingotData ? ingotData.id : null;
     const ingotType = ingotData.type as IngotType;
     const ingotName = ingotData.name;
     const ingotContent = ingotData.content;
+    const redirectToCv = searchParams.get('redirectToCv');
 
     const currentTemplate = ingotType ? INGOT_TEMPLATES[ingotType] : null;
     const isSaving = createIngot.isPending || updateIngot.isPending;
@@ -88,8 +90,6 @@ export default function IngotEditor({ initialIngotData }: Props) {
         }
 
         useIngotEditorState.setState({ errors: {} });
-
-        const redirectToCv = searchParams.get('redirectToCv');
 
         if (ingotId) {
             updateIngot.mutate(
@@ -177,21 +177,19 @@ export default function IngotEditor({ initialIngotData }: Props) {
     );
 
     return (
-        <div className="w-full mx-auto p-6 space-y-6">
+        <PageContainer className="relative py-8 space-y-6">
             <EditorHeader
                 title={ingotId ? 'Edit Ingot' : 'Create Ingot'}
                 typeLabel={mappingHelpers.getIngotLabel(ingotType)}
                 loading={isSaving}
-                onPreview={() => setShowPreviewModal(true)}
+                preview={showPreview}
+                onPreview={() => setShowPreview((v) => !v)}
                 onSave={handleSave}
+                redirectToCv={redirectToCv}
             />
-            {currentTemplate && showPreviewModal && (
-                <IngotPreviewModal
-                    isOpen={showPreviewModal}
-                    onClose={() => setShowPreviewModal(false)}
-                    ingotData={ingotData}
-                />
-            )}
+
+            {/* Inline preview — its own row above both editors */}
+            {showPreview && <IngotCvPreviewPanel ingotData={ingotData} />}
 
             {/* On mobile present content in tabs */}
             <div className="md:hidden">
@@ -201,7 +199,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
                 >
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="details">Ingot Details</TabsTrigger>
-                        <TabsTrigger value="billets">Billets</TabsTrigger>
+                        <TabsTrigger value="billets">Entries</TabsTrigger>
                     </TabsList>
                     <TabsContent value="details">
                         {IngotDetailsColumn}
@@ -222,9 +220,11 @@ export default function IngotEditor({ initialIngotData }: Props) {
 
             <EditorFooter
                 loading={isSaving}
-                onPreview={() => setShowPreviewModal(true)}
+                preview={showPreview}
+                onPreview={() => setShowPreview((v) => !v)}
                 onSave={handleSave}
+                redirectToCv={redirectToCv}
             />
-        </div>
+        </PageContainer>
     );
 }

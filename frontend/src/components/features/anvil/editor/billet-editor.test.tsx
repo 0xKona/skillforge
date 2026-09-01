@@ -79,7 +79,7 @@ describe('BilletEditor', () => {
                 onChange={mockOnChange}
             />
         );
-        expect(screen.getByText('Billets')).toBeInTheDocument();
+        expect(screen.getByText('Entries')).toBeInTheDocument();
         expect(screen.getByTestId('billet-list')).toBeInTheDocument();
         expect(screen.getByText('Add')).toBeInTheDocument();
     });

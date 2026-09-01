@@ -258,10 +258,6 @@ describe('cvImport.emptySubItem', () => {
     it('creates empty sub-fields matching personal_info sub-schema (socials)', () => {
         const sub = cvImport.emptySubItem('personal_info');
 
-        expect(Object.keys(sub.fields)).toEqual([
-            'platform',
-            'username',
-            'url',
-        ]);
+        expect(Object.keys(sub.fields)).toEqual(['platform', 'handle', 'url']);
     });
 });

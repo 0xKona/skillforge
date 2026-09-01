@@ -98,12 +98,12 @@ export function BilletForm({
     };
 
     return (
-        <div className="mb-6 p-4 rounded-lg bg-slate-900/50 border border-slate-700 animate-in fade-in slide-in-from-top-2 space-y-4">
+        <div className="mb-6 p-4 rounded-lg bg-graphite border border-border-default animate-in fade-in slide-in-from-top-2 space-y-4">
             <div className="flex justify-between items-center mb-2">
-                <TypographyH4 className="text-sm font-medium text-slate-200">
-                    {isAdding ? 'New Billet' : 'Edit Billet'}
+                <TypographyH4 className="text-sm font-medium text-text-primary">
+                    {isAdding ? 'New Entry' : 'Edit Entry'}
                 </TypographyH4>
-                <span className="text-xs text-slate-400 uppercase font-mono">
+                <span className="text-xs text-ash uppercase font-mono">
                     {type.replace('billet_', '').replace(/_/g, ' ')}
                 </span>
             </div>
@@ -120,7 +120,7 @@ export function BilletForm({
                     size="sm"
                     variant="ghost"
                     onClick={onCancel}
-                    className="h-8 text-slate-400 hover:text-white"
+                    className="h-8 text-ash hover:text-text-primary"
                 >
                     <X className="h-4 w-4 mr-1" /> Cancel
                 </Button>

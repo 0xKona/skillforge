@@ -18,7 +18,7 @@ describe('BilletList', () => {
                 onDelete={jest.fn()}
             />
         );
-        expect(screen.getByText('No billets added yet.')).toBeInTheDocument();
+        expect(screen.getByText('No entries yet.')).toBeInTheDocument();
     });
 
     it('renders list', () => {

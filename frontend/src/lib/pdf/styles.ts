@@ -5,7 +5,7 @@ export const pdfStyles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         padding: 40,
-        fontFamily: 'Times-Roman',
+        fontFamily: 'Inter',
         fontSize: 10.5,
         color: '#000000',
         lineHeight: 1.4,
@@ -17,14 +17,16 @@ export const pdfStyles = StyleSheet.create({
     },
     headerName: {
         fontSize: 24,
-        fontFamily: 'Times-Bold',
+        fontFamily: 'Inter',
+        fontWeight: 700,
         marginBottom: 8,
         textTransform: 'uppercase',
         letterSpacing: 1,
     },
     headerSubtitle: {
         fontSize: 10.5,
-        fontFamily: 'Times-Bold',
+        fontFamily: 'Inter',
+        fontWeight: 700,
         marginBottom: 6,
         textAlign: 'center',
     },
@@ -44,7 +46,8 @@ export const pdfStyles = StyleSheet.create({
     },
     sectionTitle: {
         fontSize: 11,
-        fontFamily: 'Times-Bold',
+        fontFamily: 'Inter',
+        fontWeight: 700,
         textTransform: 'uppercase',
         borderBottomWidth: 1,
         borderBottomColor: '#000000',
@@ -71,16 +74,22 @@ export const pdfStyles = StyleSheet.create({
 
     // Text Styles
     regular: {
-        fontFamily: 'Times-Roman',
+        fontFamily: 'Inter',
+        fontWeight: 400,
     },
     bold: {
-        fontFamily: 'Times-Bold',
+        fontFamily: 'Inter',
+        fontWeight: 700,
     },
     italic: {
-        fontFamily: 'Times-Italic',
+        fontFamily: 'Inter',
+        fontStyle: 'italic',
+        fontWeight: 400,
     },
     boldItalic: {
-        fontFamily: 'Times-BoldItalic',
+        fontFamily: 'Inter',
+        fontStyle: 'italic',
+        fontWeight: 700,
     },
 
     // Lists/Bullets
@@ -92,31 +101,37 @@ export const pdfStyles = StyleSheet.create({
     bullet: {
         width: 12,
         fontSize: 10.5,
-        fontFamily: 'Times-Roman',
+        fontFamily: 'Inter',
+        fontWeight: 400,
     },
     bulletContent: {
         flex: 1,
         fontSize: 10.5,
-        fontFamily: 'Times-Roman',
+        fontFamily: 'Inter',
+        fontWeight: 400,
     },
 
     // Specific Item Styles
     itemTitle: {
         fontSize: 10.5,
-        fontFamily: 'Times-Bold',
+        fontFamily: 'Inter',
+        fontWeight: 700,
     },
     itemSubtitle: {
         fontSize: 10.5,
-        fontFamily: 'Times-Bold',
+        fontFamily: 'Inter',
+        fontWeight: 700,
     },
     date: {
         fontSize: 10.5,
-        fontFamily: 'Times-Roman',
+        fontFamily: 'Inter',
+        fontWeight: 400,
         textAlign: 'right',
     },
     description: {
         fontSize: 10.5,
-        fontFamily: 'Times-Roman',
+        fontFamily: 'Inter',
+        fontWeight: 400,
         textAlign: 'justify',
     },
 });

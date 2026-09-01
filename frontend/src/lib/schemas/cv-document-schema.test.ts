@@ -284,6 +284,7 @@ describe('cvDocumentValidation.validateSectionItems', () => {
                         id: 'sub-1',
                         fields: {
                             platform: 'LinkedIn',
+                            handle: '/in/john',
                             url: 'https://linkedin.com/in/john',
                         },
                     },

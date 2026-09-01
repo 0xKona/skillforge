@@ -21,9 +21,9 @@ export function PdfPersonalInfo({ section }: Props) {
         ...(item.subItems ?? []).map((sub) => {
             const platform = sub.fields.platform ?? '';
             const url = sub.fields.url ?? '';
-            const username = sub.fields.username ?? '';
+            const handle = sub.fields.handle ?? '';
             if (url) return `${platform}: ${url}`;
-            if (username) return `${platform}: ${username}`;
+            if (handle) return `${platform}: ${handle}`;
             return platform;
         }),
     ].filter(Boolean);

@@ -19,10 +19,8 @@ export function BilletList({
 }: BilletListProps) {
     if (billets.length === 0 && !isAdding) {
         return (
-            <div className="h-40 flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-700/50 rounded-lg">
-                <TypographyP className="text-sm">
-                    No billets added yet.
-                </TypographyP>
+            <div className="h-40 flex flex-col items-center justify-center text-ash border-2 border-dashed border-border-default rounded-lg">
+                <TypographyP className="text-sm">No entries yet.</TypographyP>
             </div>
         );
     }

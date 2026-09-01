@@ -53,7 +53,7 @@ export function IngotCard({ ingot }: IngotCardProps) {
                     <div className="mt-3 flex items-center justify-between border-t border-border-default pt-3">
                         <span className="font-mono text-xs text-ash">
                             {billetCount}{' '}
-                            {billetCount === 1 ? 'billet' : 'billets'}
+                            {billetCount === 1 ? 'entry' : 'entries'}
                         </span>
                         <span className="font-mono text-xs text-ash">
                             {lastEdited}

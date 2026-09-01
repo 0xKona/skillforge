@@ -27,10 +27,10 @@ export function IngotCardDemo({ ingot }: IngotCardDemoProps) {
                 {ingot.name}
             </h3>
 
-            {/* Billet count */}
+            {/* Entry count */}
             <span className="mt-2 inline-block font-mono text-xs text-ash">
                 {ingot.billetCount}{' '}
-                {ingot.billetCount === 1 ? 'billet' : 'billets'}
+                {ingot.billetCount === 1 ? 'entry' : 'entries'}
             </span>
         </motion.div>
     );

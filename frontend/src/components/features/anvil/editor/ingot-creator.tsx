@@ -81,11 +81,9 @@ export function IngotCreator() {
                                         {mappingHelpers.getIngotLabel(type)}
                                     </span>
                                     <span className="mt-2 text-sm text-ash">
-                                        {fieldCount} core{' '}
+                                        {fieldCount}{' '}
                                         {fieldCount === 1 ? 'field' : 'fields'}
-                                        {hasBillets
-                                            ? ' · repeatable entries'
-                                            : ''}
+                                        {hasBillets ? ' · with entries' : ''}
                                     </span>
                                     <ChevronRight className="mt-auto size-4 self-end text-ash transition-transform group-hover:translate-x-0.5 group-hover:text-flux" />
                                 </button>

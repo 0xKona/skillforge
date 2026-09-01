@@ -1,4 +1,5 @@
 import { Billet } from '@/lib/types/ingot-types';
+import { billetHelpers } from '@/lib/helpers/billet';
 import { TypographyP } from '@/ui/typography/typography';
 import { Button } from '@/ui/shadcn/button';
 import {
@@ -39,29 +40,29 @@ export function BilletItem({
             (fields.certName?.value as string) ||
             (fields.platform?.value as string) ||
             (fields.skillName?.value as string) ||
-            'Untitled Billet'
+            'Untitled Entry'
         );
     };
 
     return (
         <div
-            className={`group p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-500 transition-colors flex gap-3 items-start ${
+            className={`group p-3 rounded-lg bg-graphite border border-border-default hover:border-border-warm transition-colors flex gap-3 items-start ${
                 isEditing ? 'ring-1 ring-flux border-flux' : ''
             }`}
         >
             <div className="flex-1 min-w-0">
-                <h5 className="text-slate-200 text-sm font-medium truncate">
+                <h5 className="text-sm font-medium truncate text-text-primary">
                     {getDisplayName(billet)}
                 </h5>
-                <TypographyP className="text-slate-400 text-xs truncate mt-0.5">
-                    {billet.type.replace('billet_', '').replace(/_/g, ' ')}
+                <TypographyP className="text-xs truncate mt-0.5 text-ash">
+                    {billetHelpers.getBilletLabel(billet)}
                 </TypographyP>
             </div>
             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="h-6 w-6 p-0 text-slate-400 hover:text-white"
+                    className="h-6 w-6 p-0 text-ash hover:text-text-primary"
                     onClick={() => onEdit(billet)}
                     disabled={isDisabled}
                 >
@@ -72,23 +73,21 @@ export function BilletItem({
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-6 w-6 p-0 text-slate-400 hover:text-red-400"
+                            className="h-6 w-6 p-0 text-ash hover:text-red-400"
                             disabled={isDisabled}
                         >
                             <Trash2 className="h-3 w-3" />
                         </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-slate-800 border-slate-700 text-slate-100">
+                    <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Billet?</AlertDialogTitle>
-                            <AlertDialogDescription className="text-slate-400">
+                            <AlertDialogTitle>Remove Entry?</AlertDialogTitle>
+                            <AlertDialogDescription>
                                 This action cannot be undone.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel className="bg-slate-700 text-slate-200 hover:bg-slate-600 border-none">
-                                Cancel
-                            </AlertDialogCancel>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
                                 onClick={() => onDelete(billet.id)}
                                 className="bg-red-600 hover:bg-red-700 text-white"

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Billet, BilletTemplate, IngotField } from '@/lib/types/ingot-types';
 import { BILLET_TEMPLATES } from '@/lib/templates/ingot-templates';
 import { Button } from '@/ui/shadcn/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/ui/shadcn/card';
 import { Plus } from 'lucide-react';
 import { BilletList } from './editor-components/billet-list';
 import { BilletForm } from './editor-components/billet-form';
@@ -78,9 +77,11 @@ export default function BilletEditor({ billets, activeType, onChange }: Props) {
     const currentTemplate = getTemplate(currentType);
 
     return (
-        <Card className="bg-slate-800 border-slate-700 h-full flex flex-col">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 border-b border-slate-700/50">
-                <CardTitle className="text-slate-100">Billets</CardTitle>
+        <div className="flex h-full flex-col rounded-lg border border-border-default bg-gunmetal">
+            <div className="flex flex-row items-center justify-between border-b border-border-default px-4 py-3.5">
+                <h3 className="text-base font-semibold text-text-primary">
+                    Entries
+                </h3>
                 {!isAdding && !editingId && (
                     <Button
                         size="sm"
@@ -91,8 +92,8 @@ export default function BilletEditor({ billets, activeType, onChange }: Props) {
                         <Plus className="h-4 w-4 mr-1" /> Add
                     </Button>
                 )}
-            </CardHeader>
-            <CardContent className="flex-1 p-4 overflow-y-auto max-h-[600px]">
+            </div>
+            <div className="flex-1 overflow-y-auto max-h-[600px] p-4">
                 {/* Editor Form (Add or Edit) */}
                 {(isAdding || editingId) && currentTemplate && (
                     <BilletForm
@@ -113,7 +114,7 @@ export default function BilletEditor({ billets, activeType, onChange }: Props) {
                     onEdit={handleStartEdit}
                     onDelete={handleDelete}
                 />
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }
