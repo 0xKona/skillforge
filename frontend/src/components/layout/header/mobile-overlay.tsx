@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const links = [
     { href: '/forge', label: 'Forge' },
@@ -19,16 +19,42 @@ interface MobileOverlayProps {
 
 export function MobileOverlay({ open, onClose }: MobileOverlayProps) {
     const pathname = usePathname();
+    const previousPathname = useRef(pathname);
 
     // Close on route change
     useEffect(() => {
-        onClose();
+        if (previousPathname.current !== pathname) {
+            previousPathname.current = pathname;
+            onClose();
+        }
     }, [pathname, onClose]);
+
+    // Close on Escape and keep the page behind the menu from scrolling.
+    useEffect(() => {
+        if (!open) return;
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') onClose();
+        };
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [open, onClose]);
 
     return (
         <AnimatePresence>
             {open && (
                 <motion.div
+                    id="mobile-navigation"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Mobile navigation"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
