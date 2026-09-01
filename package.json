@@ -24,7 +24,7 @@
         "prepare": "husky"
     },
     "dependencies": {
-        "@tanstack/react-query": "^5.102.2"
+        "@tanstack/react-query": "^5.102.8"
     },
     "lint-staged": {
         "frontend/src/**/*.{ts,tsx}": [
