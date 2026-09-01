@@ -2,11 +2,17 @@ import { cn } from '@/lib/utils';
 
 interface EmptyStateProps {
     message: string;
+    icon?: React.ReactNode;
     children?: React.ReactNode;
     className?: string;
 }
 
-export function EmptyState({ message, children, className }: EmptyStateProps) {
+export function EmptyState({
+    message,
+    icon,
+    children,
+    className,
+}: EmptyStateProps) {
     return (
         <div
             className={cn(
@@ -14,6 +20,7 @@ export function EmptyState({ message, children, className }: EmptyStateProps) {
                 className
             )}
         >
+            {icon && <div className="mb-1">{icon}</div>}
             <p className="text-base text-ash">{message}</p>
             {children}
         </div>
