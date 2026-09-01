@@ -58,9 +58,12 @@ export function SignupForm({ onNeedsConfirmation }: Props) {
     };
 
     return (
-        <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-5">
             {error && (
-                <div className="border-l-4 border-destructive pl-3 text-sm text-ash">
+                <div
+                    role="alert"
+                    className="border-l-2 border-destructive bg-destructive/10 px-3 py-2 text-sm leading-5 text-text-primary"
+                >
                     {error}
                 </div>
             )}
@@ -68,8 +71,9 @@ export function SignupForm({ onNeedsConfirmation }: Props) {
                 form={form}
                 id="signup-email"
                 inputName="email"
-                placeholder="you@example.com"
+                placeholder="Enter your email"
                 label="Email"
+                type="email"
             />
             <FormInput
                 form={form}
@@ -97,7 +101,7 @@ export function SignupForm({ onNeedsConfirmation }: Props) {
             <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-10 bg-flux hover:bg-flux-hover text-white font-medium rounded-md"
+                className="h-11 w-full rounded-md bg-flux font-medium text-white shadow-lg shadow-flux/15 transition-[background-color,transform] hover:bg-flux-hover active:scale-[0.98]"
             >
                 {isLoading ? 'Creating account...' : 'Sign up'}
             </Button>

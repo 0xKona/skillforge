@@ -82,16 +82,13 @@ export function ForgotPassword({ onBack }: Props) {
         return (
             <form
                 onSubmit={requestForm.handleSubmit(handleRequest)}
-                className="space-y-4"
+                className="space-y-5"
             >
-                <h2 className="text-lg font-semibold text-text-primary">
-                    Forgot password
-                </h2>
-                <p className="text-sm text-ash">
-                    Enter your email to receive a reset code.
-                </p>
                 {error && (
-                    <div className="border-l-4 border-destructive pl-3 text-sm text-ash">
+                    <div
+                        role="alert"
+                        className="border-l-2 border-destructive bg-destructive/10 px-3 py-2 text-sm leading-5 text-text-primary"
+                    >
                         {error}
                     </div>
                 )}
@@ -99,20 +96,21 @@ export function ForgotPassword({ onBack }: Props) {
                     form={requestForm}
                     id="forgot-email"
                     inputName="email"
-                    placeholder="you@example.com"
+                    placeholder="Enter your email"
                     label="Email"
+                    type="email"
                 />
                 <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full h-10 bg-flux hover:bg-flux-hover text-white font-medium rounded-md"
+                    className="h-11 w-full rounded-md bg-flux font-medium text-white shadow-lg shadow-flux/15 transition-[background-color,transform] hover:bg-flux-hover active:scale-[0.98]"
                 >
                     {isLoading ? 'Sending...' : 'Send reset code'}
                 </Button>
                 <button
                     type="button"
                     onClick={onBack}
-                    className="w-full text-sm text-ash hover:text-text-primary transition-colors"
+                    className="w-full text-sm text-ash transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 >
                     Back to login
                 </button>
@@ -123,21 +121,21 @@ export function ForgotPassword({ onBack }: Props) {
     return (
         <form
             onSubmit={resetForm.handleSubmit(handleReset)}
-            className="space-y-4"
+            className="space-y-5"
         >
-            <h2 className="text-lg font-semibold text-text-primary">
-                Reset password
-            </h2>
-            <p className="text-sm text-ash">
-                Enter the code sent to your email.
-            </p>
             {error && (
-                <div className="border-l-4 border-destructive pl-3 text-sm text-ash">
+                <div
+                    role="alert"
+                    className="border-l-2 border-destructive bg-destructive/10 px-3 py-2 text-sm leading-5 text-text-primary"
+                >
                     {error}
                 </div>
             )}
             {success && (
-                <div className="border-l-4 border-green-500 pl-3 text-sm text-ash">
+                <div
+                    role="status"
+                    className="border-l-2 border-flux bg-flux/10 px-3 py-2 text-sm leading-5 text-text-primary"
+                >
                     {success}
                 </div>
             )}
@@ -179,14 +177,14 @@ export function ForgotPassword({ onBack }: Props) {
             <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-10 bg-flux hover:bg-flux-hover text-white font-medium rounded-md"
+                className="h-11 w-full rounded-md bg-flux font-medium text-white shadow-lg shadow-flux/15 transition-[background-color,transform] hover:bg-flux-hover active:scale-[0.98]"
             >
                 {isLoading ? 'Resetting...' : 'Reset password'}
             </Button>
             <button
                 type="button"
                 onClick={onBack}
-                className="w-full text-sm text-ash hover:text-text-primary transition-colors"
+                className="w-full text-sm text-ash transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
                 Back to login
             </button>
