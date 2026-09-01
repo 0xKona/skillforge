@@ -7,6 +7,8 @@ import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/ui/shadcn/sonner';
 import QueryClientLayoutProvider from '@/components/providers/QueryClientProvider';
 import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { EducationBanner } from '@/components/layout/education-banner';
 
 const inter = Inter({
     variable: '--font-inter',
@@ -51,6 +53,8 @@ export default function RootLayout({
                         <Header />
                         <Toaster />
                         {children}
+                        <Footer />
+                        <EducationBanner />
                     </ThemeProvider>
                 </QueryClientLayoutProvider>
             </body>
