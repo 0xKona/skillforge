@@ -12,128 +12,94 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/ui/shadcn/dialog';
-import {
-    TypographyH3,
-    TypographyH4,
-    TypographyP,
-} from '@/ui/typography/typography';
-import { AlertTriangle, Loader2, Trash2 } from 'lucide-react';
+import { AlertTriangle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { userApi } from '@/lib/api/user';
 
-export default function DeleteAccount() {
+export default function DeleteAccountPage() {
     const [confirmString, setConfirmString] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter();
 
-    const handleInitialDeleteClick = () => {
-        if (confirmString === 'DELETE') {
-            setIsModalOpen(true);
-        }
-    };
-
     const handleFinalConfirmation = async () => {
         setIsDeleting(true);
-
         try {
             await userApi.deleteUserAccount();
-
-            toast.success('Account Deleted', {
-                description:
-                    'Your account and all data have been permanently deleted.',
-            });
-
+            toast.success('Account deleted.');
             router.push('/');
-        } catch (error) {
-            console.error('Error deleting account:', error);
-            toast.error('Error', {
-                description: 'Failed to delete account. Please try again.',
-            });
+        } catch {
+            toast.error('Failed to delete account.');
             setIsDeleting(false);
             setIsModalOpen(false);
         }
     };
 
     return (
-        <div className="space-y-8 w-full">
-            <div className="space-y-2">
-                <TypographyH3 className="text-red-500 flex items-center gap-2">
-                    <Trash2 className="h-6 w-6" />
-                    Delete Account
-                </TypographyH3>
-                <TypographyP className="text-slate-400">
-                    Permanently delete your account and all associated data.
-                    This action cannot be undone.
-                </TypographyP>
+        <div className="space-y-6 max-w-md">
+            <div>
+                <h2 className="text-lg font-semibold text-destructive">
+                    Delete account
+                </h2>
+                <p className="text-sm text-ash">
+                    Permanently delete your account and all data. This cannot be
+                    undone.
+                </p>
             </div>
 
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-6 space-y-4">
-                <div className="flex items-start gap-3">
-                    <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 shrink-0" />
-                    <div className="space-y-2">
-                        <TypographyH4 className="font-semibold text-red-500">
-                            Warning: Irreversible Action
-                        </TypographyH4>
-                        <TypographyP className="text-sm text-red-500/80 leading-relaxed">
-                            This will permanently delete your account, including
-                            all your <strong>Ingots</strong>,{' '}
-                            <strong>CVs</strong>, and personal settings. You
-                            will not be able to recover this data.
-                        </TypographyP>
-                    </div>
+            <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-4 space-y-2">
+                <div className="flex items-start gap-2">
+                    <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+                    <p className="text-sm text-destructive/80">
+                        This will permanently delete all your ingots, CVs, and
+                        settings.
+                    </p>
                 </div>
             </div>
 
-            <div className="space-y-4">
-                <div className="space-y-2">
-                    <label
-                        htmlFor="confirm-delete"
-                        className="text-sm font-medium text-slate-300"
-                    >
-                        Type{' '}
-                        <span className="font-mono font-bold text-slate-100">
-                            DELETE
-                        </span>{' '}
-                        to confirm
-                    </label>
-                    <Input
-                        id="confirm-delete"
-                        value={confirmString}
-                        onChange={(e) => setConfirmString(e.target.value)}
-                        placeholder="DELETE"
-                        className="bg-slate-900/50 border-slate-800 text-slate-100 placeholder:text-slate-600"
-                    />
-                </div>
-
+            <div className="space-y-3">
+                <label
+                    htmlFor="confirm-delete"
+                    className="text-sm font-medium text-ash"
+                >
+                    Type{' '}
+                    <span className="font-mono font-semibold text-text-primary">
+                        DELETE
+                    </span>{' '}
+                    to confirm
+                </label>
+                <Input
+                    id="confirm-delete"
+                    value={confirmString}
+                    onChange={(e) => setConfirmString(e.target.value)}
+                    placeholder="DELETE"
+                    className="bg-input-bg border-input-border text-input-text placeholder:text-input-placeholder"
+                />
                 <Button
                     variant="destructive"
-                    className="w-full sm:w-auto"
                     disabled={confirmString !== 'DELETE' || isDeleting}
-                    onClick={handleInitialDeleteClick}
+                    onClick={() => setIsModalOpen(true)}
                 >
-                    Delete Account
+                    Delete account
                 </Button>
             </div>
 
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent className="bg-slate-900 border-slate-800 text-slate-100">
+                <DialogContent className="bg-gunmetal border-border-emphasis">
                     <DialogHeader>
-                        <DialogTitle className="text-red-500 flex items-center gap-2">
-                            <AlertTriangle className="h-5 w-5" />
-                            Final Confirmation
+                        <DialogTitle className="text-destructive flex items-center gap-2">
+                            <AlertTriangle className="h-4 w-4" />
+                            Final confirmation
                         </DialogTitle>
-                        <DialogDescription className="text-slate-400">
-                            Are you absolutely sure? This action cannot be
-                            undone. All your data will be lost forever.
+                        <DialogDescription className="text-ash">
+                            Are you sure? All your data will be lost forever.
                         </DialogDescription>
                     </DialogHeader>
-                    <DialogFooter className="gap-2 sm:gap-0">
+                    <DialogFooter className="gap-2">
                         <Button
                             variant="ghost"
                             onClick={() => setIsModalOpen(false)}
                             disabled={isDeleting}
-                            className="text-slate-300 hover:text-slate-100 hover:bg-slate-800"
                         >
                             Cancel
                         </Button>
@@ -141,7 +107,6 @@ export default function DeleteAccount() {
                             variant="destructive"
                             onClick={handleFinalConfirmation}
                             disabled={isDeleting}
-                            className="bg-red-600 hover:bg-red-700"
                         >
                             {isDeleting ? (
                                 <>
@@ -149,7 +114,7 @@ export default function DeleteAccount() {
                                     Deleting...
                                 </>
                             ) : (
-                                'Yes, Delete Everything'
+                                'Yes, delete everything'
                             )}
                         </Button>
                     </DialogFooter>

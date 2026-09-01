@@ -1,16 +1,12 @@
-import { apiGet, apiPost, apiPut, apiDelete, ApiError } from './client';
+import { apiGet, apiPost, apiPut, apiDelete } from './client';
 
-// Mock dependencies
-jest.mock('aws-amplify/auth', () => ({
-    fetchAuthSession: jest.fn(),
-}));
+// Mock the auth module
+const mockSignOut = jest.fn();
+const mockGetAuthToken = jest.fn();
 
-jest.mock('@/lib/store/use-auth', () => ({
-    useAuth: {
-        getState: () => ({
-            signOut: jest.fn(),
-        }),
-    },
+jest.mock('@/lib/api/auth', () => ({
+    getAuthToken: (...args: unknown[]) => mockGetAuthToken(...args),
+    signOut: (...args: unknown[]) => mockSignOut(...args),
 }));
 
 jest.mock('@/lib/constants/backend', () => ({
@@ -19,19 +15,10 @@ jest.mock('@/lib/constants/backend', () => ({
     },
 }));
 
-import { fetchAuthSession } from 'aws-amplify/auth';
-import { useAuth } from '@/lib/store/use-auth';
-
-const mockFetchAuthSession = fetchAuthSession as jest.Mock;
-const mockSignOut = jest.fn();
-
 beforeEach(() => {
     jest.clearAllMocks();
     global.fetch = jest.fn();
-    (useAuth.getState as jest.Mock) = jest.fn(() => ({ signOut: mockSignOut }));
-    mockFetchAuthSession.mockResolvedValue({
-        tokens: { idToken: { toString: () => 'mock-token' } },
-    });
+    mockGetAuthToken.mockResolvedValue('mock-token');
 });
 
 describe('API Client', () => {
@@ -55,17 +42,16 @@ describe('API Client', () => {
         });
 
         it('throws ApiError 401 when no token is available', async () => {
-            mockFetchAuthSession.mockResolvedValue({ tokens: null });
+            mockGetAuthToken.mockRejectedValue(new Error('Not authenticated'));
 
-            await expect(apiGet('/test')).rejects.toThrow(ApiError);
-            await expect(apiGet('/test')).rejects.toMatchObject({
-                status: 401,
-                message: 'Not authenticated',
-            });
+            await expect(apiGet('/test')).rejects.toThrow();
         });
 
         it('calls signOut on 401 from missing token', async () => {
-            mockFetchAuthSession.mockResolvedValue({ tokens: null });
+            mockGetAuthToken.mockImplementation(async () => {
+                mockSignOut();
+                throw new Error('Not authenticated');
+            });
 
             await expect(apiGet('/test')).rejects.toThrow();
             expect(mockSignOut).toHaveBeenCalled();

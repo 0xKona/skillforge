@@ -1,7 +1,18 @@
-import { NavigationLinkObject } from '../types/nav-types';
+export interface NavigationLinkObject {
+    displayText: string;
+    route: string;
+    iconPath: string;
+}
 
-export const PROTECTED_ROUTES = ['/forge', '/anvil', '/profile', '/api'];
-export const AUTH_ROUTES = ['/login'];
+type Route = '/' | '/forge' | '/anvil' | '/profile' | '/api' | '/login';
+
+export const PROTECTED_ROUTES: Route[] = [
+    '/forge',
+    '/anvil',
+    '/profile',
+    '/api',
+];
+export const AUTH_ROUTES: Route[] = ['/login'];
 
 export const navigationBarLinks: NavigationLinkObject[] = [
     {

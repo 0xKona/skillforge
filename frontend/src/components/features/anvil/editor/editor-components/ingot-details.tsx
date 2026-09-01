@@ -37,7 +37,7 @@ export function IngotDetails({
                         id="ingotName"
                         value={ingotName}
                         onChange={(e) => onNameChange(e.target.value)}
-                        className="bg-slate-900 border-slate-700 text-slate-100 focus:border-forge-orange"
+                        className="bg-slate-900 border-slate-700 text-slate-100 focus:border-flux"
                         placeholder="e.g. My Degree, Company"
                     />
                     <TypographyP className="text-xs text-slate-400">

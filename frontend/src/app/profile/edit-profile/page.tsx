@@ -1,20 +1,18 @@
 'use client';
 
-import { Skeleton } from '@/ui/shadcn/skeleton';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 import { Button } from '@/ui/shadcn/button';
 import FormInput from '@/ui/form-input';
 import FormTextarea from '@/ui/form-textarea';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import {
     editProfileFormSchema,
     EditProfileFormValues,
 } from '@/lib/schemas/edit-profile-schema';
-import { TypographyH3, TypographyP } from '@/ui/typography/typography';
 import { userApi } from '@/lib/api/user';
-import { UserProfile } from '@/lib/types/user-types';
+import type { UserProfile } from '@/lib/types/user-types';
 
 export default function EditProfilePage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -22,10 +20,7 @@ export default function EditProfilePage() {
 
     const form = useForm<EditProfileFormValues>({
         resolver: zodResolver(editProfileFormSchema),
-        defaultValues: {
-            username: '',
-            bio: '',
-        },
+        defaultValues: { username: '', bio: '' },
     });
 
     useEffect(() => {
@@ -36,8 +31,7 @@ export default function EditProfilePage() {
                     username: profile.username || '',
                     bio: profile.bio || '',
                 });
-            } catch (error) {
-                console.error(error);
+            } catch {
                 toast.error('Failed to load profile');
             } finally {
                 setIsLoading(false);
@@ -50,65 +44,60 @@ export default function EditProfilePage() {
         setIsSaving(true);
         try {
             await userApi.updateUserProfile(data as UserProfile);
-            toast.success('Profile updated successfully');
-        } catch (error) {
-            console.error(error);
+            toast.success('Profile updated');
+        } catch {
             toast.error('Failed to update profile');
         } finally {
             setIsSaving(false);
         }
     }
 
-    return (
-        <div className="space-y-6 w-full">
-            <div>
-                <TypographyH3>Edit Profile</TypographyH3>
-                <TypographyP className="text-muted-foreground">
-                    Update your profile information.
-                </TypographyP>
+    if (isLoading) {
+        return (
+            <div className="space-y-6 max-w-md animate-pulse">
+                <div className="h-5 w-32 rounded bg-slag" />
+                <div className="h-10 w-full rounded bg-slag" />
+                <div className="h-32 w-full rounded bg-slag" />
             </div>
-            <div className="h-[1px] bg-border" />
-            {isLoading ? (
-                <div className="space-y-8">
-                    <div className="space-y-2">
-                        <Skeleton className="h-4 w-16" />
-                        <Skeleton className="h-9 w-full" />
-                    </div>
-                    <div className="space-y-2">
-                        <Skeleton className="h-4 w-8" />
-                        <Skeleton className="h-32 w-full" />
-                    </div>
-                    <div className="flex justify-end">
-                        <Skeleton className="h-9 w-28" />
-                    </div>
+        );
+    }
+
+    return (
+        <div className="space-y-6 max-w-md">
+            <div>
+                <h2 className="text-lg font-semibold text-text-primary">
+                    Profile
+                </h2>
+                <p className="text-sm text-ash">
+                    Update your display name and bio.
+                </p>
+            </div>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormInput
+                    form={form}
+                    id="profile-username"
+                    inputName="username"
+                    label="Username"
+                    placeholder="Your display name"
+                />
+                <FormTextarea
+                    form={form}
+                    id="profile-bio"
+                    inputName="bio"
+                    label="Bio"
+                    placeholder="A short bio"
+                    className="resize-none h-32"
+                />
+                <div className="flex justify-end">
+                    <Button
+                        type="submit"
+                        disabled={isSaving}
+                        className="h-10 px-4 bg-flux hover:bg-flux-hover text-white font-medium rounded-md"
+                    >
+                        {isSaving ? 'Saving...' : 'Save changes'}
+                    </Button>
                 </div>
-            ) : (
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
-                >
-                    <FormInput
-                        form={form}
-                        id="username"
-                        inputName="username"
-                        label="Username"
-                        placeholder="Your username"
-                    />
-                    <FormTextarea
-                        form={form}
-                        id="bio"
-                        inputName="bio"
-                        label="Bio"
-                        placeholder="Tell us a little bit about yourself"
-                        className="resize-none h-32"
-                    />
-                    <div className="flex justify-end">
-                        <Button type="submit" disabled={isSaving}>
-                            {isSaving ? 'Saving...' : 'Save Changes'}
-                        </Button>
-                    </div>
-                </form>
-            )}
+            </form>
         </div>
     );
 }

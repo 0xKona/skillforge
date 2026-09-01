@@ -62,28 +62,26 @@ export default function FormInput({
                                     placeholder={placeholder}
                                     disabled={disabled}
                                 />
-                                <div
+                                <button
+                                    type="button"
                                     data-testid={`${id}-show-pass`}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                                    className="absolute right-1 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-ash transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                                    aria-label={
+                                        showPassword
+                                            ? 'Hide password'
+                                            : 'Show password'
+                                    }
+                                    aria-pressed={showPassword}
+                                    onClick={() =>
+                                        setShowPassword((visible) => !visible)
+                                    }
                                 >
                                     {showPassword ? (
-                                        <FaEye
-                                            size={20}
-                                            className="cursor-pointer text-gray-500"
-                                            onClick={() =>
-                                                setShowPassword(false)
-                                            }
-                                        />
+                                        <FaEye size={16} />
                                     ) : (
-                                        <FaEyeSlash
-                                            size={20}
-                                            className="cursor-pointer text-gray-500"
-                                            onClick={() =>
-                                                setShowPassword(true)
-                                            }
-                                        />
+                                        <FaEyeSlash size={16} />
                                     )}
-                                </div>
+                                </button>
                             </div>
                         )}{' '}
                         {fieldState.error && (

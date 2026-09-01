@@ -1,83 +1,70 @@
 import Link from 'next/link';
 import Logo from '@/components/common/icons/logo';
-import { TypographyH4, TypographyP } from '@/ui/typography/typography';
-import { PrivacyModal } from './privacy-modal';
 
-export default function Footer() {
+const productLinks = [
+    { label: 'Home', href: '/' },
+    { label: 'Forge', href: '/forge' },
+    { label: 'Anvil', href: '/anvil' },
+];
+
+const year = new Date().getFullYear();
+
+export function Footer() {
     return (
-        <footer className="bg-slate-950 border-t border-slate-800/50 pt-16 pb-8 mt-auto">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                    {/* Brand Column */}
-                    <div className="col-span-1 md:col-span-2 space-y-4">
-                        <div className="flex items-center gap-2">
-                            <Logo size={40} color="#f97316" />
-                            <span className="text-xl font-bold text-slate-100">
+        <footer className="border-t border-border-default bg-crucible">
+            <div className="mx-auto max-w-6xl px-4 py-8 md:px-6">
+                <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+                    {/* Wordmark + tagline */}
+                    <div className="flex flex-col gap-2">
+                        <Link href="/" className="flex items-center gap-2">
+                            <Logo size={20} color="#e8630a" />
+                            <span className="font-display text-base font-semibold text-text-primary">
                                 SkillForge
                             </span>
+                        </Link>
+                        <p className="font-mono text-[10px] text-ash">
+                            Build once. Tailor for every role.
+                        </p>
+                        <p className="font-mono text-[10px] text-ash">
+                            © {year} SkillForge
+                        </p>
+                    </div>
+
+                    {/* Link groups */}
+                    <div className="flex gap-12">
+                        {/* Product */}
+                        <div className="flex flex-col gap-2">
+                            <p className="font-mono text-[9px] font-medium uppercase tracking-[0.15em] text-ash/60">
+                                Product
+                            </p>
+                            {productLinks.map(({ label, href }) => (
+                                <Link
+                                    key={label}
+                                    href={href}
+                                    className="text-xs text-ash transition-colors hover:text-text-primary"
+                                >
+                                    {label}
+                                </Link>
+                            ))}
+                        </div>
+
+                        {/* Legal */}
+                        <div className="flex flex-col gap-2">
+                            <p className="font-mono text-[9px] font-medium uppercase tracking-[0.15em] text-ash/60">
+                                Legal
+                            </p>
+                            <Link
+                                href="/privacy"
+                                className="text-xs text-ash transition-colors hover:text-text-primary"
+                            >
+                                Privacy Policy
+                            </Link>
+                            <p className="max-w-[200px] text-[10px] leading-relaxed text-ash/60">
+                                Educational project. Do not enter sensitive
+                                data.
+                            </p>
                         </div>
                     </div>
-
-                    {/* Navigation Column */}
-                    <div className="space-y-4">
-                        <TypographyH4 className="text-xs font-semibold text-slate-100 uppercase tracking-wider">
-                            Navigation
-                        </TypographyH4>
-                        <ul className="space-y-2">
-                            <li>
-                                <Link
-                                    href="/"
-                                    className="text-slate-400 hover:text-forge-orange transition-colors text-sm"
-                                >
-                                    Home
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/about"
-                                    className="text-slate-400 hover:text-forge-orange transition-colors text-sm"
-                                >
-                                    About
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/forge"
-                                    className="text-slate-400 hover:text-forge-orange transition-colors text-sm"
-                                >
-                                    The Forge
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/anvil"
-                                    className="text-slate-400 hover:text-forge-orange transition-colors text-sm"
-                                >
-                                    The Anvil
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Project Info Column */}
-                    <div className="space-y-4">
-                        <TypographyH4 className="text-xs font-semibold text-slate-100 uppercase tracking-wider">
-                            Project Info
-                        </TypographyH4>
-                        <ul className="space-y-2">
-                            <li>
-                                <PrivacyModal />
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Bottom Bar */}
-                <div className="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <TypographyP className="text-slate-400 text-sm">
-                        © {new Date().getFullYear()} SkillForge. Created for
-                        Educational Purposes.
-                    </TypographyP>
                 </div>
             </div>
         </footer>

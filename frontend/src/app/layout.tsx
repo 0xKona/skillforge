@@ -1,21 +1,28 @@
 'use client';
 
-import type { Metadata } from 'next';
-import { Inter, Geist_Mono } from 'next/font/google';
+import { Inter, Space_Grotesk, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import ConfigureAmplifyClientSide from '@/components/providers/configure-amplify-client';
+import { AuthListener } from '@/components/providers/auth-guard';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { ClientAuthListener } from '@/components/providers/client-auth-listener';
 import { Toaster } from '@/ui/shadcn/sonner';
 import QueryClientLayoutProvider from '@/components/providers/QueryClientProvider';
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { EducationBanner } from '@/components/layout/education-banner';
 
 const inter = Inter({
     variable: '--font-inter',
     subsets: ['latin'],
     display: 'swap',
     preload: true,
-    weight: ['400', '500', '600', '700', '800'],
-    style: ['normal', 'italic'],
+});
+
+const spaceGrotesk = Space_Grotesk({
+    variable: '--font-space-grotesk',
+    subsets: ['latin'],
+    display: 'swap',
+    preload: true,
+    weight: ['400', '500', '600', '700'],
 });
 
 const geistMono = Geist_Mono({
@@ -25,14 +32,6 @@ const geistMono = Geist_Mono({
     preload: true,
 });
 
-// export const metadata: Metadata = {
-//     icons: {
-//         icon: [{ url: '/logo_favicon.svg', type: 'image/svg+xml' }],
-//     },
-//     title: 'SkillForge',
-//     description: 'Create and manage modular CVs!',
-// };
-
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -41,19 +40,21 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark" suppressHydrationWarning>
             <body
-                className={`${inter.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
+                className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} font-sans`}
             >
                 <QueryClientLayoutProvider>
-                    <ConfigureAmplifyClientSide />
-                    <ClientAuthListener />
+                    <AuthListener />
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="dark"
                         enableSystem
                         disableTransitionOnChange
                     >
+                        <Header />
                         <Toaster />
                         {children}
+                        <Footer />
+                        <EducationBanner />
                     </ThemeProvider>
                 </QueryClientLayoutProvider>
             </body>

@@ -1,16 +1,15 @@
 'use client';
 
-import { Button } from '@/ui/shadcn/button';
-import FormInput, { FormInputType } from '@/ui/form-input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { Button } from '@/ui/shadcn/button';
+import FormInput from '@/ui/form-input';
 import {
     editPasswordFormSchema,
     EditPasswordFormValues,
 } from '@/lib/schemas/edit-password-schema';
-import { TypographyH3, TypographyP } from '@/ui/typography/typography';
 import { userApi } from '@/lib/api/user';
 
 export default function EditPasswordPage() {
@@ -32,77 +31,57 @@ export default function EditPasswordPage() {
                 data.currentPassword,
                 data.newPassword
             );
-            toast.success('Password updated successfully');
+            toast.success('Password updated');
             form.reset();
-        } catch (error) {
-            console.error(error);
-            if (error instanceof Error) {
-                toast.error(error.message);
-            } else {
-                toast.error('Failed to update password');
-            }
+        } catch (err) {
+            toast.error(
+                err instanceof Error ? err.message : 'Failed to update password'
+            );
         } finally {
             setIsSaving(false);
         }
     }
 
-    interface FormInputParams {
-        id: string;
-        inputName: string;
-        label: string;
-        placeholder: string;
-        type: FormInputType;
-    }
-
-    const inputs: FormInputParams[] = [
-        {
-            id: 'currentPassword',
-            inputName: 'currentPassword',
-            label: 'Current Password',
-            placeholder: 'Enter your current password',
-            type: 'password',
-        },
-        {
-            id: 'newPassword',
-            inputName: 'newPassword',
-            label: 'New Password',
-            placeholder: 'Enter your new password',
-            type: 'password',
-        },
-        {
-            id: 'confirmPassword',
-            inputName: 'confirmPassword',
-            label: 'Confirm New Password',
-            placeholder: 'Confirm your new password',
-            type: 'password',
-        },
-    ];
-
     return (
-        <div className="space-y-6 w-full">
+        <div className="space-y-6 max-w-md">
             <div>
-                <TypographyH3>Edit Password</TypographyH3>
-                <TypographyP className="text-muted-foreground">
-                    Change your password to keep your account secure.
-                </TypographyP>
+                <h2 className="text-lg font-semibold text-text-primary">
+                    Password
+                </h2>
+                <p className="text-sm text-ash">Change your password.</p>
             </div>
-            <div className="h-[1px] bg-border" />
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                {inputs.map((input: FormInputParams) => (
-                    <FormInput
-                        key={input.id + input.inputName}
-                        form={form}
-                        id={input.id}
-                        inputName={input.inputName}
-                        label={input.label}
-                        placeholder={input.placeholder}
-                        type={input.type}
-                    />
-                ))}
-
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormInput
+                    form={form}
+                    id="current-password"
+                    inputName="currentPassword"
+                    label="Current password"
+                    placeholder="Enter current password"
+                    type="password"
+                />
+                <FormInput
+                    form={form}
+                    id="new-password"
+                    inputName="newPassword"
+                    label="New password"
+                    placeholder="At least 8 characters"
+                    type="password"
+                />
+                <FormInput
+                    form={form}
+                    id="confirm-password"
+                    inputName="confirmPassword"
+                    label="Confirm new password"
+                    placeholder="Confirm new password"
+                    type="password"
+                />
                 <div className="flex justify-end">
-                    <Button type="submit" disabled={isSaving}>
-                        {isSaving ? 'Saving...' : 'Save Changes'}
+                    <Button
+                        type="submit"
+                        disabled={isSaving}
+                        className="h-10 px-4 bg-flux hover:bg-flux-hover text-white font-medium rounded-md"
+                    >
+                        {isSaving ? 'Saving...' : 'Save changes'}
                     </Button>
                 </div>
             </form>

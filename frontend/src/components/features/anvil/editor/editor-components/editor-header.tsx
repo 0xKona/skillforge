@@ -43,7 +43,7 @@ export function EditorHeader({
                 <Button
                     onClick={onSave}
                     disabled={loading}
-                    className="bg-forge-orange hover:bg-forge-ember text-white min-w-[120px]"
+                    className="bg-flux hover:bg-flux-hover text-white min-w-[120px]"
                 >
                     {loading ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -74,7 +74,7 @@ export function EditorFooter({
             <Button
                 onClick={onSave}
                 disabled={loading}
-                className="bg-forge-orange hover:bg-forge-ember text-white min-w-[120px]"
+                className="bg-flux hover:bg-flux-hover text-white min-w-[120px]"
             >
                 {loading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

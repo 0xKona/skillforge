@@ -1,8 +1,14 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function UserManagementPage() {
+export default function ProfilePage() {
     const router = useRouter();
-    router.push('/profile/edit-profile');
+
+    useEffect(() => {
+        router.replace('/profile/edit-profile');
+    }, [router]);
+
+    return null;
 }

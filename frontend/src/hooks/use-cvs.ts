@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { cvApi } from '@/lib/api/cv';
-import { CV, NewCV } from '@/lib/types/cv-types';
+import type { CvDocument, NewCvDocument } from '@/lib/types/cv-document-types';
 
 // -- Query Key Factory --
 
@@ -33,7 +33,7 @@ export function useCreateCv() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (cvData: NewCV) => cvApi.createCv(cvData),
+        mutationFn: (cvData: NewCvDocument) => cvApi.createCv(cvData),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: cvKeys.all });
         },
@@ -44,8 +44,8 @@ export function useUpdateCv() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (cv: CV) => cvApi.updateCv(cv),
-        onSuccess: (updatedCv: CV) => {
+        mutationFn: (cv: CvDocument) => cvApi.updateCv(cv),
+        onSuccess: (updatedCv: CvDocument) => {
             queryClient.setQueryData(cvKeys.detail(updatedCv.id), updatedCv);
             queryClient.invalidateQueries({ queryKey: cvKeys.all });
         },

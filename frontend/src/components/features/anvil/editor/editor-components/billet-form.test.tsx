@@ -19,7 +19,7 @@ jest.mock('./dynamic-form', () => ({
     ),
 }));
 
-jest.mock('@/lib/zod-form-schemas/ingot-form-generator');
+jest.mock('@/lib/schemas/ingot-form-generator');
 jest.mock('sonner');
 
 describe('BilletForm', () => {

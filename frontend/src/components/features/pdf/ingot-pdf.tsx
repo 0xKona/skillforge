@@ -3,10 +3,10 @@
 import React from 'react';
 import { Document, Page, View } from '@react-pdf/renderer';
 import { Ingot, IngotEditorData, IngotType } from '@/lib/types/ingot-types';
-import { SectionHeader } from '@/components/features/pdf/pdf-sections/section-header';
+import { SectionHeader } from '@/components/features/pdf/ingot-sections/section-header';
 import { SortOrder } from '@/lib/helpers/sorting';
 import { pdfStyles } from '@/lib/pdf/styles';
-import SectionRenderer from './section-renderer';
+import SectionRenderer from './ingot-section-renderer';
 
 interface IngotPDFProps {
     ingotData: IngotEditorData;

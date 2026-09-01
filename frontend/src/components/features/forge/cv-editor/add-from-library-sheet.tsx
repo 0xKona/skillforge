@@ -1,0 +1,126 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { Search } from 'lucide-react';
+
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+} from '@/ui/shadcn/sheet';
+import { Input } from '@/ui/shadcn/input';
+import { ScrollArea } from '@/ui/shadcn/scroll-area';
+import { Skeleton } from '@/ui/shadcn/skeleton';
+import { useCvDocumentStore } from '@/lib/store/use-cv-document';
+import { useIngots } from '@/hooks/use-ingots';
+import { cvImport } from '@/lib/helpers/cv-import';
+import { SECTION_META } from '@/lib/constants/cv-constants';
+import type { Ingot, IngotType } from '@/lib/types/ingot-types';
+import type { SectionType } from '@/lib/types/cv-document-types';
+
+interface AddFromLibrarySheetProps {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    sectionIndex: number;
+    sectionType: SectionType;
+}
+
+/**
+ * Sheet component for selecting ingots from the user's Anvil library.
+ * Fetches ingots matching the section type and allows selection.
+ */
+export function AddFromLibrarySheet({
+    open,
+    onOpenChange,
+    sectionIndex,
+    sectionType,
+}: AddFromLibrarySheetProps) {
+    const [search, setSearch] = useState('');
+    const addItem = useCvDocumentStore((s) => s.addItem);
+    const meta = SECTION_META[sectionType];
+
+    // Fetch ingots matching this section type
+    const ingotType = `ingot_${sectionType}` as IngotType;
+    const { data: ingots = [], isLoading } = useIngots(ingotType);
+
+    const filtered = useMemo(
+        () =>
+            ingots.filter(
+                (i) =>
+                    !search ||
+                    i.name.toLowerCase().includes(search.toLowerCase())
+            ),
+        [ingots, search]
+    );
+
+    function handleSelect(ingot: Ingot) {
+        const item = cvImport.fromIngot(ingot);
+        addItem(sectionIndex, item);
+        onOpenChange(false);
+        setSearch('');
+    }
+
+    return (
+        <Sheet open={open} onOpenChange={onOpenChange}>
+            <SheetContent
+                side="right"
+                className="w-[400px] bg-gunmetal border-border-default sm:max-w-[400px]"
+            >
+                <SheetHeader>
+                    <SheetTitle className="text-text-primary">
+                        Add from library
+                    </SheetTitle>
+                </SheetHeader>
+
+                <div className="mt-4 space-y-3">
+                    {/* Search */}
+                    <div className="relative">
+                        <Search className="absolute left-2.5 top-2 h-4 w-4 text-ash" />
+                        <Input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder={`Search ${meta.defaultTitle.toLowerCase()}...`}
+                            className="h-8 pl-8 text-sm bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
+                        />
+                    </div>
+
+                    {/* Results */}
+                    <ScrollArea className="h-[calc(100vh-180px)]">
+                        {isLoading ? (
+                            <div className="space-y-2 p-2">
+                                <Skeleton className="h-16 w-full" />
+                                <Skeleton className="h-16 w-full" />
+                                <Skeleton className="h-16 w-full" />
+                            </div>
+                        ) : filtered.length === 0 ? (
+                            <p className="py-8 text-center text-sm text-ash">
+                                {ingots.length === 0
+                                    ? `No ${meta.defaultTitle.toLowerCase()} in your library yet.`
+                                    : 'No results match your search.'}
+                            </p>
+                        ) : (
+                            <div className="flex flex-col gap-2">
+                                {filtered.map((ingot) => (
+                                    <button
+                                        key={ingot.id}
+                                        onClick={() => handleSelect(ingot)}
+                                        className="rounded-md border border-border-default bg-gunmetal p-3 text-left transition-colors hover:border-border-warm"
+                                    >
+                                        <p className="text-sm font-medium text-text-primary">
+                                            {ingot.name}
+                                        </p>
+                                        <p className="mt-0.5 text-xs text-ash">
+                                            {ingot.content.billets.length}{' '}
+                                            entries
+                                        </p>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </ScrollArea>
+                </div>
+            </SheetContent>
+        </Sheet>
+    );
+}
