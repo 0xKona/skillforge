@@ -20,7 +20,10 @@ const features = [
 
 export function HomeFeatures() {
     return (
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 py-16">
+        <section
+            id="how-it-works"
+            className="grid grid-cols-1 gap-4 py-12 md:grid-cols-3"
+        >
             {features.map(({ icon: Icon, heading, copy }) => (
                 <div
                     key={heading}
