@@ -39,6 +39,38 @@ describe('billetHelpers', () => {
         });
     });
 
+    describe('getBilletLabel', () => {
+        it('returns a curated label for known types', () => {
+            expect(
+                billetHelpers.getBilletLabel({
+                    ...mockBillet,
+                    type: 'billet_pi_social',
+                })
+            ).toBe('Social link');
+            expect(
+                billetHelpers.getBilletLabel({
+                    ...mockBillet,
+                    type: 'billet_exp_job',
+                })
+            ).toBe('Job detail');
+            expect(
+                billetHelpers.getBilletLabel({
+                    ...mockBillet,
+                    type: 'billet_skill',
+                })
+            ).toBe('Skill');
+        });
+
+        it('falls back to a cleaned type id for unknown types', () => {
+            expect(
+                billetHelpers.getBilletLabel({
+                    ...mockBillet,
+                    type: 'billet_new_thing',
+                })
+            ).toBe('new thing');
+        });
+    });
+
     describe('getBilletDisplayName', () => {
         it('returns name if present', () => {
             const billet: Billet = {
@@ -80,7 +112,7 @@ describe('billetHelpers', () => {
                 } as unknown as Record<string, IngotField>,
             };
             expect(billetHelpers.getBilletDisplayName(billet)).toBe(
-                'Untitled Item'
+                'Untitled Entry'
             );
         });
     });

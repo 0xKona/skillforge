@@ -12,7 +12,7 @@ function getBilletFieldNames(billet: Billet): string[] {
 /**
  * Derives a human-readable display name from a billet's fields,
  * checking common name fields in priority order.
- * Falls back to 'Untitled Item' if no suitable field is found.
+ * Falls back to 'Untitled Entry' if no suitable field is found.
  */
 function getBilletDisplayName(billet: Billet): string {
     const fields = billet.fields;
@@ -23,7 +23,31 @@ function getBilletDisplayName(billet: Billet): string {
         (fields.certName?.value as string) ||
         (fields.platform?.value as string) ||
         (fields.skillName?.value as string) ||
-        'Untitled Item'
+        'Untitled Entry'
+    );
+}
+
+/**
+ * Human-readable labels for a billet's type, keyed by persisted type id.
+ * Keep this in sync with BILLET_TEMPLATES.
+ */
+const BILLET_TYPE_LABELS: Record<string, string> = {
+    billet_exp_job: 'Job detail',
+    billet_edu_subject: 'Subject',
+    billet_grouped_certfication: 'Certification',
+    billet_pi_social: 'Social link',
+    billet_skill: 'Skill',
+    cert: 'Certification',
+};
+
+/**
+ * Returns a curated, human-readable label for a billet's type.
+ * Falls back to a cleaned-up version of the raw type id for unknown types.
+ */
+function getBilletLabel(billet: Billet): string {
+    return (
+        BILLET_TYPE_LABELS[billet.type] ??
+        billet.type.replace('billet_', '').replace(/_/g, ' ')
     );
 }
 
@@ -63,6 +87,7 @@ function sortBillets(billets: Billet[], sortBy?: SortOrder): Billet[] {
 export const billetHelpers = {
     getBilletFieldNames,
     getBilletDisplayName,
+    getBilletLabel,
     getBilletDate,
     sortBillets,
 };

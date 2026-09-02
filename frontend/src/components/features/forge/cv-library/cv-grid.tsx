@@ -5,6 +5,7 @@ import { CvCard } from './cv-card';
 import { SkeletonCard } from '@/components/common/ui/skeleton-card';
 import { EmptyState } from '@/components/common/ui/empty-state';
 import { Button } from '@/ui/shadcn/button';
+import { FileText } from 'lucide-react';
 import Link from 'next/link';
 
 export function CvGrid() {
@@ -22,7 +23,10 @@ export function CvGrid() {
 
     if (cvs.length === 0) {
         return (
-            <EmptyState message="No CVs yet. Start with a blank document or import from your ingots.">
+            <EmptyState
+                icon={<FileText className="h-10 w-10 text-ash/40" />}
+                message="No CVs yet. Start with a blank document or import from your ingots."
+            >
                 <Link href="/forge/cv/new">
                     <Button className="h-10 px-6 bg-flux hover:bg-flux-hover text-white font-medium rounded-md">
                         New CV

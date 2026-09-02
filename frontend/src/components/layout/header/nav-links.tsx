@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 
 const links = [
-    { href: '/forge', label: 'Forge' },
     { href: '/anvil', label: 'Anvil' },
+    { href: '/forge', label: 'Forge' },
 ];
 
 export function NavLinks() {

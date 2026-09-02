@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/ui/shadcn/card';
 import { TypographyP } from '@/ui/typography/typography';
 import { Input } from '@/ui/shadcn/input';
 import { Label } from '@/ui/shadcn/label';
@@ -23,31 +22,28 @@ export function IngotDetails({
     errors,
 }: IngotDetailsProps) {
     return (
-        <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-                <CardTitle className="text-slate-100">Ingot Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
+        <div className="rounded-lg border border-border-default bg-gunmetal p-6">
+            <div className="space-y-6">
                 {/* Top Level Name Field */}
                 <div className="space-y-2">
-                    <Label htmlFor="ingotName" className="text-slate-200">
+                    <Label htmlFor="ingotName" className="text-text-secondary">
                         Display Name <span className="text-red-400">*</span>
                     </Label>
                     <Input
                         id="ingotName"
                         value={ingotName}
                         onChange={(e) => onNameChange(e.target.value)}
-                        className="bg-slate-900 border-slate-700 text-slate-100 focus:border-flux"
+                        className="bg-input-bg border-input-border text-input-text focus:border-flux"
                         placeholder="e.g. My Degree, Company"
                     />
-                    <TypographyP className="text-xs text-slate-400">
-                        This name is used by you to identify this ingot in your
-                        list. It will not show in your CV.
+                    <TypographyP className="text-xs text-ash">
+                        Used to identify this ingot in your library — not shown
+                        on your CV.
                     </TypographyP>
                 </div>
 
                 {/* Ingot Form */}
-                <div className="border-t border-slate-700/50 pt-6">
+                <div className="border-t border-border-default pt-6">
                     <DynamicForm
                         fields={fields}
                         values={values}
@@ -55,7 +51,7 @@ export function IngotDetails({
                         errors={errors}
                     />
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }

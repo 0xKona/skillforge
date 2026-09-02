@@ -34,6 +34,7 @@ describe('EditorHeader', () => {
                 title="Test Title"
                 typeLabel="Test Type"
                 loading={false}
+                preview={false}
                 onPreview={jest.fn()}
                 onSave={jest.fn()}
             />
@@ -47,6 +48,7 @@ describe('EditorHeader', () => {
             <EditorHeader
                 title="Test Title"
                 loading={true}
+                preview={false}
                 onPreview={jest.fn()}
                 onSave={jest.fn()}
             />

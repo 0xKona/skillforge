@@ -1,9 +1,12 @@
 import React from 'react';
 import { Document, Page, View } from '@react-pdf/renderer';
 import { pdfStyles } from '@/lib/pdf/styles';
+import { registerCvFonts } from '@/lib/pdf/fonts';
 import type { CvDocument, NewCvDocument } from '@/lib/types/cv-document-types';
 
 import { PdfSectionRenderer } from './pdf-section-renderer';
+
+registerCvFonts();
 
 interface PdfDocumentProps {
     document: CvDocument | NewCvDocument;

@@ -12,12 +12,12 @@ export function HomeHero() {
     return (
         <section className="flex items-center pt-20 pb-10 md:pt-28 md:pb-14">
             <div className="grid w-full items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14">
-                <div className="max-w-xl">
+                <div className="max-w-xl mx-auto lg:mx-0">
                     <p className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-flux">
                         Modular CV builder
                     </p>
                     <h1 className="font-display text-5xl font-semibold leading-[1.02] tracking-[-0.045em] text-text-primary sm:text-6xl">
-                        Your skills.{' '}
+                        Your Experience.{' '}
                         <span className="text-flux">Arranged.</span>
                     </h1>
                     <p className="mt-6 max-w-md text-base leading-7 text-ash sm:text-lg">

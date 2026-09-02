@@ -149,11 +149,11 @@ export const SECTION_SCHEMAS: Record<SectionType, SectionSchema> = {
                 label: 'Platform',
                 placeholder: 'LinkedIn',
             },
-            username: {
+            handle: {
                 type: 'text',
-                required: false,
-                label: 'Username',
-                placeholder: '@johnsmith',
+                required: true,
+                label: 'Handle',
+                placeholder: '/in/johnsmith',
             },
             url: {
                 type: 'url',

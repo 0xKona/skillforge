@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { CvDocument } from '@/lib/types/cv-document-types';
+import { formatRelativeDate } from '@/lib/utils/format-date';
 
 interface CvCardProps {
     cv: CvDocument;
@@ -29,16 +30,4 @@ export function CvCard({ cv }: CvCardProps) {
             </div>
         </Link>
     );
-}
-
-function formatRelativeDate(dateStr: string): string {
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return 'Edited today';
-    if (diffDays === 1) return 'Edited yesterday';
-    if (diffDays < 30) return `Edited ${diffDays} days ago`;
-    return `Edited ${date.toLocaleDateString()}`;
 }

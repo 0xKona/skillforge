@@ -56,7 +56,7 @@ export function FormField({
 
         return (
             <div className="space-y-2">
-                <Label htmlFor={fieldKey} className="text-slate-200">
+                <Label htmlFor={fieldKey} className="text-text-secondary">
                     {label}
                     {field.mandatory && (
                         <span className="text-red-400 ml-1">*</span>
@@ -67,16 +67,16 @@ export function FormField({
                     onValueChange={(val) => onChange(fieldKey, val)}
                 >
                     <SelectTrigger
-                        className={`bg-slate-900 border-slate-700 text-slate-100 ${error ? 'border-red-500' : ''}`}
+                        className={`bg-input-bg border-input-border text-input-text ${error ? 'border-red-500' : ''}`}
                     >
                         <SelectValue placeholder={placeholder} />
                     </SelectTrigger>
-                    <SelectContent className="bg-slate-800 border-slate-700 text-slate-100">
+                    <SelectContent className="border-border-default bg-gunmetal text-input-text">
                         {options.map((opt) => (
                             <SelectItem
                                 key={opt}
                                 value={opt}
-                                className="focus:bg-slate-700 focus:text-white"
+                                className="focus:bg-slag focus:text-text-primary"
                             >
                                 {opt}
                             </SelectItem>
@@ -95,7 +95,7 @@ export function FormField({
     return (
         <div className="space-y-2">
             <div className="flex items-center justify-between">
-                <Label htmlFor={fieldKey} className="text-slate-200">
+                <Label htmlFor={fieldKey} className="text-text-secondary">
                     {label}
                     {field.mandatory && (
                         <span className="text-red-400 ml-1">*</span>
@@ -119,7 +119,7 @@ export function FormField({
                         />
                         <Label
                             htmlFor={`${fieldKey}-present`}
-                            className="text-xs text-slate-400 font-normal cursor-pointer"
+                            className="text-xs font-normal text-ash cursor-pointer"
                         >
                             Current / Present
                         </Label>
@@ -131,7 +131,7 @@ export function FormField({
                     id={fieldKey}
                     value={value || ''}
                     onChange={(e) => onChange(fieldKey, e.target.value)}
-                    className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-flux min-h-[100px] ${error ? 'border-red-500' : ''}`}
+                    className={`bg-input-bg border-input-border text-input-text focus:border-flux min-h-[100px] ${error ? 'border-red-500' : ''}`}
                     placeholder={`Enter ${label.toLowerCase()}...`}
                 />
             ) : (
@@ -141,7 +141,7 @@ export function FormField({
                     value={value === 'Current' ? '' : value || ''}
                     onChange={(e) => onChange(fieldKey, e.target.value)}
                     disabled={value === 'Current'}
-                    className={`bg-slate-900 border-slate-700 text-slate-100 focus:border-flux disabled:opacity-50 disabled:cursor-not-allowed ${error ? 'border-red-500' : ''}`}
+                    className={`bg-input-bg border-input-border text-input-text focus:border-flux disabled:opacity-50 disabled:cursor-not-allowed ${error ? 'border-red-500' : ''}`}
                     placeholder={
                         value === 'Current'
                             ? 'Current'

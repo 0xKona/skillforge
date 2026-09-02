@@ -37,9 +37,24 @@ export const BILLET_TEMPLATES: Record<string, BilletTemplate> = {
     billet_pi_social: {
         type: 'billet_pi_social',
         fields: {
-            platform: { mandatory: true, value: 'Twitter', inputType: 'text' },
-            username: { mandatory: false, value: '', inputType: 'text' },
-            url: { mandatory: false, value: '', inputType: 'url' },
+            platform: {
+                mandatory: true,
+                value: '',
+                inputType: 'text',
+                label: 'Platform',
+            },
+            handle: {
+                mandatory: true,
+                value: '',
+                inputType: 'text',
+                label: 'Handle',
+            },
+            url: {
+                mandatory: false,
+                value: '',
+                inputType: 'url',
+                label: 'URL',
+            },
         },
     },
     cert: {
@@ -79,12 +94,12 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             fields: {
                 title: {
                     mandatory: true,
-                    value: 'my personal_statement',
+                    value: '',
                     inputType: 'text',
                 },
                 statement: {
                     mandatory: true,
-                    value: 'lorem ipsum x100',
+                    value: '',
                     inputType: 'textarea',
                 },
             },
@@ -116,22 +131,22 @@ export const INGOT_TEMPLATES: Record<string, IngotTemplate> = {
             fields: {
                 companyName: {
                     mandatory: true,
-                    value: 'Tech Solutions Ltd',
+                    value: '',
                     inputType: 'text',
                 },
                 startDate: {
                     mandatory: true,
-                    value: '2022-01-01',
+                    value: '',
                     inputType: 'date',
                 },
                 endDate: {
                     mandatory: true,
-                    value: '2022-12-31',
+                    value: '',
                     inputType: 'date',
                 },
                 location: {
                     mandatory: false,
-                    value: 'Remote',
+                    value: '',
                     inputType: 'text',
                 },
             },
