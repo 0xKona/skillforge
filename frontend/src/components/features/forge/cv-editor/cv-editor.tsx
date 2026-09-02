@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
 import { ArrowLeft, Eye, Redo2, Save, Undo2 } from 'lucide-react';
-import Link from 'next/link';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/ui/shadcn/button';
 import { Input } from '@/ui/shadcn/input';
@@ -13,17 +14,30 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/ui/shadcn/tooltip';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/ui/shadcn/alert-dialog';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
-import { useUpdateCv } from '@/hooks/use-cvs';
+import { useCreateCv, useUpdateCv, cvKeys } from '@/hooks/use-cvs';
 import { springs, fadeIn } from '@/lib/constants/cv-editor-animations';
 import { cn } from '@/lib/utils';
-import type { CvDocument } from '@/lib/types/cv-document-types';
+import type { CvDocument, NewCvDocument } from '@/lib/types/cv-document-types';
 
 import { SectionList } from './section-list';
 import { AddSectionPicker } from './add-section-picker';
 import { PreviewPanel } from '@/components/features/pdf/cv-document/preview-panel';
 
 export function CvEditor() {
+    const router = useRouter();
+    const queryClient = useQueryClient();
+
     const document = useCvDocumentStore((s) => s.document);
     const isDirty = useCvDocumentStore((s) => s.isDirty);
     const updateTitle = useCvDocumentStore((s) => s.updateTitle);
@@ -34,7 +48,55 @@ export function CvEditor() {
     const markSaved = useCvDocumentStore((s) => s.markSaved);
 
     const [previewOpen, setPreviewOpen] = useState(false);
+    const [discardOpen, setDiscardOpen] = useState(false);
+    const createCv = useCreateCv();
     const updateCv = useUpdateCv();
+
+    const hasId = !!document && 'id' in document && !!document.id;
+    const isNew = !hasId;
+    const titleMissing = isNew && (!document || document.title.trim() === '');
+    const saveDisabled = !isDirty || titleMissing;
+
+    const handleSave = useCallback(() => {
+        const doc = useCvDocumentStore.getState().document;
+        if (!doc) return;
+        if (isNew) {
+            if (doc.title.trim() === '') return;
+            createCv.mutate(doc as NewCvDocument, {
+                onSuccess: (created) => {
+                    queryClient.setQueryData(
+                        cvKeys.detail(created.id),
+                        created
+                    );
+                    markSaved();
+                    router.replace(`/forge/cv/${created.id}`);
+                },
+            });
+        } else {
+            updateCv.mutate(doc as CvDocument, {
+                onSuccess: (updated) => {
+                    queryClient.setQueryData(
+                        cvKeys.detail(updated.id),
+                        updated
+                    );
+                    markSaved();
+                },
+            });
+        }
+    }, [isNew, createCv, updateCv, queryClient, markSaved, router]);
+
+    function handleBackClick() {
+        if (isNew && isDirty) {
+            setDiscardOpen(true);
+            return;
+        }
+        router.push('/forge');
+    }
+
+    function handleDiscardConfirm() {
+        setDiscardOpen(false);
+        router.push('/forge');
+    }
 
     // Keyboard shortcuts
     useEffect(() => {
@@ -50,26 +112,12 @@ export function CvEditor() {
             }
             if (mod && e.key === 's') {
                 e.preventDefault();
-                // Save immediately
-                const doc = useCvDocumentStore.getState().document;
-                if (doc && 'id' in doc && doc.id) {
-                    updateCv.mutate(doc as CvDocument, {
-                        onSuccess: () => markSaved(),
-                    });
-                }
+                handleSave();
             }
         }
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [undo, redo, updateCv, markSaved]);
-
-    function handleSave() {
-        const doc = useCvDocumentStore.getState().document;
-        if (!doc || !('id' in doc) || !doc.id) return;
-        updateCv.mutate(doc as CvDocument, {
-            onSuccess: () => markSaved(),
-        });
-    }
+    }, [undo, redo, handleSave]);
 
     const handleTitleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,11 +141,9 @@ export function CvEditor() {
                                     variant="ghost"
                                     size="icon"
                                     className="h-8 w-8"
-                                    asChild
+                                    onClick={handleBackClick}
                                 >
-                                    <Link href="/forge">
-                                        <ArrowLeft className="h-4 w-4" />
-                                    </Link>
+                                    <ArrowLeft className="h-4 w-4" />
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>Back to library</TooltipContent>
@@ -176,12 +222,16 @@ export function CvEditor() {
                                         size="icon"
                                         className="h-8 w-8"
                                         onClick={handleSave}
-                                        disabled={!isDirty}
+                                        disabled={saveDisabled}
                                     >
                                         <Save className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
-                                <TooltipContent>Save (Cmd+S)</TooltipContent>
+                                <TooltipContent>
+                                    {titleMissing
+                                        ? 'Add a title to save'
+                                        : 'Save (Cmd+S)'}
+                                </TooltipContent>
                             </Tooltip>
                         </div>
                     </div>
@@ -201,6 +251,27 @@ export function CvEditor() {
             </div>
 
             <PreviewPanel open={previewOpen} onOpenChange={setPreviewOpen} />
+
+            <AlertDialog open={discardOpen} onOpenChange={setDiscardOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Discard new CV?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Your changes will be lost. This CV has not been
+                            saved yet.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Keep editing</AlertDialogCancel>
+                        <AlertDialogAction
+                            className="bg-red-500 hover:bg-red-600 text-white"
+                            onClick={handleDiscardConfirm}
+                        >
+                            Discard
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </TooltipProvider>
     );
 }
