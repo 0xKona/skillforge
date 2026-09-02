@@ -1,7 +1,8 @@
 import React from 'react';
 import { Document, Page, View } from '@react-pdf/renderer';
-import { pdfStyles } from '@/lib/pdf/styles';
 import { registerCvFonts } from '@/lib/pdf/fonts';
+import { createPdfStyles } from '@/lib/pdf/styles';
+import { getCvFontOption } from '@/lib/pdf/font-options';
 import type { CvDocument, NewCvDocument } from '@/lib/types/cv-document-types';
 
 import { PdfSectionRenderer } from './pdf-section-renderer';
@@ -19,13 +20,16 @@ interface PdfDocumentProps {
  */
 export function PdfDocument({ document }: PdfDocumentProps) {
     const visibleSections = document.content.sections.filter((s) => s.visible);
+    const styles = createPdfStyles(
+        getCvFontOption(document.content.settings?.fontFamily).pdfFamily
+    );
 
     return (
         <Document>
-            <Page size="A4" style={pdfStyles.page}>
+            <Page size="A4" style={styles.page}>
                 {visibleSections.map((section) => (
                     <View key={section.id} style={{ marginBottom: 10 }}>
-                        <PdfSectionRenderer section={section} />
+                        <PdfSectionRenderer section={section} styles={styles} />
                     </View>
                 ))}
             </Page>

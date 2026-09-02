@@ -8,6 +8,7 @@ import type {
     SectionType,
 } from '../types/cv-document-types';
 import { SECTION_META, SECTION_SCHEMAS } from '../constants/cv-constants';
+import type { CvFontFamily } from '../pdf/font-options';
 
 // -- Constants --
 
@@ -32,6 +33,7 @@ interface CvDocumentActions {
     // Metadata (not undoable)
     updateTitle: (title: string) => void;
     updateDescription: (description: string) => void;
+    updateFontFamily: (fontFamily: CvFontFamily) => void;
 
     // Sections (undoable)
     addSection: (type: SectionType, afterIndex?: number) => void;
@@ -163,6 +165,24 @@ export const useCvDocumentStore = create<CvDocumentStore>((set, get) => ({
                 document: { ...state.document, description },
                 isDirty: true,
             };
+        });
+    },
+
+    updateFontFamily: (fontFamily) => {
+        const { document } = get();
+        if (!document) return;
+        set({
+            document: {
+                ...document,
+                content: {
+                    ...document.content,
+                    settings: {
+                        ...document.content.settings,
+                        fontFamily,
+                    },
+                },
+            },
+            isDirty: true,
         });
     },
 

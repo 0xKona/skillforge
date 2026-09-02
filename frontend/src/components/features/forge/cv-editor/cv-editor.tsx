@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'motion/react';
-import { ArrowLeft, Eye, Redo2, Save, Undo2 } from 'lucide-react';
+import { ArrowLeft, Download, Redo2, Save, Undo2 } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/ui/shadcn/button';
@@ -26,13 +25,19 @@ import {
 } from '@/ui/shadcn/alert-dialog';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
 import { useCreateCv, useUpdateCv, cvKeys } from '@/hooks/use-cvs';
-import { springs, fadeIn } from '@/lib/constants/cv-editor-animations';
 import { cn } from '@/lib/utils';
 import type { CvDocument, NewCvDocument } from '@/lib/types/cv-document-types';
+import { PdfPreviewDialog } from '@/components/features/pdf/cv-document/pdf-preview-dialog';
+import { CV_FONT_OPTIONS } from '@/lib/pdf/font-options';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/ui/shadcn/select';
 
-import { SectionList } from './section-list';
-import { AddSectionPicker } from './add-section-picker';
-import { PreviewPanel } from '@/components/features/pdf/cv-document/preview-panel';
+import { EditorShell } from './editor-shell';
 
 export function CvEditor() {
     const router = useRouter();
@@ -41,14 +46,15 @@ export function CvEditor() {
     const document = useCvDocumentStore((s) => s.document);
     const isDirty = useCvDocumentStore((s) => s.isDirty);
     const updateTitle = useCvDocumentStore((s) => s.updateTitle);
+    const updateFontFamily = useCvDocumentStore((s) => s.updateFontFamily);
     const undo = useCvDocumentStore((s) => s.undo);
     const redo = useCvDocumentStore((s) => s.redo);
     const canUndo = useCvDocumentStore((s) => s.history.length > 0);
     const canRedo = useCvDocumentStore((s) => s.future.length > 0);
     const markSaved = useCvDocumentStore((s) => s.markSaved);
 
-    const [previewOpen, setPreviewOpen] = useState(false);
     const [discardOpen, setDiscardOpen] = useState(false);
+    const [pdfPreviewOpen, setPdfPreviewOpen] = useState(false);
     const createCv = useCreateCv();
     const updateCv = useUpdateCv();
 
@@ -130,10 +136,15 @@ export function CvEditor() {
 
     return (
         <TooltipProvider delayDuration={300}>
-            <div className="min-h-screen bg-graphite">
+            <div className="flex min-h-[calc(100vh-3.5rem)] flex-col">
                 {/* Toolbar */}
-                <header className="sticky top-0 z-40 border-b border-border-default bg-graphite/95 backdrop-blur-sm">
-                    <div className="mx-auto flex h-12 max-w-3xl items-center gap-3 px-4">
+                <header
+                    className={cn(
+                        'sticky top-14 z-30 border-b border-border-default bg-graphite/95 backdrop-blur-sm transition-colors',
+                        isDirty && 'border-b-flux/40'
+                    )}
+                >
+                    <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 md:px-6">
                         {/* Back */}
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -153,22 +164,45 @@ export function CvEditor() {
                         <Input
                             value={document.title}
                             onChange={handleTitleChange}
-                            className="h-8 border-none bg-transparent px-2 text-sm font-semibold shadow-none focus-visible:ring-1 focus-visible:ring-border-hot"
+                            className="h-8 flex-1 border-none bg-transparent px-2 text-sm font-semibold shadow-none focus-visible:ring-1 focus-visible:ring-border-hot"
                             placeholder="Untitled CV"
                         />
+                        <Select
+                            value={
+                                document.content.settings?.fontFamily ?? 'inter'
+                            }
+                            onValueChange={updateFontFamily}
+                        >
+                            <SelectTrigger className="hidden h-8 w-36 text-xs sm:flex">
+                                <SelectValue placeholder="Font" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {CV_FONT_OPTIONS.map((font) => (
+                                    <SelectItem key={font.id} value={font.id}>
+                                        {font.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
 
-                        {/* Save status */}
+                        {/* Status pill */}
                         <span
                             className={cn(
-                                'text-xs whitespace-nowrap transition-colors duration-150',
-                                isDirty ? 'text-flux' : 'text-ash'
+                                'hidden whitespace-nowrap rounded-full px-2.5 py-0.5 text-[10px] font-medium transition-colors sm:inline-block',
+                                isDirty
+                                    ? 'bg-flux/10 text-flux'
+                                    : 'bg-slag text-ash'
                             )}
                         >
-                            {isDirty ? 'Unsaved changes' : 'Saved'}
+                            {isDirty ? 'Unsaved' : 'Saved'}
                         </span>
+
+                        {/* Separator */}
+                        <div className="h-5 w-px bg-border-default" />
 
                         {/* Actions */}
                         <div className="flex items-center gap-1">
+                            {/* Undo */}
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button
@@ -184,6 +218,7 @@ export function CvEditor() {
                                 <TooltipContent>Undo (Cmd+Z)</TooltipContent>
                             </Tooltip>
 
+                            {/* Redo */}
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button
@@ -201,26 +236,43 @@ export function CvEditor() {
                                 </TooltipContent>
                             </Tooltip>
 
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="h-8 w-8"
-                                        onClick={() => setPreviewOpen(true)}
-                                    >
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Preview</TooltipContent>
-                            </Tooltip>
+                            <div className="h-5 w-px bg-border-default" />
 
+                            {/* Download PDF */}
+                            {document && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-8 w-8"
+                                            disabled={isNew}
+                                            onClick={() =>
+                                                setPdfPreviewOpen(true)
+                                            }
+                                        >
+                                            <Download className="h-4 w-4" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {isNew
+                                            ? 'Save first to download'
+                                            : 'Preview and download PDF'}
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+
+                            {/* Save */}
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-8 w-8"
+                                        className={cn(
+                                            'h-8 w-8',
+                                            !saveDisabled &&
+                                                'text-flux hover:text-flux-hover'
+                                        )}
                                         onClick={handleSave}
                                         disabled={saveDisabled}
                                     >
@@ -237,21 +289,17 @@ export function CvEditor() {
                     </div>
                 </header>
 
-                {/* Canvas */}
-                <motion.main
-                    className="mx-auto max-w-3xl px-4 py-6"
-                    variants={fadeIn}
-                    initial="initial"
-                    animate="animate"
-                    transition={springs.gentle}
-                >
-                    <SectionList />
-                    <AddSectionPicker />
-                </motion.main>
+                {/* Shell (editor + preview) */}
+                <EditorShell />
             </div>
 
-            <PreviewPanel open={previewOpen} onOpenChange={setPreviewOpen} />
+            <PdfPreviewDialog
+                document={document}
+                open={pdfPreviewOpen}
+                onOpenChange={setPdfPreviewOpen}
+            />
 
+            {/* Discard new CV dialog */}
             <AlertDialog open={discardOpen} onOpenChange={setDiscardOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>

@@ -8,7 +8,7 @@ import { Input } from '@/ui/shadcn/input';
 import { Textarea } from '@/ui/shadcn/textarea';
 import { Button } from '@/ui/shadcn/button';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
-import { SECTION_SCHEMAS } from '@/lib/constants/cv-constants';
+import { SECTION_SCHEMAS, sectionAccent } from '@/lib/constants/cv-constants';
 import { cvImport } from '@/lib/helpers/cv-import';
 import { springs, scaleIn } from '@/lib/constants/cv-editor-animations';
 import type {
@@ -16,6 +16,7 @@ import type {
     FieldDef,
     SectionType,
 } from '@/lib/types/cv-document-types';
+import { cn } from '@/lib/utils';
 
 interface SubItemListProps {
     item: DocumentItem;
@@ -59,6 +60,7 @@ export function SubItemList({
 
     const subItems = item.subItems ?? [];
     const subFieldEntries = Object.entries(subFields);
+    const accent = sectionAccent[sectionType];
 
     const sectionLabel =
         sectionType === 'experience'
@@ -73,7 +75,12 @@ export function SubItemList({
 
     return (
         <div className="mt-3 border-t border-border-default pt-3">
-            <p className="mb-2 text-xs font-medium text-ash">{sectionLabel}</p>
+            <div className="mb-2 flex items-center justify-between">
+                <p className="text-xs font-medium text-ash">{sectionLabel}</p>
+                <span className="font-mono text-[10px] text-ash">
+                    {subItems.length} {subItems.length === 1 ? 'item' : 'items'}
+                </span>
+            </div>
 
             <div className="flex flex-col gap-2">
                 <AnimatePresence mode="popLayout">
@@ -86,9 +93,19 @@ export function SubItemList({
                             animate="animate"
                             exit="exit"
                             transition={springs.snappy}
-                            className="flex items-start gap-2 rounded-md border border-border-default bg-gunmetal p-2"
+                            className={cn(
+                                'group relative flex items-start gap-2 rounded-md border border-border-default bg-gunmetal p-2',
+                                'hover:border-border-warm transition-colors duration-150'
+                            )}
                         >
-                            <div className="flex flex-1 flex-wrap gap-2">
+                            {/* Tiny accent dot */}
+                            <div
+                                className={cn(
+                                    'absolute left-0 top-0 h-full w-0.5 rounded-l-md',
+                                    accent
+                                )}
+                            />
+                            <div className="flex flex-1 flex-wrap gap-2 pl-2">
                                 {subFieldEntries.map(([key, def]) => (
                                     <SubItemField
                                         key={key}
@@ -103,7 +120,7 @@ export function SubItemList({
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-6 w-6 shrink-0 hover:text-destructive"
+                                className="h-6 w-6 shrink-0 opacity-0 group-hover:opacity-100 hover:text-red-400 transition-opacity"
                                 onClick={() =>
                                     removeSubItem(
                                         sectionIndex,
@@ -120,15 +137,24 @@ export function SubItemList({
                 </AnimatePresence>
             </div>
 
-            <Button
-                variant="ghost"
-                size="sm"
-                className="mt-2 h-7 text-xs text-ash hover:text-flux"
-                onClick={handleAdd}
-            >
-                <Plus className="mr-1 h-3 w-3" />
-                Add
-            </Button>
+            {/* Add row */}
+            {subItems.length === 0 ? (
+                <button
+                    onClick={handleAdd}
+                    className="mt-2 flex w-full items-center justify-center gap-1 rounded-md border border-dashed border-border-default py-2 text-xs text-ash transition-colors hover:border-border-warm hover:text-text-primary"
+                >
+                    <Plus className="h-3 w-3" />
+                    Add {sectionLabel.toLowerCase().slice(0, -1)}
+                </button>
+            ) : (
+                <button
+                    onClick={handleAdd}
+                    className="mt-2 flex items-center gap-1 text-xs text-ash transition-colors hover:text-flux"
+                >
+                    <Plus className="h-3 w-3" />
+                    Add another
+                </button>
+            )}
         </div>
     );
 }

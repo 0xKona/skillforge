@@ -14,19 +14,23 @@ import { PdfGeneric } from './sections/pdf-generic';
 
 interface PdfSectionRendererProps {
     section: DocumentSection;
+    styles?: typeof pdfStyles;
 }
 
 /**
  * Routes a DocumentSection to the correct PDF renderer.
  * Each renderer receives only the section — no external data needed.
  */
-export function PdfSectionRenderer({ section }: PdfSectionRendererProps) {
+export function PdfSectionRenderer({
+    section,
+    styles = pdfStyles,
+}: PdfSectionRendererProps) {
     if (section.items.length === 0) return null;
 
     return (
         <>
             {section.type !== 'personal_info' && (
-                <Text style={pdfStyles.sectionTitle}>{section.title}</Text>
+                <Text style={styles.sectionTitle}>{section.title}</Text>
             )}
             <SectionContent section={section} />
         </>

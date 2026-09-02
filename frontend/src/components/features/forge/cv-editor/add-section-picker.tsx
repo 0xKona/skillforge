@@ -6,7 +6,11 @@ import { Plus } from 'lucide-react';
 
 import { Button } from '@/ui/shadcn/button';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
-import { ALL_SECTION_TYPES, SECTION_META } from '@/lib/constants/cv-constants';
+import {
+    ALL_SECTION_TYPES,
+    SECTION_META,
+    sectionAccent,
+} from '@/lib/constants/cv-constants';
 import {
     springs,
     staggerContainer,
@@ -21,7 +25,6 @@ export function AddSectionPicker() {
     );
     const addSection = useCvDocumentStore((s) => s.addSection);
 
-    // Section types already in use (for greying out single-instance types)
     const usedTypes = useMemo(
         () => new Set(sections.map((s) => s.type)),
         [sections]
@@ -35,13 +38,14 @@ export function AddSectionPicker() {
     return (
         <div className="mt-4">
             {!open ? (
-                <button
+                <Button
+                    variant="outline"
+                    className="w-full border-dashed border-border-default text-ash hover:text-text-primary hover:border-border-warm h-10"
                     onClick={() => setOpen(true)}
-                    className="w-full rounded-lg border-2 border-dashed border-border-default p-4 text-center text-sm text-ash transition-colors hover:border-border-warm hover:text-text-primary"
                 >
-                    <Plus className="mx-auto mb-1 h-4 w-4" />
+                    <Plus className="mr-2 h-4 w-4" />
                     Add section
-                </button>
+                </Button>
             ) : (
                 <motion.div
                     initial={{ opacity: 0, y: 8 }}
@@ -74,6 +78,7 @@ export function AddSectionPicker() {
                             const Icon = meta.icon;
                             const isUsed =
                                 usedTypes.has(type) && meta.maxSections === 1;
+                            const accent = sectionAccent[type];
 
                             return (
                                 <motion.button
@@ -91,6 +96,12 @@ export function AddSectionPicker() {
                                             : 'border-border-default hover:border-border-warm hover:bg-flux/10'
                                     )}
                                 >
+                                    <div
+                                        className={cn(
+                                            'h-1 w-6 rounded-full',
+                                            accent
+                                        )}
+                                    />
                                     <Icon className="h-5 w-5 text-ash" />
                                     <span className="text-xs text-text-primary">
                                         {meta.defaultTitle}
