@@ -14,6 +14,15 @@ export const PROTECTED_ROUTES: Route[] = [
 ];
 export const AUTH_ROUTES: Route[] = ['/login'];
 
+/** Static-export-safe editor URLs. Dynamic /anvil/edit/:id paths 404 on Amplify. */
+export function anvilEditPath(id: string): string {
+    return `/anvil/edit/?id=${encodeURIComponent(id)}`;
+}
+
+export function forgeCvPath(id: string): string {
+    return `/forge/cv/?id=${encodeURIComponent(id)}`;
+}
+
 export const navigationBarLinks: NavigationLinkObject[] = [
     {
         displayText: 'Home',

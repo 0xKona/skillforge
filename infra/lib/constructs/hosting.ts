@@ -113,10 +113,22 @@ export class HostingConstruct extends Construct {
                 ],
             }),
             customRules: [
+                // Pretty /anvil/edit/:id URLs from the old dynamic route.
+                // Static export only emits /anvil/edit/; send the id as a query param.
+                new amplify.CustomRule({
+                    source: '</^/anvil/edit/([^/]+)/?$>',
+                    target: '/anvil/edit/?id=$1',
+                    status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+                }),
+                // Same for CVs, but leave /forge/cv/new/ alone.
+                new amplify.CustomRule({
+                    source: '</^/forge/cv/(?!new(?:/|$))([^/]+)/?$>',
+                    target: '/forge/cv/?id=$1',
+                    status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+                }),
                 // SPA fallback: serve index.html for all non-file routes
                 new amplify.CustomRule({
-                    source:
-                        '</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>',
+                    source: '</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>',
                     target: '/index.html',
                     status: amplify.RedirectStatus.REWRITE,
                 }),

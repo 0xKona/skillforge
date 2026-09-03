@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { forgeCvPath } from '@/lib/constants/routing';
 import { ArrowLeft, Eye, EyeOff, Loader2, Save } from 'lucide-react';
 import { Button } from '@/ui/shadcn/button';
 
@@ -28,7 +29,7 @@ function BackLink({ redirectToCv }: { redirectToCv?: string | null }) {
             className="-ml-2 text-ash hover:bg-transparent hover:text-text-primary"
             asChild
         >
-            <Link href={redirectToCv ? `/forge/cv/${redirectToCv}` : '/anvil'}>
+            <Link href={redirectToCv ? forgeCvPath(redirectToCv) : '/anvil'}>
                 <ArrowLeft className="mr-1 h-4 w-4" />
                 {redirectToCv ? 'Back to CV' : 'Back to ingots'}
             </Link>

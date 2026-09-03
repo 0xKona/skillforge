@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useCv } from '@/hooks/use-cvs';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
 import { CvEditor } from '@/components/features/forge/cv-editor';
 
 export default function CvEditorClient() {
-    const params = useParams();
-    const cvId = params.cvId as string;
+    const searchParams = useSearchParams();
+    const cvId = searchParams.get('id') ?? '';
     const { data: cv, isLoading } = useCv(cvId);
     const setDocument = useCvDocumentStore((s) => s.setDocument);
     const reset = useCvDocumentStore((s) => s.reset);
@@ -20,9 +20,17 @@ export default function CvEditorClient() {
         return () => reset();
     }, [cv, setDocument, reset]);
 
+    if (!cvId) {
+        return (
+            <div className="flex min-h-[calc(100vh-56px)] items-center justify-center bg-graphite">
+                <p className="text-sm text-ash">Document not found.</p>
+            </div>
+        );
+    }
+
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[calc(100vh-56px)] bg-graphite">
+            <div className="flex min-h-[calc(100vh-56px)] items-center justify-center bg-graphite">
                 <div className="flex flex-col items-center gap-4">
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-flux border-t-transparent" />
                     <p className="text-sm text-ash">Loading document...</p>
@@ -33,7 +41,7 @@ export default function CvEditorClient() {
 
     if (!cv) {
         return (
-            <div className="flex items-center justify-center min-h-[calc(100vh-56px)] bg-graphite">
+            <div className="flex min-h-[calc(100vh-56px)] items-center justify-center bg-graphite">
                 <p className="text-sm text-ash">Document not found.</p>
             </div>
         );

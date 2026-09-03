@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { Ingot } from '@/lib/types/ingot-types';
+import { anvilEditPath } from '@/lib/constants/routing';
 import { mappingHelpers } from '@/lib/helpers/mapping';
 import { formatRelativeDate } from '@/lib/utils/format-date';
 import { useDeleteIngot } from '@/hooks/use-ingots';
@@ -41,7 +42,7 @@ export function IngotCard({ ingot }: IngotCardProps) {
     return (
         <>
             <div className="group relative rounded-lg border border-border-default bg-gunmetal transition-colors duration-150 hover:border-border-warm">
-                <Link href={`/anvil/edit/${ingot.id}`} className="block p-5">
+                <Link href={anvilEditPath(ingot.id)} className="block p-5">
                     <div className="mb-2">
                         <span className="inline-block rounded-full border border-flux/20 bg-flux/10 px-2 py-0.5 font-mono text-xs text-flux">
                             {typeLabel}
