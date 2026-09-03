@@ -4,6 +4,8 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as path from 'path';
 import { StageConfig } from '../config/stage-config';
 import { resourceName } from '../utils/naming';
@@ -11,8 +13,10 @@ import { resourceName } from '../utils/naming';
 export interface ApiConstructProps {
     stageConfig: StageConfig;
     userPool: cognito.UserPool;
+    identityPoolId: string;
     cvTable: dynamodb.Table;
     ingotTable: dynamodb.Table;
+    avatarBucket: s3.IBucket;
 }
 
 /**
@@ -33,16 +37,26 @@ export interface ApiConstructProps {
  *   GET    /ingot/{id}  → getIngot
  *   PUT    /ingot/{id}  → updateIngot
  *   DELETE /ingot/{id}  → deleteIngot
+ *
+ *   DELETE /user/data   → delete all data for the authenticated user
  */
 export class ApiConstruct extends Construct {
     public readonly api: apigateway.RestApi;
     public readonly cvHandler: lambda.Function;
     public readonly ingotHandler: lambda.Function;
+    public readonly userHandler: lambda.Function;
 
     constructor(scope: Construct, id: string, props: ApiConstructProps) {
         super(scope, id);
 
-        const { stageConfig, userPool, cvTable, ingotTable } = props;
+        const {
+            stageConfig,
+            userPool,
+            identityPoolId,
+            cvTable,
+            ingotTable,
+            avatarBucket,
+        } = props;
 
         // --- Cognito Authorizer ---
         const authorizer = new apigateway.CognitoUserPoolsAuthorizer(
@@ -64,11 +78,18 @@ export class ApiConstruct extends Construct {
                 {
                     bundling: {
                         image: lambda.Runtime.PROVIDED_AL2023.bundlingImage,
-                        command: ['bash', '-c', 'cp /asset-input/bootstrap /asset-output/bootstrap'],
+                        command: [
+                            'bash',
+                            '-c',
+                            'cp /asset-input/bootstrap /asset-output/bootstrap',
+                        ],
                         local: {
                             tryBundle(outputDir: string): boolean {
                                 const { execSync } = require('child_process');
-                                const handlerDir = path.join(__dirname, '../../lambda/cv-handler');
+                                const handlerDir = path.join(
+                                    __dirname,
+                                    '../../lambda/cv-handler'
+                                );
                                 execSync(
                                     `cd ${handlerDir} && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o ${outputDir}/bootstrap .`,
                                     { stdio: 'inherit' }
@@ -97,11 +118,18 @@ export class ApiConstruct extends Construct {
                 {
                     bundling: {
                         image: lambda.Runtime.PROVIDED_AL2023.bundlingImage,
-                        command: ['bash', '-c', 'cp /asset-input/bootstrap /asset-output/bootstrap'],
+                        command: [
+                            'bash',
+                            '-c',
+                            'cp /asset-input/bootstrap /asset-output/bootstrap',
+                        ],
                         local: {
                             tryBundle(outputDir: string): boolean {
                                 const { execSync } = require('child_process');
-                                const handlerDir = path.join(__dirname, '../../lambda/ingot-handler');
+                                const handlerDir = path.join(
+                                    __dirname,
+                                    '../../lambda/ingot-handler'
+                                );
                                 execSync(
                                     `cd ${handlerDir} && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o ${outputDir}/bootstrap .`,
                                     { stdio: 'inherit' }
@@ -120,9 +148,69 @@ export class ApiConstruct extends Construct {
             },
         });
 
+        // --- User data Lambda Handler ---
+        this.userHandler = new lambda.Function(this, 'UserHandler', {
+            functionName: resourceName(stageConfig.stage, 'user-handler'),
+            runtime: lambda.Runtime.PROVIDED_AL2023,
+            handler: 'bootstrap',
+            code: lambda.Code.fromAsset(
+                path.join(__dirname, '../../lambda/user-handler'),
+                {
+                    bundling: {
+                        image: lambda.Runtime.PROVIDED_AL2023.bundlingImage,
+                        command: [
+                            'bash',
+                            '-c',
+                            'cp /asset-input/bootstrap /asset-output/bootstrap',
+                        ],
+                        local: {
+                            tryBundle(outputDir: string): boolean {
+                                const { execSync } = require('child_process');
+                                const handlerDir = path.join(
+                                    __dirname,
+                                    '../../lambda/user-handler'
+                                );
+                                execSync(
+                                    `cd ${handlerDir} && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o ${outputDir}/bootstrap .`,
+                                    { stdio: 'inherit' }
+                                );
+                                return true;
+                            },
+                        },
+                    },
+                }
+            ),
+            architecture: lambda.Architecture.ARM_64,
+            memorySize: 256,
+            timeout: Duration.seconds(30),
+            environment: {
+                CV_TABLE_NAME: cvTable.tableName,
+                INGOT_TABLE_NAME: ingotTable.tableName,
+                USER_POOL_ID: userPool.userPoolId,
+                IDENTITY_POOL_ID: identityPoolId,
+                AVATAR_BUCKET: avatarBucket.bucketName,
+            },
+        });
+
         // Grant DynamoDB permissions
         cvTable.grantReadWriteData(this.cvHandler);
         ingotTable.grantReadWriteData(this.ingotHandler);
+        cvTable.grantReadWriteData(this.userHandler);
+        ingotTable.grantReadWriteData(this.userHandler);
+        avatarBucket.grantRead(this.userHandler);
+        avatarBucket.grantDelete(this.userHandler);
+        this.userHandler.addToRolePolicy(
+            new iam.PolicyStatement({
+                actions: ['cognito-idp:AdminDeleteUser'],
+                resources: [userPool.userPoolArn],
+            })
+        );
+        this.userHandler.addToRolePolicy(
+            new iam.PolicyStatement({
+                actions: ['cognito-identity:GetId'],
+                resources: ['*'],
+            })
+        );
 
         // --- REST API ---
         this.api = new apigateway.RestApi(this, 'RestApi', {
@@ -175,6 +263,15 @@ export class ApiConstruct extends Construct {
         ingotIdResource.addMethod(
             'DELETE',
             ingotIntegration,
+            authMethodOptions
+        );
+
+        // --- User data ---
+        const userResource = this.api.root.addResource('user');
+        const userDataResource = userResource.addResource('data');
+        userDataResource.addMethod(
+            'DELETE',
+            new apigateway.LambdaIntegration(this.userHandler),
             authMethodOptions
         );
 

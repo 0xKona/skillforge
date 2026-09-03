@@ -1,11 +1,12 @@
 import {
-    deleteUser,
     fetchUserAttributes,
     updatePassword,
     updateUserAttributes,
 } from 'aws-amplify/auth';
 import { UserProfile } from '../types/user-types';
 import { uploadData } from 'aws-amplify/storage';
+import { apiDelete } from './client';
+import { signOut } from './auth';
 
 async function getUserProfile(): Promise<UserProfile> {
     const attributes = await fetchUserAttributes();
@@ -43,8 +44,12 @@ async function updateUserPassword(
 }
 
 async function deleteUserAccount(): Promise<void> {
-    // TODO - Replace with backend DELETE /user/data endpoint
-    await deleteUser();
+    await apiDelete('/user/data');
+    try {
+        await signOut();
+    } catch {
+        // Cognito user may already be gone; local session is cleared in signOut.
+    }
 }
 
 async function updateUserAvatar(file: File): Promise<string> {

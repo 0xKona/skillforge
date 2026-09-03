@@ -86,10 +86,13 @@ export async function initialize(): Promise<void> {
     }
 }
 
-/** Sign out and clear state. */
+/** Sign out and clear state. Always clears local auth, even if Cognito errors. */
 export async function signOut(): Promise<void> {
-    await amplifySignOut();
-    setState({ isAuthenticated: false, userId: null, loading: false });
+    try {
+        await amplifySignOut();
+    } finally {
+        setState({ isAuthenticated: false, userId: null, loading: false });
+    }
 }
 
 /** Get auth token for API requests. Throws if not authenticated. */

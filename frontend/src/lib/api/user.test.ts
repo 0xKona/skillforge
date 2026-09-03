@@ -4,26 +4,35 @@ jest.mock('aws-amplify/auth', () => ({
     fetchUserAttributes: jest.fn(),
     updateUserAttributes: jest.fn(),
     updatePassword: jest.fn(),
-    deleteUser: jest.fn(),
 }));
 
 jest.mock('aws-amplify/storage', () => ({
     uploadData: jest.fn(),
 }));
 
+jest.mock('./client', () => ({
+    apiDelete: jest.fn(),
+}));
+
+jest.mock('./auth', () => ({
+    signOut: jest.fn(),
+}));
+
 import {
     fetchUserAttributes,
     updateUserAttributes,
     updatePassword,
-    deleteUser,
 } from 'aws-amplify/auth';
 import { uploadData } from 'aws-amplify/storage';
+import { apiDelete } from './client';
+import { signOut } from './auth';
 
 const mockFetchUserAttributes = fetchUserAttributes as jest.Mock;
 const mockUpdateUserAttributes = updateUserAttributes as jest.Mock;
 const mockUpdatePassword = updatePassword as jest.Mock;
-const mockDeleteUser = deleteUser as jest.Mock;
 const mockUploadData = uploadData as jest.Mock;
+const mockApiDelete = apiDelete as jest.Mock;
+const mockSignOut = signOut as jest.Mock;
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -119,12 +128,22 @@ describe('userApi', () => {
     });
 
     describe('deleteUserAccount', () => {
-        it('calls deleteUser', async () => {
-            mockDeleteUser.mockResolvedValue(undefined);
+        it('deletes server data then signs out', async () => {
+            mockApiDelete.mockResolvedValue({ deleted: true });
+            mockSignOut.mockResolvedValue(undefined);
 
             await userApi.deleteUserAccount();
 
-            expect(mockDeleteUser).toHaveBeenCalled();
+            expect(mockApiDelete).toHaveBeenCalledWith('/user/data');
+            expect(mockSignOut).toHaveBeenCalled();
+        });
+
+        it('still succeeds if signOut throws after data deletion', async () => {
+            mockApiDelete.mockResolvedValue({ deleted: true });
+            mockSignOut.mockRejectedValue(new Error('User does not exist'));
+
+            await expect(userApi.deleteUserAccount()).resolves.toBeUndefined();
+            expect(mockApiDelete).toHaveBeenCalledWith('/user/data');
         });
     });
 

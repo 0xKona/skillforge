@@ -13,10 +13,15 @@ import {
 } from '@/lib/schemas/edit-profile-schema';
 import { userApi } from '@/lib/api/user';
 import type { UserProfile } from '@/lib/types/user-types';
+import {
+    SettingsCard,
+    SettingsSectionHeader,
+} from '@/components/features/profile/settings-card';
 
 export default function EditProfilePage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [email, setEmail] = useState('');
 
     const form = useForm<EditProfileFormValues>({
         resolver: zodResolver(editProfileFormSchema),
@@ -27,6 +32,7 @@ export default function EditProfilePage() {
         async function loadProfile() {
             try {
                 const profile = await userApi.getUserProfile();
+                setEmail(profile.email || '');
                 form.reset({
                     username: profile.username || '',
                     bio: profile.bio || '',
@@ -54,25 +60,33 @@ export default function EditProfilePage() {
 
     if (isLoading) {
         return (
-            <div className="space-y-6 max-w-md animate-pulse">
-                <div className="h-5 w-32 rounded bg-slag" />
-                <div className="h-10 w-full rounded bg-slag" />
-                <div className="h-32 w-full rounded bg-slag" />
-            </div>
+            <SettingsCard>
+                <div className="animate-pulse space-y-6">
+                    <div className="space-y-2">
+                        <div className="h-5 w-24 rounded bg-slag" />
+                        <div className="h-4 w-56 rounded bg-slag" />
+                    </div>
+                    <div className="h-10 w-full rounded bg-slag" />
+                    <div className="h-10 w-full rounded bg-slag" />
+                    <div className="h-32 w-full rounded bg-slag" />
+                </div>
+            </SettingsCard>
         );
     }
 
     return (
-        <div className="space-y-6 max-w-md">
-            <div>
-                <h2 className="text-lg font-semibold text-text-primary">
-                    Profile
-                </h2>
-                <p className="text-sm text-ash">
-                    Update your display name and bio.
-                </p>
-            </div>
+        <SettingsCard>
+            <SettingsSectionHeader
+                title="Profile"
+                description="Update your display name and bio."
+            />
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="space-y-1">
+                    <p className="text-xs font-medium uppercase tracking-wider text-ash">
+                        Email
+                    </p>
+                    <p className="text-sm text-text-primary">{email || '—'}</p>
+                </div>
                 <FormInput
                     form={form}
                     id="profile-username"
@@ -86,18 +100,14 @@ export default function EditProfilePage() {
                     inputName="bio"
                     label="Bio"
                     placeholder="A short bio"
-                    className="resize-none h-32"
+                    className="h-32 resize-none"
                 />
                 <div className="flex justify-end">
-                    <Button
-                        type="submit"
-                        disabled={isSaving}
-                        className="h-10 px-4 bg-flux hover:bg-flux-hover text-white font-medium rounded-md"
-                    >
+                    <Button type="submit" disabled={isSaving} size="lg">
                         {isSaving ? 'Saving...' : 'Save changes'}
                     </Button>
                 </div>
             </form>
-        </div>
+        </SettingsCard>
     );
 }

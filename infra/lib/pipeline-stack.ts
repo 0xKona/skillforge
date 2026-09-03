@@ -61,6 +61,7 @@ export class PipelineStack extends Stack {
                     // Build Go Lambda binaries
                     'cd lambda/cv-handler && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o bootstrap . && cd ../..',
                     'cd lambda/ingot-handler && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o bootstrap . && cd ../..',
+                    'cd lambda/user-handler && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o bootstrap . && cd ../..',
                     // Synth (must use pipeline entry point, not default app.ts)
                     'npx cdk synth --app "npx ts-node --prefer-ts-exts bin/pipeline.ts"',
                 ],
@@ -115,10 +116,7 @@ export class PipelineStack extends Stack {
                     timeout: Duration.minutes(10),
                     rolePolicyStatements: [
                         new iam.PolicyStatement({
-                            actions: [
-                                'amplify:StartJob',
-                                'amplify:GetJob',
-                            ],
+                            actions: ['amplify:StartJob', 'amplify:GetJob'],
                             resources: ['*'],
                         }),
                     ],
@@ -175,10 +173,7 @@ export class PipelineStack extends Stack {
                     timeout: Duration.minutes(10),
                     rolePolicyStatements: [
                         new iam.PolicyStatement({
-                            actions: [
-                                'amplify:StartJob',
-                                'amplify:GetJob',
-                            ],
+                            actions: ['amplify:StartJob', 'amplify:GetJob'],
                             resources: ['*'],
                         }),
                     ],
@@ -192,13 +187,15 @@ export class PipelineStack extends Stack {
         // Fix IAM policy: CDK generates codestar-connections:UseConnection but IAM
         // now requires codeconnections:UseConnection for policy writes.
         // Override the source action role policy to use the correct action prefix.
-        const sourcePolicy = this.node.tryFindChild('Pipeline')
+        const sourcePolicy = this.node
+            .tryFindChild('Pipeline')
             ?.node.tryFindChild('Pipeline')
             ?.node.tryFindChild('Source')
             ?.node.tryFindChild('0xKona_skillforge')
             ?.node.tryFindChild('CodePipelineActionRole')
             ?.node.tryFindChild('DefaultPolicy')
-            ?.node.tryFindChild('Resource') as import('aws-cdk-lib').CfnResource | undefined;
+            ?.node.tryFindChild('Resource') as
+            import('aws-cdk-lib').CfnResource | undefined;
 
         if (sourcePolicy) {
             sourcePolicy.addOverride(
