@@ -17,7 +17,7 @@ const mockCvApiResponse = {
     title: 'My CV',
     description: 'A test CV',
     version: 1,
-    content: JSON.stringify({
+    cvContent: JSON.stringify({
         sections: [
             {
                 id: 'section-1',
@@ -116,7 +116,7 @@ describe('cvApi', () => {
                 title: 'My CV',
                 description: 'A test CV',
                 version: 1,
-                content: JSON.stringify({ sections: [] }),
+                cvContent: JSON.stringify({ sections: [] }),
             });
             expect(result.id).toBe('cv-1');
         });
@@ -142,7 +142,7 @@ describe('cvApi', () => {
                 title: 'Updated CV',
                 description: 'Updated',
                 version: 2,
-                content: JSON.stringify({ sections: [] }),
+                cvContent: JSON.stringify({ sections: [] }),
             });
             expect(result.id).toBe('cv-1');
         });
@@ -162,7 +162,7 @@ describe('cvApi', () => {
         it('handles content as empty string gracefully', async () => {
             mockApiGet.mockResolvedValue({
                 ...mockCvApiResponse,
-                content: '',
+                cvContent: '',
             });
 
             const result = await cvApi.getCvById('cv-1');
@@ -173,7 +173,7 @@ describe('cvApi', () => {
         it('handles content as invalid JSON gracefully', async () => {
             mockApiGet.mockResolvedValue({
                 ...mockCvApiResponse,
-                content: '{broken',
+                cvContent: '{broken',
             });
 
             const result = await cvApi.getCvById('cv-1');
@@ -184,7 +184,7 @@ describe('cvApi', () => {
         it('handles missing content field gracefully', async () => {
             mockApiGet.mockResolvedValue({
                 ...mockCvApiResponse,
-                content: undefined,
+                cvContent: undefined,
             });
 
             const result = await cvApi.getCvById('cv-1');

@@ -8,7 +8,7 @@ import { ChevronDown, GripVertical, Trash2 } from 'lucide-react';
 
 import { Button } from '@/ui/shadcn/button';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
-import { SECTION_SCHEMAS } from '@/lib/constants/cv-constants';
+import { SECTION_SCHEMAS, sectionAccent } from '@/lib/constants/cv-constants';
 import { springs } from '@/lib/constants/cv-editor-animations';
 import type { DocumentItem, SectionType } from '@/lib/types/cv-document-types';
 import { cn } from '@/lib/utils';
@@ -23,18 +23,13 @@ interface ItemBlockProps {
     sectionType: SectionType;
 }
 
-/**
- * Returns a compact headline for a collapsed item based on its fields.
- */
 function getItemHeadline(item: DocumentItem, sectionType: SectionType): string {
     const schema = SECTION_SCHEMAS[sectionType];
     const fieldKeys = Object.keys(schema.fields);
-    // Take the first required field or first field as primary
     const primaryKey =
         fieldKeys.find((k) => schema.fields[k].required) ?? fieldKeys[0];
-    const primary = item.fields[primaryKey] || '';
+    const primary = item.fields[primaryKey] ?? '';
 
-    // Find dates for a secondary display
     const dateKeys = fieldKeys.filter((k) => schema.fields[k].type === 'date');
     const dates = dateKeys.map((k) => item.fields[k]).filter(Boolean);
     const dateStr = dates.length > 0 ? dates.join(' – ') : '';
@@ -53,6 +48,7 @@ export function ItemBlock({
     const [expanded, setExpanded] = useState(false);
     const removeItem = useCvDocumentStore((s) => s.removeItem);
     const schema = SECTION_SCHEMAS[sectionType];
+    const accent = sectionAccent[sectionType];
 
     const {
         attributes,
@@ -68,21 +64,31 @@ export function ItemBlock({
         transition,
     };
 
+    const hasSource = !!item.sourceIngotId;
+
     return (
         <div
             ref={setNodeRef}
             style={style}
             className={cn(
-                'rounded-md border bg-gunmetal transition-colors duration-150',
+                'group relative rounded-md border bg-gunmetal transition-colors duration-150',
                 isDragging
                     ? 'border-border-hot opacity-90 shadow-md'
                     : expanded
-                      ? 'border-border-hot bg-flux/10'
+                      ? 'border-border-hot bg-flux/5'
                       : 'border-border-default hover:border-border-warm'
             )}
         >
+            {/* Accent dot */}
+            <div
+                className={cn(
+                    'absolute left-0 top-0 h-full w-0.5 rounded-l-md',
+                    accent
+                )}
+            />
+
             {/* Collapsed header row */}
-            <div className="flex items-center gap-2 px-2.5 py-2">
+            <div className="flex items-center gap-2 px-3 py-2.5 pl-3">
                 <button
                     {...attributes}
                     {...listeners}
@@ -97,12 +103,19 @@ export function ItemBlock({
                     onClick={() => setExpanded(!expanded)}
                     aria-expanded={expanded}
                 >
-                    <span className="text-sm text-text-primary truncate">
+                    <span className="flex-1 min-w-0 text-sm text-text-primary truncate">
                         {getItemHeadline(item, sectionType)}
                     </span>
+
+                    {hasSource && (
+                        <span className="shrink-0 rounded-full border border-border-default bg-slag px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-ash">
+                            From library
+                        </span>
+                    )}
+
                     <ChevronDown
                         className={cn(
-                            'h-3.5 w-3.5 text-ash transition-transform duration-150',
+                            'h-3.5 w-3.5 shrink-0 text-ash transition-transform duration-150',
                             expanded && 'rotate-180'
                         )}
                     />
@@ -111,7 +124,7 @@ export function ItemBlock({
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 hover:text-destructive"
+                    className="h-6 w-6 opacity-0 group-hover:opacity-100 hover:text-red-400 transition-opacity"
                     onClick={() => removeItem(sectionIndex, itemIndex)}
                     aria-label="Remove item"
                 >
@@ -129,7 +142,7 @@ export function ItemBlock({
                         transition={springs.snappy}
                         className="overflow-hidden"
                     >
-                        <div className="border-t border-border-default px-2.5 pb-3 pt-2.5">
+                        <div className="border-t border-border-default px-3 pb-3 pt-3 pl-3">
                             <ItemFields
                                 item={item}
                                 sectionIndex={sectionIndex}

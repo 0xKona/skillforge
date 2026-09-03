@@ -169,9 +169,10 @@ export const SECTION_SCHEMAS: Record<SectionType, SectionSchema> = {
         fields: {
             title: {
                 type: 'text',
-                required: true,
+                required: false,
                 label: 'Title',
                 placeholder: 'Personal Statement',
+                hidden: true,
             },
             statement: {
                 type: 'textarea',
@@ -404,6 +405,20 @@ export const SECTION_SCHEMAS: Record<SectionType, SectionSchema> = {
         },
         allowSubItems: false,
     },
+};
+
+// -- Accent color per section (Tailwind classes for thin left-edge strips and pills) --
+
+export const sectionAccent: Record<SectionType, string> = {
+    personal_info: 'bg-rose-500',
+    personal_statement: 'bg-pink-500',
+    education: 'bg-blue-500',
+    experience: 'bg-emerald-500',
+    project: 'bg-purple-500',
+    skill: 'bg-indigo-500',
+    certification: 'bg-amber-500',
+    hobby: 'bg-orange-500',
+    reference: 'bg-teal-500',
 };
 
 // -- Utility: all section types as array --

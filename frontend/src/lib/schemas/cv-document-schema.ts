@@ -125,6 +125,7 @@ function validateSectionItems(
     for (const item of items) {
         // Validate top-level fields
         for (const [key, def] of Object.entries(schema.fields)) {
+            if (def.hidden) continue;
             const error = validateFieldValue(key, item.fields[key], def);
             if (error) {
                 errors.push({ itemId: item.id, field: key, message: error });

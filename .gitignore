@@ -60,3 +60,4 @@ infra/lambda/*/ingot-handler
 skills-lock.json
 .agents
 .playwright-mcp
+.github

@@ -18,6 +18,8 @@ export type SectionType =
     | 'hobby'
     | 'reference';
 
+import type { CvFontFamily } from '../pdf/font-options';
+
 /**
  * A single entry within a section (e.g. one job, one qualification).
  * Fields are stored as flat key-value pairs — the schema defines what keys are valid.
@@ -47,6 +49,9 @@ export interface DocumentSection {
  */
 export interface DocumentContent {
     sections: DocumentSection[];
+    settings?: {
+        fontFamily?: CvFontFamily;
+    };
 }
 
 /**
@@ -83,6 +88,8 @@ export interface FieldDef {
     label: string;
     placeholder?: string;
     options?: readonly string[];
+    /** When true, the field is stored but not shown in the editor. */
+    hidden?: boolean;
 }
 
 /**

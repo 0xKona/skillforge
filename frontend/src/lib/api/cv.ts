@@ -11,7 +11,7 @@ interface CvApiResponse {
     title: string;
     description?: string | null;
     version: number;
-    content?: string;
+    cvContent?: string;
     owner: string;
     createdAt: string;
     updatedAt: string;
@@ -24,9 +24,9 @@ interface ListCvApiResponse {
 
 function mapDbResponseToDocument(item: CvApiResponse): CvDocument {
     let content: DocumentContent;
-    if (typeof item.content === 'string' && item.content) {
+    if (typeof item.cvContent === 'string' && item.cvContent) {
         try {
-            content = JSON.parse(item.content) as DocumentContent;
+            content = JSON.parse(item.cvContent) as DocumentContent;
         } catch {
             content = { sections: [] };
         }
@@ -50,7 +50,7 @@ async function createCv(cvData: NewCvDocument): Promise<CvDocument> {
         title: cvData.title,
         description: cvData.description,
         version: cvData.version,
-        content: JSON.stringify(cvData.content),
+        cvContent: JSON.stringify(cvData.content),
     });
     return mapDbResponseToDocument(response);
 }
@@ -70,7 +70,7 @@ async function updateCv(cv: CvDocument): Promise<CvDocument> {
         title: cv.title,
         description: cv.description,
         version: cv.version,
-        content: JSON.stringify(cv.content),
+        cvContent: JSON.stringify(cv.content),
     });
     return mapDbResponseToDocument(response);
 }
