@@ -74,6 +74,58 @@ func TestGetOwner_EmptySub(t *testing.T) {
 	}
 }
 
+func TestGetUsername_PrefersCognitoUsername(t *testing.T) {
+	req := events.APIGatewayProxyRequest{
+		RequestContext: events.APIGatewayProxyRequestContext{
+			Authorizer: map[string]interface{}{
+				"claims": map[string]interface{}{
+					"cognito:username": "ada@example.com",
+					"email":            "other@example.com",
+				},
+			},
+		},
+	}
+
+	username, err := GetUsername(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if username != "ada@example.com" {
+		t.Errorf("expected cognito username, got %s", username)
+	}
+}
+
+func TestGetUsername_FallsBackToEmail(t *testing.T) {
+	req := events.APIGatewayProxyRequest{
+		RequestContext: events.APIGatewayProxyRequestContext{
+			Authorizer: map[string]interface{}{
+				"claims": map[string]interface{}{
+					"email": "ada@example.com",
+				},
+			},
+		},
+	}
+
+	username, err := GetUsername(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if username != "ada@example.com" {
+		t.Errorf("expected email fallback, got %s", username)
+	}
+}
+
+func TestBearerToken(t *testing.T) {
+	req := events.APIGatewayProxyRequest{
+		Headers: map[string]string{
+			"Authorization": "Bearer abc.def.ghi",
+		},
+	}
+	if got := BearerToken(req); got != "abc.def.ghi" {
+		t.Errorf("expected stripped token, got %s", got)
+	}
+}
+
 func TestGetOwner_ClaimsWrongType(t *testing.T) {
 	req := events.APIGatewayProxyRequest{
 		RequestContext: events.APIGatewayProxyRequestContext{

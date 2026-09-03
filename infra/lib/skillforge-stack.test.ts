@@ -18,7 +18,7 @@ describe('SkillForgeStack', () => {
             template.resourceCountIs('AWS::DynamoDB::Table', 2);
             template.resourceCountIs('AWS::S3::Bucket', 1);
             template.resourceCountIs('AWS::ApiGateway::RestApi', 1);
-            template.resourceCountIs('AWS::Lambda::Function', 2);
+            template.resourceCountIs('AWS::Lambda::Function', 3);
         });
 
         it('does not create KMS keys on dev', () => {

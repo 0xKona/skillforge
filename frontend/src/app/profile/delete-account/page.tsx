@@ -5,16 +5,22 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/ui/shadcn/button';
 import { Input } from '@/ui/shadcn/input';
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/ui/shadcn/dialog';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/ui/shadcn/alert-dialog';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { userApi } from '@/lib/api/user';
+import {
+    SettingsCard,
+    SettingsSectionHeader,
+} from '@/components/features/profile/settings-card';
 
 export default function DeleteAccountPage() {
     const [confirmString, setConfirmString] = useState('');
@@ -36,20 +42,16 @@ export default function DeleteAccountPage() {
     };
 
     return (
-        <div className="space-y-6 max-w-md">
-            <div>
-                <h2 className="text-lg font-semibold text-destructive">
-                    Delete account
-                </h2>
-                <p className="text-sm text-ash">
-                    Permanently delete your account and all data. This cannot be
-                    undone.
-                </p>
-            </div>
+        <SettingsCard className="border-destructive/20">
+            <SettingsSectionHeader
+                destructive
+                title="Delete account"
+                description="Permanently delete your account and all data. This cannot be undone."
+            />
 
-            <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-4 space-y-2">
+            <div className="mb-6 rounded-md border border-destructive/20 bg-destructive/5 p-4">
                 <div className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
                     <p className="text-sm text-destructive/80">
                         This will permanently delete all your ingots, CVs, and
                         settings.
@@ -84,29 +86,28 @@ export default function DeleteAccountPage() {
                 </Button>
             </div>
 
-            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent className="bg-gunmetal border-border-emphasis">
-                    <DialogHeader>
-                        <DialogTitle className="text-destructive flex items-center gap-2">
+            <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <AlertDialogContent className="bg-gunmetal border-border-emphasis">
+                    <AlertDialogHeader>
+                        <AlertDialogTitle className="flex items-center gap-2 text-destructive">
                             <AlertTriangle className="h-4 w-4" />
                             Final confirmation
-                        </DialogTitle>
-                        <DialogDescription className="text-ash">
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="text-ash">
                             Are you sure? All your data will be lost forever.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter className="gap-2">
-                        <Button
-                            variant="ghost"
-                            onClick={() => setIsModalOpen(false)}
-                            disabled={isDeleting}
-                        >
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel disabled={isDeleting}>
                             Cancel
-                        </Button>
-                        <Button
-                            variant="destructive"
-                            onClick={handleFinalConfirmation}
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={(e) => {
+                                e.preventDefault();
+                                void handleFinalConfirmation();
+                            }}
                             disabled={isDeleting}
+                            className="bg-red-500 hover:bg-red-600 text-white"
                         >
                             {isDeleting ? (
                                 <>
@@ -116,10 +117,10 @@ export default function DeleteAccountPage() {
                             ) : (
                                 'Yes, delete everything'
                             )}
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-        </div>
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </SettingsCard>
     );
 }

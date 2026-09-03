@@ -11,6 +11,10 @@ import {
     EditPasswordFormValues,
 } from '@/lib/schemas/edit-password-schema';
 import { userApi } from '@/lib/api/user';
+import {
+    SettingsCard,
+    SettingsSectionHeader,
+} from '@/components/features/profile/settings-card';
 
 export default function EditPasswordPage() {
     const [isSaving, setIsSaving] = useState(false);
@@ -43,13 +47,11 @@ export default function EditPasswordPage() {
     }
 
     return (
-        <div className="space-y-6 max-w-md">
-            <div>
-                <h2 className="text-lg font-semibold text-text-primary">
-                    Password
-                </h2>
-                <p className="text-sm text-ash">Change your password.</p>
-            </div>
+        <SettingsCard>
+            <SettingsSectionHeader
+                title="Password"
+                description="Change the password you use to sign in."
+            />
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormInput
                     form={form}
@@ -76,15 +78,11 @@ export default function EditPasswordPage() {
                     type="password"
                 />
                 <div className="flex justify-end">
-                    <Button
-                        type="submit"
-                        disabled={isSaving}
-                        className="h-10 px-4 bg-flux hover:bg-flux-hover text-white font-medium rounded-md"
-                    >
+                    <Button type="submit" disabled={isSaving} size="lg">
                         {isSaving ? 'Saving...' : 'Save changes'}
                     </Button>
                 </div>
             </form>
-        </div>
+        </SettingsCard>
     );
 }

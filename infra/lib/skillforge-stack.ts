@@ -50,8 +50,10 @@ export class SkillForgeStack extends Stack {
         this.api = new ApiConstruct(this, 'Api', {
             stageConfig: this.stageConfig,
             userPool: this.auth.userPool,
+            identityPoolId: this.auth.identityPool.ref,
             cvTable: this.database.cvTable,
             ingotTable: this.database.ingotTable,
+            avatarBucket: this.storage.bucket,
         });
     }
 }
