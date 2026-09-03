@@ -50,7 +50,7 @@ interface SectionBlockProps {
 export function SectionBlock({ section, index }: SectionBlockProps) {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [removeOpen, setRemoveOpen] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(true);
     const updateSectionTitle = useCvDocumentStore((s) => s.updateSectionTitle);
     const toggleSectionVisibility = useCvDocumentStore(
         (s) => s.toggleSectionVisibility
