@@ -16,6 +16,7 @@ import IngotEditorSkeleton from './ingot-editor-skeleton';
 import { ingotFormHelpers } from '@/lib/helpers/ingot-form';
 import IngotCvPreviewPanel from '@/components/features/anvil/editor/preview/ingot-cv-preview-panel';
 import { mappingHelpers } from '@/lib/helpers/mapping';
+import { forgeCvPath } from '@/lib/constants/routing';
 
 interface Props {
     initialIngotData: IngotEditorData;
@@ -98,7 +99,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
                     onSuccess: () => {
                         toast.success('Ingot updated successfully');
                         if (redirectToCv) {
-                            router.push(`/forge/cv/${redirectToCv}`);
+                            router.push(forgeCvPath(redirectToCv));
                         } else {
                             router.push('/anvil');
                         }
@@ -117,7 +118,7 @@ export default function IngotEditor({ initialIngotData }: Props) {
                     onSuccess: () => {
                         toast.success('Ingot created successfully');
                         if (redirectToCv) {
-                            router.push(`/forge/cv/${redirectToCv}`);
+                            router.push(forgeCvPath(redirectToCv));
                         } else {
                             router.push('/anvil');
                         }

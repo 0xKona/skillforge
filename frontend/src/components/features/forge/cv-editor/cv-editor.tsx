@@ -27,6 +27,7 @@ import { useCvDocumentStore } from '@/lib/store/use-cv-document';
 import { useCreateCv, useUpdateCv, cvKeys } from '@/hooks/use-cvs';
 import { cn } from '@/lib/utils';
 import type { CvDocument, NewCvDocument } from '@/lib/types/cv-document-types';
+import { forgeCvPath } from '@/lib/constants/routing';
 import { PdfPreviewDialog } from '@/components/features/pdf/cv-document/pdf-preview-dialog';
 import { CV_FONT_OPTIONS } from '@/lib/pdf/font-options';
 import {
@@ -75,7 +76,7 @@ export function CvEditor() {
                         created
                     );
                     markSaved();
-                    router.replace(`/forge/cv/${created.id}`);
+                    router.replace(forgeCvPath(created.id));
                 },
             });
         } else {

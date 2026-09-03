@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { CvDocument } from '@/lib/types/cv-document-types';
+import { forgeCvPath } from '@/lib/constants/routing';
 import { formatRelativeDate } from '@/lib/utils/format-date';
 import { useDeleteCv } from '@/hooks/use-cvs';
 import {
@@ -37,7 +38,7 @@ export function CvCard({ cv }: CvCardProps) {
     return (
         <>
             <div className="group relative rounded-lg border border-border-default bg-gunmetal transition-colors duration-150 hover:border-border-warm">
-                <Link href={`/forge/cv/${cv.id}`} className="block p-5">
+                <Link href={forgeCvPath(cv.id)} className="block p-5">
                     <h3 className="text-base font-semibold text-text-primary truncate pr-6">
                         {cv.title}
                     </h3>

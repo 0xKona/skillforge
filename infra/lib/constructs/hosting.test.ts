@@ -3,7 +3,10 @@ import { Template, Match } from 'aws-cdk-lib/assertions';
 import { HostingConstruct, HostingConstructProps } from './hosting';
 import { stageConfigs } from '../config/stage-config';
 
-const baseProps: Omit<HostingConstructProps, 'stageConfig' | 'customDomain' | 'basicAuth'> = {
+const baseProps: Omit<
+    HostingConstructProps,
+    'stageConfig' | 'customDomain' | 'basicAuth'
+> = {
     githubTokenSecretName: 'test/github-token',
     repoOwner: '0xKona',
     repoName: 'skillforge',
@@ -73,6 +76,27 @@ describe('HostingConstruct', () => {
         it('disables auto-build', () => {
             template.hasResourceProperties('AWS::Amplify::Branch', {
                 EnableAutoBuild: false,
+            });
+        });
+
+        it('redirects leftover dynamic editor paths and falls back to the SPA', () => {
+            template.hasResourceProperties('AWS::Amplify::App', {
+                CustomRules: Match.arrayWith([
+                    Match.objectLike({
+                        Source: '</^/anvil/edit/([^/]+)/?$>',
+                        Target: '/anvil/edit/?id=$1',
+                        Status: '301',
+                    }),
+                    Match.objectLike({
+                        Source: '</^/forge/cv/(?!new(?:/|$))([^/]+)/?$>',
+                        Target: '/forge/cv/?id=$1',
+                        Status: '301',
+                    }),
+                    Match.objectLike({
+                        Target: '/index.html',
+                        Status: '200',
+                    }),
+                ]),
             });
         });
     });
