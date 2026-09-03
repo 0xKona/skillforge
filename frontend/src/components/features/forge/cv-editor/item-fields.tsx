@@ -35,7 +35,9 @@ export function ItemFields({
 }: ItemFieldsProps) {
     const updateItemField = useCvDocumentStore((s) => s.updateItemField);
     const schema = SECTION_SCHEMAS[sectionType];
-    const fields = Object.entries(schema.fields);
+    const fields = Object.entries(schema.fields).filter(
+        ([, def]) => !def.hidden
+    );
 
     const handleCommit = useCallback(
         (field: string, value: string) => {

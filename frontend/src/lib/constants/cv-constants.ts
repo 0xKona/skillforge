@@ -169,9 +169,10 @@ export const SECTION_SCHEMAS: Record<SectionType, SectionSchema> = {
         fields: {
             title: {
                 type: 'text',
-                required: true,
+                required: false,
                 label: 'Title',
                 placeholder: 'Personal Statement',
+                hidden: true,
             },
             statement: {
                 type: 'textarea',

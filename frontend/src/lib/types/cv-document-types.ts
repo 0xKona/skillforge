@@ -88,6 +88,8 @@ export interface FieldDef {
     label: string;
     placeholder?: string;
     options?: readonly string[];
+    /** When true, the field is stored but not shown in the editor. */
+    hidden?: boolean;
 }
 
 /**

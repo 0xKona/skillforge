@@ -30,7 +30,7 @@ export function createPdfStyles(fontFamily: string) {
             textAlign: 'center',
         },
         headerContact: {
-            marginTop: 16,
+            marginTop: 8,
             fontSize: 10,
             flexDirection: 'row',
             flexWrap: 'wrap',
@@ -42,7 +42,7 @@ export function createPdfStyles(fontFamily: string) {
         },
         // Section Headers
         sectionContainer: {
-            marginBottom: 15,
+            marginBottom: 16,
         },
         sectionTitle: {
             fontSize: 11,
@@ -123,6 +123,13 @@ export function createPdfStyles(fontFamily: string) {
             fontSize: 10.5,
             fontWeight: 400,
             textAlign: 'justify',
+        },
+        link: {
+            color: '#000000',
+            textDecoration: 'underline',
+        },
+        groupChild: {
+            marginTop: 8,
         },
     });
 }

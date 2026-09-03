@@ -4,16 +4,9 @@ import { useMemo } from 'react';
 import { PreviewData } from '@/hooks/use-cv-preview-data';
 import { previewStyles } from './styles';
 import { getCvFontOption } from '@/lib/pdf/font-options';
-import {
-    PreviewCertifications,
-    PreviewEducation,
-    PreviewExperience,
-    PreviewGeneric,
-    PreviewPersonalInfo,
-    PreviewPersonalStatement,
-    PreviewProjects,
-    PreviewSkills,
-} from './sections';
+import { sectionToLayout } from '@/lib/cv-layout';
+
+import { LayoutPreview } from './layout-preview';
 
 interface Props {
     data: PreviewData | null;
@@ -42,54 +35,13 @@ export function CvPreviewSheet({ data }: Props) {
                         </p>
                     </div>
                 ) : (
-                    sections.map((s) => (
-                        <PreviewSection key={s.id} section={s} />
-                    ))
+                    sections.map((s) => {
+                        const layout = sectionToLayout(s.section);
+                        if (!layout) return null;
+                        return <LayoutPreview key={s.id} layout={layout} />;
+                    })
                 )}
             </div>
         </div>
     );
-}
-
-function PreviewSection({
-    section,
-}: {
-    section: PreviewData['sections'][number];
-}) {
-    const showTitle = section.type !== 'personal_info';
-    return (
-        <section className="first:mt-0">
-            {showTitle && (
-                <h2 className={previewStyles.sectionTitle}>{section.title}</h2>
-            )}
-            <SectionContent section={section.section} />
-        </section>
-    );
-}
-
-function SectionContent({
-    section,
-}: {
-    section: PreviewData['sections'][number]['section'];
-}) {
-    switch (section.type) {
-        case 'personal_info':
-            return <PreviewPersonalInfo section={section} />;
-        case 'personal_statement':
-            return <PreviewPersonalStatement section={section} />;
-        case 'experience':
-            return <PreviewExperience section={section} />;
-        case 'education':
-            return <PreviewEducation section={section} />;
-        case 'skill':
-            return <PreviewSkills section={section} />;
-        case 'certification':
-            return <PreviewCertifications section={section} />;
-        case 'project':
-            return <PreviewProjects section={section} />;
-        case 'hobby':
-        case 'reference':
-        default:
-            return <PreviewGeneric section={section} />;
-    }
 }
