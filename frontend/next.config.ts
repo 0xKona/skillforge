@@ -9,9 +9,6 @@ const nextConfig: NextConfig = {
     },
     trailingSlash: true,
     transpilePackages: ['@react-pdf/renderer'],
-    typescript: {
-        ignoreBuildErrors: true,
-    },
 };
 
 export default nextConfig;

@@ -81,9 +81,12 @@ jest.mock('@/ui/shadcn/skeleton', () => ({
 jest.mock('@/ui/shadcn/button', () => ({
     Button: ({
         children,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        asChild,
         ...props
     }: {
         children: React.ReactNode;
+        asChild?: boolean;
     } & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
         <button data-testid="button" {...props}>
             {children}
