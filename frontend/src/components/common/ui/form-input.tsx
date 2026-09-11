@@ -3,7 +3,7 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { Label } from '@/ui/shadcn/label';
 import { Input } from '@/ui/shadcn/input';
-import { FaEye, FaEyeSlash } from 'react-icons/fa6';
+import { Eye, EyeOff } from 'lucide-react';
 import React from 'react';
 import { TypographyP } from './typography/typography';
 
@@ -77,9 +77,9 @@ export default function FormInput({
                                     }
                                 >
                                     {showPassword ? (
-                                        <FaEye size={16} />
+                                        <Eye className="h-4 w-4" />
                                     ) : (
-                                        <FaEyeSlash size={16} />
+                                        <EyeOff className="h-4 w-4" />
                                     )}
                                 </button>
                             </div>

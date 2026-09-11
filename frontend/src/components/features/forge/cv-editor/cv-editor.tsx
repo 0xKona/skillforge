@@ -28,7 +28,15 @@ import { useCreateCv, useUpdateCv, cvKeys } from '@/hooks/use-cvs';
 import { cn } from '@/lib/utils';
 import type { CvDocument, NewCvDocument } from '@/lib/types/cv-document-types';
 import { forgeCvPath } from '@/lib/constants/routing';
-import { PdfPreviewDialog } from '@/components/features/pdf/cv-document/pdf-preview-dialog';
+import dynamic from 'next/dynamic';
+
+const PdfPreviewDialog = dynamic(
+    () =>
+        import('@/components/features/pdf/cv-document/pdf-preview-dialog').then(
+            (mod) => mod.PdfPreviewDialog
+        ),
+    { ssr: false }
+);
 import { CV_FONT_OPTIONS } from '@/lib/pdf/font-options';
 import {
     Select,

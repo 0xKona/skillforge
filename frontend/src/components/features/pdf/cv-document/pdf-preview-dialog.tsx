@@ -42,7 +42,7 @@ export function PdfPreviewDialog({
             anchor.href = url;
             anchor.download = `${cvPreviewHelpers.safeFilename(document.title)}.pdf`;
             anchor.click();
-            URL.revokeObjectURL(url);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
         } finally {
             setIsDownloading(false);
         }
