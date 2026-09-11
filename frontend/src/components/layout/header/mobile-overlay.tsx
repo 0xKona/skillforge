@@ -6,11 +6,7 @@ import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
-const links = [
-    { href: '/forge', label: 'Forge' },
-    { href: '/anvil', label: 'Anvil' },
-    { href: '/profile', label: 'Profile' },
-];
+import { MOBILE_NAV_LINKS } from '@/lib/constants/routing';
 
 interface MobileOverlayProps {
     open: boolean;
@@ -74,7 +70,7 @@ export function MobileOverlay({ open, onClose }: MobileOverlayProps) {
 
                     {/* Links */}
                     <nav className="flex flex-col items-center justify-center flex-1 gap-8">
-                        {links.map(({ href, label }, index) => {
+                        {MOBILE_NAV_LINKS.map(({ href, label }, index) => {
                             const isActive = pathname.startsWith(href);
                             return (
                                 <motion.div
