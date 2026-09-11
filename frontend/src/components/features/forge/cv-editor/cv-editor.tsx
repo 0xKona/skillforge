@@ -1,8 +1,17 @@
 'use client';
 
+import { JobTailorDrawer } from './job-tailor-drawer';
+
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Download, Redo2, Save, Undo2 } from 'lucide-react';
+import {
+    ArrowLeft,
+    Download,
+    Redo2,
+    Save,
+    Undo2,
+    Sparkles,
+} from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/ui/shadcn/button';
@@ -64,6 +73,7 @@ export function CvEditor() {
 
     const [discardOpen, setDiscardOpen] = useState(false);
     const [pdfPreviewOpen, setPdfPreviewOpen] = useState(false);
+    const [jobTailorOpen, setJobTailorOpen] = useState(false);
     const createCv = useCreateCv();
     const updateCv = useUpdateCv();
 
@@ -247,6 +257,28 @@ export function CvEditor() {
 
                             <div className="h-5 w-px bg-border-default" />
 
+                            {/* Tailor CV ("The Quench") */}
+                            {document && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-8 w-8 text-flux hover:text-flux-hover"
+                                            onClick={() =>
+                                                setJobTailorOpen(true)
+                                            }
+                                            aria-label="Tailor CV to Job Spec"
+                                        >
+                                            <Sparkles className="h-4 w-4" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        The Quench: Tailor to Job Spec
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+
                             {/* Download PDF */}
                             {document && (
                                 <Tooltip>
@@ -306,6 +338,10 @@ export function CvEditor() {
                 document={document}
                 open={pdfPreviewOpen}
                 onOpenChange={setPdfPreviewOpen}
+            />
+            <JobTailorDrawer
+                open={jobTailorOpen}
+                onOpenChange={setJobTailorOpen}
             />
 
             {/* Discard new CV dialog */}

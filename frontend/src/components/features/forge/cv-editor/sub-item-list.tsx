@@ -8,6 +8,7 @@ import { Input } from '@/ui/shadcn/input';
 import { Textarea } from '@/ui/shadcn/textarea';
 import { Button } from '@/ui/shadcn/button';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
+import { BulletAssistant } from './bullet-assistant';
 import { SECTION_SCHEMAS, sectionAccent } from '@/lib/constants/cv-constants';
 import { cvImport } from '@/lib/helpers/cv-import';
 import { springs, scaleIn } from '@/lib/constants/cv-editor-animations';
@@ -187,13 +188,25 @@ function SubItemField({
     return (
         <div className="flex-1 min-w-[120px]">
             {def.type === 'textarea' ? (
-                <Textarea
-                    value={localValue}
-                    onChange={(e) => setLocalValue(e.target.value)}
-                    onBlur={handleBlur}
-                    placeholder={def.placeholder ?? def.label}
-                    className="min-h-[40px] resize-y text-xs bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
-                />
+                <div>
+                    <Textarea
+                        value={localValue}
+                        onChange={(e) => setLocalValue(e.target.value)}
+                        onBlur={handleBlur}
+                        placeholder={def.placeholder ?? def.label}
+                        className="min-h-[40px] resize-y text-xs bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
+                    />
+                    <BulletAssistant
+                        currentText={localValue}
+                        onInsertVerb={(verb) => {
+                            const updated = localValue
+                                ? `${verb} ${localValue.replace(/^(i\s+(was\s+)?(responsible\s+for|helped\s+with|worked\s+on)\s*)/i, '')}`
+                                : `${verb} `;
+                            setLocalValue(updated);
+                            onCommit(subItemIndex, fieldKey, updated);
+                        }}
+                    />
+                </div>
             ) : (
                 <Input
                     value={localValue}
