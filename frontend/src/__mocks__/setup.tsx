@@ -98,9 +98,18 @@ jest.mock('@/ui/shadcn/dropdown-menu', () => ({
     DropdownMenu: ({ children }: { children: React.ReactNode }) => (
         <div>{children}</div>
     ),
-    DropdownMenuTrigger: ({ children }: { children: React.ReactNode }) => (
-        <button data-testid="dropdown-trigger">{children}</button>
-    ),
+    DropdownMenuTrigger: ({
+        children,
+        asChild,
+    }: {
+        children: React.ReactNode;
+        asChild?: boolean;
+    }) =>
+        asChild ? (
+            <>{children}</>
+        ) : (
+            <button data-testid="dropdown-trigger">{children}</button>
+        ),
     DropdownMenuContent: ({ children }: { children: React.ReactNode }) => (
         <div data-testid="dropdown-content">{children}</div>
     ),

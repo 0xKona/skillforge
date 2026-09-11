@@ -31,8 +31,19 @@ const documentSectionSchema = z.object({
     items: z.array(documentItemSchema),
 });
 
+const documentSettingsSchema = z
+    .object({
+        fontFamily: z.string().optional(),
+        marginPreset: z.enum(['compact', 'normal', 'spacious']).optional(),
+        lineHeight: z.enum(['tight', 'normal', 'relaxed']).optional(),
+        paperFormat: z.enum(['a4', 'letter']).optional(),
+    })
+    .passthrough()
+    .optional();
+
 const documentContentSchema = z.object({
     sections: z.array(documentSectionSchema),
+    settings: documentSettingsSchema,
 });
 
 export const cvDocumentSchema = z.object({

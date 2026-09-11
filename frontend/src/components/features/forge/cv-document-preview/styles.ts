@@ -24,3 +24,15 @@ export const previewStyles = {
     bullet: 'flex items-start gap-2 pl-4 text-[10.5pt] text-black',
     bulletDot: 'shrink-0 leading-[1.45]',
 } as const;
+
+export const marginPresetClasses = {
+    compact: 'p-6 sm:p-7',
+    normal: 'p-8 sm:p-10',
+    spacious: 'p-12 sm:p-14',
+} as const;
+
+export const lineHeightClasses = {
+    tight: 'leading-[1.3]',
+    normal: 'leading-[1.45]',
+    relaxed: 'leading-[1.6]',
+} as const;

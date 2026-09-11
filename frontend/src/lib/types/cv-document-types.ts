@@ -47,11 +47,20 @@ export interface DocumentSection {
 /**
  * The content payload of a CV document.
  */
+export type MarginPreset = 'compact' | 'normal' | 'spacious';
+export type LineHeightPreset = 'tight' | 'normal' | 'relaxed';
+export type PaperFormat = 'a4' | 'letter';
+
+export interface DocumentSettings {
+    fontFamily?: CvFontFamily;
+    marginPreset?: MarginPreset;
+    lineHeight?: LineHeightPreset;
+    paperFormat?: PaperFormat;
+}
+
 export interface DocumentContent {
     sections: DocumentSection[];
-    settings?: {
-        fontFamily?: CvFontFamily;
-    };
+    settings?: DocumentSettings;
 }
 
 /**

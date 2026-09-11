@@ -4,6 +4,7 @@ import type {
     DocumentContent,
     DocumentItem,
     DocumentSection,
+    DocumentSettings,
     NewCvDocument,
     SectionType,
 } from '../types/cv-document-types';
@@ -35,6 +36,7 @@ interface CvDocumentActions {
     updateTitle: (title: string) => void;
     updateDescription: (description: string) => void;
     updateFontFamily: (fontFamily: CvFontFamily) => void;
+    updateSettings: (settings: Partial<DocumentSettings>) => void;
 
     // Sections (undoable)
     addSection: (type: SectionType, afterIndex?: number) => void;
@@ -206,6 +208,24 @@ export const useCvDocumentStore = create<CvDocumentStore>((set, get) => {
                         settings: {
                             ...document.content.settings,
                             fontFamily,
+                        },
+                    },
+                },
+                isDirty: true,
+            });
+        },
+
+        updateSettings: (settings) => {
+            const { document } = get();
+            if (!document) return;
+            set({
+                document: {
+                    ...document,
+                    content: {
+                        ...document.content,
+                        settings: {
+                            ...document.content.settings,
+                            ...settings,
                         },
                     },
                 },
