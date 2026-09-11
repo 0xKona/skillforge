@@ -2,7 +2,7 @@
 // hierarchy of `lib/pdf/styles.ts` but expressed in CSS-friendly values.
 
 export const previewStyles = {
-    sheet: 'w-[794px] min-h-[1123px] bg-white text-black shadow-lg rounded-sm',
+    sheet: 'bg-white text-black shadow-lg rounded-sm',
     sheetInner:
         'min-h-[1123px] p-10 font-sans text-[11pt] leading-[1.45] text-black',
 
@@ -26,9 +26,9 @@ export const previewStyles = {
 } as const;
 
 export const marginPresetClasses = {
-    compact: 'p-6 sm:p-7',
-    normal: 'p-8 sm:p-10',
-    spacious: 'p-12 sm:p-14',
+    compact: 'p-7',
+    normal: 'p-10',
+    spacious: 'p-14',
 } as const;
 
 export const lineHeightClasses = {

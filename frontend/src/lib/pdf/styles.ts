@@ -1,16 +1,39 @@
 import { StyleSheet } from '@react-pdf/renderer';
+import type { DocumentSettings } from '@/lib/types/cv-document-types';
+import { getCvFontOption } from './font-options';
+import { getDocumentTokens } from '@/lib/cv-layout/cv-document-tokens';
 
-export function createPdfStyles(fontFamily: string) {
+/**
+ * Creates StyleSheet for @react-pdf/renderer with calibrated 1:1 metrics
+ * mirroring the live HTML preview (CvPreviewSheet).
+ */
+export function createPdfStyles(
+    fontFamilyOrSettings?: string | DocumentSettings,
+    explicitSettings?: DocumentSettings
+) {
+    const settings =
+        typeof fontFamilyOrSettings === 'object'
+            ? fontFamilyOrSettings
+            : explicitSettings;
+
+    const fontFamily =
+        typeof fontFamilyOrSettings === 'string'
+            ? fontFamilyOrSettings
+            : getCvFontOption(settings?.fontFamily).pdfFamily;
+
+    const tokens = getDocumentTokens(settings);
+
     return StyleSheet.create({
         page: {
             flexDirection: 'column',
             backgroundColor: '#FFFFFF',
-            padding: 40,
+            padding: tokens.paddingPt,
             fontFamily,
             fontSize: 11,
             color: '#000000',
-            lineHeight: 1.45,
+            lineHeight: tokens.lineHeight,
         },
+
         // Header (Personal Info)
         headerContainer: {
             marginBottom: 20,
@@ -35,14 +58,19 @@ export function createPdfStyles(fontFamily: string) {
             flexDirection: 'row',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: 5,
+            alignItems: 'center',
         },
         separator: {
-            marginHorizontal: 3,
+            marginHorizontal: tokens.spacing.separatorMarginHorizontalPt,
+            color: tokens.spacing.separatorColor,
         },
+
         // Section Headers
-        sectionContainer: {
-            marginBottom: 16,
+        section: {
+            marginTop: tokens.spacing.sectionGapPt,
+        },
+        sectionFirst: {
+            marginTop: 0,
         },
         sectionTitle: {
             fontSize: 11,
@@ -50,9 +78,14 @@ export function createPdfStyles(fontFamily: string) {
             textTransform: 'uppercase',
             borderBottomWidth: 1,
             borderBottomColor: '#000000',
-            marginBottom: 8,
-            paddingBottom: 2,
-            letterSpacing: 0.5,
+            marginBottom: tokens.spacing.sectionTitleBottomMarginPt,
+            paddingBottom: tokens.spacing.sectionTitleBottomPaddingPt,
+            letterSpacing: 0.55,
+        },
+
+        // Section Blocks
+        sectionBlock: {
+            marginBottom: tokens.spacing.blockGapPt,
         },
 
         // Content Rows
@@ -60,11 +93,10 @@ export function createPdfStyles(fontFamily: string) {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            marginBottom: 2,
         },
         leftColumn: {
             flex: 1,
-            paddingRight: 10,
+            paddingRight: 8,
         },
         rightColumn: {
             flexShrink: 0,
@@ -90,18 +122,21 @@ export function createPdfStyles(fontFamily: string) {
         // Lists/Bullets
         bulletPoint: {
             flexDirection: 'row',
-            marginBottom: 2,
-            paddingLeft: 10,
+            alignItems: 'flex-start',
+            paddingLeft: tokens.spacing.bulletIndentPt,
+            marginTop: 1.5,
         },
         bullet: {
-            width: 12,
+            width: tokens.spacing.bulletWidthPt,
             fontSize: 10.5,
             fontWeight: 400,
+            lineHeight: tokens.lineHeight,
         },
         bulletContent: {
             flex: 1,
             fontSize: 10.5,
             fontWeight: 400,
+            lineHeight: tokens.lineHeight,
         },
 
         // Specific Item Styles
@@ -114,6 +149,9 @@ export function createPdfStyles(fontFamily: string) {
             fontStyle: 'italic',
             fontWeight: 400,
         },
+        subtitleRow: {
+            marginTop: 1,
+        },
         date: {
             fontSize: 10.5,
             fontWeight: 400,
@@ -123,13 +161,15 @@ export function createPdfStyles(fontFamily: string) {
             fontSize: 10.5,
             fontWeight: 400,
             textAlign: 'justify',
+            marginTop: tokens.spacing.descriptionTopMarginPt,
+            lineHeight: tokens.lineHeight,
         },
         link: {
             color: '#000000',
             textDecoration: 'underline',
         },
         groupChild: {
-            marginTop: 8,
+            marginTop: tokens.spacing.groupChildTopMarginPt,
         },
     });
 }

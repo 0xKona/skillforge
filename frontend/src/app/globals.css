@@ -112,3 +112,34 @@
         scroll-behavior: auto !important;
     }
 }
+
+/* High-Fidelity Print / Save as PDF Styles */
+@media print {
+    @page {
+        size: auto;
+        margin: 0;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Hide Forge UI, navigation, buttons, drawers, and guidelines */
+    header,
+    nav,
+    aside,
+    button,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Ensure CV Preview Sheet prints cleanly without shadows or outer canvas constraints */
+    .cv-preview-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 auto !important;
+    }
+}
