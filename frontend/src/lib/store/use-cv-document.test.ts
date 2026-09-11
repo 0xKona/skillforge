@@ -464,3 +464,35 @@ describe('use-cv-document: isDirty', () => {
         expect(useCvDocumentStore.getState().isDirty).toBe(true);
     });
 });
+
+describe('use-cv-document: settings preservation', () => {
+    it('preserves document content settings during section and item mutations', () => {
+        const doc = makeDocument();
+        doc.content.settings = { fontFamily: 'times' };
+        useCvDocumentStore.getState().setDocument(doc);
+
+        useCvDocumentStore.getState().addSection('skill');
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
+
+        useCvDocumentStore
+            .getState()
+            .addItem(0, makeItem('item-new', { companyName: 'NewCo' }));
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
+
+        useCvDocumentStore
+            .getState()
+            .updateItemField(0, 0, 'companyName', 'Acme Ltd');
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
+
+        useCvDocumentStore.getState().sortItemsByDate(0, 'asc');
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
+    });
+});

@@ -1,6 +1,7 @@
 import { BILLET_TEMPLATES } from '../templates/ingot-templates';
 import { Billet } from '../types/ingot-types';
 import { SortOrder } from './sorting';
+import { parseDateTimestamp } from './date';
 
 /**
  * Returns the field names defined by the template for a billet's type.
@@ -60,14 +61,9 @@ function getBilletDate(billet: Billet): number {
     const dateField = Object.values(billet.fields).find(
         (f) => f.inputType === 'date'
     );
-    if (dateField && dateField.value) {
-        const lower = dateField.value.toLowerCase();
-        if (lower === 'present' || lower === 'current') {
-            return Date.now();
-        }
-        return new Date(dateField.value).getTime();
-    }
-    return 0;
+    return parseDateTimestamp(
+        dateField?.value ? String(dateField.value) : undefined
+    );
 }
 
 /**

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { CvDocument } from '@/lib/types/cv-document-types';
 import { forgeCvPath } from '@/lib/constants/routing';
-import { formatRelativeDate } from '@/lib/utils/format-date';
+import { formatRelativeDate } from '@/lib/helpers/date';
 import { useDeleteCv } from '@/hooks/use-cvs';
 import {
     DropdownMenu,

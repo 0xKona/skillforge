@@ -5,7 +5,7 @@ import Link from 'next/link';
 import type { Ingot } from '@/lib/types/ingot-types';
 import { anvilEditPath } from '@/lib/constants/routing';
 import { mappingHelpers } from '@/lib/helpers/mapping';
-import { formatRelativeDate } from '@/lib/utils/format-date';
+import { formatRelativeDate } from '@/lib/helpers/date';
 import { useDeleteIngot } from '@/hooks/use-ingots';
 import {
     DropdownMenu,

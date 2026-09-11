@@ -35,6 +35,9 @@ export default function IngotEditor({ initialIngotData }: Props) {
         setIngotName,
         handleContentChange,
         handleBilletsChange,
+        setErrors,
+        clearErrors,
+        reset,
     } = useIngotEditorState();
 
     const createIngot = useCreateIngot();
@@ -51,9 +54,10 @@ export default function IngotEditor({ initialIngotData }: Props) {
     const currentTemplate = ingotType ? INGOT_TEMPLATES[ingotType] : null;
     const isSaving = createIngot.isPending || updateIngot.isPending;
 
-    // On component mount, load props into state
+    // On component mount, load props into state and reset on unmount
     useEffect(() => {
         initialize(initialIngotData);
+        return () => reset();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -85,12 +89,12 @@ export default function IngotEditor({ initialIngotData }: Props) {
             ingotFormHelpers.validateIngotFields(ingotContent.fields);
 
         if (!valid) {
-            useIngotEditorState.setState({ errors: fieldErrors });
+            setErrors(fieldErrors);
             toast.error('Please fix the errors in the form');
             return;
         }
 
-        useIngotEditorState.setState({ errors: {} });
+        clearErrors();
 
         if (ingotId) {
             updateIngot.mutate(
