@@ -3,9 +3,10 @@ import type {
     Ingot,
     IngotField,
     IngotType,
+    NewIngot,
 } from '../types/ingot-types';
 import type { DocumentItem, SectionType } from '../types/cv-document-types';
-import { SECTION_SCHEMAS } from '../constants/cv-constants';
+import { SECTION_META, SECTION_SCHEMAS } from '../constants/cv-constants';
 
 /**
  * Flattens IngotField records into simple string key-value pairs.
@@ -94,10 +95,72 @@ function emptySubItem(sectionType: SectionType): DocumentItem {
     return { id: crypto.randomUUID(), fields };
 }
 
+/**
+ * Converts a DocumentItem and its subItems back into a NewIngot structure.
+ */
+function toIngot(
+    item: DocumentItem,
+    sectionType: SectionType,
+    customName?: string
+): NewIngot {
+    const schema = SECTION_SCHEMAS[sectionType];
+    const ingotType = `ingot_${sectionType}` as IngotType;
+
+    const fields: Record<string, IngotField> = {};
+    for (const [key, val] of Object.entries(item.fields)) {
+        const fieldDef = schema.fields[key];
+        fields[key] = {
+            mandatory: fieldDef?.required ?? false,
+            value: val ?? '',
+            inputType: (fieldDef?.type as IngotField['inputType']) ?? 'text',
+            label: fieldDef?.label,
+        };
+    }
+
+    const billets: Billet[] = (item.subItems ?? []).map((sub) => {
+        const billetFields: Record<string, IngotField> = {};
+        for (const [key, val] of Object.entries(sub.fields)) {
+            const subDef = schema.subFields?.[key];
+            billetFields[key] = {
+                mandatory: false,
+                value: val ?? '',
+                inputType: (subDef?.type as IngotField['inputType']) ?? 'text',
+                label: subDef?.label,
+            };
+        }
+        return {
+            id: sub.id || crypto.randomUUID(),
+            type: schema.subFields
+                ? (Object.keys(schema.subFields)[0] ?? 'entry')
+                : 'entry',
+            fields: billetFields,
+        };
+    });
+
+    const fieldKeys = Object.keys(schema.fields);
+    const primaryKey =
+        fieldKeys.find((k) => schema.fields[k].required) ?? fieldKeys[0];
+    const derivedName =
+        customName ||
+        item.fields[primaryKey] ||
+        `New ${SECTION_META[sectionType]?.singularLabel ?? 'Ingot'}`;
+
+    return {
+        name: derivedName,
+        type: ingotType,
+        content: {
+            fields,
+            billetFormat: null,
+            billets,
+        },
+    };
+}
+
 export const cvImport = {
     fromIngot,
     fromBillet,
     fromIngotWithBillets,
+    toIngot,
     toSectionType,
     emptyItem,
     emptySubItem,

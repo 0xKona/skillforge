@@ -261,3 +261,34 @@ describe('cvImport.emptySubItem', () => {
         expect(Object.keys(sub.fields)).toEqual(['platform', 'handle', 'url']);
     });
 });
+
+describe('cvImport.toIngot', () => {
+    it('converts a DocumentItem and its subItems back into a valid NewIngot', () => {
+        const docItem = {
+            id: 'item-123',
+            fields: {
+                companyName: 'Meta',
+                location: 'London',
+            },
+            subItems: [
+                {
+                    id: 'sub-1',
+                    fields: {
+                        jobTitle: 'Production Engineer',
+                        jobDescription: 'Managed large fleet infrastructure',
+                    },
+                },
+            ],
+        };
+
+        const ingot = cvImport.toIngot(docItem, 'experience', 'Meta Career');
+
+        expect(ingot.name).toBe('Meta Career');
+        expect(ingot.type).toBe('ingot_experience');
+        expect(ingot.content.fields.companyName.value).toBe('Meta');
+        expect(ingot.content.billets).toHaveLength(1);
+        expect(ingot.content.billets[0].fields.jobTitle.value).toBe(
+            'Production Engineer'
+        );
+    });
+});

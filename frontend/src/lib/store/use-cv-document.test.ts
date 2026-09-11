@@ -248,6 +248,40 @@ describe('use-cv-document: items', () => {
         expect(items[1].id).toBe('item-1');
     });
 
+    it('setItemSourceIngotId updates the source ingot id', () => {
+        const store = useCvDocumentStore.getState();
+        store.setDocument({
+            id: 'doc-ingot-src',
+            version: 1,
+            title: 'Test',
+            createdAt: '',
+            updatedAt: '',
+            content: {
+                sections: [
+                    {
+                        id: 'sec-1',
+                        type: 'experience',
+                        title: 'Experience',
+                        visible: true,
+                        items: [{ id: 'it-1', fields: {} }],
+                    },
+                ],
+            },
+        });
+
+        store.setItemSourceIngotId(0, 0, 'ingot-999');
+        expect(
+            useCvDocumentStore.getState().document?.content.sections[0].items[0]
+                .sourceIngotId
+        ).toBe('ingot-999');
+
+        store.setItemSourceIngotId(0, 0, undefined);
+        expect(
+            useCvDocumentStore.getState().document?.content.sections[0].items[0]
+                .sourceIngotId
+        ).toBeUndefined();
+    });
+
     it('updateItemField updates a single field value', () => {
         useCvDocumentStore.getState().setDocument(makeDocument());
         useCvDocumentStore

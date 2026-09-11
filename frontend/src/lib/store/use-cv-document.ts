@@ -55,6 +55,11 @@ interface CvDocumentActions {
         field: string,
         value: string
     ) => void;
+    setItemSourceIngotId: (
+        sectionIndex: number,
+        itemIndex: number,
+        sourceIngotId: string | undefined
+    ) => void;
 
     // Sub-items (undoable)
     addSubItem: (
@@ -309,6 +314,15 @@ export const useCvDocumentStore = create<CvDocumentStore>((set, get) => {
                 const item = sections[sectionIndex]?.items[itemIndex];
                 if (item) {
                     item.fields[field] = value;
+                }
+            });
+        },
+
+        setItemSourceIngotId: (sectionIndex, itemIndex, sourceIngotId) => {
+            mutateSections((sections) => {
+                const item = sections[sectionIndex]?.items[itemIndex];
+                if (item) {
+                    item.sourceIngotId = sourceIngotId;
                 }
             });
         },
