@@ -6,7 +6,7 @@ import { confirmSignUp, resendSignUpCode, signIn } from '@/lib/api/auth';
 import { passwordStorage } from '@/lib/helpers/password-storage';
 import { Button } from '@/ui/shadcn/button';
 import { Label } from '@/ui/shadcn/label';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-otp';
 
 interface Props {
     email: string;

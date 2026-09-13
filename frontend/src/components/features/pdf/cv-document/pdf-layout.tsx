@@ -28,8 +28,8 @@ function PdfSpan({
 }) {
     if (span.href) {
         return (
-            <Link src={span.href} style={styles.link}>
-                <Text style={textStyle}>{span.text}</Text>
+            <Link src={span.href} style={[textStyle, styles.link]}>
+                {span.text}
             </Link>
         );
     }
@@ -42,14 +42,14 @@ function PdfBody({ body, styles }: { body: LayoutBody; styles: PdfStyles }) {
     }
 
     return (
-        <>
+        <View style={styles.bulletListContainer}>
             {body.items.map((line, index) => (
                 <View key={index} style={styles.bulletPoint}>
                     <Text style={styles.bullet}>•</Text>
                     <Text style={styles.bulletContent}>{line}</Text>
                 </View>
             ))}
-        </>
+        </View>
     );
 }
 
@@ -80,11 +80,13 @@ function PdfHeading({
                 </View>
             )}
             {heading.subtitle ? (
-                <PdfSpan
-                    span={heading.subtitle}
-                    styles={styles}
-                    textStyle={styles.itemSubtitle}
-                />
+                <View style={styles.subtitleRow}>
+                    <PdfSpan
+                        span={heading.subtitle}
+                        styles={styles}
+                        textStyle={styles.itemSubtitle}
+                    />
+                </View>
             ) : null}
         </>
     );
@@ -98,10 +100,10 @@ function PdfBlockInner({
     styles: PdfStyles;
 }) {
     return (
-        <>
+        <View wrap={false}>
             <PdfHeading heading={block} styles={styles} />
             {block.body ? <PdfBody body={block.body} styles={styles} /> : null}
-        </>
+        </View>
     );
 }
 
@@ -114,36 +116,49 @@ function PdfNode({ node, styles }: { node: LayoutNode; styles: PdfStyles }) {
                         <Text style={styles.headerName}>{node.name}</Text>
                     ) : null}
                     {node.contacts.length > 0 ? (
-                        <View style={styles.headerContact}>
+                        <Text style={styles.headerContact}>
                             {node.contacts.map((contact, index) => (
-                                <View
+                                <React.Fragment
                                     key={`${contact.text}-${index}`}
-                                    style={{ flexDirection: 'row' }}
                                 >
-                                    <PdfSpan span={contact} styles={styles} />
+                                    {contact.href ? (
+                                        <Link
+                                            src={contact.href}
+                                            style={styles.link}
+                                        >
+                                            {contact.text}
+                                        </Link>
+                                    ) : (
+                                        <Text>{contact.text}</Text>
+                                    )}
                                     {index < node.contacts.length - 1 ? (
-                                        <Text style={styles.separator}>|</Text>
+                                        <Text style={styles.separator}>
+                                            {' | '}
+                                        </Text>
                                     ) : null}
-                                </View>
+                                </React.Fragment>
                             ))}
-                        </View>
+                        </Text>
                     ) : null}
                 </View>
             );
         case 'block':
             return (
-                <View style={styles.sectionContainer}>
+                <View style={styles.sectionBlock}>
                     <PdfBlockInner block={node} styles={styles} />
                 </View>
             );
         case 'group':
             return (
-                <View style={styles.sectionContainer}>
-                    <PdfHeading heading={node.heading} styles={styles} />
+                <View style={styles.sectionBlock}>
+                    <View wrap={false}>
+                        <PdfHeading heading={node.heading} styles={styles} />
+                    </View>
                     {node.children.map((child, index) => (
                         <View
                             key={`${child.title ?? 'role'}-${index}`}
                             style={styles.groupChild}
+                            wrap={false}
                         >
                             <PdfBlockInner block={child} styles={styles} />
                         </View>
@@ -152,8 +167,8 @@ function PdfNode({ node, styles }: { node: LayoutNode; styles: PdfStyles }) {
             );
         case 'labeledLine':
             return (
-                <View style={styles.sectionContainer}>
-                    <Text>
+                <View style={styles.sectionBlock} wrap={false}>
+                    <Text style={styles.description}>
                         <Text style={styles.itemTitle}>{node.label}: </Text>
                         <Text style={styles.regular}>{node.value}</Text>
                     </Text>
@@ -168,14 +183,12 @@ export function PdfLayout({ layout, styles = pdfStyles }: PdfLayoutProps) {
     return (
         <View>
             {layout.title ? (
-                <Text style={styles.sectionTitle}>{layout.title}</Text>
+                <Text style={styles.sectionTitle} minPresenceAhead={25}>
+                    {layout.title}
+                </Text>
             ) : null}
             {layout.nodes.map((node, index) => (
-                <PdfNode
-                    key={`${node.type}-${index}`}
-                    node={node}
-                    styles={styles}
-                />
+                <PdfNode key={index} node={node} styles={styles} />
             ))}
         </View>
     );

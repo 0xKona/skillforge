@@ -13,6 +13,9 @@ interface UseIngotEditorActions {
     setIngotName: (name: string) => void;
     handleContentChange: (key: string, value: string) => void;
     handleBilletsChange: (newBillets: Billet[]) => void;
+    setErrors: (errors: Record<string, string>) => void;
+    clearErrors: () => void;
+    reset: () => void;
 }
 
 type UseIngotEditorStore = UseIngotEditorState & UseIngotEditorActions;
@@ -38,6 +41,7 @@ export const useIngotEditorState = create<UseIngotEditorStore>((set) => ({
         set({
             ingotData: ingot,
             isLoading: false,
+            errors: {},
         });
     },
 
@@ -90,4 +94,10 @@ export const useIngotEditorState = create<UseIngotEditorStore>((set) => ({
             },
         }));
     },
+
+    setErrors: (errors: Record<string, string>) => set({ errors }),
+
+    clearErrors: () => set({ errors: {} }),
+
+    reset: () => set(defaultIngotEditorState),
 }));

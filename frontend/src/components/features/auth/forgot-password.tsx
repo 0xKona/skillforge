@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
     ForgotPasswordRequest,
@@ -12,7 +12,7 @@ import {
 import { resetPassword, confirmResetPassword } from '@/lib/api/auth';
 import { Button } from '@/ui/shadcn/button';
 import { Label } from '@/ui/shadcn/label';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-opt';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/ui/shadcn/input-otp';
 import FormInput from '@/ui/form-input';
 
 interface Props {
@@ -141,22 +141,28 @@ export function ForgotPassword({ onBack }: Props) {
             )}
             <div className="space-y-2">
                 <Label htmlFor="reset-code">Code</Label>
-                <InputOTP
-                    id="reset-code"
-                    value={resetForm.watch('code') || ''}
-                    onChange={(v) => resetForm.setValue('code', v)}
-                    maxLength={6}
-                >
-                    <InputOTPGroup className="w-full">
-                        {Array.from({ length: 6 }).map((_, i) => (
-                            <InputOTPSlot
-                                key={i}
-                                index={i}
-                                className="grow aspect-square h-[44px]"
-                            />
-                        ))}
-                    </InputOTPGroup>
-                </InputOTP>
+                <Controller
+                    control={resetForm.control}
+                    name="code"
+                    render={({ field }) => (
+                        <InputOTP
+                            id="reset-code"
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            maxLength={6}
+                        >
+                            <InputOTPGroup className="w-full">
+                                {Array.from({ length: 6 }).map((_, i) => (
+                                    <InputOTPSlot
+                                        key={i}
+                                        index={i}
+                                        className="grow aspect-square h-[44px]"
+                                    />
+                                ))}
+                            </InputOTPGroup>
+                        </InputOTP>
+                    )}
+                />
             </div>
             <FormInput
                 form={resetForm}

@@ -13,6 +13,7 @@ import {
     SelectValue,
 } from '@/ui/shadcn/select';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
+import { BulletAssistant } from './bullet-assistant';
 import { SECTION_SCHEMAS } from '@/lib/constants/cv-constants';
 import type {
     DocumentItem,
@@ -126,13 +127,25 @@ function FieldInput({ fieldKey, def, value, onCommit }: FieldInputProps) {
             </Label>
 
             {def.type === 'textarea' ? (
-                <Textarea
-                    value={localValue}
-                    onChange={(e) => setLocalValue(e.target.value)}
-                    onBlur={handleBlur}
-                    placeholder={def.placeholder}
-                    className="min-h-[60px] resize-y text-sm bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
-                />
+                <div>
+                    <Textarea
+                        value={localValue}
+                        onChange={(e) => setLocalValue(e.target.value)}
+                        onBlur={handleBlur}
+                        placeholder={def.placeholder}
+                        className="min-h-[60px] resize-y text-sm bg-gunmetal border-border-default focus-visible:ring-1 focus-visible:ring-border-hot"
+                    />
+                    <BulletAssistant
+                        currentText={localValue}
+                        onInsertVerb={(verb) => {
+                            const updated = localValue
+                                ? `${verb} ${localValue.replace(/^(i\s+(was\s+)?(responsible\s+for|helped\s+with|worked\s+on)\s*)/i, '')}`
+                                : `${verb} `;
+                            setLocalValue(updated);
+                            onCommit(fieldKey, updated);
+                        }}
+                    />
+                </div>
             ) : def.type === 'select' && def.options ? (
                 <Select
                     value={localValue}

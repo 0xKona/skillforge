@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useCv } from '@/hooks/use-cvs';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
@@ -12,13 +12,21 @@ export default function CvEditorClient() {
     const { data: cv, isLoading } = useCv(cvId);
     const setDocument = useCvDocumentStore((s) => s.setDocument);
     const reset = useCvDocumentStore((s) => s.reset);
+    const lastLoadedIdRef = useRef<string | null>(null);
 
     useEffect(() => {
-        if (cv) {
+        if (cv && cv.id !== lastLoadedIdRef.current) {
+            lastLoadedIdRef.current = cv.id;
             setDocument(cv);
         }
-        return () => reset();
-    }, [cv, setDocument, reset]);
+    }, [cv, setDocument]);
+
+    useEffect(() => {
+        return () => {
+            reset();
+            lastLoadedIdRef.current = null;
+        };
+    }, [reset]);
 
     if (!cvId) {
         return (

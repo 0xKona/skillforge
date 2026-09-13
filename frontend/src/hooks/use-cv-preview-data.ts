@@ -4,7 +4,11 @@ import { useMemo } from 'react';
 import { useCvDocumentStore } from '@/lib/store/use-cv-document';
 import { SECTION_META, sectionAccent } from '@/lib/constants/cv-constants';
 import { cvPreviewHelpers } from '@/lib/helpers/cv-preview';
-import type { SectionType } from '@/lib/types/cv-document-types';
+import type {
+    CvDocument,
+    DocumentSettings,
+    SectionType,
+} from '@/lib/types/cv-document-types';
 import { getCvFontOption } from '@/lib/pdf/font-options';
 
 export interface PreviewSection {
@@ -22,6 +26,8 @@ export interface PreviewData {
     sections: PreviewSection[];
     counts: { sections: number; items: number; subItems: number };
     fontFamily: ReturnType<typeof getCvFontOption>['id'];
+    settings?: DocumentSettings;
+    rawDocument: CvDocument;
 }
 
 export function useCvPreviewData(): PreviewData | null {
@@ -47,6 +53,8 @@ export function useCvPreviewData(): PreviewData | null {
             counts: cvPreviewHelpers.countItems(document),
             fontFamily: getCvFontOption(document.content.settings?.fontFamily)
                 .id,
+            settings: document.content.settings,
+            rawDocument: document as CvDocument,
         };
     }, [document]);
 }

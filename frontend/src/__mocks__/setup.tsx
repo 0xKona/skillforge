@@ -81,9 +81,12 @@ jest.mock('@/ui/shadcn/skeleton', () => ({
 jest.mock('@/ui/shadcn/button', () => ({
     Button: ({
         children,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        asChild,
         ...props
     }: {
         children: React.ReactNode;
+        asChild?: boolean;
     } & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
         <button data-testid="button" {...props}>
             {children}
@@ -95,9 +98,18 @@ jest.mock('@/ui/shadcn/dropdown-menu', () => ({
     DropdownMenu: ({ children }: { children: React.ReactNode }) => (
         <div>{children}</div>
     ),
-    DropdownMenuTrigger: ({ children }: { children: React.ReactNode }) => (
-        <button data-testid="dropdown-trigger">{children}</button>
-    ),
+    DropdownMenuTrigger: ({
+        children,
+        asChild,
+    }: {
+        children: React.ReactNode;
+        asChild?: boolean;
+    }) =>
+        asChild ? (
+            <>{children}</>
+        ) : (
+            <button data-testid="dropdown-trigger">{children}</button>
+        ),
     DropdownMenuContent: ({ children }: { children: React.ReactNode }) => (
         <div data-testid="dropdown-content">{children}</div>
     ),

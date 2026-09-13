@@ -13,6 +13,7 @@ import {
 import { Ingot, IngotType } from '../types/ingot-types';
 import { SortOrder } from './sorting';
 import { mappingHelpers } from './mapping';
+import { parseDateTimestamp } from './date';
 
 // -- Card UI mapping --
 
@@ -82,13 +83,9 @@ function getIngotDate(ingot: Ingot): number {
         (f) => f.inputType === 'date'
     );
     if (dateField && dateField.value) {
-        const lower = dateField.value.toLowerCase();
-        if (lower === 'present' || lower === 'current') {
-            return Date.now();
-        }
-        return new Date(dateField.value).getTime();
+        return parseDateTimestamp(String(dateField.value));
     }
-    return new Date(ingot.createdAt).getTime();
+    return parseDateTimestamp(ingot.createdAt);
 }
 
 /**

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { pdf, PDFViewer } from '@react-pdf/renderer';
-import { Download } from 'lucide-react';
+import { Download, Printer } from 'lucide-react';
 
 import { Button } from '@/ui/shadcn/button';
 import {
@@ -42,10 +42,17 @@ export function PdfPreviewDialog({
             anchor.href = url;
             anchor.download = `${cvPreviewHelpers.safeFilename(document.title)}.pdf`;
             anchor.click();
-            URL.revokeObjectURL(url);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
         } finally {
             setIsDownloading(false);
         }
+    }
+
+    function handlePrint() {
+        onOpenChange(false);
+        setTimeout(() => {
+            window.print();
+        }, 300);
     }
 
     return (
@@ -65,13 +72,21 @@ export function PdfPreviewDialog({
                         <PdfDocument document={document} />
                     </PDFViewer>
                 </div>
-                <DialogFooter className="shrink-0 border-t border-border-default px-6 py-4">
+                <DialogFooter className="shrink-0 border-t border-border-default px-6 py-4 flex items-center justify-between sm:justify-between">
+                    <Button
+                        variant="outline"
+                        onClick={handlePrint}
+                        className="border-border-default text-xs text-ash hover:text-text-primary"
+                    >
+                        <Printer className="mr-1.5 h-3.5 w-3.5" />
+                        Print / Native PDF
+                    </Button>
                     <Button
                         onClick={handleDownload}
                         disabled={isDownloading}
                         className="bg-flux text-white hover:bg-flux-hover"
                     >
-                        <Download className="h-4 w-4" />
+                        <Download className="mr-1.5 h-4 w-4" />
                         {isDownloading ? 'Preparing PDF...' : 'Download PDF'}
                     </Button>
                 </DialogFooter>

@@ -1,7 +1,6 @@
-export interface NavigationLinkObject {
-    displayText: string;
-    route: string;
-    iconPath: string;
+export interface NavLinkItem {
+    href: string;
+    label: string;
 }
 
 type Route = '/' | '/forge' | '/anvil' | '/profile' | '/api' | '/login';
@@ -23,25 +22,13 @@ export function forgeCvPath(id: string): string {
     return `/forge/cv/?id=${encodeURIComponent(id)}`;
 }
 
-export const navigationBarLinks: NavigationLinkObject[] = [
-    {
-        displayText: 'Home',
-        route: '/',
-        iconPath: '/icons/home.svg',
-    },
-    {
-        displayText: 'Forge',
-        route: '/forge',
-        iconPath: '/icons/forge.svg',
-    },
-    {
-        displayText: 'Anvil',
-        route: '/anvil',
-        iconPath: '/icons/anvil.svg',
-    },
-    {
-        displayText: 'About',
-        route: '/about',
-        iconPath: '/icons/about.svg',
-    },
+export const MAIN_NAV_LINKS: NavLinkItem[] = [
+    { href: '/anvil', label: 'Anvil' },
+    { href: '/forge', label: 'Forge' },
+];
+
+export const MOBILE_NAV_LINKS: NavLinkItem[] = [
+    { href: '/forge', label: 'Forge' },
+    { href: '/anvil', label: 'Anvil' },
+    { href: '/profile', label: 'Profile' },
 ];

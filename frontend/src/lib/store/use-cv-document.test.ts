@@ -248,6 +248,40 @@ describe('use-cv-document: items', () => {
         expect(items[1].id).toBe('item-1');
     });
 
+    it('setItemSourceIngotId updates the source ingot id', () => {
+        const store = useCvDocumentStore.getState();
+        store.setDocument({
+            id: 'doc-ingot-src',
+            version: 1,
+            title: 'Test',
+            createdAt: '',
+            updatedAt: '',
+            content: {
+                sections: [
+                    {
+                        id: 'sec-1',
+                        type: 'experience',
+                        title: 'Experience',
+                        visible: true,
+                        items: [{ id: 'it-1', fields: {} }],
+                    },
+                ],
+            },
+        });
+
+        store.setItemSourceIngotId(0, 0, 'ingot-999');
+        expect(
+            useCvDocumentStore.getState().document?.content.sections[0].items[0]
+                .sourceIngotId
+        ).toBe('ingot-999');
+
+        store.setItemSourceIngotId(0, 0, undefined);
+        expect(
+            useCvDocumentStore.getState().document?.content.sections[0].items[0]
+                .sourceIngotId
+        ).toBeUndefined();
+    });
+
     it('updateItemField updates a single field value', () => {
         useCvDocumentStore.getState().setDocument(makeDocument());
         useCvDocumentStore
@@ -462,5 +496,37 @@ describe('use-cv-document: isDirty', () => {
         useCvDocumentStore.getState().markSaved();
         useCvDocumentStore.getState().undo();
         expect(useCvDocumentStore.getState().isDirty).toBe(true);
+    });
+});
+
+describe('use-cv-document: settings preservation', () => {
+    it('preserves document content settings during section and item mutations', () => {
+        const doc = makeDocument();
+        doc.content.settings = { fontFamily: 'times' };
+        useCvDocumentStore.getState().setDocument(doc);
+
+        useCvDocumentStore.getState().addSection('skill');
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
+
+        useCvDocumentStore
+            .getState()
+            .addItem(0, makeItem('item-new', { companyName: 'NewCo' }));
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
+
+        useCvDocumentStore
+            .getState()
+            .updateItemField(0, 0, 'companyName', 'Acme Ltd');
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
+
+        useCvDocumentStore.getState().sortItemsByDate(0, 'asc');
+        expect(
+            useCvDocumentStore.getState().document!.content.settings?.fontFamily
+        ).toBe('times');
     });
 });

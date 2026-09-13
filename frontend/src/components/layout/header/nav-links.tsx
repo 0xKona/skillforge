@@ -4,17 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 
-const links = [
-    { href: '/anvil', label: 'Anvil' },
-    { href: '/forge', label: 'Forge' },
-];
+import { MAIN_NAV_LINKS } from '@/lib/constants/routing';
 
 export function NavLinks() {
     const pathname = usePathname();
 
     return (
         <nav className="hidden md:flex items-center gap-6">
-            {links.map(({ href, label }) => {
+            {MAIN_NAV_LINKS.map(({ href, label }) => {
                 const isActive = pathname.startsWith(href);
                 return (
                     <Link
