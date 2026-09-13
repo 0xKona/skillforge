@@ -28,8 +28,8 @@ function PdfSpan({
 }) {
     if (span.href) {
         return (
-            <Link src={span.href} style={styles.link}>
-                <Text style={textStyle}>{span.text}</Text>
+            <Link src={span.href} style={[textStyle, styles.link]}>
+                {span.text}
             </Link>
         );
     }
@@ -116,22 +116,29 @@ function PdfNode({ node, styles }: { node: LayoutNode; styles: PdfStyles }) {
                         <Text style={styles.headerName}>{node.name}</Text>
                     ) : null}
                     {node.contacts.length > 0 ? (
-                        <View style={styles.headerContact}>
+                        <Text style={styles.headerContact}>
                             {node.contacts.map((contact, index) => (
-                                <View
+                                <React.Fragment
                                     key={`${contact.text}-${index}`}
-                                    style={{
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                    }}
                                 >
-                                    <PdfSpan span={contact} styles={styles} />
+                                    {contact.href ? (
+                                        <Link
+                                            src={contact.href}
+                                            style={styles.link}
+                                        >
+                                            {contact.text}
+                                        </Link>
+                                    ) : (
+                                        <Text>{contact.text}</Text>
+                                    )}
                                     {index < node.contacts.length - 1 ? (
-                                        <Text style={styles.separator}>|</Text>
+                                        <Text style={styles.separator}>
+                                            {' | '}
+                                        </Text>
                                     ) : null}
-                                </View>
+                                </React.Fragment>
                             ))}
-                        </View>
+                        </Text>
                     ) : null}
                 </View>
             );

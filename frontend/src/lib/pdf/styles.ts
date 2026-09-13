@@ -66,16 +66,11 @@ export function createPdfStyles(
             fontFamily,
             fontSize: 10,
             lineHeight: 1.45,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            alignItems: 'center',
+            textAlign: 'center',
         },
         separator: {
             fontFamily,
             fontSize: 10,
-            lineHeight: 1.45,
-            marginHorizontal: tokens.spacing.separatorMarginHorizontalPt,
             color: tokens.spacing.separatorColor,
         },
 
@@ -204,7 +199,6 @@ export function createPdfStyles(
             fontFamily,
             color: '#000000',
             textDecoration: 'underline',
-            lineHeight: lh,
         },
         groupChild: {
             marginTop: tokens.spacing.groupChildTopMarginPt,
