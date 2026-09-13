@@ -42,7 +42,7 @@ function PdfBody({ body, styles }: { body: LayoutBody; styles: PdfStyles }) {
     }
 
     return (
-        <View style={{ marginTop: 2 }}>
+        <View style={styles.bulletListContainer}>
             {body.items.map((line, index) => (
                 <View key={index} style={styles.bulletPoint}>
                     <Text style={styles.bullet}>•</Text>
@@ -181,11 +181,7 @@ export function PdfLayout({ layout, styles = pdfStyles }: PdfLayoutProps) {
                 </Text>
             ) : null}
             {layout.nodes.map((node, index) => (
-                <PdfNode
-                    key={`${node.type}-${index}`}
-                    node={node}
-                    styles={styles}
-                />
+                <PdfNode key={index} node={node} styles={styles} />
             ))}
         </View>
     );
